@@ -1,0 +1,114 @@
+LABEL {
+    float: left;
+    width: 120px;
+    margin: 10px 0;
+    line-height: 20px;
+    text-align: right;
+}
+
+INPUT {
+    float: left;
+    width: 220px;
+    height: 20px;
+    line-height: 20px;
+    margin: 10px 0 10px 20px;
+    padding-left: 7px;
+    font-size: 10px;
+    color: #7d7d7d;
+    border: 1px solid #7d7d7d;
+}
+
+INPUT[type=checkbox] {
+    float: left;
+    width: 20px;
+    height: auto;
+    line-height: 20px;
+    margin: 10px 5px 10px 20px;
+    padding: 0;
+    border: none;
+}
+
+INPUT[type=submit] {
+    float: right;
+    padding: 0 30px;
+    line-height: 30px;
+    width: auto;
+    height: 30px;
+    color: #ffffff;
+    background-color: #e6085c;
+    border: 0;
+    cursor: pointer;
+}
+
+SELECT {
+    font-size: 10px;
+    line-height: 20px;
+    margin: 10px 0 10px 20px;
+    width: 220px;
+}
+
+TEXTAREA {
+    border:1px solid #7D7D7D;
+    color:#7D7D7D;
+    float:left;
+    font-size:10px;
+    line-height:20px;
+    margin:10px 0 10px 20px;
+}
+
+FORM p {
+    color: #666666;
+}
+
+FORM .group {
+    background-color: #F8F8F8; /* !important; */
+    border-bottom: 1px solid #E4E4E4;
+    border-top: 1px solid #E4E4E4;
+    padding: 20px;
+    margin: 15px 0;
+}
+
+FORM .field {
+    display: block;
+    line-height: 42px;
+    height: 42px;
+}
+FORM .field_with_editor LABEL,
+FORM .field_text_area LABEL,
+FORM .field LABEL {
+    width: 150px;
+}
+FORM .field_with_editor,
+FORM .field_text_area {
+    display: block;
+}
+FORM .field_with_editor LABEL {
+    margin: 0 20px 0 0;
+}
+FORM .actions {
+    clear: both;
+    height: 50px;
+}
+
+FORM .upload object {
+    margin: 10px 10px 10px 0;
+    float: left;
+}
+
+#add_attributes {
+    float: left;
+    margin: 20px 0 30px 170px;
+}
+#add_attributes ul li {
+    list-style: none;
+}
+#add_attributes input[type=checkbox] {
+    float: none;
+    margin: 0;
+    width: 15px;
+    margin-right: 5px;
+    border: 0;
+}
+#add_attributes a {
+    margin: 10px 0 10px 0;
+}

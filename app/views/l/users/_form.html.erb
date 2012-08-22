@@ -1,0 +1,33 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= t('errors.template.header', :count => @user.errors.count) %></h2>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="group">
+    <div class="field">
+      <%= f.label :email, t('users.form.email') %>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :password, t('users.form.password') %>
+      <%= f.password_field :password %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation, t('users.form.password_confirmation') %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="field">
+      <%= f.label :set_role, t('users.form.role') %>
+      <%= f.collection_select :set_role, ["admin", "user"], :to_s, :to_s, :selected => f.object.role %>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

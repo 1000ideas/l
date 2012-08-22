@@ -1,0 +1,29 @@
+/* SELECT */
+
+div.custom_select {
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid #7D7D7D;
+    background: image-url("admin/select-array.gif") no-repeat right center #ffffff;
+    margin: 10px 0 10px 20px;
+    position: relative;
+}
+
+div.custom_select select {
+    float: none;
+    margin: 0;
+    position: relative;
+    padding: 0 20px 0 4px;
+    height: 100%;
+    opacity: 0;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* first! IE8 */
+    filter: alpha(opacity=0); /* second! IE5-7 */
+}
+
+span.custom_select_title {
+    position: absolute;
+    padding-left: 7px;
+    color: #7D7D7D;
+    line-height: 20px;
+}

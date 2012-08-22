@@ -1,0 +1,18 @@
+<% content_for :submenu do %>
+  <%= render "submenu" %>
+<% end %>
+
+<% title t('users.new.title') %>
+<% content_for :title do t('users.new.title') end %>
+<p id="notice"><%= notice %></p>
+
+<% breadcrumbs_admin link_to(t('users.new.title'), new_user_path) %>
+
+<div class="cols-container">
+  <div class="main-column">
+    <%= render 'form' %>
+  </div>
+  <div class="tooltip-column">
+    <%= render 'tooltip' %>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+BODY {
+    background-color: #f4f4f4;
+    font-family: Tahoma, sans-serif;
+    color: #363636;
+    font-size: 11px;
+}
+
+#register_box,
+#login_box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 420px;
+    margin: -150px 0 0 -210px;
+    padding: 20px;
+    background-color: #fcfcfc;
+    border: 1px solid #dfdfdf;
+
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#register_box .alert,
+#login_box .alert {
+    line-height: 18px;
+    padding: 5px 5px 5px 35px;
+    background: #fce2e2 image-url("admin/icons.png") no-repeat 13px -166px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+#login_box .remember {
+   width: 130px;
+}
+
+form {
+    padding: 20px 10px;
+}
+
+form:after {
+  content: ' ';
+  clear: both;
+  display:block;
+}
+
+H2 {
+    margin: 0;
+    padding: 0 0 10px 10px;
+    border-bottom: 1px solid #dfdfdf;
+    color: #424242;
+    font-size: 14px;
+}
+
+LABEL {
+    float: left;
+    width: 95px;
+    margin: 10px 0;
+    line-height: 17px;
+    text-align: right;
+}
+
+INPUT[type=text], INPUT[type=password] {
+    float: left;
+    width: 220px;
+    line-height: 17px;
+    margin: 10px 0 10px 20px;
+    font-size: 10px;
+    color: #7d7d7d;
+    border: 1px solid #7d7d7d;
+}
+
+INPUT[type=submit] {
+    float: right;
+    padding: 0 30px;
+    line-height: 30px;
+    width: auto;
+    height: 30px;
+    color: #ffffff;
+    background-color: #e6085c;
+    border: 0;
+}
+INPUT[type=checkbox] {
+    margin: 1px;
+    margin: 11px 0 0 18px;
+}

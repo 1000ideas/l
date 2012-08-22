@@ -1,0 +1,1 @@
+require 'l/rails/engine'

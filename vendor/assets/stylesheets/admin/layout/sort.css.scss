@@ -1,0 +1,16 @@
+FORM th input[type="submit"] {
+    height:18px;
+    text-indent:-9999px;
+    width:15px;
+    float: none;
+    padding: 0;
+    margin-left: 5px;
+}
+
+FORM th input[type="submit"].down {
+    background:image-url("admin/array_down.gif") no-repeat scroll 0 0 transparent;
+}
+
+FORM th input[type="submit"].up {
+    background:image-url("admin/array_up.gif") no-repeat scroll 0 0 transparent;
+}

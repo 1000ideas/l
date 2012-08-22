@@ -1,0 +1,45 @@
+#content .title {
+    padding: 0 0 10px 0;
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #dfdfdf;
+}
+#content .title H1 {
+    font-size: 18px;
+    color: #424242;
+}
+
+#content H2 {
+    font-size: 12px;
+    color: #424242;
+    margin: 30px 0 5px 0;
+}
+
+#content .title .breadcrumbs {
+    padding: 5px 0;
+}
+#content .title .breadcrumbs .separator {
+    padding: 0 5px;
+}
+
+#submenu a {
+    line-height: 20px;
+    padding: 2px 0 2px 20px;
+    color: #fff;
+}
+#submenu .new { background: image-url("admin/icons.png") no-repeat 0 -72px; }
+#submenu .edit { background: image-url("admin/icons.png") no-repeat 0 -16px; }
+#submenu .list { background: image-url("admin/icons.png") no-repeat 0 -16px; }
+
+
+#error_explanation h2 {
+    color: #FF0000;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#error_explanation ul {
+    margin-left: 15px;
+    line-height: 20px;
+    font-weight: bold;
+}

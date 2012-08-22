@@ -1,0 +1,27 @@
+FORM .filter {
+    text-align: right
+}
+
+FORM .filter .field {
+    height: 30px;
+    line-height: 30px;
+}
+
+FORM .filter .field label {
+    width:150px;
+    float: none;
+    margin: 3px 0;
+}
+
+FORM .filter .field input {
+    width:100px;
+    height: 17px;
+    line-height: 17px;
+    float: none;
+    margin: 4px 5px;
+}
+
+FORM .filter .field input[type="submit"] {
+    line-height: 20px;
+    height: 20px;
+}
