@@ -1,15 +1,5 @@
-<%= form_for(current_user, :url => update_user_admin_path, :html => { :method => :post }) do |f| %>
-  <% if current_user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('errors.template.header', :count => current_user.errors.count) %></h2>
-      <ul>
-        <% current_user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for current_user, url: update_user_admin_path, method: :post do |f| %>
+  <%= render partial: 'l/partials/errors', object: current_user.errors %>
   <div class="group">
     <div class="field">
       <%= f.label :email %>

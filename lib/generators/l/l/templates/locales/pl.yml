@@ -323,7 +323,10 @@ pl:
   activerecord:
     attributes:
       user:
-        email: Adres email
+        email: "Adres email"
+        password: "Hasło"
+        password_confirmation: "Powtórz hasło"
+        set_role: "Wybierz uprawnienia"
         role : Uprawnienia
       news:
         content: Treść

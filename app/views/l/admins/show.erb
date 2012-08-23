@@ -1,13 +1,12 @@
-<% title = "Panel" %>
 <% content_for :submenu do %>
-  <%= render "submenu" %>
+  <%= render 'submenu' %>
 <% end %>
 
-<% content_for :title do t('admins.show.title') end %>
+<% title t('admins.show.edit_profile') %>
+<% breadcrumbs_admin link_to(t('admins.show.edit_profile'), admin_path) %>
+
 <p id="notice"><%= notice %></p>
 <p id="alert"><%= alert %></p>
-
-<% breadcrumbs_admin link_to(t('admins.show.edit_profile'), admin_path) %>
 
 <div class="cols-container">
   <div class="main-column">
@@ -16,4 +15,4 @@
   <div class="tooltip-column">
     <%= render 'tooltip' %>
   </div>
-</div>         
+</div>

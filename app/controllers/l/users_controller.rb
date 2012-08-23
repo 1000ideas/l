@@ -48,7 +48,7 @@ module L
       @user = User.find(params[:id])
       @user.destroy
       respond_to do |format|
-        format.html { redirect :back, notice: t('delete.success') }
+        format.html { redirect_to :back, notice: t('delete.success') }
         format.js
       end
     end
