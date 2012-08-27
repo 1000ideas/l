@@ -1,11 +1,11 @@
 <% content_for :submenu do %>
-  <%= render partial: 'submenu' %>
+  <%= render 'submenu' %>
 <% end %>
 
-<p id="notice"><%= notice %></p>
 <% title t('users.index.title') %>
-<% content_for :title do t('users.index.title') end %>
 <% breadcrumbs_admin link_to(t('users.index.title'), users_path) %>
+
+<p id="notice"><%= notice %></p>
 <%= render partial: 'l/partials/switcher', object: @users %>
 
 <table class="rows">
@@ -23,7 +23,7 @@
         <td><%= user.email %></td>
         <td><%= user.role %></td>
         <td class="options">
-          <%= link_to t('show'), user, class: "show", title: t('show'), target: "blank" %>
+          <%= link_to t('show'), user, class: "show", title: t('show'), target: '_blank' %>
           <%= link_to t('edit'), edit_user_path(user), class: "edit", title: t('edit') %>
           <%= link_to t('destroy'), user, class: "destroy", title: t('destroy'),
             data: {confirm: t('confirm'), method: :delete } %>

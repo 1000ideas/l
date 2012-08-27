@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-08-23"
+  s.date = "2012-08-24"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     "app/controllers/l/admins_controller.rb",
     "app/controllers/l/mobile_controller.rb",
     "app/controllers/l/users_controller.rb",
+    "app/helpers/l/filter_helper.rb",
     "app/helpers/l/form_helper.rb",
     "app/views/l/admins/_form.html.erb",
     "app/views/l/admins/_submenu.erb",
@@ -86,8 +87,21 @@ Gem::Specification.new do |s|
     "lib/generators/l/l/templates/views/devise/unlocks/new.html.erb",
     "lib/generators/l/mobile/mobile_generator.rb",
     "lib/generators/l/module/module_generator.rb",
+    "lib/generators/l/module/templates/_filter.html.erb",
+    "lib/generators/l/module/templates/_form.html.erb",
+    "lib/generators/l/module/templates/_submenu.html.erb",
+    "lib/generators/l/module/templates/_tooltip.html.erb",
+    "lib/generators/l/module/templates/controller.rb",
+    "lib/generators/l/module/templates/edit.html.erb",
+    "lib/generators/l/module/templates/index.html.erb",
+    "lib/generators/l/module/templates/mobile/index.html.erb",
+    "lib/generators/l/module/templates/mobile/show.html.erb",
+    "lib/generators/l/module/templates/mobile_controller.rb",
+    "lib/generators/l/module/templates/new.html.erb",
+    "lib/generators/l/module/templates/show.html.erb",
     "lib/generators/l/views/views_generator.rb",
     "lib/l.rb",
+    "lib/l/generators/actions.rb",
     "lib/l/rails.rb",
     "lib/l/rails/engine.rb",
     "lib/l/version.rb",
@@ -147,14 +161,12 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/admins.css",
     "vendor/assets/stylesheets/ceebox.css",
     "vendor/assets/stylesheets/common.css",
-    "vendor/assets/stylesheets/jquery.autocomplete.css",
-    "vendor/assets/stylesheets/jquery.jgd.dropdown.css",
     "vendor/assets/stylesheets/jquery.mobile.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.core.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.dialog.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.tabs.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.theme.css",
-    "vendor/assets/stylesheets/scaffold.css",
+    "vendor/assets/stylesheets/lazy.scss",
     "vendor/assets/stylesheets/style.css"
   ]
   s.licenses = ["MIT"]

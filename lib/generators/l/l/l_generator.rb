@@ -4,12 +4,16 @@ module L
   module Generators
     require 'bundler'
     require 'rails/generators/active_record'
+    require 'l/generators/actions'
 
     class LGenerator < ::Rails::Generators::Base
       include ::Rails::Generators::Migration
+      include L::Generators::Actions
       namespace 'l'   
  
       
+      class_option :orm, :default => "active_record"
+
       class_option :lang, 
         aliases: '-l', 
         type: :array, 
@@ -18,9 +22,13 @@ module L
           "Jeśli podany zostanie jeden (domyslnie pl) to zostaną" <<
           "wyłaczone funkcje przełącznia języków."
 
-      class_option :bundle, type: :boolean, default: true, desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle jesli wiesz że wszystkie użyte gemy są zainstalowane)"
+      class_option :bundle, type: :boolean, default: true, 
+        desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle " <<
+               "jesli wiesz że wszystkie użyte gemy są zainstalowane)"
 
-      class_option :views, type: :boolean, default: true, desc:  "Kopiuj widoki lazy_programmera (użyj --skip-views jesli wiesz co robisz)"
+      class_option :views, type: :boolean, default: true, 
+        desc:  "Kopiuj widoki lazy_programmera (użyj --skip-views " <<
+               "jesli wiesz co robisz)"
 
       class_option :mobile,
         aliases: '-m',
@@ -72,7 +80,7 @@ module L
       end
       
       def invoke_user_model
-        generate :model, "user --no-migration"
+        invoke :model, "user", :migration: false
       end
       def create_migrations_files
         migration_template 'users.rb', 'db/migrate/create_users.rb'
@@ -97,9 +105,15 @@ module L
   user ||= User.new
   if user.has_role? :admin
     can :manage, :all
+    can :manage, :self    
+    can :read, :all
+  elsif user.has_role? :user
+    can :manage, :self    
+    can :read, :all
   else
     can :read, :all
   end
+
         CONTENT
         insert_into_file 'app/models/ability.rb', abilities, after: "initialize(user)\n"
 
@@ -147,8 +161,10 @@ require 'will_paginate/array'
     config.i18n.available_locales = #{lang_symbols.inspect}
         CONTENT
         
-        inject_into_file "config/application.rb", requiry, after:  "require 'rails/all'\n"
-        inject_into_class "config/application.rb", 'Application', setting
+        inject_into_file "config/application.rb", requiry, 
+          after:  "require 'rails/all'\n", verbose: false
+        inject_into_class "config/application.rb", 'Application', setting, verbose: false
+        log :application, "Insert application configuration"
       end
 
       ##### dodanie treści do application controller
@@ -185,7 +201,7 @@ require 'will_paginate/array'
           after: "jquery_ujs\n"
 
         inject_into_file 'app/assets/stylesheets/application.css', 
-          "\n *= require ceebox\n *= require style", 
+          "\n *= require ceebox\n *= require lazy", 
           before: "\n*/"
       end
 
@@ -196,6 +212,10 @@ require 'will_paginate/array'
 
       def copy_devise_views
         directory "views/devise", "app/views/devise"
+      end
+
+      def copy_shared_views
+        directory "views/shared", "app/views/shared"
       end
 
       def copy_view
@@ -236,11 +256,6 @@ require 'will_paginate/array'
         @user_class_name ||= 'User'
       end
 
-      def load_template(source)
-        source  = File.expand_path(find_in_source_paths(source.to_s))
-        context = instance_eval('binding')
-        ERB.new(::File.binread(source), nil, '-', '@output_buffer').result(context)        
-      end
 
     end
   end

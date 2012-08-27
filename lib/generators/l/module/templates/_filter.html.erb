@@ -1,0 +1,22 @@
+<div class="filter">
+  <div class="field">
+    <strong>Filtruj: </strong>
+
+<% for attribute in attributes -%>
+    <%%= label_tag :filter_<%= attribute.name %>, <%= class_name %>.human_attribute_name(:<%= attribute.name %>)  %>
+    <% if attribute.type == :file -%>
+    <%%= text_field_tag "filter[<%= attribute.name %>_file_name]", filter(:<%= attribute.name %>_file_name) %>
+    <% else -%>
+    <%%= text_field_tag "filter[<%= attribute.name %>]", filter(:<%= attribute.name %>) %>
+    <% end -%>
+
+<% end -%>
+
+    <%%= submit_tag "Filtruj" %>
+  </div>
+
+  <div class="field">
+    <%%= link_to "Wyczyść", <%= index_helper %>_path %>
+  </div>
+
+</div>

@@ -13,6 +13,11 @@ pl:
   show: "Pokaż"
   destroy: "Usuń"
   sure: "Jesteś pewny?"
+  sort:
+    asc: "Sortuj rosnąco"
+    desc: "Sortuj malejąco"
+  http_errors:
+    e404: "Błąd 404"
   menu:
     pages: "Strony"
     login: "Zaloguj"
@@ -27,6 +32,9 @@ pl:
   update:
     success: "Zapisano zmiany."
     fail: "Nie udało się zapisać zmian."
+  delete:
+    success: "Pomyślnie usunięto."
+    fail: "Nie udało się usunąć."
   attributes:
     created_at: "Data utworzenia"
     updated_at: "Data aktualizacji"
@@ -47,12 +55,6 @@ pl:
     submit:
       create: "Utwórz"
       update: "Zapisz zmiany"
-    label:
-      page:
-        url: "Url"
-        meta_description: "Opis (meta)"
-        meta_keywords: "Słowa kluczowe (meta)"
-        content: "Treść"
   pages:
     index:
       title: "Lista stron"
@@ -81,24 +83,10 @@ pl:
       photo_img: "Obecne zdjęcie"
   galleries:
     show:
-      title: Galerie
-      parent: Galeria-rodzic
-      name: Nazwa galerii
+      title: "Galerie"
+      parent: "Galeria nadrzędna"
+      name: "Nazwa galerii"
       content: "Treść"
-  menu:
-    link0: "Aktualności"
-    link1: "Oferta"
-    link2: "Położenie"
-    link3: "Kontakt"
-    link4: "PA-Strony"
-    link5: "PA-Aktualności"
-    link6: "PA-Kursy"
-    link7: "PA-Galerie"
-    link8: "Galeria"
-  content_main:
-    content: "Treść_główna"
-  content_pages:
-    content: "Treść_strony"
   footer:
     left: "Stopka"
   previous: "Poprzednia"

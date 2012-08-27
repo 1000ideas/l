@@ -23,7 +23,8 @@ module L
       def insert_before_filter
         inject_into_file 'app/controllers/application_controller.rb', 
           "  before_filter :mobile_subdomain\n",
-          after: "ActionController::Base\n"
+          after: "ActionController::Base\n",
+          verbose: false
 
         mobile_subdomain_method = <<-CONTENT
   def mobile_subdomain
@@ -35,7 +36,10 @@ module L
 
         inject_into_file 'app/controllers/application_controller.rb',
           mobile_subdomain_method,
-          after: "private\n"
+          after: "private\n",
+          verbose: false
+
+        log :insert, 'before_filter :mobile_subdomain'
       end
 
       def copy_views

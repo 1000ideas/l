@@ -1,7 +1,7 @@
 LABEL {
     float: left;
     width: 120px;
-    margin: 10px 0;
+    margin: 10px 20px 10px 0;
     line-height: 20px;
     text-align: right;
 }
@@ -11,7 +11,7 @@ INPUT {
     width: 220px;
     height: 20px;
     line-height: 20px;
-    margin: 10px 0 10px 20px;
+    margin: 10px 0;
     padding-left: 7px;
     font-size: 10px;
     color: #7d7d7d;
@@ -23,7 +23,7 @@ INPUT[type=checkbox] {
     width: 20px;
     height: auto;
     line-height: 20px;
-    margin: 10px 5px 10px 20px;
+    margin: 10px 5px;
     padding: 0;
     border: none;
 }
@@ -43,7 +43,7 @@ INPUT[type=submit] {
 SELECT {
     font-size: 10px;
     line-height: 20px;
-    margin: 10px 0 10px 20px;
+    margin: 10px 0;
     width: 220px;
 }
 
@@ -53,7 +53,7 @@ TEXTAREA {
     float:left;
     font-size:10px;
     line-height:20px;
-    margin:10px 0 10px 20px;
+    margin:10px 0;
 }
 
 FORM p {
@@ -68,13 +68,16 @@ FORM .group {
     margin: 15px 0;
 }
 
+FORM .group:after,
+FORM .field:after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
+
 FORM .field {
     display: block;
-    line-height: 42px;
-    height: 42px;
 }
-FORM .field_with_editor LABEL,
-FORM .field_text_area LABEL,
 FORM .field LABEL {
     width: 150px;
 }

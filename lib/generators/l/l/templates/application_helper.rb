@@ -1,4 +1,5 @@
   include L::FormHelper
+  include L::FilterHelper
 
   def short(value, length=50)
     v = strip_tags(value)
@@ -23,7 +24,7 @@
 
   def title(value)
     instantiate_yield :title, value
-    content_for :title { value }
+    content_for(:title) { value }
   end
 
   def keywords(value)

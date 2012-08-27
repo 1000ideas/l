@@ -9,8 +9,8 @@ module L
     end
 
     def show
+      authorize! :menage, :all
       @user = User.find(params[:id])
-      authorize! :show, @user
     end
 
     def new

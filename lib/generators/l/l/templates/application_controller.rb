@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert:  exception.message
+    redirect_to new_user_session_url, alert:  exception.message
   end
+  rescue_from ActiveRecord::RecordNotFound do
+    render action: "/shared/404"
+  end
+
 
   protect_from_forgery
   <% if options.lang.length > 1 %>
@@ -29,6 +33,9 @@ class ApplicationController < ActionController::Base
     render nothing:  true
   end
   <% end %>
+
+  protected
+  include L::FilterModule
 
   private
   <% if options.lang.length > 1 %>

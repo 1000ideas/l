@@ -1,0 +1,14 @@
+<%%= form_for(@<%= singular_table_name %>) do |f| %>
+<%%= render partial: 'l/partials/errors', object: @<%= singular_table_name %>.errors %>
+<div class="group">
+  <% for attribute in attributes -%>
+    <div class="field">
+      <%%= f.label :<%= attribute.name %> %>
+      <%%= f.<%= field_type(attribute) %> :<%= attribute.name %> <%= field_options(attribute) %> %>
+    </div>
+  <% end -%>
+</div>
+<div class="actions">
+  <%%= f.submit %>
+</div>
+<%% end %>

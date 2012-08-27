@@ -37,11 +37,6 @@ pl:
       title: Edycja użytkownika
     show:
       title: Szczegóły użytkownika
-    form:
-      email: Email
-      password: Hasło
-      password_confirmation: Powtórz hasło
-      role: Rola
   submenu:
     new: Dodaj
   pages:

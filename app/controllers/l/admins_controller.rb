@@ -5,17 +5,12 @@ module L
 
     protect_from_forgery
 
-    rescue_from CanCan::AccessDenied do
-      redirect_to new_user_session_path
-    end
-
     def show
-      authorize! :read, :all
+      authorize! :manage, :self
     end
 
     def update_user
-      logger.debug
-      authorize! :read, :all
+      authorize! :manage, :self
 
       respond_to do |format|
 
