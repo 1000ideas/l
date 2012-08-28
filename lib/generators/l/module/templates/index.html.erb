@@ -7,10 +7,10 @@
 
 <p id="notice"><%%= notice %></p>
 
-<%%= form_tag <%= index_helper %>_path, :method => :get do %>
+<%%= form_tag <%= index_helper %>_path, method: :get do %>
 
 <%%= render "filter" %>
-<%%= render :partial => 'l/partials/switcher', :object => @<%= plural_table_name %> %>
+<%%= render partial: 'l/partials/switcher', object: @<%= plural_table_name %> %>
 
 <table class="rows">
   <thead>
@@ -42,9 +42,9 @@
 <% end -%>
       <% end -%>
       <td class="options">
-        <%%= link_to t('edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), :class => "edit", :title => t('edit') %>
-        <%%= link_to t('show'), <%= singular_table_name %>, :class => "show", :title => t('show'), :target => "blank" %>
-        <%%= link_to t('destroy'), <%= singular_table_name %>, :confirm => t('confirm'), :method => :delete, :class => "destroy", :title => t('destroy') %>
+        <%%= link_to t('edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit') %>
+        <%%= link_to t('show'), <%= singular_table_name %>, class: "show", title: t('show'), target: "blank" %>
+        <%%= link_to t('destroy'), <%= singular_table_name %>, class: "destroy", title: t('destroy'), data: { confirm: t('confirm'), method: :delete } %>
       </td>
     </tr>
     <tr class="spacer"><td></td></tr>

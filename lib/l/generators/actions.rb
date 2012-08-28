@@ -78,7 +78,13 @@ module L
         end
       end
 
-
+      def field_class(attr)
+        cls = ['field']
+        cls << 'field_with_date' if [:date, :datetime, :timestamp].include? attr.type
+        cls << 'field_with_time' if attr.type == :time
+        cls << 'field_with_textarea' if attr.type =~ /^tiny_mce_/
+        cls.join ' '
+      end
     end
   end
 end
