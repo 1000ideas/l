@@ -35,6 +35,12 @@ pl:
   delete:
     success: "Pomyślnie usunięto."
     fail: "Nie udało się usunąć."
+  hide:
+    success: "Strona została ukyta."
+    failure: "Nie udało się ukryć strony."
+  unhide:
+    success: "Strona została uwidoczniona."
+    failure: "Nie udało się uwidocznić strony."
   attributes:
     created_at: "Data utworzenia"
     updated_at: "Data aktualizacji"
@@ -71,6 +77,7 @@ pl:
       content: "Treść"
     edit:
       title: "Edycja strony"
+      root: 'Strona nadrzędna'
   news:
     new:
       new_title: "Tytuł"
@@ -310,13 +317,20 @@ pl:
 
   activerecord:
     attributes:
+      l/page:
+        parent: "Strona rodzic"
+        url: "Url strony"
+        title: "Tytuł"
+        meta_description: "Opis strony (meta)"
+        meta_keywords: "Słowa kluczowe strony (meta)"
+        content: "Treść"
       user:
         email: "Adres email"
         password: "Hasło"
         password_confirmation: "Powtórz hasło"
         set_role: "Wybierz uprawnienia"
         role : Uprawnienia
-      news:
+      l/news:
         content: Treść
         title: Tytuł
         photo_content_type: Zdjęcie

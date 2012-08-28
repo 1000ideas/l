@@ -1,0 +1,9 @@
+<% title @page.title %>
+<% description @page.meta_description %>
+<% keywords @page.meta_keywords %>
+<% breadcrumbs(@page.title) %>
+
+<div id="page">
+  <h2><%= @page.title %></h2>
+  <p><%=raw @page.content %></p>
+</div>

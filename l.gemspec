@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-08-24"
+  s.date = "2012-08-28"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -20,9 +20,11 @@ Gem::Specification.new do |s|
     "Rakefile",
     "app/controllers/l/admins_controller.rb",
     "app/controllers/l/mobile_controller.rb",
+    "app/controllers/l/pages_controller.rb",
     "app/controllers/l/users_controller.rb",
     "app/helpers/l/filter_helper.rb",
     "app/helpers/l/form_helper.rb",
+    "app/models/l/page.rb",
     "app/views/l/admins/_form.html.erb",
     "app/views/l/admins/_submenu.erb",
     "app/views/l/admins/_tooltip.html.erb",
@@ -38,6 +40,16 @@ Gem::Specification.new do |s|
     "app/views/l/mobile/error401.html.erb",
     "app/views/l/mobile/error404.html.erb",
     "app/views/l/mobile/index.html.erb",
+    "app/views/l/pages/_edit_form.erb",
+    "app/views/l/pages/_form.html.erb",
+    "app/views/l/pages/_page_item.html.erb",
+    "app/views/l/pages/_submenu.erb",
+    "app/views/l/pages/_tooltip.html.erb",
+    "app/views/l/pages/edit.html.erb",
+    "app/views/l/pages/hidden.rjs",
+    "app/views/l/pages/index.html.erb",
+    "app/views/l/pages/new.html.erb",
+    "app/views/l/pages/show.html.erb",
     "app/views/l/partials/_breadcrumbs.erb",
     "app/views/l/partials/_content.erb",
     "app/views/l/partials/_content_main.erb",
@@ -85,6 +97,7 @@ Gem::Specification.new do |s|
     "lib/generators/l/l/templates/views/devise/sessions/new.html.erb",
     "lib/generators/l/l/templates/views/devise/shared/_links.erb",
     "lib/generators/l/l/templates/views/devise/unlocks/new.html.erb",
+    "lib/generators/l/l/templates/views/shared/404.html.erb",
     "lib/generators/l/mobile/mobile_generator.rb",
     "lib/generators/l/module/module_generator.rb",
     "lib/generators/l/module/templates/_filter.html.erb",
@@ -94,11 +107,10 @@ Gem::Specification.new do |s|
     "lib/generators/l/module/templates/controller.rb",
     "lib/generators/l/module/templates/edit.html.erb",
     "lib/generators/l/module/templates/index.html.erb",
-    "lib/generators/l/module/templates/mobile/index.html.erb",
-    "lib/generators/l/module/templates/mobile/show.html.erb",
-    "lib/generators/l/module/templates/mobile_controller.rb",
     "lib/generators/l/module/templates/new.html.erb",
     "lib/generators/l/module/templates/show.html.erb",
+    "lib/generators/l/page/page_generator.rb",
+    "lib/generators/l/page/templates/pages.rb",
     "lib/generators/l/views/views_generator.rb",
     "lib/l.rb",
     "lib/l/generators/actions.rb",

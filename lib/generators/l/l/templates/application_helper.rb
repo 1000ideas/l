@@ -13,7 +13,7 @@
   def breadcrumbs(*value)
     bread = ['<a href="/">'+I18n.t('breadcrumbs.home')+'</a>']
     bread += value
-    instantiate_yield :breadcrumbs, bread.join('<img src="/images/layout/arrow-right.png" />')
+    instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
   end
 
   def breadcrumbs_admin(*value)

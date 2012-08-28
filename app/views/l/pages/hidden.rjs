@@ -1,0 +1,5 @@
+if @result
+  page.reload
+else
+  page.alert("Nie udało się!")
+end

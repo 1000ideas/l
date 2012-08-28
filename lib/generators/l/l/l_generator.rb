@@ -56,7 +56,7 @@ module L
         gem 'cancan'
         gem 'rolify'
 
-        gem 'globalize3'
+        gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
         
         gem 'paperclip'
 
