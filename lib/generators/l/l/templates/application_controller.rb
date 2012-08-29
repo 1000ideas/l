@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   <% end %>
 
   protected
-  include L::FilterModule
+  include L::FilterHelper
 
   private
   <% if options.lang.length > 1 %>

@@ -79,6 +79,7 @@ pl:
       title: "Edycja strony"
       root: 'Strona nadrzędna'
   news:
+    name: 'Aktualności'
     new:
       new_title: "Tytuł"
       content: "Treść"
@@ -333,6 +334,8 @@ pl:
       l/news:
         content: Treść
         title: Tytuł
+        photo: "Zdjęcie"
+        photo_img: "Aktualne zdjęcie"
         photo_content_type: Zdjęcie
       gallery:
         name: Nazwa galerii

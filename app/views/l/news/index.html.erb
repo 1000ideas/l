@@ -1,0 +1,41 @@
+<% content_for :submenu do %>
+  <%= render "submenu" %>
+<% end %>
+
+
+<% title t('news.index.title') %>
+<% breadcrumbs_admin link_to(t('news.index.title'), news_index_path) %>
+
+<p id="notice"><%= notice %></p>
+
+<%= render partial: 'l/partials/switcher', object: @news %>
+
+<table class="rows">
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t('news.index.column_title') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @news.each do |news| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= selection_tag news %></td>
+        <td><%= news.title %></td>
+        <td class="options">
+          <%= link_to t('destroy'), news_path(news), class: "destroy", title: t('destroy'), 
+            data: { confirm: t('confirm'), method: :delete } %>
+          <%= link_to t('show'), news_path(news), class: "show", title: t('show'), 
+            target: "_blank" %>
+          <%= link_to t('edit'), edit_news_path(news), class: "edit", title: t('edit') %>
+        </td>
+      </tr>
+      <tr class="spacer"><td></td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('destroy_selected'), 
+  "javascript: LazyAdmin.destroy_selected('.selection','news')", 
+  data: { confirm: t('confirm') } %>
+<%= will_paginate @news %>

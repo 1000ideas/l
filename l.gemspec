@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-08-28"
+  s.date = "2012-08-29"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -20,10 +20,12 @@ Gem::Specification.new do |s|
     "Rakefile",
     "app/controllers/l/admins_controller.rb",
     "app/controllers/l/mobile_controller.rb",
+    "app/controllers/l/news_controller.rb",
     "app/controllers/l/pages_controller.rb",
     "app/controllers/l/users_controller.rb",
     "app/helpers/l/filter_helper.rb",
     "app/helpers/l/form_helper.rb",
+    "app/models/l/news.rb",
     "app/models/l/page.rb",
     "app/views/l/admins/_form.html.erb",
     "app/views/l/admins/_submenu.erb",
@@ -40,6 +42,16 @@ Gem::Specification.new do |s|
     "app/views/l/mobile/error401.html.erb",
     "app/views/l/mobile/error404.html.erb",
     "app/views/l/mobile/index.html.erb",
+    "app/views/l/news/_edit_form.erb",
+    "app/views/l/news/_form.html.erb",
+    "app/views/l/news/_submenu.erb",
+    "app/views/l/news/_tooltip.html.erb",
+    "app/views/l/news/destroy.js.erb",
+    "app/views/l/news/edit.html.erb",
+    "app/views/l/news/index.html.erb",
+    "app/views/l/news/list.html.erb",
+    "app/views/l/news/new.html.erb",
+    "app/views/l/news/show.html.erb",
     "app/views/l/pages/_edit_form.erb",
     "app/views/l/pages/_form.html.erb",
     "app/views/l/pages/_page_item.html.erb",
@@ -109,6 +121,8 @@ Gem::Specification.new do |s|
     "lib/generators/l/module/templates/index.html.erb",
     "lib/generators/l/module/templates/new.html.erb",
     "lib/generators/l/module/templates/show.html.erb",
+    "lib/generators/l/news/news_generator.rb",
+    "lib/generators/l/news/templates/news.rb",
     "lib/generators/l/page/page_generator.rb",
     "lib/generators/l/page/templates/pages.rb",
     "lib/generators/l/views/views_generator.rb",

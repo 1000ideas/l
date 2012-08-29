@@ -80,7 +80,7 @@ module L
       end
       
       def invoke_user_model
-        invoke :model, "user", :migration: false
+        generate :model, "user --no-migration"
       end
       def create_migrations_files
         migration_template 'users.rb', 'db/migrate/create_users.rb'
