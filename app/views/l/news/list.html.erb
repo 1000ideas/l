@@ -10,7 +10,7 @@
         <div class="date"><%= l news.created_at, format: '%d-%m-%Y %H:%M' %></div>
         <%= content_tag :div, class: 'image' do %>
           <%= image_tag news.photo.url(:thumb) %>
-        <% end unless news.photo.blank? %>
+        <% end if news.photo? %>
         <div class="content"><%=short news.content, 160 %></div>
         <div class="more"><%= link_to t('more'), news_path(news) %></div>
       </li>
