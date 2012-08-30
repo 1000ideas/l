@@ -67,6 +67,20 @@ module L
       (ancestors.reverse.map { |p| p.url } + [url]).join('/')
     end
 
+    def self.find_by_token(token)
+      parent_id = nil
+      page = nil
+      tokens = token.split('/')
+      tokens.each do |t|
+        page = self.find_by_url_and_parent_id(t, parent_id)
+        if t != tokens.last
+          return nil if page.nil?
+          parent_id = page.id
+        end
+      end
+      page
+    end
+
     private
     def set_default_position
       if position.nil?

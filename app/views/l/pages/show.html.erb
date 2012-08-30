@@ -1,7 +1,7 @@
 <% title @page.title %>
 <% description @page.meta_description %>
 <% keywords @page.meta_keywords %>
-<% breadcrumbs(@page.title) %>
+<% breadcrumbs(@page.ancestors.reverse.map{|a| link_to a.title, page_path(a) } << @page.title) %>
 
 <div id="page">
   <h2><%= @page.title %></h2>

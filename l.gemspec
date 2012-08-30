@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-08-29"
+  s.date = "2012-08-30"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -130,6 +130,7 @@ Gem::Specification.new do |s|
     "lib/l/generators/actions.rb",
     "lib/l/rails.rb",
     "lib/l/rails/engine.rb",
+    "lib/l/rails/string_extension.rb",
     "lib/l/version.rb",
     "public/swfupload.swf",
     "vendor/assets/images/admin/1000ideas_creative_agency.png",

@@ -18,7 +18,7 @@ module L
     # GET /pages/1.xml
     def show
       if params[:token]
-        @page = L::Page.find_by_url(params[:token])
+        @page = L::Page.find_by_token(params[:token])
         raise ActiveRecord::RecordNotFound unless @page
       else
         @page = L::Page.find(params[:id])

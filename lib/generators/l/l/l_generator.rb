@@ -1,5 +1,4 @@
 #encoding: utf-8
-
 module L
   module Generators
     require 'bundler'
@@ -62,7 +61,7 @@ module L
 
         gem 'will_paginate', '~> 3.0.0'
         gem 'acts_as_tree', '~> 0.1.1'
-        gem 'sam-mysql-ruby'
+        gem 'mysql2'
 
         gem 'tiny_mce_uploads', path: '../gems/tiny_mce_uploads'
 

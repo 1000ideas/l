@@ -20,7 +20,7 @@ module L
 
     
     def see_more(count = 5)
-      self.class.where([ "`id` != ?", id ]).order("order_column DESC, created_at DESC").limit(count)
+      self.class.where([ "`id` != ?", id ]).order("created_at DESC").limit(count)
     end
 
     def self.search(search)
