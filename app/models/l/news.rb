@@ -1,6 +1,6 @@
 module L
   class News < ActiveRecord::Base
-    attr_accessible :title, :content, :photo, :translations_attributes
+    attr_accessible :title, :content, :photo, :photo_delete, :translations_attributes
 
     has_attached_file :photo, 
       :styles => { :thumb=> "120x90", :small => "200x200>", :medium  => "600x400>" },
@@ -19,6 +19,14 @@ module L
     accepts_nested_attributes_for :translations
 
     
+    def photo_delete
+      false
+    end
+
+    def photo_delete=(value)
+      self.photo.clear if value.to_i == 1
+    end
+
     def see_more(count = 5)
       self.class.where([ "`id` != ?", id ]).order("created_at DESC").limit(count)
     end

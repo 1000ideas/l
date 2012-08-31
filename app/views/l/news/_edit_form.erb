@@ -29,15 +29,14 @@
       <%= f.label :photo %>
       <%= f.file_field :photo %>
     </div>
-    <% if @news.photo %>
-      <div class="field">
-
-        <%= f.label :photo_img %>
-        <div style="margin-left:20px; float:left;">
-          <%= image_tag @news.photo.url(:small)  %>
-        </div>
-      </div>
-    <% end %>
+    <%= content_tag :div, class: 'field' do %>
+      <%= f.label :photo_delete %>
+      <%= f.check_box :photo_delete %>
+    <% end if @news.photo? %>
+    <%= content_tag :div, class: 'field' do %>
+      <%= f.label :photo_image %>
+      <%= image_tag @news.photo.url(:small)  %>
+    <% end if @news.photo? %>
   </div>
 
 
