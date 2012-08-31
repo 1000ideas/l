@@ -30,6 +30,13 @@ module L
         log :translations, file
       end
 
+      def destroy(what, *args)
+        log :generate, what
+        argument = args.map {|arg| arg.to_s }.flatten.join(" ")
+
+        in_root { run_ruby_script("script/rails destroy #{what} #{argument}", :verbose => false) }
+      end
+
       def orm_class
         @orm_class ||= begin
           # Raise an error if the class_option :orm was not defined.

@@ -1,0 +1,30 @@
+<% content_for :submenu do %>
+  <%= render "submenu" %>
+<% end %>
+
+<% title t('newsletter_mails.index.title') %>
+<% breadcrumbs_admin link_to(t('newsletter_mails.index.title'), newsletter_mails_path) %>
+
+<p id="notice"><%= notice %></p>
+
+<% unless @newsletter_mail.blank? %>
+<table class="rows">
+  <thead>
+    <tr>
+      <th>E-mail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @newsletter_mail.each do |news| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= news.mail %></td>
+        <td class="options"><%= link_to t('destroy'), newsletter_mail_path(news), :confirm => t('confirm'), :method => :delete, :class => "destroy", :title => t('destroy') %></td>
+      </tr>
+      <tr class="spacer"><td></td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @newsletter_mail %>
+
+<% end %>

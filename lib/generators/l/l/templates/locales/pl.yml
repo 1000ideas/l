@@ -1,13 +1,18 @@
 pl:
   main:
-    newsletter: "Newsletter"
-    _newsletter:
-      info: "Wpisz swój adres e-mail, aby otrzymywać nasz biuletyn elektroniczny."
-      sign: "Zapisz się"
-      wait: "Proszę czekać..."
-      added: "Adres został dodany."
-      already_exists: 'Podany adres już istnieje.'
-      invalid: 'Błędny adres e-mail.'
+  newsletter: 
+    name: "Newsletter"
+    info: "Wpisz swój adres e-mail, aby otrzymywać nasz biuletyn elektroniczny."
+    sign: "Zapisz się"
+    wait: "Proszę czekać..."
+    confirmed: "Email potwierdzony"
+    added: "Adres został dodany."
+    already_exists: 'Podany adres już istnieje.'
+    invalid: 'Błędny adres e-mail.'
+    confirmation:
+      subject: "Newsletter - Potwierdź swój adres email"
+    send_mail:
+      subject: "Newsletter"
   edit: "Edytuj"
   back: "Powrót"
   show: "Pokaż"

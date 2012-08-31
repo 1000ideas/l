@@ -1,0 +1,2 @@
+<p>Prosimy kliknąć w poniższy link, aby potwierdzić chęć dodania swoje adresu e-mail do newslettera</p>
+<p><%= link_to confirm_newsletter_mails_url(:token => @mail.confirm_token), confirm_newsletter_mails_url(:token => @mail.confirm_token) %></p>

@@ -1,0 +1,23 @@
+<% content_for :submenu do %>
+  <%= render "submenu" %>
+<% end %>
+
+<% content_for :head do %>
+  <%= stylesheet_link_tag "admin/layout/send_mail"  %>
+<% end %>
+
+<% title t('newsletter_mails.send_mail.title') %>
+<% breadcrumbs_admin link_to(t('newsletter_mails.send_mail.title'), send_mail_newsletter_mails_path) %>
+
+<p id="notice"><%= flash[:notice] %></p>
+<p id="alert"><%= flash[:alert] %></p>
+
+
+<div class="cols-container">
+  <div class="main-column">
+    <%= render 'form' %>
+  </div>
+  <div class="tooltip-column">
+    <%= render 'tooltip' %>
+  </div>
+</div>
