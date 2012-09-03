@@ -135,7 +135,7 @@ module L
       def add_link_in_menu
         pld = plural_name.downcase
         link = <<-LINK
-<%= link_to t('menu.#{pld}'), #{pld}_path, :class => "\#{controller_name == '#{pld}' ? 'active' : ''}" if current_user.has_role? :admin %>"
+<%= link_to t('menu.#{pld}'), #{pld}_path, :class => "\#{controller_name == '#{pld}' ? 'active' : ''}" if current_user.has_role? :admin %>
         LINK
         inject_into_file File.join(destination_root, 'app/views/l/admins/partials/_header.erb'), link, :before => "</div>\n<div id=\"submenu\">"
       rescue

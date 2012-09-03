@@ -32,7 +32,7 @@
   <tbody>
     <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
     <tr  class="<%%= cycle('odd', 'even') %>">
-      <% for attribute in attributes -%>
+<% for attribute in attributes -%>
 <% if attribute.type == :file -%>
         <td><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></td>
 <% elsif attribute.type =~ /tiny_mce_.*/ -%>
@@ -40,10 +40,10 @@
 <% else -%>
         <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
 <% end -%>
-      <% end -%>
+<% end -%>
       <td class="options">
         <%%= link_to t('edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit') %>
-        <%%= link_to t('show'), <%= singular_table_name %>, class: "show", title: t('show'), target: "blank" %>
+        <%%= link_to t('show'), <%= singular_table_name %>, class: "show", title: t('show'), target: "_blank" %>
         <%%= link_to t('destroy'), <%= singular_table_name %>, class: "destroy", title: t('destroy'), data: { confirm: t('confirm'), method: :delete } %>
       </td>
     </tr>

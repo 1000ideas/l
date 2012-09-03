@@ -7,6 +7,15 @@ FORM .filter .field {
     line-height: 30px;
 }
 
+FORM .filter .field > * {
+  vertical-align: middle;
+}
+
+FORM .filter .field strong {
+  margin-right: 20px;
+  font-size: 12px;
+}
+
 FORM .filter .field label {
     width:150px;
     float: none;
