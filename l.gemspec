@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-08-31"
+  s.date = "2012-09-04"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -21,11 +21,13 @@ Gem::Specification.new do |s|
     "app/controllers/l/admins_controller.rb",
     "app/controllers/l/mobile_controller.rb",
     "app/controllers/l/news_controller.rb",
+    "app/controllers/l/newsletter_mails_controller.rb",
     "app/controllers/l/pages_controller.rb",
     "app/controllers/l/users_controller.rb",
     "app/helpers/l/filter_helper.rb",
     "app/helpers/l/form_helper.rb",
     "app/models/l/news.rb",
+    "app/models/l/newsletter_mail.rb",
     "app/models/l/page.rb",
     "app/views/l/admins/_form.html.erb",
     "app/views/l/admins/_submenu.erb",
@@ -52,6 +54,13 @@ Gem::Specification.new do |s|
     "app/views/l/news/list.html.erb",
     "app/views/l/news/new.html.erb",
     "app/views/l/news/show.html.erb",
+    "app/views/l/newsletter_mails/_form.html.erb",
+    "app/views/l/newsletter_mails/_submenu.erb",
+    "app/views/l/newsletter_mails/_tooltip.html.erb",
+    "app/views/l/newsletter_mails/create.js.erb",
+    "app/views/l/newsletter_mails/create_error.js.erb",
+    "app/views/l/newsletter_mails/index.html.erb",
+    "app/views/l/newsletter_mails/send_mail_edit.html.erb",
     "app/views/l/pages/_edit_form.erb",
     "app/views/l/pages/_form.html.erb",
     "app/views/l/pages/_page_item.html.erb",
@@ -123,6 +132,11 @@ Gem::Specification.new do |s|
     "lib/generators/l/module/templates/show.html.erb",
     "lib/generators/l/news/news_generator.rb",
     "lib/generators/l/news/templates/news.rb",
+    "lib/generators/l/newsletter/newsletter_generator.rb",
+    "lib/generators/l/newsletter/templates/_newsletter.erb",
+    "lib/generators/l/newsletter/templates/newsletter/confirmation.html.erb",
+    "lib/generators/l/newsletter/templates/newsletter/send_mail.html.erb",
+    "lib/generators/l/newsletter/templates/newsletter_mails.rb",
     "lib/generators/l/page/page_generator.rb",
     "lib/generators/l/page/templates/pages.rb",
     "lib/generators/l/views/views_generator.rb",

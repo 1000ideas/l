@@ -3,8 +3,8 @@
   <head>
     <title><%= yield_title %></title>
     <%= tag :meta, name: :robots, content: 'noindex, nofollow' %>
-    <%= stylesheet_link_tag 'admin/admin_login', 'common' %>
-    <%= javascript_include_tag 'jquery' %>
+    <%= stylesheet_link_tag 'admin/admin_login' %>
+    <%= javascript_include_tag 'admin' %>
     <%= yield :head %>
     <%= csrf_meta_tag %>
   </head>
