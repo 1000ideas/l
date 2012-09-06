@@ -4,10 +4,46 @@ var LazyAdmin = {
     LazyAdmin.form_tabs_init();
     LazyAdmin.form_customization_init();
 
+    if (typeof(LazyAdmin.extension_setup) == "function") LazyAdmin.extension_setup();
+
 
   },
   destroy_selected: function(selector, controller) {
     LazyAdmin.action_on_selected(selector, controller, null, 'delete');
+  },
+  perform_member_action: function(controller, action, id, data) {
+    url = '/' + controller + '/' + id;
+    if (action != null) url += '/' + action;
+    data = $.extend( {
+      _method: 'get'
+    }, data);
+    type = 'get';
+    if (data._method != 'get') type = 'post';
+    dataType = data.dataType;
+    data.dataType = undefined;
+    $.ajax({
+      url: url,
+      dataType: dataType,
+      type: type,
+      data: data
+    });
+  },
+  perform_collection_action: function(controller, action, data) {
+    url = '/' + controller;
+    if (action != null) url += '/' + action;
+    data = $.extend( {
+      _method: 'get'
+    }, data);
+    type = 'get';
+    if (data._method != 'get') type = 'post';
+    dataType = data.dataType;
+    data.dataType = undefined;
+    $.ajax({
+      url: url,
+      dataType: dataType,
+      type: type,
+      data: data
+    });
   },
   action_on_selected: function(selector, controller, action, _method) {
     if (_method == undefined) {
