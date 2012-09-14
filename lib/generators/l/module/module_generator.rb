@@ -10,13 +10,6 @@ module L
       argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tiny_mce_(theme)'
       class_option :orm, :default => "active_record"
       class_option :searchable, :type => :array, :default => [], :desc => 'Argumenty które mają być wyszukiwane', :banner => 'field field ...'
-      
-      class_option 'pl-dopelniacz', :type => :string, :default => '', :desc => 'Dopełniacz (kogo? czego?) liczby pojedynczej'
-      class_option 'pl-biernik', :type => :string, :default => '', :desc => 'Biernik (kogo? co?) liczby pojedynczej'
-      class_option 'pl-mianownik-lm', :type => :string, :default => '', :desc => 'Mianownik (kto? co?) liczby mnogiej'
-      class_option 'pl-dopelniacz-lm', :type => :string, :default => '', :desc => 'Dopełniacz (kogo? czego?) liczby mnogiej'
-
-
 
       desc "Generator tworzy customowy modul dostosowany do cmsa " <<
         "(tworzy model, kontroler, migracje, widoki, dodaje routing). " <<
@@ -90,41 +83,24 @@ module L
       end
 
       def add_translations
-        biernik = name
-        biernik = options['pl-biernik'] unless options['pl-biernik'].blank?
-        biernik.capitalize!
-
-        dopelniacz = name
-        dopelniacz = options['pl-dopelniacz'] unless options['pl-dopelniacz'].blank?
-        dopelniacz.capitalize!
-
-        mianownik_lm = plural_name 
-        mianownik_lm = options['pl-mianownik-lm'] unless options['pl-mianownik-lm'].blank?
-        mianownik_lm.capitalize!
-
-        dopelniacz_lm = plural_name 
-        dopelniacz_lm = options['pl-dopelniacz-lm'] unless options['pl-dopelniacz-lm'].blank?
-        dopelniacz_lm.capitalize!
-
         admin_trans = { "#{plural_name.downcase}" => {
               'submenu' => {
-                'new' => "Dodaj #{biernik}",
-                'index' => "Lista #{dopelniacz_lm}"
+                'new' => "Dodaj #{name}",
+                'index' => "Lista #{plural_name}"
               },
               'new' => {
-                'title' => "Dodawanie #{dopelniacz}"
+                'title' => "Dodawanie #{name}"
               },
               'index' => {
-                'title' => "#{mianownik_lm}"
+                'title' => "#{plural_name}"
               },
               'edit' => {
-                'title' =>  "Edycja #{dopelniacz}"
+                'title' =>  "Edycja #{name}"
               }
             }}
 
-
         attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
-        menu_trans = { "#{plural_name.downcase}" => mianownik_lm }
+        menu_trans = { "#{plural_name.downcase}" => plural_name.capitalize }
         trans =  { "#{name.downcase}" => attr_hash }
 
         translations 'config/locales/admin/pl.yml', admin_trans
