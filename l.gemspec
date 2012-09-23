@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.4"
+  s.version = "0.3.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-09-06"
+  s.date = "2012-09-23"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [

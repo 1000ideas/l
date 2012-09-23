@@ -63,7 +63,7 @@ module L
         gem 'acts_as_tree', '~> 0.1.1'
         gem 'mysql2'
 
-        gem 'tiny_mce_uploads', path: '../gems/tiny_mce_uploads'
+        gem 'tiny_mce_uploads'
 
         Bundler.with_clean_env do
           run 'bundle install'
