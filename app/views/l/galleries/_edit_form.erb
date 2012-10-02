@@ -1,0 +1,97 @@
+<% content_for :head do %>
+
+  <script type="text/javascript">
+//    var swfu;
+//
+//    window.onload = function() {
+//      var settings = {
+//        flash_url : "/swfupload.swf",
+//        upload_url: "<%= gallery_gallery_photos_url(@gallery) %>",
+//        post_params: {gallery_id: "<%= @gallery.id %>",
+//          authenticity_token: "<%= form_authenticity_token %>"},
+//        file_size_limit : "3 MB",
+//        file_types : "*.jpg; *.jpeg; *.gif; *.png",
+//        file_types_description : "Image files (JPG, JPEG, GIF, PNG)",
+//        file_upload_limit : 100,
+//        file_queue_limit : 0,
+//        custom_settings : {
+//          progressTarget : "fsUploadProgress",
+//          cancelButtonId : "btnCancel"
+//        },
+//        debug: false,
+//
+//        // Button settings
+//        button_image_url: "/images/swfupload_button.png",
+//        button_width: "100",
+//        button_height: "30",
+//        button_placeholder_id: "spanButtonPlaceHolder",
+//        button_text: '<span class="theFont"><%= t('galleries.form.upload') %> </span>',
+//        button_text_style: ".theFont { font-size: 11px; font-family: Tahoma; color: #ffffff;}",
+//        button_text_left_padding: 10,
+//        button_text_top_padding: 7,
+//
+//        // The event handler functions are defined in handlers.js
+//        file_queued_handler : fileQueued,
+//        file_queue_error_handler : fileQueueError,
+//        file_dialog_complete_handler : fileDialogComplete,
+//        upload_start_handler : uploadStart,
+//        upload_progress_handler : uploadProgress,
+//        upload_error_handler : uploadError,
+//        upload_success_handler : uploadSuccess,
+//        upload_complete_handler : uploadComplete,
+//        queue_complete_handler : queueComplete	// Queue plugin event
+//
+//      };
+//
+//      swfu = new SWFUpload(settings);
+//    };
+  </script>
+<% end %>
+<div>
+  <%= form_for(@gallery, :url => gallery_path(@gallery.id), :method => :put) do |f| %>
+    <%= render partial: 'l/partials/errors', object: @gallery.errors %>
+    <div id="form_tabs" class="tabs_container">
+      <ul>
+        <% k = 0 %>
+        <% I18n.available_locales.each do |el| %>
+          <li><a href="#tab<%= k = k+1 %>"><%=  el.to_s  %></a></li>
+        <% end %>
+      </ul>
+
+      <% i = 0 %>
+      <%= f.fields_for :translations do |builder| %>
+        <div id="tab<%= i = i+1 %>">
+          <%= builder.hidden_field :locale, :value => builder.object.locale.to_s %>
+          <div class="field">
+            <%= builder.label :name %>
+            <%= builder.text_field :name %>
+          </div>
+          <div class="field field_with_tinymce">
+            <%= builder.label :content %>
+            <%= builder.text_area :content, :class => "mceSimple" %>
+          </div>
+          <div class="cb"></div>
+        </div>
+      <% end %>
+    </div>
+
+    <%- session_key = Rails.application.config.session_options[:key] -%>
+    <div class="group upload" 
+      id="upload_photo" 
+      data-path="<%= gallery_gallery_photos_url(@gallery) %>" 
+      data-cookie-session-key="<%= session_key %>"
+      data-cookie-session-value ="<%= cookies[session_key] %>">
+      <div class='button' id="upload_photo_button"><%= t('galleries.form.upload') %></div>
+      <h2><%= t('galleries.form.upload_queue') %></h2>
+      <div class='queue' id="upload_photo_queue"></div>
+    </div>
+    <div id="show_photos">
+      <%= render :partial => "l/gallery_photos/show_photos" %>
+    </div>
+
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end #END FORM %>
+</div>
