@@ -221,6 +221,18 @@ require 'will_paginate/array'
         generate 'l:views' if options.views
       end
 
+      def add_flash_sessions_cookie_middleware
+        _config = <<-CONTENT
+Rails.application.config.middleware.insert_before(
+  Rails.application.config.session_store,
+  FlashSessionCookieMiddleware,
+  Rails.application.config.session_options[:key]
+)
+        CONTENT
+        append_to_file 'config/initializers/session_store.rb', _config, verbose: false
+        log :initializers, 'Add FlashSessionCookieMiddleware to session_store.rb'
+      end
+
       def generate_mobile
         generate 'l:mobile' if options.mobile
       end

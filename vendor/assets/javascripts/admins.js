@@ -2,6 +2,8 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.autocomplete.pack
-//= require ceebox/jquery.ceebox-min
+//= require_tree ./ceebox
 //= require jquery.livequery
+//= require jquery.cookie
+//= require jquery.uploadify
 //= require admin/admin

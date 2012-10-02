@@ -1,5 +1,4 @@
 # encoding: utf-8
-#
 module L
   module Generators
     require 'rails/generators/active_record'
@@ -11,8 +10,6 @@ module L
 
       desc "Tworzy modul newsow (tworzy migracje i kopiuje widoki)" <<
         "oraz dodaje routing." <<
-        "Przydalaby sie jeszcze edycja widokow w zaleznosci od" <<
-        "zainstalowanych modulow (pozycje w menu itp)."
 
       def self.source_root
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')

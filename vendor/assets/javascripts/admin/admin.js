@@ -3,6 +3,7 @@ var LazyAdmin = {
 
     LazyAdmin.form_tabs_init();
     LazyAdmin.form_customization_init();
+    LazyAdmin.form_upload_init();
 
     if (typeof(LazyAdmin.extension_setup) == "function") LazyAdmin.extension_setup();
 
@@ -101,6 +102,39 @@ var LazyAdmin = {
   reload_custom_select_span: function(obj) {
     var txt = $(obj).children(":selected").text();
     $(obj).prev('span.custom_select_title').text(txt);
+  },
+  form_upload_init: function() {
+    var placeholder = null, form_data = {}, csrf_token = '', csrf_param = '',
+      script_path = '', session_key = '', queue_id = '';
+    placeholder = $('#upload_photo');
+
+    script_path = placeholder.data('path');
+    queue_id = placeholder.find('.queue').attr('id');
+    session_key = placeholder.data('cookie-session-key');
+    session_value = placeholder.data('cookie-session-value'); 
+    form_data[session_key] = session_value;
+
+    csrf_token = $('meta[name=csrf-token]').attr('content');
+    csrf_param = $('meta[name=csrf-param]').attr('content');
+    form_data[csrf_param] = encodeURI(csrf_token);
+
+    $("#upload_photo .button").uploadify({
+      debug: true,
+      swf: '/assets/uploadify.swf',
+      uploader: script_path,
+      queueID: queue_id,
+      buttonText: 'Wybierz pliki',
+      formData: form_data,
+      onUploadSuccess: function(file, data) {
+        try {
+          eval(data);
+
+        } catch (ex) {
+          console.log(ex);
+        }
+      }
+    });
+
   }
 
 }

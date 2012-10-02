@@ -2,6 +2,7 @@
  *= require jquery_ui/jquery.ui.core
  *= require jquery_ui/jquery.ui.tabs
  *= require ceebox
+ *= require uploadify
  *= require admin/layout
  *= require admin/style
  *= require admin/layout/tabs

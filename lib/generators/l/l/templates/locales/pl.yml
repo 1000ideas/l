@@ -342,8 +342,10 @@ pl:
         photo: "Zdjęcie"
         photo_img: "Aktualne zdjęcie"
         photo_content_type: Zdjęcie
-      gallery:
-        name: Nazwa galerii
+      l/gallery:
+        name: 'Nazwa'
+        content: 'Opis'
+        thumb: 'Miniatura'
       attachment:
         upload: Plik
         upload_content_type: 'Typ pliku'

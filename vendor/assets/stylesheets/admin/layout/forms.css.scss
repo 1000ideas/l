@@ -94,11 +94,6 @@ FORM .actions {
     height: 50px;
 }
 
-FORM .upload object {
-    margin: 10px 10px 10px 0;
-    float: left;
-}
-
 #add_attributes {
     float: left;
     margin: 20px 0 30px 170px;
@@ -115,4 +110,24 @@ FORM .upload object {
 }
 #add_attributes a {
     margin: 10px 0 10px 0;
+}
+
+.group.upload .uploadify-button {
+  background-color: #E6085C;
+  background-image: none;
+  border: 0;
+  border-radius: 0;
+  font-size: 11px;
+  text-shadow: none;
+  font-weight: normal;
+}
+
+.group.upload .uploadify-queue-item .cancel a {
+  background-image: none;
+  text-indent: 0;
+  color: #E6085C;
+}
+
+.group.upload .uploadify-progress-bar {
+  background-color: #E6085C;
 }
