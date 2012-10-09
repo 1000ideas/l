@@ -1,9 +1,6 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
-//= require jquery.autocomplete.pack
 //= require lightbox
-//= require jquery.livequery
-//= require jquery.cookie
 //= require jquery.uploadify
 //= require admin/admin
