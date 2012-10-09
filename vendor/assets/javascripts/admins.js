@@ -2,7 +2,7 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.autocomplete.pack
-//= require_tree ./ceebox
+//= require lightbox
 //= require jquery.livequery
 //= require jquery.cookie
 //= require jquery.uploadify

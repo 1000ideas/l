@@ -4,7 +4,6 @@ class FlashSessionCookieMiddleware
     def initialize(app, session_key = '_session_id')
       @app = app
       @session_key = session_key
-      p "FlashSessionCookieMiddleware - DEBUG"
     end
 
     def call(env)

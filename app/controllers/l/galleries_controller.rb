@@ -44,6 +44,7 @@ module L
 
     # GET /galleries/1/edit
     def edit
+      authorize! :menage, :all
       @gallery = L::Gallery.find(params[:id])
       @gallery_photos = @gallery.gallery_photos
 

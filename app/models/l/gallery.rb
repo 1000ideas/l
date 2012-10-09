@@ -8,6 +8,12 @@ module L
     translates :name, :content
     accepts_nested_attributes_for :translations
 
+    def thumbnail(style = :thumb)
+      self.gallery_photos.first.photo.url(:thumb)
+    rescue
+      ''
+    end
+
     def self.search(search)
       find :all,
         :joins => :translations,

@@ -1,23 +1,10 @@
-<% content_for :head do %>
-    <%= javascript_include_tag 'ceebox/jquery.ceebox-min', 'ceebox/jquery.swfobject', 'ceebox/jquery.color', 'ceebox/jquery.easing', 'ceebox/jquery.metadata'  %>
-    <%= stylesheet_link_tag 'ceebox'  %>
-
-    <script type="text/javascript">
-      jQuery(document).ready(function(){
-        jQuery(".show_photos").ceebox({imageGallery:true});
-      });
-    </script>
-<% end %>
-
 <p id="notice"><%= notice %></p>
-
 <h2><%= @gallery.name %></h2>
-
 <p><%=raw @gallery.content %></p>
 
 <ul class="show_photos">
   <% @gallery.gallery_photos.each do |photo| %>
-    <li><%= link_to image_tag(photo.photo.url(:thumb)), photo.photo.url(:original), target: '_blank' %></li>
+    <li><%= collection_lightbox_tag(photo.photo, 'gallery', target: '_blank') %></li>
   <% end %>
 </ul>
 <%= link_to t('back'), "/galleries/list" %>

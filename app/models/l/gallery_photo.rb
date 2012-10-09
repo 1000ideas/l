@@ -5,6 +5,7 @@ module L
     belongs_to :gallery
     has_attached_file :photo, 
       :styles => { 
+        :big => "800x600>",
         :medium => "300x300>", 
         :small_crop => "120x120", 
         :small => "120x120>", 

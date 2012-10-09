@@ -196,11 +196,11 @@ require 'will_paginate/array'
 
       def add_assets_to_pipeline
         inject_into_file 'app/assets/javascripts/application.js', 
-          "//= require swfobject\n", 
+          "//= require lightbox\n",
           after: "jquery_ujs\n"
 
         inject_into_file 'app/assets/stylesheets/application.css', 
-          "\n *= require ceebox\n *= require lazy", 
+          "\n *= require lightbox\n *= require lazy", 
           before: "\n*/"
       end
 

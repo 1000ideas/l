@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{l}
-  s.version = "0.3.9"
+  s.name = "l"
+  s.version = "0.3.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = %q{2012-10-02}
-  s.description = %q{Bunch of generators for lazy programmers}
-  s.email = %q{admin@1000i.pl}
+  s.date = "2012-10-09"
+  s.description = "Bunch of generators for lazy programmers"
+  s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.files = [
     "Rakefile",
     "app/controllers/l/admins_controller.rb",
+    "app/controllers/l/galleries_controller.rb",
+    "app/controllers/l/gallery_photos_controller.rb",
     "app/controllers/l/mobile_controller.rb",
     "app/controllers/l/news_controller.rb",
     "app/controllers/l/newsletter_mails_controller.rb",
@@ -26,6 +28,9 @@ Gem::Specification.new do |s|
     "app/controllers/l/users_controller.rb",
     "app/helpers/l/filter_helper.rb",
     "app/helpers/l/form_helper.rb",
+    "app/helpers/l/lightbox_helper.rb",
+    "app/models/l/gallery.rb",
+    "app/models/l/gallery_photo.rb",
     "app/models/l/news.rb",
     "app/models/l/newsletter_mail.rb",
     "app/models/l/page.rb",
@@ -36,6 +41,21 @@ Gem::Specification.new do |s|
     "app/views/l/admins/partials/_footer.erb",
     "app/views/l/admins/partials/_header.erb",
     "app/views/l/admins/show.erb",
+    "app/views/l/galleries/_edit_form.erb",
+    "app/views/l/galleries/_form.html.erb",
+    "app/views/l/galleries/_gallery_item.html.erb",
+    "app/views/l/galleries/_submenu.erb",
+    "app/views/l/galleries/_tooltip.html.erb",
+    "app/views/l/galleries/edit.html.erb",
+    "app/views/l/galleries/index.html.erb",
+    "app/views/l/galleries/list.html.erb",
+    "app/views/l/galleries/new.html.erb",
+    "app/views/l/galleries/show.html.erb",
+    "app/views/l/gallery_photos/_show_photos.erb",
+    "app/views/l/gallery_photos/create.js.erb",
+    "app/views/l/gallery_photos/create.rjs",
+    "app/views/l/gallery_photos/destroy.js.erb",
+    "app/views/l/gallery_photos/destroy.rjs",
     "app/views/l/layouts/admin.html.erb",
     "app/views/l/layouts/admin_login.html.erb",
     "app/views/l/layouts/mobile.html.erb",
@@ -91,6 +111,9 @@ Gem::Specification.new do |s|
     "app/views/l/users/index.html.erb",
     "app/views/l/users/new.html.erb",
     "app/views/l/users/show.html.erb",
+    "lib/generators/l/galleries/galleries_generator.rb",
+    "lib/generators/l/galleries/templates/galleries.rb",
+    "lib/generators/l/galleries/templates/gallery_photos.rb",
     "lib/generators/l/l/l_generator.rb",
     "lib/generators/l/l/templates/application_controller.rb",
     "lib/generators/l/l/templates/application_helper.rb",
@@ -146,10 +169,12 @@ Gem::Specification.new do |s|
     "lib/l/rails/engine.rb",
     "lib/l/rails/string_extension.rb",
     "lib/l/version.rb",
+    "lib/middleware/flash_session_cookie_middleware.rb",
     "public/swfupload.swf",
     "vendor/assets/images/admin/1000ideas_creative_agency.png",
     "vendor/assets/images/admin/array_down.gif",
     "vendor/assets/images/admin/array_up.gif",
+    "vendor/assets/images/admin/cancel.png",
     "vendor/assets/images/admin/icons.png",
     "vendor/assets/images/admin/select-array.gif",
     "vendor/assets/images/admin/tooltip-arr.png",
@@ -165,26 +190,18 @@ Gem::Specification.new do |s|
     "vendor/assets/images/icons-18-white.png",
     "vendor/assets/images/icons-36-black.png",
     "vendor/assets/images/icons-36-white.png",
+    "vendor/assets/images/lightbox/close.png",
+    "vendor/assets/images/lightbox/loading.gif",
+    "vendor/assets/images/lightbox/next.png",
+    "vendor/assets/images/lightbox/prev.png",
     "vendor/assets/images/swfupload_button.png",
+    "vendor/assets/images/uploadify-cancel.png",
     "vendor/assets/javascripts/admin/admin.js",
     "vendor/assets/javascripts/admins.js",
-    "vendor/assets/javascripts/ceebox/humor.json",
-    "vendor/assets/javascripts/ceebox/jquery.ceebox-min.js",
-    "vendor/assets/javascripts/ceebox/jquery.color.js",
-    "vendor/assets/javascripts/ceebox/jquery.easing.js",
-    "vendor/assets/javascripts/ceebox/jquery.metadata.js",
-    "vendor/assets/javascripts/ceebox/jquery.swfobject.js",
-    "vendor/assets/javascripts/fileprogress.js",
-    "vendor/assets/javascripts/handlers.js",
-    "vendor/assets/javascripts/jquery.autocomplete.pack.js",
-    "vendor/assets/javascripts/jquery.jgd.dropdown.js",
-    "vendor/assets/javascripts/jquery.livequery.js",
     "vendor/assets/javascripts/jquery.mobile.js",
-    "vendor/assets/javascripts/search.js",
+    "vendor/assets/javascripts/jquery.uploadify.js",
+    "vendor/assets/javascripts/lightbox.js.erb",
     "vendor/assets/javascripts/swfobject.js",
-    "vendor/assets/javascripts/swfupload.js",
-    "vendor/assets/javascripts/swfupload.queue.js",
-    "vendor/assets/javascripts/upload.js",
     "vendor/assets/stylesheets/admin/activities.css.scss",
     "vendor/assets/stylesheets/admin/admin.css.scss",
     "vendor/assets/stylesheets/admin/admin_login.css.scss",
@@ -208,15 +225,17 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.tabs.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.theme.css",
     "vendor/assets/stylesheets/lazy.scss",
-    "vendor/assets/stylesheets/style.css"
+    "vendor/assets/stylesheets/lightbox.scss",
+    "vendor/assets/stylesheets/style.css",
+    "vendor/assets/stylesheets/uploadify.css",
+    "vendor/assets/swf/uploadify.swf"
   ]
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Gem for lazy programmers}
+  s.rubygems_version = "1.8.23"
+  s.summary = "Gem for lazy programmers"
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then

@@ -119,7 +119,6 @@ var LazyAdmin = {
     form_data[csrf_param] = encodeURI(csrf_token);
 
     $("#upload_photo .button").uploadify({
-      debug: true,
       swf: '/assets/uploadify.swf',
       uploader: script_path,
       queueID: queue_id,
@@ -128,7 +127,6 @@ var LazyAdmin = {
       onUploadSuccess: function(file, data) {
         try {
           eval(data);
-
         } catch (ex) {
           console.log(ex);
         }

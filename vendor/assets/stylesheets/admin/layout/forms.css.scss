@@ -123,8 +123,8 @@ FORM .actions {
 }
 
 .group.upload .uploadify-queue-item .cancel a {
-  background-image: none;
-  text-indent: 0;
+  background-image: image-url('admin/cancel.png');
+  text-indent: -9999px;
   color: #E6085C;
 }
 
