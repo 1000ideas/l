@@ -87,7 +87,10 @@ var LazyAdmin = {
     });
 
     $('form select.custom').livequery(function() {
-        LazyAdmin.customize_select(this);
+        if (! $(this).hasClass('customized') ) {
+          LazyAdmin.customize_select(this);
+          $(this).addClass('customized');
+        }
     });
 
     $('div.custom_select select').live('change', function() {

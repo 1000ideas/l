@@ -23,13 +23,17 @@
 
 #menu {
   width: 100%;
-  height: 40px;
   background-color: #89244a;
 
   -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
   -moz-border-radius-topright: 5px;
   border-top-right-radius: 5px;
+}
+#menu:after {
+  content: ' ';
+  display:block;
+  clear: both;
 }
 #menu a {
   float: left;
