@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.14"
+  s.version = "0.3.15"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-11-06"
+  s.date = "2012-11-08"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files = [
     "Rakefile",
     "app/controllers/l/admins_controller.rb",
+    "app/controllers/l/facebook_controller.rb",
     "app/controllers/l/galleries_controller.rb",
     "app/controllers/l/gallery_photos_controller.rb",
     "app/controllers/l/mobile_controller.rb",
@@ -58,6 +59,7 @@ Gem::Specification.new do |s|
     "app/views/l/gallery_photos/destroy.rjs",
     "app/views/l/layouts/admin.html.erb",
     "app/views/l/layouts/admin_login.html.erb",
+    "app/views/l/layouts/facebook.html.erb",
     "app/views/l/layouts/mobile.html.erb",
     "app/views/l/layouts/standard.html.erb",
     "app/views/l/layouts/subpage.html.erb",
@@ -91,6 +93,7 @@ Gem::Specification.new do |s|
     "app/views/l/pages/index.html.erb",
     "app/views/l/pages/new.html.erb",
     "app/views/l/pages/show.html.erb",
+    "app/views/l/partials/_analytics.html.erb",
     "app/views/l/partials/_breadcrumbs.erb",
     "app/views/l/partials/_content.erb",
     "app/views/l/partials/_content_main.erb",
@@ -103,6 +106,11 @@ Gem::Specification.new do |s|
     "app/views/l/partials/_search.erb",
     "app/views/l/partials/_social.erb",
     "app/views/l/partials/_switcher.erb",
+    "app/views/l/partials/facebook/_content.html.erb",
+    "app/views/l/partials/facebook/_footer.html.erb",
+    "app/views/l/partials/facebook/_head.html.erb",
+    "app/views/l/partials/facebook/_header.html.erb",
+    "app/views/l/partials/facebook/_integration.html.erb",
     "app/views/l/users/_form.html.erb",
     "app/views/l/users/_submenu.erb",
     "app/views/l/users/_tooltip.html.erb",
@@ -111,6 +119,15 @@ Gem::Specification.new do |s|
     "app/views/l/users/index.html.erb",
     "app/views/l/users/new.html.erb",
     "app/views/l/users/show.html.erb",
+    "lib/generators/l/facebook/facebook_generator.rb",
+    "lib/generators/l/facebook/templates/ca-bundle.crt",
+    "lib/generators/l/facebook/templates/devise.rb",
+    "lib/generators/l/facebook/templates/facebook/index.html.erb",
+    "lib/generators/l/facebook/templates/facebook_controller.rb",
+    "lib/generators/l/facebook/templates/initializer.rb",
+    "lib/generators/l/facebook/templates/omniauth_callbacks_controller.rb",
+    "lib/generators/l/facebook/templates/user_methods.rb",
+    "lib/generators/l/facebook/templates/users_migration.rb",
     "lib/generators/l/galleries/galleries_generator.rb",
     "lib/generators/l/galleries/templates/galleries.rb",
     "lib/generators/l/galleries/templates/gallery_photos.rb",
