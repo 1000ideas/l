@@ -8,10 +8,7 @@ module L
 
     def sign_in_fb_user
       if request.post? and current_user.blank?
-        auth_path = user_omniauth_authorize_path(:facebook) 
-#                                                 signed_request: params[:signed_request])
-#                                                 back_to: request.fullpath)
-        redirect_to auth_path
+         redirect_to user_omniauth_authorize_path(:facebook, back_to: request.fullpath)
       elsif current_user.blank?
         redirect_to $fb_app_url
       end

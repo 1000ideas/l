@@ -10,10 +10,12 @@ module L
       include ::Rails::Generators::Migration
       include L::Generators::Actions
 
-      desc "Generator odpowiedzialny za stworzenie modeli User i Role," <<
-        "potrzebnych migracji, dodanie routingow, skopiowanie plikow tlumaczen," <<
-        "folderow layouts, partials, widokow devise, admins, users" <<
-        "oraz calego folderu public."
+      desc "Generator odpowiedzialny za stworzenie struktury pozwalającej na logowanie się " <<
+        "do aplikacji za pomocą konta facebook, oraz integracje z facebookowym canvasem"
+
+      class_option :bundle, type: :boolean, default: true, 
+        desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle " <<
+               "jesli wiesz że wszystkie użyte gemy są zainstalowane)"
 
       def self.source_root
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
@@ -29,7 +31,7 @@ module L
 
         Bundler.with_clean_env do
           run 'bundle install'
-        end
+        end if options.bundle
       end
 
       def add_user_migration
@@ -75,6 +77,10 @@ module L
           load_template "initializer.rb"
         end
 
+        initializer "01_google_analytics.rb" do
+          "$google_analytics_id = ''"
+        end
+
         copy_file 'ca-bundle.crt', 'config/ca-bundle.crt' 
         inject_into_file "config/initializers/devise.rb", after: %r{Devise\.setup.+\n} do
           load_template "devise.rb"
@@ -82,11 +88,23 @@ module L
       end
 
       def add_routes
-        route %Q{namespace :facebook do
-    match '/', action: :index, via: [:get, :post]
-  end}
+        routes_content = load_template "routes.rb"
+        inject_into_file "config/routes.rb", 
+          routes_content, 
+          after: "Application.routes.draw do\n", 
+          verbose: false
+        log :route, 'resource :facebook'
         inject_into_file 'config/routes.rb', after: 'devise_for :users' do
           ', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } '
+        end
+      end
+
+      def add_assets
+        create_file "app/assets/javascripts/facebook.js"
+        create_file "app/assets/stylesheets/facebook.css"
+        environment(nil, env: 'production') do 
+          "# Precompule facebook assets\n" +
+          "  config.assets.precompile += ['facebook.css', 'facebook.js']\n"
         end
       end
 
