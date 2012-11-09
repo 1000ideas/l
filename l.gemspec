@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.15"
+  s.version = "0.3.16"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
@@ -126,6 +126,7 @@ Gem::Specification.new do |s|
     "lib/generators/l/facebook/templates/facebook_controller.rb",
     "lib/generators/l/facebook/templates/initializer.rb",
     "lib/generators/l/facebook/templates/omniauth_callbacks_controller.rb",
+    "lib/generators/l/facebook/templates/routes.rb",
     "lib/generators/l/facebook/templates/user_methods.rb",
     "lib/generators/l/facebook/templates/users_migration.rb",
     "lib/generators/l/galleries/galleries_generator.rb",
