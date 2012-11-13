@@ -1,9 +1,31 @@
 # encoding: utf-8
 
 module L
-  module Generators
+  module Generators # :nodoc:
     require 'l/generators/actions'
 
+    # Generator tworzący customowy moduł dopasowany do CMS-a
+    #
+    # Tworzone są kontrolery, modele, migracje i widoki. Dodawany jest routing.
+    # Wymaga podania argumentu NAME (w liczbie pojedynczej)
+    #
+    # * *Argumenty*
+    #
+    #   - +attributes+ - lista par +nazwa+:+typ+, gdzie +nazwa+ jest dowolną nazwą
+    #     pola, a +typ+ jest typem pola i jest taki jak w generatorze scaffold oraz
+    #     dodatkowo może być równy +file+ gdy pole ma być załącznikiem +Paperclip+
+    #     lub +tiny_mce_theme+ (gdzie +theme+ jest nazwą szablonu TinyMCE:
+    #     fileupload, advance, simple) jeśli pole ma być polem tekstowym edytowanym
+    #     w edytorze TinyMCE
+    #
+    # * *Parametry*:
+    #
+    #   - +--orm+ - Nazwa klasy ORM
+    #   - +--searchable+ - lista nazw pól które mają być przeszykiwane w
+    #     generowanej metodzie +search+ dla tworzonego modułu
+    #   - +--interactive+, +-i+ - Interaktywnu tryb generatora, pozwala wprowadzić
+    #     tłumaczenia etykiet linków, tytułów stron i nazw atrybutów tworzonego
+    #     modułu.
     class ModuleGenerator < ::Rails::Generators::NamedBase
       include L::Generators::Actions
 
@@ -16,15 +38,15 @@ module L
         "(tworzy model, kontroler, migracje, widoki, dodaje routing). " <<
         "Wymaga podania argumentu NAME (w liczbie pojedynczej).\n"
 
-      def self.source_root
+      def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
 
-      def generate_model
+      def generate_model # :nodoc:
         invoke :model, model_args, :migration => true
       end
 
-      def insert_file_fields_to_migration
+      def insert_file_fields_to_migration # :nodoc:
         return if migration_file.nil?
 
         file_attributes.each do |a|
@@ -34,7 +56,7 @@ module L
         end
       end
 
-      def insert_has_attached_file
+      def insert_has_attached_file # :nodoc:
         return unless model_exists?
 
         file_attributes.each do |a|
@@ -44,7 +66,7 @@ module L
         end
       end
 
-      def add_search_method_to_model
+      def add_search_method_to_model # :nodoc:
         unless options.searchable.blank? or not model_exists?
           where_clause = options.searchable.map {|f| "#{f} LIKE :pattern" } .join(' OR ')
           search_method = <<-CONTENT
@@ -62,28 +84,28 @@ module L
 
       check_class_collision :suffix => "Controller"
       
-      def create_controller_files
+      def create_controller_files # :nodoc:
         template 'controller.rb', controller_path
       end
 
-      def add_routes
+      def add_routes # :nodoc:
         routing_code = "resources :#{plural_name}" 
         log :route, routing_code
         inject_into_file 'config/routes.rb', "  #{routing_code}\n", :before => "resources :users", :verbose => false
       end
 
-      def create_view_folder
+      def create_view_folder # :nodoc:
         empty_directory File.join("app/views", controller_file_path)
       end
 
-      def copy_view_files
+      def copy_view_files # :nodoc:
         available_views.each do |view|
           filename = "#{view}.html.erb"
           template filename, File.join("app/views", controller_file_path, filename)
         end
       end
 
-      def add_translations
+      def add_translations # :nodoc:
         menu_names = {}
         if options.interactive
           require 'highline/import'
@@ -140,7 +162,7 @@ module L
         translations_file name, trans, :pl
       end
 
-      def add_link_in_menu
+      def add_link_in_menu # :nodoc:
         pld = plural_name.downcase
         link = <<-LINK
 <%= link_to t('menu.#{pld}'), #{pld}_path, :class => "\#{controller_name == '#{pld}' ? 'active' : ''}" if current_user.has_role? :admin %>

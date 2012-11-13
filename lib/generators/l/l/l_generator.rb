@@ -5,6 +5,29 @@ module L
     require 'rails/generators/active_record'
     require 'l/generators/actions'
 
+    # Generator podstawowy odpowiedzialny za stworzenie całego szkieletu
+    # aplikacji Lazy Programmera.
+    #
+    # Tworzone są modele User, Role i Ability. Generowane są potrzebne
+    # migracje, dodawane nowe routing-i kopiowane pliki tłumaczeń i pliki
+    # widoków (layouty, partiale, widoki devise).
+    #
+    # * *Parametry*:
+    #
+    #   - +--orm+ - nazwa klasy ORM, domyslnie: +active_record+
+    #   - +--lang+, +-l+ - lista języków dostępnych w aplikacji. Jeśli na
+    #     liście znajduje się więcej niż jeden język, domyślny jezykiem staje
+    #     się język pierwszy na liscie i dodatkowo grenerowana jest akcja i
+    #     routing do zminy języka i +before_filter+ do ustawiania języka z
+    #     parametru +locale+ w url
+    #   - +--bundle+ - Uruchom bundlera po dodaniu wszystkich potrzebnych gemów
+    #     do aplikacjii, domślnie włączone. Jeśli wiesz że wszystkie gemy są zainstalowane użyj
+    #     opcji +--skip-bundle+
+    #   - +--views+ - Kopiuje widoki lazy programmera (layouty, paritale,
+    #     widoki admina i usera), domyślnie włączone. Jeśli nie chcesz kopiować
+    #     widoków (używane będą widoki z gema) użyj +--skip-views+
+    #
+    #
     class LGenerator < ::Rails::Generators::Base
       include ::Rails::Generators::Migration
       include L::Generators::Actions
@@ -41,7 +64,7 @@ module L
         "folderow layouts, partials, widokow devise, admins, users" <<
         "oraz calego folderu public."
 
-      def self.source_root
+      def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
       
@@ -49,7 +72,7 @@ module L
         delegate :next_migration_number, :to => ActiveRecord::Generators::Base
       end
       
-      def add_gems
+      def add_gems # :nodoc:
         gem 'devise', "~> 2.0.0"
         
         gem 'cancan'
@@ -70,36 +93,35 @@ module L
         end if options.bundle
       end
 
-      def install_devise
+      def install_devise # :nodoc:
         generate 'devise:install -q'
       end
 
-      def tinymce_uploads_install
+      def tinymce_uploads_install # :nodoc:
         generate 'tiny_mce_uploads'
       end
       
-      def invoke_user_model
+      def invoke_user_model # :nodoc:
         generate :model, "user --no-migration"
       end
-      def create_migrations_files
+      def create_migrations_files # :nodoc:
         migration_template 'users.rb', 'db/migrate/create_users.rb'
       end
 
-      def inject_user_config_into_model
+      def inject_user_config_into_model # :nodoc:
         user_class_setup = load_template('user_model.rb')
         inject_into_class user_model_path, user_class_name, user_class_setup
       end
 
-      ##### Tworzenie CanCan::Ability
-      def generate_cancan_ability
+      def generate_cancan_ability # :nodoc:
         generate 'cancan:ability'
       end
 
-      def generate_rolify_role
+      def generate_rolify_role # :nodoc:
         generate 'rolify:role -q'
       end
 
-      def add_default_abilites
+      def add_default_abilites # :nodoc:
         abilities = <<-CONTENT
   user ||= User.new
   if user.has_role? :admin
@@ -119,7 +141,7 @@ module L
       end
       
       ##### dodanie danych do seeds.rb
-      def add_seeds_data
+      def add_seeds_data # :nodoc:
         dane = <<-CONTENT
 admin = User.create email:  "admin@admin.pl", password:  "admin", :password_confirmation => "admin"
 admin.add_role :admin
@@ -131,19 +153,19 @@ print "Seeds added\n"
       end
 
       ##### tworzenie routow do modulow: admin oraz users, one musza byc w kazdym cmsie
-      def add_admin_and_users_routes
+      def add_admin_and_users_routes # :nodoc:
         routes_content = load_template "routes.rb"
         inject_into_file "config/routes.rb", routes_content, after: "Application.routes.draw do\n"
       end
 
       ##### przed instalacja naszego gema nie robimy rails g devise User,
       # wiec tutaj dodajemy do niego zmodyfikowany rout
-      def add_devise_route
+      def add_devise_route # :nodoc:
         route 'devise_for :users, :path_prefix => "devise"'
       end
       
       ###### modyfikacja config/application.rb
-      def add_application_config
+      def add_application_config # :nodoc:
         requiry = <<-CONTENT
 require 'mime/types'
 require 'base64'
@@ -167,24 +189,24 @@ require 'will_paginate/array'
       end
 
       ##### dodanie treści do application controller
-      def add_app_controller_content
+      def add_app_controller_content # :nodoc:
         remove_file "app/controllers/application_controller.rb"
         template 'application_controller.rb', "app/controllers/application_controller.rb"
       end
       
-      def add_app_helper_content
+      def add_app_helper_content # :nodoc:
         helper_content = load_template 'application_helper.rb'
         inject_into_file "app/helpers/application_helper.rb", helper_content, after:  "module ApplicationHelper\n"
       end
       
       ##### kopiowanie plikow tlumaczen
-      def copy_locales
+      def copy_locales # :nodoc:
         template "locales/pl.yml", "config/locales/pl.yml"
         copy_file "locales/devise.pl.yml", "config/locales/devise.pl.yml"
         copy_file "locales/admin/pl.yml", "config/locales/admin/pl.yml"
       end
 
-      def copy_mailer_configuration
+      def copy_mailer_configuration # :nodoc:
         @mailer_perform_deliveries = false
         dev_content = load_template 'setup_mail.rb'
         application dev_content, :env => 'development'
@@ -194,7 +216,7 @@ require 'will_paginate/array'
         application prod_content, :env => 'production'
       end
 
-      def add_assets_to_pipeline
+      def add_assets_to_pipeline # :nodoc:
         inject_into_file 'app/assets/javascripts/application.js', 
           "//= require lightbox\n",
           after: "jquery_ujs\n"
@@ -205,23 +227,23 @@ require 'will_paginate/array'
       end
 
 
-      def copy_application_views
+      def copy_application_views # :nodoc:
         directory "views/application", "app/views/application"
       end
 
-      def copy_devise_views
+      def copy_devise_views # :nodoc:
         directory "views/devise", "app/views/devise"
       end
 
-      def copy_shared_views
+      def copy_shared_views # :nodoc:
         directory "views/shared", "app/views/shared"
       end
 
-      def copy_view
+      def copy_view # :nodoc:
         generate 'l:views' if options.views
       end
 
-      def add_flash_sessions_cookie_middleware
+      def add_flash_sessions_cookie_middleware # :nodoc:
         _config = <<-CONTENT
 Rails.application.config.middleware.insert_before(
   Rails.application.config.session_store,
@@ -233,37 +255,37 @@ Rails.application.config.middleware.insert_before(
         log :initializers, 'Add FlashSessionCookieMiddleware to session_store.rb'
       end
 
-      def generate_mobile
+      def generate_mobile # :nodoc:
         generate 'l:mobile' if options.mobile
       end
 
-      def remove_index_html
+      def remove_index_html # :nodoc:
         remove_file 'public/index.html'
       end
 
       protected
 
-      def role_model_exists?
+      def role_model_exists? # :nodoc:
         File.exists?(File.join(destination_root, role_model_path))
       end
 
-      def role_model_path
+      def role_model_path # :nodoc:
         @role_model_path ||= File.join("app", "models", "role.rb")
       end
 
-      def role_class_name
+      def role_class_name # :nodoc:
         @role_class_name ||= 'Role'
       end
 
-      def user_model_exists?
+      def user_model_exists? # :nodoc:
         File.exists?(File.join(destination_root, user_model_path))
       end
 
-      def user_model_path
+      def user_model_path # :nodoc:
         @user_model_path ||= File.join("app", "models", "user.rb")
       end
 
-      def user_class_name
+      def user_class_name # :nodoc:
         @user_class_name ||= 'User'
       end
 

@@ -1,4 +1,3 @@
-
   def likes?(id)
     self.graph.get_connections('me', "likes/#{id}").length > 0
   rescue
