@@ -30,6 +30,16 @@ module L
         log :translations, file
       end
 
+      def translations_file(name, trans, lang = :pl)
+        file = ::Rails.root.join('config', 'locales', "module_#{name}.#{lang}.yml")
+        create_file file, verbose: false
+        log :translations, file.relative_path_from(::Rails.root).to_s
+
+        File.open(file, 'w+') do |f|
+          f.write({lang.to_s => trans}.to_yaml)
+        end if behavior == :invoke
+      end
+
       def destroy(what, *args)
         log :generate, what
         argument = args.map {|arg| arg.to_s }.flatten.join(" ")

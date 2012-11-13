@@ -10,6 +10,7 @@ module L
       argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tiny_mce_(theme)'
       class_option :orm, :default => "active_record"
       class_option :searchable, :type => :array, :default => [], :desc => 'Argumenty które mają być wyszukiwane', :banner => 'field field ...'
+      class_option :interactive, aliases: '-i', type: :boolean, default: false, desc: "Tryb interaktywny"
 
       desc "Generator tworzy customowy modul dostosowany do cmsa " <<
         "(tworzy model, kontroler, migracje, widoki, dodaje routing). " <<
@@ -83,29 +84,60 @@ module L
       end
 
       def add_translations
-        admin_trans = { "#{plural_name.downcase}" => {
+        menu_names = {}
+        if options.interactive
+          require 'highline/import'
+
+          say "Wprowadź polskie tłumaczenia:"
+          menu_names = {
+            :menu => ask("Etykieta przycisku w menu głównym: ") {|q| q.default = "#{plural_name}" }
+          }
+          
+          say "Etykiety przycisków w podmenu:"
+          menu_names.merge!(
+            :sub_new => ask("# Dodaj nowy element:") { |q| q.default = "Dodaj #{name}" },
+            :sub_idx => ask("# Lista elementów:") {|q| q.default = "Lista #{plural_name}" }
+          )
+
+          say "Tytuły stron modułu:"
+          menu_names.merge!(
+            :new => ask("# Tytuł strony dodawania elementu:") { |q| q.default = "Dodawanie #{name}" },
+            :idx => ask("# Tytuł strony listy  elementów:") {|q| q.default = "#{plural_name}" },
+            :edt => ask("# Tytuł strony edycji elementu:") {|q| q.default = "Edycja #{name}" }
+          )
+        end
+
+        trans = { "#{plural_name.downcase}" => {
               'submenu' => {
-                'new' => "Dodaj #{name}",
-                'index' => "Lista #{plural_name}"
+                'new' => menu_names[:sub_new] || "Dodaj #{name}",
+                'index' => menu_names[:sub_idx] || "Lista #{plural_name}"
               },
               'new' => {
-                'title' => "Dodawanie #{name}"
+                'title' => menu_names[:new] || "Dodawanie #{name}"
               },
               'index' => {
-                'title' => "#{plural_name}"
+                'title' => menu_names[:idx] || "#{plural_name}"
               },
               'edit' => {
-                'title' =>  "Edycja #{name}"
+                'title' =>  menu_names[:edt] || "Edycja #{name}"
               }
             }}
 
-        attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
-        menu_trans = { "#{plural_name.downcase}" => plural_name.capitalize }
-        trans =  { "#{name.downcase}" => attr_hash }
+        if options.interactive
+          say "Tłumaczenia atrybutów modelu:"
+          attr_names = attributes.map do |at| 
+            hname = ask("# #{at.name}:") {|q| q.default = at.human_name }
+            [at.name, hname]
+          end
+          attr_hash =  Hash[attr_names]
+        else
+          attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
+        end
 
-        translations 'config/locales/admin/pl.yml', admin_trans
-        translations 'config/locales/admin/pl.yml', menu_trans, 'pl.menu'
-        translations 'config/locales/pl.yml', trans, 'pl.activerecord.attributes'
+        trans['menu'] = {"#{plural_name.downcase}" => menu_names[:menu] || plural_name.capitalize}
+        trans['activerecord'] = { 'attributes' => {"#{name.downcase}" => attr_hash} }
+
+        translations_file name, trans, :pl
       end
 
       def add_link_in_menu
