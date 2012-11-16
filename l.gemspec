@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.17"
+  s.version = "0.3.18"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-11-13"
+  s.date = "2012-11-16"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "app/controllers/l/users_controller.rb",
     "app/helpers/l/filter_helper.rb",
     "app/helpers/l/form_helper.rb",
+    "app/helpers/l/lazy_helper.rb",
     "app/helpers/l/lightbox_helper.rb",
     "app/models/l/gallery.rb",
     "app/models/l/gallery_photo.rb",
@@ -185,7 +186,7 @@ Gem::Specification.new do |s|
     "lib/l/generators/actions.rb",
     "lib/l/rails.rb",
     "lib/l/rails/engine.rb",
-    "lib/l/rails/string_extension.rb",
+    "lib/l/string_extension.rb",
     "lib/l/version.rb",
     "lib/middleware/flash_session_cookie_middleware.rb",
     "public/swfupload.swf",

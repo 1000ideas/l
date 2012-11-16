@@ -12,6 +12,19 @@ module L
     # migracje, dodawane nowe routing-i kopiowane pliki tłumaczeń i pliki
     # widoków (layouty, partiale, widoki devise).
     #
+    # * <b>Lista dołączanych gemów</b>:
+    #
+    #   - +devise+
+    #   - +cancan+
+    #   - +rolify+
+    #   - +globalize3+ - z repozytorium git, bo najnowsza wersja z rubygem.com
+    #     nie działa z Rails 3.2
+    #   - +paperclip+
+    #   - +will_paginate+
+    #   - +acts_as_tree+
+    #   - +mysql2+
+    #   - +tiny_mce_uploads+
+    #
     # * *Parametry*:
     #
     #   - +--orm+ - nazwa klasy ORM, domyslnie: +active_record+
@@ -194,10 +207,6 @@ require 'will_paginate/array'
         template 'application_controller.rb', "app/controllers/application_controller.rb"
       end
       
-      def add_app_helper_content # :nodoc:
-        helper_content = load_template 'application_helper.rb'
-        inject_into_file "app/helpers/application_helper.rb", helper_content, after:  "module ApplicationHelper\n"
-      end
       
       ##### kopiowanie plikow tlumaczen
       def copy_locales # :nodoc:

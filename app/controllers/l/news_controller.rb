@@ -1,10 +1,17 @@
 module L
+
+  # Kontroler modułu aktualności.
+  #
+  # Pozwala na dodawanie, edycję i usuwanie aktualnosci.
+  #
   class NewsController < ApplicationController
     uses_tinymce :simple, :only => [:new, :edit, :create, :update]
     layout "l/layouts/admin"
     
-    # GET /news
-    # GET /news.xml
+    # Akcja wyświetlająca listę aktualności w panelu administracyjnym.
+    #
+    # *GET* /news
+    #
     def index
       authorize! :menage, :all
       @news = L::News.order("created_at DESC").
@@ -16,15 +23,20 @@ module L
       end
     end
 
-    # GET /news/1
-    # GET /news/1.xml
+    # Akcja wyświetlająca pojedynczy news. Dostępna dla wszystich.
+    #
+    # *GET* /news/1
+    #
     def show
       @news = L::News.find(params[:id])
       render :layout => "l/layouts/standard"
     end
 
-    # GET /news/new
-    # GET /news/new.xml
+    # Akcja wyświetlająca formularz tworzenia nowego newsa. Dostępna tylko dla
+    # administratora.
+    #
+    # *GET* /news/new
+    #
     def new
       authorize! :menage, :all
       @news = L::News.new
@@ -38,14 +50,20 @@ module L
       end
     end
 
-    # GET /news/1/edit
+    # Akcja wyświetlająca formularz edycji istniejącego newsa. Dostępna tylko
+    # dla administratora.
+    #
+    # *GET* /news/1/edit
+    #
     def edit
       authorize! :menage, :all
       @news = L::News.find(params[:id])
     end
 
-    # POST /news
-    # POST /news.xml
+    # Akcja tworząca nowego newsa. Dostępna tylko dla administratora.
+    #
+    # *POST* /news
+    #
     def create
       authorize! :menage, :all
       @news = L::News.new(params[:l_news])
@@ -61,8 +79,11 @@ module L
       end
     end
 
-    # PUT /news/1
-    # PUT /news/1.xml
+    # Akcja aktualizująca istniejącego newsa. Dostepna tylko dla
+    # administratora.
+    #
+    # *PUT* /news/1
+    #
     def update
       authorize! :menage, :all
       @news = L::News.find(params[:id])
@@ -78,8 +99,10 @@ module L
       end
     end
 
-    # DELETE /news/1
-    # DELETE /news/1.xml
+    # Akcja usuwająca newsa. Dostepna tylko dla administratora.
+    #
+    # *DELETE* /news/1
+    #
     def destroy
       authorize! :menage, :all
       @news = L::News.find(params[:id])

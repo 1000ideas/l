@@ -3,6 +3,7 @@
 module L
   module Generators
 
+    # Generator kopiujący widoki podstawowej aplikacji Lazego.
     class ViewsGenerator< ::Rails::Generators::Base
 
       @@views_list = %w{layouts partials admins users}
@@ -15,11 +16,11 @@ module L
       desc "Generator kopiujący widoki lazy_programmera. Nadpisują one widoki z gema," <<
         "więc można w nich wprowadzać zmiany"
 
-      def self.source_root
+      def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), '../../../../app')
       end
 
-      def copy_views
+      def copy_views # :nodoc:
         (@@views_list - options[:except]).each do |view|
           directory "views/l/#{view}", "app/views/l/#{view}"
         end

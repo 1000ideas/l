@@ -1,5 +1,8 @@
 # coding: utf-8
 module L
+  # Kontroler mobilny. Wszystkie kontrolery obsługujące akcje mobilne powinny
+  # dziedziczyć po tym kontrolerze.
+  #
   class MobileController < ApplicationController
     skip_before_filter :mobile_subdomain
     layout "l/layouts/mobile"
@@ -12,6 +15,9 @@ module L
       render :action => "lazy_programmer/mobile/error401"
     end
 
+    # Akcja główna kontrolerza mobilnego.
+    #
+    # *GET* m.example.com/
     def index
     end
 

@@ -1,14 +1,19 @@
 # coding: utf-8
 module L
-
+  # Kontroler modułu galerii.
+  #
+  # Pozwala administratorowi dodawać edytować i usuwać galerie i zdjęcia.
+  # Niezalogowany użytkownik ma dostęp do akcji list i show.
   class GalleriesController < ApplicationController
 
     layout "l/layouts/admin"
   
     uses_tinymce :simple, :only => [:new, :edit, :create, :update]
 
-    # GET /galleries
-    # GET /galleries.xml
+    # Akcja wyświetlająca listę galerii w panelu administracyjnym.
+    #
+    # *GET* /galleries
+    #
     def index
       @galleries = L::Gallery.
         paginate :page => params[:page], :per_page => params[:per_page]||10
@@ -19,16 +24,21 @@ module L
       end
     end
 
-    # GET /galleries/1
-    # GET /galleries/1.xml
+    # Akcja wyświetlająca pojedynczą galerię. Dostępna dla wszystkich.
+    #
+    # *GET* /galleries/1
+    #
     def show
       @gallery = L::Gallery.find(params[:id])
 
       render :layout => "l/layouts/standard"
     end
 
-    # GET /galleries/new
-    # GET /galleries/new.xml
+    # Akcja wyświetlająca formularz dodania nowej galerii w panelu
+    # administracyjnym.
+    #
+    # *GET* /galleries/new
+    #
     def new
       @gallery = L::Gallery.new
       (I18n.available_locales).each {|locale|
@@ -42,7 +52,11 @@ module L
       end
     end
 
-    # GET /galleries/1/edit
+    # Akcja wyświetlająca formularz edycji istniejącej galerii w panelu
+    # administracyjnym.
+    #
+    # *GET* /galleries/1/edit
+    #
     def edit
       authorize! :menage, :all
       @gallery = L::Gallery.find(params[:id])
@@ -50,8 +64,10 @@ module L
 
     end
 
-    # POST /galleries
-    # POST /galleries.xml
+    # Akcja tworząca nową galerię. Dostęp tylko dla administratora.
+    #
+    # *POST* /galleries
+    #
     def create
       @gallery = L::Gallery.new(params[:l_gallery])
 
@@ -66,8 +82,11 @@ module L
       end
     end
 
-    # PUT /galleries/1
-    # PUT /galleries/1.xml
+    # Akcja aktualizująca istniejącą galerię. Dostęptylko dla zalogowanego
+    # administratora.
+    #
+    # *PUT* /galleries/1
+    #
     def update
       @gallery = L::Gallery.find(params[:id])
 
@@ -82,12 +101,20 @@ module L
       end
     end
 
-    # GET /news/list
+    # Akcja wyświetlająca listę galeri, dostępna dla wszystkich.
+    #
+    # *GET* /galleries/list
+    #
     def list
       @gallery = L::Gallery.all.paginate :page => params[:page], :per_page => params[:per_page]||5
       render :layout => "l/layouts/standard"
     end
 
+    # Akcja usuwająca galerię wraz ze wszytkimi zdjęciami. Dostępna tylko dla
+    # administratora.
+    #
+    # *DELETE* /galleries/1
+    #
     def destroy
       @gallery = L::Gallery.find(params[:id])
       @gallery.destroy

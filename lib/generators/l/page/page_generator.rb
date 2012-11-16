@@ -5,6 +5,12 @@ module L
     require 'rails/generators/active_record'
     require 'l/generators/actions'
 
+    # Generator tworzący moduł stron stałych.
+    #
+    # Tworzona jest migracja dla modelu Page. Kopiowane są widoki modułu,
+    # dodawany jest routing. Dodawane jest szukanie stron w akcji wyszukiwarki.
+    # Dodawany jest link w menu w panelu administracyjnym.
+    #
     class PageGenerator < ::Rails::Generators::Base
       include L::Generators::Actions
       include ::Rails::Generators::Migration
@@ -12,7 +18,7 @@ module L
       desc "Tworzy modul stron (tworzy migracje i kopiuje widoki)" <<
            "oraz dodaje routing."
 
-      def self.source_root
+      def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
 
@@ -20,16 +26,16 @@ module L
         delegate :next_migration_number, to: ActiveRecord::Generators::Base
       end
 
-      def create_migration_file
+      def create_migration_file # :nodoc:
         migration_template 'pages.rb', 'db/migrate/create_pages.rb'
       end
 
-      def copy_pages_views
+      def copy_pages_views # :nodoc:
         directory "../../../../../app/views/l/pages", 
           "app/views/l/pages"
       end
 
-      def add_pages_route
+      def add_pages_route # :nodoc:
         routing_code = <<-CONTENT
   resources :pages, controller: 'l/pages'  do
     member do
@@ -54,15 +60,15 @@ module L
         log :route, routing_code
       end
 
-      def add_search_results_in_search_action
+      def add_search_results_in_search_action # :nodoc:
         inject_into_file 'app/controllers/application_controller.rb',
           "    @pages = L::Page.search(params[:q])\n",
           after: "def search\n"
       end
 
-      def add_link_in_menu
+      def add_link_in_menu # :nodoc:
         link = <<-LINK
-<%= link_to t('menu.pages'), pages_path, class: "\#{controller_name == 'pages' ? 'active' : ''}" if current_user.has_role? :admin %>"
+<%= admin_menu_link(:pages) if current_user.has_role? :admin %>
         LINK
         inject_into_file 'app/views/l/admins/partials/_header.erb',
           link,

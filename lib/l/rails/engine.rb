@@ -7,7 +7,16 @@ module L
 
       initializer "helper" do |app|
         ActiveSupport.on_load(:action_view) do
+          include L::LazyHelper
+          include L::FormHelper
+          include L::FilterHelper
           include L::LightboxHelper
+        end
+      end
+
+      initializer "string_extension" do |app|
+        String.class_eval do
+          include L::StringExtension
         end
       end
     end

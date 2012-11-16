@@ -1,2 +1,2 @@
+require 'l/string_extension'
 require 'l/rails/engine'
-require 'l/rails/string_extension'

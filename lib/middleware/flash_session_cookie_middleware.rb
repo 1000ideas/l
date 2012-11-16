@@ -4,12 +4,12 @@ require 'rack/utils'
 # za pomocą Flasha (w szczególności Uploadify)
 class FlashSessionCookieMiddleware
 
-  def initialize(app, session_key = '_session_id')
+  def initialize(app, session_key = '_session_id') #:nodoc:
     @app = app
     @session_key = session_key
   end
 
-  def call(env)
+  def call(env) # :nodoc:
     if env['HTTP_USER_AGENT'] =~ /^(Adobe|Shockwave) Flash/
       req = Rack::Request.new(env)
       env['HTTP_COOKIE'] = [ @session_key,

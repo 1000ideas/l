@@ -1,9 +1,18 @@
 # encoding: utf-8
 module L
+  # Kotroler modułu stron stałych.
+  #
+  # Pozwala na dodawanie, edycje i usuwanie stron stałych. Używkonicy mogą
+  # wyświetlać tylko pojedyncze strony.
+  #
   class PagesController < ApplicationController
     uses_tinymce [:advance], only: [:new, :edit, :create, :update]
     layout "l/layouts/admin"
 
+    # Akcja wyświetlająca listę istniejących stron w strukturze drzewiastej.
+    #
+    # *GET* /pages
+    #
     def index
       authorize! :manage, :all
       @pages = L::Page.roots
@@ -14,8 +23,14 @@ module L
       end
     end
 
-    # GET /pages/1
-    # GET /pages/1.xml
+    # Akcja wyświetlająca pojedynczą stronę, dostepna dla wszystkich. Domyślnie
+    # dodawany jest routing dopasowujący dowolny niedopasowany ciąg znaków do
+    # strony o takim tokenie.
+    #
+    # *GET* /pages/1
+    #
+    # *GET* /<i>token</i>
+    # 
     def show
       if params[:token]
         @page = L::Page.find_by_token(params[:token])
@@ -27,8 +42,11 @@ module L
       render layout: '/l/layouts/standard'
     end
 
-    # GET /pages/new
-    # GET /pages/new.xml
+    # Akcja wyświetlająca formularz tworzenia nowej strony. Dostep tylko dla
+    # administratora.
+    #
+    # *GET* /pages/new
+    #
     def new
       authorize! :manage, :all
       @page = L::Page.new
@@ -43,15 +61,21 @@ module L
       end
     end
 
-    # GET /pages/1/edit
+    # Akcja wyświetlająca formularz edycji istniejącej strony. Dostępne tylko
+    # dla administratora.
+    #
+    # *GET* /pages/1/edit
+    #
     def edit
       authorize! :manage, :all
       @page = L::Page.find(params[:id])
       @parents = L::Page.where('`id` <> ?', @page.id).all 
     end
 
-    # POST /pages
-    # POST /pages.xml
+    # Akcja tworząca nową stronę. Dostęp tylko dla administratora.
+    #
+    # *POST* /pages
+    #
     def create
       authorize! :manage, :all
       @page = L::Page.new(params[:l_page])
@@ -69,8 +93,10 @@ module L
       end
     end
 
-    # PUT /pages/1
-    # PUT /pages/1.xml
+    # Akcja aktualizująca istniejącą stronę. Dostępne tylko dla administratora.
+    #
+    # *PUT* /pages/1
+    #
     def update
       authorize! :manage, :all
       @page = L::Page.find(params[:id])
@@ -88,8 +114,10 @@ module L
       end
     end
 
-    # DELETE /pages/1
-    # DELETE /pages/1.xml
+    # Akcja usuwająca stronę. Dostępna tylko dla administratora.
+    #
+    # *DELETE* /pages/1
+    #
     def destroy
       authorize! :manage, :all
       @page = L::Page.find(params[:id])
@@ -101,6 +129,12 @@ module L
       end
     end
 
+    # Akcja ukrywająca/pokazująca stronę. Dostępna tylko dla administratora
+    #
+    # *GET* /pages/1/hide
+    #
+    # *GET* /pages/1/unhide
+    #
     def hide
       authorize! :manage, :all
       @page = L::Page.find(params[:id])
@@ -115,6 +149,14 @@ module L
       end
     end
 
+    # Akcja pozwalająca zamienić kolejność stron. Wymaganym paarmetrem jest
+    # +new_id+ - id strony wględem której wykonywana jest akcja. Dodatkowym
+    # parametrem jest +switch_action+ określający czy strona ma zostać
+    # ustawiona jako potomek (wartość: +as_child+) lub wstawiona poniżej
+    # wybranej storny w drzewie.
+    #
+    # *GET* /pages/1/switch
+    #
     def switch
       authorize! :manage, :all
       where_page = L::Page.find(params[:new_id])

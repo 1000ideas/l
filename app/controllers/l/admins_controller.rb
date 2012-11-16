@@ -1,14 +1,29 @@
 # coding: utf-8
 module L
+
+  # Kontroler zarządzania użytkownikiem.
+  #
   class AdminsController < ApplicationController
     layout "l/layouts/admin"
 
     protect_from_forgery
 
+    # Akcja pokazująca formularz edycji aktualnie zalogowanego użytkownika.
+    #
+    # *GET* /admin
+    #
     def show
       authorize! :manage, :self
+
+      respond_to do |format|
+        format.html
+      end
     end
 
+    # Akcja aktualizująca dane aktualnie zalogowanego użytkownika.
+    #
+    # *POST* /admin/update_user
+    #
     def update_user
       authorize! :manage, :self
 
