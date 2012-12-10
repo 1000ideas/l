@@ -8,6 +8,7 @@ module L
     # *DELETE* /galleries/1/gallery_photos/1
     #
     def destroy
+      authorize! :menage, :all
       @photo = L::GalleryPhoto.find(params[:id])
       @gallery_photos = @photo.gallery.gallery_photos
       @delete = @photo.destroy
@@ -19,7 +20,8 @@ module L
     # *POST* /galleries/1/gallery_photos
     #
     def create
-      # SWFUpload file
+      authorize! :menage, :all
+      # Uploadify
       @photo = L::GalleryPhoto.new(swfupload_file: params[:Filedata],
                                    gallery_id: params[:gallery_id])
       @saved = @photo.save

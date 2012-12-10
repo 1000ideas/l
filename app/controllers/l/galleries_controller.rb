@@ -15,6 +15,7 @@ module L
     # *GET* /galleries
     #
     def index
+      authorize! :menage, :all
       @galleries = L::Gallery.
         paginate :page => params[:page], :per_page => params[:per_page]||10
 
@@ -40,6 +41,7 @@ module L
     # *GET* /galleries/new
     #
     def new
+      authorize! :menage, :all
       @gallery = L::Gallery.new
       (I18n.available_locales).each {|locale|
         @gallery.translations.build :locale => locale
@@ -69,6 +71,7 @@ module L
     # *POST* /galleries
     #
     def create
+      authorize! :menage, :all
       @gallery = L::Gallery.new(params[:l_gallery])
 
       respond_to do |format|
@@ -88,6 +91,7 @@ module L
     # *PUT* /galleries/1
     #
     def update
+      authorize! :menage, :all
       @gallery = L::Gallery.find(params[:id])
 
       respond_to do |format|
@@ -116,6 +120,7 @@ module L
     # *DELETE* /galleries/1
     #
     def destroy
+      authorize! :menage, :all
       @gallery = L::Gallery.find(params[:id])
       @gallery.destroy
 

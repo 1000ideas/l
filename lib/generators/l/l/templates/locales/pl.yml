@@ -330,6 +330,7 @@ pl:
         meta_description: "Opis strony (meta)"
         meta_keywords: "Słowa kluczowe strony (meta)"
         content: "Treść"
+        parent_id: "Strona nadrzędna"
       user:
         email: "Adres email"
         password: "Hasło"
@@ -371,12 +372,15 @@ pl:
             password:
               blank: " jest wymagane."
               confirmation: "i powtórzenie hasła nie są zgodne."
-        page:
+        l/page:
           attributes:
             title:
               blank: ": brak tytułu strony"
             url:
-              blank: ": brak url"
+              blank: 'jest wymagane'
+              taken: 'nie może powtarzać się wśród stron o tym samym rodzicu'
+            parent_id: 
+              loop: 'jest potomkiem strony'
         news:
           attributes:
             content:

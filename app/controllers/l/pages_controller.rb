@@ -34,7 +34,6 @@ module L
     def show
       if params[:token]
         @page = L::Page.find_by_token(params[:token])
-        raise ActiveRecord::RecordNotFound unless @page
       else
         @page = L::Page.find(params[:id])
       end
@@ -159,26 +158,17 @@ module L
     #
     def switch
       authorize! :manage, :all
-      where_page = L::Page.find(params[:new_id])
+      target_page = L::Page.find(params[:target_id])
       page = L::Page.find(params[:id])
-      logger.debug params[:switch_action]
-      if params[:switch_action] == 'as_child'
-        unless where_page.ancestor?(page) or page.id == where_page.id
-          page.change_parent(where_page)
-          render json: {success: true}
-        else
-          render json: {success: false}
-        end
-      elsif page.parent_id == where_page.parent_id
-        page.drop_after(where_page)
-        render json: {success: true}
-      elsif not where_page.ancestor?(page)
-        page.set_sibling_and_drop_after(where_page)
-        render json: {success: true}
-      else
-        render json: {success: false}
+
+      status = case params[:method]
+        when 'child' then page.set_parent!(target_page)
+        else page.insert_after!(target_page)
       end
-      expires_now
+
+      render json: {success: status, errors: target_page.errors.full_messages }
+    rescue ActiveRecord::RecordInvalid => ex
+      render json: {success: false, errors: ex.record.errors.full_messages }
     end
 
   end

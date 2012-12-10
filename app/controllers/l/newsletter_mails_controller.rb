@@ -34,6 +34,8 @@ module L
           format.js { render action: 'create_error' }
         end
       end
+    rescue ActionController::RedirectBackError
+      redirect_to root_path
     end
 
     # Akcja pozwalająca potwierdzi zapisany adres email. Wymagany parametr
@@ -58,6 +60,7 @@ module L
     # *GET* /newsletter_mails
     #
     def index
+      authorize! :menage, :all
       @newsletter_mail = L::NewsletterMail.where(:confirm_token => nil).
         paginate( :page => params[:page], :per_page => params[:per_page]||10 )
     end
@@ -68,6 +71,7 @@ module L
     # *GET* /newsletter_mails/send_mail
     #
     def send_mail_edit
+      authorize! :menage, :all
       @emails = L::NewsletterMail.where(:confirm_token => nil).all
     end
 
@@ -77,6 +81,7 @@ module L
     # *POST* /newsletter_mails/send_mail
     #
     def send_mail
+      authorize! :menage, :all
       if params[:emails].nil?
         flash[:alert] = "Nie wybrano odbiorców."
       else
@@ -87,7 +92,6 @@ module L
       end
       respond_to do |format|
         format.html { redirect_to(newsletter_mails_url) }
-        format.xml  { head :ok }
       end
     end
 
@@ -97,12 +101,12 @@ module L
     # *DELETE* /newsletter_mails/1
     #
     def destroy
+      authorize! :menage, :all
       @newsletter_mail = L::NewsletterMail.find(params[:id])
       @newsletter_mail.destroy
 
       respond_to do |format|
         format.html { redirect_to(newsletter_mails_url) }
-        format.xml  { head :ok }
       end
     end
 
