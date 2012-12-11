@@ -84,7 +84,7 @@ CONTENT
 
       def add_link_in_menu # :nodoc:
         link = <<-LINK
-<%= link_to t('menu.newsletter'), newsletter_mails_path, class: "\#{controller_name == 'newsletter_mails' ? 'active' : ''}" if current_user.has_role? :admin %>"
+  <%= admin_menu_link(:newsletter, newsletter_mails_path, controller: :newsletter_mails) if current_user.has_role? :admin %>"
         LINK
         inject_into_file 'app/views/l/admins/partials/_header.erb',
           link, 

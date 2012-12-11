@@ -11,10 +11,11 @@ module L
     #     metodę UrlHelper: +/name/_path+
     #   - +class_name+ - lista dodatkowych klas CSS
     #
-    def admin_menu_link(name, url = nil, class_name = [])
+    def admin_menu_link(name, url = nil, options = {})
       url = method("#{name}_path").call if url.nil?
-      class_name = [*class_name]
-      class_name.push('active') if controller_name == name.to_s
+      ctrl_name = (options.delete(:controller) || name).to_s
+      class_name = [*options.delete(:class_name)]
+      class_name.push('active') if controller_name == ctrl_name
       link_to t("menu.#{name}"), url, class: class_name
     end
 

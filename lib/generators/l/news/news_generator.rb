@@ -15,7 +15,7 @@ module L
       include ::Rails::Generators::Migration
 
       desc "Tworzy modul newsow (tworzy migracje i kopiuje widoki)" <<
-        "oraz dodaje routing." <<
+        "oraz dodaje routing."
 
       def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
@@ -57,7 +57,7 @@ module L
 
       def add_link_in_menu # :nodoc:
         link = <<-LINK
-<%= admin_menu_link(:news, news_index_path) if current_user.has_role? :admin %>"
+  <%= admin_menu_link(:news, news_index_path) if current_user.has_role? :admin %>
         LINK
         inject_into_file 'app/views/l/admins/partials/_header.erb', 
           link, 

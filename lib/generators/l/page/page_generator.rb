@@ -68,7 +68,7 @@ module L
 
       def add_link_in_menu # :nodoc:
         link = <<-LINK
-<%= admin_menu_link(:pages) if current_user.has_role? :admin %>
+  <%= admin_menu_link(:pages) if current_user.has_role? :admin %>
         LINK
         inject_into_file 'app/views/l/admins/partials/_header.erb',
           link,

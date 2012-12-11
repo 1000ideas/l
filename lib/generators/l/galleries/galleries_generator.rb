@@ -59,7 +59,7 @@ module L
 
       def add_link_in_menu # :nodoc:
         link = <<-LINK
-<%= link_to t('menu.galleries'), galleries_path, class: "\#{controller_name == 'galleries' ? 'active' : ''}" if current_user.has_role? :admin %>"
+  <%= admin_menu_link(:galleries) if current_user.has_role? :admin %>
         LINK
         inject_into_file File.join(destination_root, 'app/views/l/admins/partials/_header.erb'), link, :before => "</div>\n<div id=\"submenu\">"
       rescue
