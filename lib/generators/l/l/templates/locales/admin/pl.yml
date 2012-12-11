@@ -1,6 +1,8 @@
 pl:
   admin:
     title: "Panel admina"
+  unauthorized:
+    default: "Nie masz wystarczających praw dostępu do wybranej strony."
   new: "Dodaj"
   edit: "Edytuj"
   promo_add: "Promuj na stronie głównej"
