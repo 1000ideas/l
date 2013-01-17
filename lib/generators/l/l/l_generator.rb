@@ -61,6 +61,10 @@ module L
         desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle " <<
                "jesli wiesz że wszystkie użyte gemy są zainstalowane)"
 
+      class_option :gems, type: :boolean, default: true, 
+        desc:  "Dodaj wymagane gemy do pliku Gemfile (użyj --skip-gems " <<
+               "jesli nie chcesz aby plik Gemfile był modyfikowany)"
+
       class_option :views, type: :boolean, default: true, 
         desc:  "Kopiuj widoki lazy_programmera (użyj --skip-views " <<
                "jesli wiesz co robisz)"
@@ -86,20 +90,22 @@ module L
       end
       
       def add_gems # :nodoc:
-        gem 'devise', "~> 2.0.0"
-        
-        gem 'cancan'
-        gem 'rolify'
+        if options.gems
+          gem 'devise', "~> 2.0.0"
+          
+          gem 'cancan'
+          gem 'rolify'
 
-        gem 'globalize3', '~> 0.3.0'
-        
-        gem 'paperclip'
+          gem 'globalize3', '~> 0.3.0'
+          
+          gem 'paperclip'
 
-        gem 'will_paginate', '~> 3.0.0'
-        gem 'acts_as_tree', '~> 0.1.1'
-        gem 'mysql2'
+          gem 'will_paginate', '~> 3.0.0'
+          gem 'acts_as_tree', '~> 0.1.1'
+          gem 'mysql2'
 
-        gem 'tiny_mce_uploads'
+          gem 'tiny_mce_uploads'
+        end
 
         Bundler.with_clean_env do
           run 'bundle install'
