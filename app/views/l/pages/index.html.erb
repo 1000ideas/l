@@ -14,13 +14,13 @@
           var old_id = $(ui.draggable).find('input[type=hidden]').val();
           var new_id = $(this).prevAll('tr.odd, tr.even').first().find('input[type=hidden]').val();
           var act = 'drop_after';
-          if ( $(this).hasClass('as_child') ) act = 'as_child';
+          if ( $(this).hasClass('as_child') ) act = 'child';
 
-          $.get('pages/'+old_id+'/switch',{new_id: new_id, switch_action: act},function(data){
+          $.get('pages/'+old_id+'/switch',{target_id: new_id, method: act},function(data){
             if ( data.success ) {
               document.location.reload();
             } else {
-              $('#notice').html('Operacja niedozwolona!');
+              $('#notice').html(data.errors[0]);
               $('#notice').show();
               setTimeout(function() {
                 $('#notice').fadeOut(3000);

@@ -222,7 +222,7 @@ usuwanie osób z listy.</p>
 
           
           <div class="method-source-code" id="confirm-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 43</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">confirm</span>
   <span class="ruby-keyword">if</span> <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">NewsletterMail</span>.<span class="ruby-identifier">confirm</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:token</span>])
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:newsletter_notice_class</span>] = <span class="ruby-string">'notice'</span>
@@ -283,6 +283,8 @@ usuwanie osób z listy.</p>
       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">'create_error'</span> }
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">ActionController</span><span class="ruby-operator">::</span><span class="ruby-constant">RedirectBackError</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_path</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- create-source -->
           
@@ -313,14 +315,14 @@ administratora.</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 98</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 102</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@newsletter_mail</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">NewsletterMail</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@newsletter_mail</span>.<span class="ruby-identifier">destroy</span>
 
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span>(<span class="ruby-identifier">newsletter_mails_url</span>) }
-    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">xml</span>  { <span class="ruby-identifier">head</span> <span class="ruby-value">:ok</span> }
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- destroy-source -->
@@ -352,8 +354,9 @@ Dostępna tylko dla administratora.</p>
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 59</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@newsletter_mail</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">NewsletterMail</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:confirm_token</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>).
     <span class="ruby-identifier">paginate</span>( <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>], <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:per_page</span>]<span class="ruby-operator">||</span><span class="ruby-value">10</span> )
 <span class="ruby-keyword">end</span></pre>
@@ -386,8 +389,9 @@ dla administratora.</p>
 
           
           <div class="method-source-code" id="send_mail-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 78</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">send_mail</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:emails</span>].<span class="ruby-identifier">nil?</span>
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-string">&quot;Nie wybrano odbiorców.&quot;</span>
   <span class="ruby-keyword">else</span>
@@ -398,7 +402,6 @@ dla administratora.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span>(<span class="ruby-identifier">newsletter_mails_url</span>) }
-    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">xml</span>  { <span class="ruby-identifier">head</span> <span class="ruby-value">:ok</span> }
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- send_mail-source -->
@@ -430,8 +433,9 @@ administratora.</p>
 
           
           <div class="method-source-code" id="send_mail_edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 69</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/newsletter_mails_controller.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">send_mail_edit</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@emails</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">NewsletterMail</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:confirm_token</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">all</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- send_mail_edit-source -->

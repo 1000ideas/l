@@ -45,7 +45,7 @@ module L
 
         inject_into_file 'config/routes.rb', 
           routing_code, 
-          :before => "resources :users", 
+          :before => %r{^\s*resources :users}, 
           :verbose => false
         log :route, "resources :news"
       end

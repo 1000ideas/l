@@ -149,9 +149,9 @@ module L
     end
 
     # Akcja pozwalająca zamienić kolejność stron. Wymaganym paarmetrem jest
-    # +new_id+ - id strony wględem której wykonywana jest akcja. Dodatkowym
-    # parametrem jest +switch_action+ określający czy strona ma zostać
-    # ustawiona jako potomek (wartość: +as_child+) lub wstawiona poniżej
+    # +target_id+ - id strony wględem której wykonywana jest akcja. Dodatkowym
+    # parametrem jest +method+ określający czy strona ma zostać
+    # ustawiona jako potomek (wartość: +child+) lub wstawiona poniżej
     # wybranej storny w drzewie.
     #
     # *GET* /pages/1/switch

@@ -225,8 +225,9 @@ Niezalogowany użytkownik ma dostęp do akcji list i show.</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 70</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:l_gallery</span>])
 
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
@@ -268,8 +269,9 @@ administratora.</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 117</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 121</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@gallery</span>.<span class="ruby-identifier">destroy</span>
 
@@ -307,7 +309,7 @@ administracyjnym.</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 59</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
@@ -344,6 +346,7 @@ administracyjnym.</p>
           <div class="method-source-code" id="index-source">
             <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@galleries</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.
     <span class="ruby-identifier">paginate</span> <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>], <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:per_page</span>]<span class="ruby-operator">||</span><span class="ruby-value">10</span>
 
@@ -380,7 +383,7 @@ administracyjnym.</p>
 
           
           <div class="method-source-code" id="list-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 107</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 111</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">list</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">paginate</span> <span class="ruby-value">:page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:page</span>], <span class="ruby-value">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:per_page</span>]<span class="ruby-operator">||</span><span class="ruby-value">5</span>
   <span class="ruby-identifier">render</span> <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;l/layouts/standard&quot;</span>
@@ -414,8 +417,9 @@ administracyjnym.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 41</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">new</span>
   (<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">available_locales</span>).<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">locale</span><span class="ruby-operator">|</span>
     <span class="ruby-ivar">@gallery</span>.<span class="ruby-identifier">translations</span>.<span class="ruby-identifier">build</span> <span class="ruby-value">:locale</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">locale</span>
@@ -455,7 +459,7 @@ administracyjnym.</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 30</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
@@ -490,8 +494,9 @@ administratora.</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 89</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/galleries_controller.rb, line 92</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@gallery</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Gallery</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>

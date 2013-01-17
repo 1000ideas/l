@@ -1,3 +1,5 @@
+
+
   resources :users, controller: 'l/users' 
   resource :admin, controller: 'l/admins', only: [:show] do
     post :update_user, as: :update_user, on: :member

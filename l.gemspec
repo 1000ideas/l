@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.19"
+  s.version = "0.3.22"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2012-12-10"
+  s.date = "2013-01-17"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -217,6 +217,7 @@ Gem::Specification.new do |s|
     "vendor/assets/images/uploadify-cancel.png",
     "vendor/assets/javascripts/admin/admin.js",
     "vendor/assets/javascripts/admins.js",
+    "vendor/assets/javascripts/html5shiv.js",
     "vendor/assets/javascripts/jquery.livequery.js",
     "vendor/assets/javascripts/jquery.mobile.js",
     "vendor/assets/javascripts/jquery.uploadify.js",

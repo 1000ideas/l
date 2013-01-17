@@ -208,7 +208,7 @@
         
         <div class="method-heading">
           <span class="method-name">admin_menu_link</span><span
-            class="method-args">(name, url = nil, class_name = [])</span>
+            class="method-args">(name, url = nil, options = {})</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -232,10 +232,11 @@ metodę UrlHelper: <code>/name/_path</code></p>
           
           <div class="method-source-code" id="admin_menu_link-source">
             <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 14</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">admin_menu_link</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">url</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">class_name</span> = [])
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">admin_menu_link</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">url</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">url</span> = <span class="ruby-identifier">method</span>(<span class="ruby-node">&quot;#{name}_path&quot;</span>).<span class="ruby-identifier">call</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">url</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-identifier">class_name</span> = [*<span class="ruby-identifier">class_name</span>]
-  <span class="ruby-identifier">class_name</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">'active'</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">controller_name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">ctrl_name</span> = (<span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:controller</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">name</span>).<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">class_name</span> = [*<span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:class_name</span>)]
+  <span class="ruby-identifier">class_name</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">'active'</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">controller_name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ctrl_name</span>
   <span class="ruby-identifier">link_to</span> <span class="ruby-identifier">t</span>(<span class="ruby-node">&quot;menu.#{name}&quot;</span>), <span class="ruby-identifier">url</span>, <span class="ruby-keyword">class</span><span class="ruby-operator">:</span> <span class="ruby-identifier">class_name</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- admin_menu_link-source -->
@@ -274,7 +275,7 @@ na której znajduje się użytkownik.</p>
 
           
           <div class="method-source-code" id="breadcrumbs-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 46</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">breadcrumbs</span>(*<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">bread</span> = [<span class="ruby-string">'&lt;a href=&quot;/&quot;&gt;'</span><span class="ruby-operator">+</span><span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">'breadcrumbs.home'</span>)<span class="ruby-operator">+</span><span class="ruby-string">'&lt;/a&gt;'</span>]
   <span class="ruby-identifier">bread</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">value</span>
@@ -317,7 +318,7 @@ na której znajduje się użytkownik.</p>
 
           
           <div class="method-source-code" id="breadcrumbs_admin-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 61</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">breadcrumbs_admin</span>(*<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">bread</span> = [<span class="ruby-string">'&lt;a href=&quot;/admin&quot;&gt;'</span><span class="ruby-operator">+</span><span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">'admins.show.title'</span>)<span class="ruby-operator">+</span><span class="ruby-string">'&lt;/a&gt;'</span>]
   <span class="ruby-identifier">bread</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">value</span>
@@ -355,7 +356,7 @@ na której znajduje się użytkownik.</p>
 
           
           <div class="method-source-code" id="description-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 92</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">description</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">instantiate_yield</span> <span class="ruby-value">:description</span>, <span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -391,7 +392,7 @@ na której znajduje się użytkownik.</p>
 
           
           <div class="method-source-code" id="keywords-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 83</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">keywords</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">instantiate_yield</span> <span class="ruby-value">:keywords</span>, <span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -429,7 +430,7 @@ wielokropek, jeżeli orginalny tekst był dłuższy niż wymagana długość.</p
 
           
           <div class="method-source-code" id="short-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 29</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">short</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">length</span>=<span class="ruby-value">50</span>)
   <span class="ruby-identifier">v</span> = <span class="ruby-identifier">strip_tags</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">mb_chars</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">length</span>
@@ -470,7 +471,7 @@ wielokropek, jeżeli orginalny tekst był dłuższy niż wymagana długość.</p
 
           
           <div class="method-source-code" id="title-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 73</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">title</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">instantiate_yield</span> <span class="ruby-value">:title</span>, <span class="ruby-identifier">value</span>
   <span class="ruby-identifier">content_for</span>(<span class="ruby-value">:title</span>) { <span class="ruby-identifier">value</span> }
@@ -501,7 +502,7 @@ wielokropek, jeżeli orginalny tekst był dłuższy niż wymagana długość.</p
 
           
           <div class="method-source-code" id="yield_breadcrumbs-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 97</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 98</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">yield_breadcrumbs</span>
   <span class="ruby-identifier">raw</span> <span class="ruby-ivar">@value_for_meta_breadcrumbs</span>
 <span class="ruby-keyword">end</span></pre>
@@ -531,7 +532,7 @@ wielokropek, jeżeli orginalny tekst był dłuższy niż wymagana długość.</p
 
           
           <div class="method-source-code" id="yield_description-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 102</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">yield_description</span>
   <span class="ruby-ivar">@value_for_meta_description</span><span class="ruby-operator">||</span><span class="ruby-identifier">t</span>(<span class="ruby-string">'meta.description'</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -561,7 +562,7 @@ wielokropek, jeżeli orginalny tekst był dłuższy niż wymagana długość.</p
 
           
           <div class="method-source-code" id="yield_keywords-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 107</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 108</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">yield_keywords</span>
   <span class="ruby-ivar">@value_for_meta_keywords</span><span class="ruby-operator">||</span><span class="ruby-identifier">t</span>(<span class="ruby-string">'meta.keywords'</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -591,7 +592,7 @@ wielokropek, jeżeli orginalny tekst był dłuższy niż wymagana długość.</p
 
           
           <div class="method-source-code" id="yield_title-source">
-            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 112</span>
+            <pre><span class="ruby-comment"># File app/helpers/l/lazy_helper.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">yield_title</span>
   <span class="ruby-ivar">@value_for_meta_title</span><span class="ruby-operator">||</span><span class="ruby-identifier">t</span>(<span class="ruby-string">'meta.title'</span>)
 <span class="ruby-keyword">end</span></pre>

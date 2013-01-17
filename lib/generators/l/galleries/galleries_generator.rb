@@ -39,6 +39,7 @@ module L
 
       def add_galleries_route # :nodoc:
         routing_code = <<-CONTENT
+
     resources :galleries, :controller => 'l/galleries'   do
       collection do
         get :list
@@ -48,7 +49,10 @@ module L
     end
         CONTENT
         log :route, "resources :galleries"
-        inject_into_file 'config/routes.rb', routing_code, :before => 'resources :users', :verbose => false
+        inject_into_file 'config/routes.rb', 
+          routing_code, 
+          :before => %r{^\s*resources :users}, 
+          :verbose => false
       end
 
       def add_search_results_in_search_action # :nodoc:

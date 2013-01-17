@@ -91,7 +91,7 @@ module L
         gem 'cancan'
         gem 'rolify'
 
-        gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
+        gem 'globalize3', '~> 0.3.0'
         
         gem 'paperclip'
 
@@ -168,7 +168,9 @@ print "Seeds added\n"
       ##### tworzenie routow do modulow: admin oraz users, one musza byc w kazdym cmsie
       def add_admin_and_users_routes # :nodoc:
         routes_content = load_template "routes.rb"
-        inject_into_file "config/routes.rb", routes_content, after: "Application.routes.draw do\n"
+        inject_into_file "config/routes.rb", 
+          routes_content, 
+          after: %r{Application\.routes\.draw do$}
       end
 
       ##### przed instalacja naszego gema nie robimy rails g devise User,

@@ -48,14 +48,14 @@ module L
         CONTENT
         inject_into_file 'config/routes.rb', 
           routing_code, 
-          before: %r{^[ ]*resources :users}, 
+          before: %r{^\s*resources :users}, 
           verbose: false
         log :route, "resources :pages"
 
         routing_code = "match '*token' => 'l/pages#show', as: :page_token"
         inject_into_file 'config/routes.rb',
           "  #{routing_code}\n" ,
-          before: %r{^[ ]*root to: "application#index"}, 
+          before: %r{^\s*root to:}, 
           verbose: false
         log :route, routing_code
       end

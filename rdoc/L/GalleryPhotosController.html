@@ -211,9 +211,10 @@ podawane wstępnej obróbce (zapisane w róznych rozmiarach).</p>
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/l/gallery_photos_controller.rb, line 21</span>
+            <pre><span class="ruby-comment"># File app/controllers/l/gallery_photos_controller.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
-  <span class="ruby-comment"># SWFUpload file</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
+  <span class="ruby-comment"># Uploadify</span>
   <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">GalleryPhoto</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">swfupload_file</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:Filedata</span>],
                                <span class="ruby-identifier">gallery_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:gallery_id</span>])
   <span class="ruby-ivar">@saved</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">save</span>
@@ -250,6 +251,7 @@ podawane wstępnej obróbce (zapisane w róznych rozmiarach).</p>
           <div class="method-source-code" id="destroy-source">
             <pre><span class="ruby-comment"># File app/controllers/l/gallery_photos_controller.rb, line 10</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
+  <span class="ruby-identifier">authorize!</span> <span class="ruby-value">:menage</span>, <span class="ruby-value">:all</span>
   <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">GalleryPhoto</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@gallery_photos</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">gallery</span>.<span class="ruby-identifier">gallery_photos</span>
   <span class="ruby-ivar">@delete</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">destroy</span>

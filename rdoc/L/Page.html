@@ -82,7 +82,9 @@
     
     <li><a href="#method-i-get_token">#get_token</a>
     
-    <li><a href="#method-i-set_sibling_and_drop_after">#set_sibling_and_drop_after</a>
+    <li><a href="#method-i-insert_after-21">#insert_after!</a>
+    
+    <li><a href="#method-i-set_parent-21">#set_parent!</a>
     
     <li><a href="#method-i-unhidden_children">#unhidden_children</a>
     
@@ -246,7 +248,8 @@ nadrzędna</p>
         <div class="method-description">
           
           <p>Wyszukuje strony przy pomocy tokena. Sprawdzana jest cała scieżka do
-strony.</p>
+strony. Gdy strona nie zostanie znaleziona zostaje wyrzucony wyjątek
+<code>ActiveRecord::RecordNotFound</code>.</p>
 <ul><li>
 <p><strong>Argumenty</strong>:</p>
 <ul><li>
@@ -258,17 +261,12 @@ drzewie oddzielone ‘/’.</p>
 
           
           <div class="method-source-code" id="find_by_token-source">
-            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 141</span>
+            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 184</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find_by_token</span>(<span class="ruby-identifier">token</span>)
   <span class="ruby-identifier">parent_id</span> = <span class="ruby-keyword">nil</span>
-  <span class="ruby-identifier">page</span> = <span class="ruby-keyword">nil</span>
-  <span class="ruby-identifier">tokens</span> = <span class="ruby-identifier">token</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'/'</span>)
-  <span class="ruby-identifier">tokens</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">page</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find_by_url_and_parent_id</span>(<span class="ruby-identifier">t</span>, <span class="ruby-identifier">parent_id</span>)
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">t</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">tokens</span>.<span class="ruby-identifier">last</span>
-      <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">nil?</span>
-      <span class="ruby-identifier">parent_id</span> = <span class="ruby-identifier">page</span>.<span class="ruby-identifier">id</span>
-    <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">token</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'/'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">url</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">page</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">url</span>, <span class="ruby-identifier">parent_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">parent_id</span>).<span class="ruby-identifier">first!</span>
+    <span class="ruby-identifier">parent_id</span> = <span class="ruby-identifier">page</span>.<span class="ruby-identifier">id</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">page</span>
 <span class="ruby-keyword">end</span></pre>
@@ -379,7 +377,7 @@ wyszukiwana, np: dla 1 wyszukujemy wszystkich widocznych stron.</p>
         
         <div class="method-heading">
           <span class="method-name">change_parent</span><span
-            class="method-args">(p)</span>
+            class="method-args">(new_parent = nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -387,23 +385,33 @@ wyszukiwana, np: dla 1 wyszukujemy wszystkich widocznych stron.</p>
         <div class="method-description">
           
           <p>Wypina stronę z drzewa stron i wpina ją pod podanym rodzicem. Nowa strona
-rodzic nie może należeć do potomków wybranej strony.</p>
+rodzic nie może należeć do potomków wybranej strony. Strona dodawana jest
+na koniec listy dzieci.</p>
 <ul><li>
 <p><strong>Argumenty</strong>:</p>
 <ul><li>
-<p><code>p</code> - strona która ma się stać nowym rodzicem wybranej strony.</p>
+<p><code>new_parent</code> - strona która ma się stać nowym rodzicem wybranej
+strony.</p>
 </li></ul>
 </li></ul>
           
 
           
           <div class="method-source-code" id="change_parent-source">
-            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 107</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_parent</span>(<span class="ruby-identifier">p</span>)
-  <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">p</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
-  <span class="ruby-identifier">fc</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">'position'</span>).<span class="ruby-identifier">first</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-identifier">fcp</span> = <span class="ruby-identifier">fc</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">fc</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>
-  <span class="ruby-identifier">update_attributes</span> <span class="ruby-identifier">position</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">fcp</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>), <span class="ruby-identifier">parent_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">pid</span>
+            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_parent</span>(<span class="ruby-identifier">new_parent</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_parent</span> <span class="ruby-keyword">and</span> ( <span class="ruby-identifier">new_parent</span>.<span class="ruby-identifier">ancestor?</span>(<span class="ruby-keyword">self</span>) <span class="ruby-keyword">or</span> <span class="ruby-identifier">new_parent</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:parent_id</span>, <span class="ruby-value">:loop</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">new_parent</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">new_parent</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">old_parent_id</span> = <span class="ruby-identifier">parent_id</span>
+  <span class="ruby-identifier">old_position</span> = <span class="ruby-identifier">position</span>
+  <span class="ruby-identifier">position</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">position</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">parent_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">pid</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">'position &gt; ?'</span>, <span class="ruby-identifier">old_position</span>).<span class="ruby-identifier">where</span>(<span class="ruby-identifier">parent_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">old_parent_id</span>).
+    <span class="ruby-identifier">update_all</span>(<span class="ruby-string">'position = position-1'</span>)
+  <span class="ruby-identifier">status</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- change_parent-source -->
           
@@ -438,21 +446,20 @@ mieć tego samego rodzica.</p>
 
           
           <div class="method-source-code" id="drop_after-source">
-            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 83</span>
+            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">drop_after</span>(<span class="ruby-identifier">where_page</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">parent_id</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">parent_id</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">position</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">position</span>
-    <span class="ruby-identifier">n_pos</span> = <span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
-    <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Page</span>.<span class="ruby-identifier">where</span>([<span class="ruby-string">'position &gt;= ? and position &lt; ?'</span>, <span class="ruby-identifier">n_pos</span>, <span class="ruby-identifier">position</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">p</span>.<span class="ruby-identifier">update_attribute</span> <span class="ruby-value">:position</span>, <span class="ruby-identifier">p</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
-    <span class="ruby-keyword">end</span>
-    <span class="ruby-identifier">update_attribute</span> <span class="ruby-value">:position</span>, <span class="ruby-identifier">n_pos</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">parent_id</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">parent_id</span>
+    <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:parent_id</span>, <span class="ruby-value">:diffrent</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">new_position</span> = <span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">new_position</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">position</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">'position &gt;= ?'</span>, <span class="ruby-identifier">new_position</span>).
+      <span class="ruby-identifier">where</span>(<span class="ruby-identifier">parent_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">parent_id</span>).
+      <span class="ruby-identifier">update_all</span>(<span class="ruby-string">'position = position+1'</span>)
+    <span class="ruby-identifier">update_attribute</span> <span class="ruby-value">:position</span>, <span class="ruby-identifier">new_position</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">n_pos</span> = <span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">position</span>
-    <span class="ruby-constant">L</span><span class="ruby-operator">::</span><span class="ruby-constant">Page</span>.<span class="ruby-identifier">where</span>([<span class="ruby-string">'position &gt; ? and position &lt;= ?'</span>, <span class="ruby-identifier">position</span>, <span class="ruby-identifier">n_pos</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">p</span>.<span class="ruby-identifier">update_attribute</span> <span class="ruby-value">:position</span>, <span class="ruby-identifier">p</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
-    <span class="ruby-keyword">end</span>
-    <span class="ruby-identifier">update_attribute</span> <span class="ruby-value">:position</span>, <span class="ruby-identifier">n_pos</span>
+    <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- drop_after-source -->
@@ -482,7 +489,7 @@ stron nadrzędnych.</p>
 
           
           <div class="method-source-code" id="get_token-source">
-            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 129</span>
+            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 171</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_token</span>
   (<span class="ruby-identifier">ancestors</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">url</span> } <span class="ruby-operator">+</span> [<span class="ruby-identifier">url</span>]).<span class="ruby-identifier">join</span>(<span class="ruby-string">'/'</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -496,42 +503,104 @@ stron nadrzędnych.</p>
       </div><!-- get_token-method -->
 
     
-      <div id="method-i-set_sibling_and_drop_after" class="method-detail ">
+      <div id="method-i-insert_after-21" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">set_sibling_and_drop_after</span><span
-            class="method-args">(where_page)</span>
+          <span class="method-name">insert_after!</span><span
+            class="method-args">(page)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
 
         <div class="method-description">
           
-          <p>Wstawia stronę obok wybranej strony nie zależnie od tego czy mają wspólnego
-rodzica.</p>
+          <p>Wstawia stronę jako następną w kolejności za stronę <code>page</code>. W
+razie potrzeby zmieniany jest rodzic strony. Zapewnia spójność danych.
+Sprawdza czy strony nie tworzą pętli oraz przeprowadza walidację (w
+szczególnosci niepowtarzalność <code>url</code> w obrębie rodzica). W
+przypadku błędu wyrzucany jest wyjątek
+<code>ActiveRecord::RecordInvalid</code></p>
 <ul><li>
 <p><strong>Argumenty</strong>:</p>
 <ul><li>
-<p><code>where_page</code> - strona za którą nalezy wstawić wybraną stronę.</p>
+<p><code>page</code> - strona która ma poprzedzać wybraną stronę.</p>
 </li></ul>
 </li></ul>
           
 
           
-          <div class="method-source-code" id="set_sibling_and_drop_after-source">
-            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 121</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_sibling_and_drop_after</span>(<span class="ruby-identifier">where_page</span>)
-  <span class="ruby-identifier">change_parent</span>(<span class="ruby-identifier">where_page</span>.<span class="ruby-identifier">parent</span>)
-  <span class="ruby-identifier">drop_after</span>(<span class="ruby-identifier">where_page</span>)
+          <div class="method-source-code" id="insert_after-21-source">
+            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_after!</span>(<span class="ruby-identifier">page</span>)
+  <span class="ruby-constant">Page</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">parent_id</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">page</span>.<span class="ruby-identifier">parent_id</span>
+      <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">change_parent</span>(<span class="ruby-identifier">page</span>.<span class="ruby-identifier">parent</span>)
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordInvalid</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">'position &gt; ?'</span>, <span class="ruby-identifier">position</span>).<span class="ruby-identifier">where</span>(<span class="ruby-identifier">parent_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">parent_id</span>).
+        <span class="ruby-identifier">update_all</span>(<span class="ruby-string">'position = position-1'</span>)
+      <span class="ruby-identifier">page</span>.<span class="ruby-identifier">reload</span>
+    <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">drop_after</span>(<span class="ruby-identifier">page</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordInvalid</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- set_sibling_and_drop_after-source -->
+          </div><!-- insert_after-21-source -->
           
         </div>
 
         
 
         
-      </div><!-- set_sibling_and_drop_after-method -->
+      </div><!-- insert_after-21-method -->
+
+    
+      <div id="method-i-set_parent-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_parent!</span><span
+            class="method-args">(page)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wstawia stronę jako ostatnie dziecko strony <code>page</code>. Zapewnie
+spójność danych. Sprawdza czy strony nie będą tworzyły pętli oraz wszystkie
+walidatory strony (szczególnie niepowtarzalność <code>url</code> w obrębie
+rodzica). W przypadku błędu wyrzucany jest wyjątek
+<code>ActiveRecord::RecordInvalid</code>.</p>
+<ul><li>
+<p><strong>Argumenty</strong>:</p>
+<ul><li>
+<p><code>page</code> - strona która ma zostać nowym rodzicem strony.</p>
+</li></ul>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="set_parent-21-source">
+            <pre><span class="ruby-comment"># File app/models/l/page.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_parent!</span>(<span class="ruby-identifier">page</span>)
+  <span class="ruby-constant">Page</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">change_parent</span>(<span class="ruby-identifier">page</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordInvalid</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_parent-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_parent-21-method -->
 
     
       <div id="method-i-unhidden_children" class="method-detail ">
