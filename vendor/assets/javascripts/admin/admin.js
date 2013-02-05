@@ -93,7 +93,7 @@ var LazyAdmin = {
         }
     });
 
-    $('div.custom_select select').live('change', function() {
+    $(document).on('change', 'div.custom_select select', function() {
         LazyAdmin.reload_custom_select_span(this);
     });
   },
