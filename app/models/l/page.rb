@@ -183,11 +183,12 @@ module L
     #
     def self.find_by_token(token)
       parent_id = nil
+      _page = nil
       token.split('/').each do |url|
-        page = self.where(url: url, parent_id: parent_id).first!
-        parent_id = page.id
+        _page = self.where(url: url, parent_id: parent_id).first!
+        parent_id = _page.id
       end
-      page
+      _page
     end
 
     private
@@ -199,11 +200,8 @@ module L
 
 
     def set_default_position
-
-      p "Set new pos?"
       if position.nil?
         new_position = self.class.where(parent_id: parent_id).all.count {|p| (not p.position.nil?) and p.id != id }
-        p "Stting new position to: #{new_position.inspect}"
         update_column(:position, new_position)
       end
     end
