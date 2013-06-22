@@ -218,7 +218,6 @@ Gem::Specification.new do |s|
     "vendor/assets/javascripts/admin/admin.js",
     "vendor/assets/javascripts/admins.js",
     "vendor/assets/javascripts/html5shiv.js",
-    "vendor/assets/javascripts/jquery.livequery.js",
     "vendor/assets/javascripts/jquery.mobile.js",
     "vendor/assets/javascripts/jquery.uploadify.js",
     "vendor/assets/javascripts/lightbox.js.erb",

@@ -86,12 +86,12 @@ var LazyAdmin = {
         $(this).addClass('custom');
     });
 
-    $('form select.custom').livequery(function() {
-        if (! $(this).hasClass('customized') ) {
+    setInterval(function(){
+      $('form select.custom:not(.customized)').map(function() {
           LazyAdmin.customize_select(this);
           $(this).addClass('customized');
-        }
-    });
+      });
+    }, 100);
 
     $(document).on('change', 'div.custom_select select', function() {
         LazyAdmin.reload_custom_select_span(this);
