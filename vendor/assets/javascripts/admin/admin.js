@@ -103,7 +103,7 @@ var LazyAdmin = {
     LazyAdmin.reload_custom_select_span(obj);
   },
   reload_custom_select_span: function(obj) {
-    var txt = $(obj).children(":selected").text();
+    var txt = $(obj).find("option:selected").text();
     $(obj).prev('span.custom_select_title').text(txt);
   },
   form_upload_init: function() {
