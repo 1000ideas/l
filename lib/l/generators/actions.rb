@@ -66,7 +66,7 @@ module L
       #   - +lang+ -> język tłumaczeń
       #
       def translations_file(name, trans, lang = :pl)
-        file = ::Rails.root.join('config', 'locales', "module_#{name}.#{lang}.yml")
+        file = ::Rails.root.join('config', 'locales', "module_#{name.downcase}.#{lang}.yml")
         create_file file, verbose: false
         log :translations, file.relative_path_from(::Rails.root).to_s
 

@@ -13,6 +13,7 @@ pl:
       invalid_token: 'Niepoprawny token.'
       timeout: 'Twoja sesja straciła ważność. Zaloguj się, aby kontynuować'
       inactive: 'Twoje konto nie zostało jeszcze aktywowane.'
+      already_authenticated: "Jesteś już zalogowany."
     sessions:
       signed_in: 'Zalogowano.'
       signed_out: 'Wylogowano.'
@@ -22,23 +23,47 @@ pl:
     passwords:
       send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
       updated: 'Your password was changed successfully. You are now signed in.'
+      new:
+        title: "Zapomniałeś hasła?"
+        submit: "Resetuj hasło"
+      edit:
+        title: "Zmień Twoje hasło"
+        submit: "Zmień hasło"
     confirmations:
       send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
       confirmed: 'Your account was successfully confirmed. You are now signed in.'
+      new:
+        title: "Wyślij ponownie instrukcje potwierdzenia konta"
+        submit: "Wyślij"
     registrations:
       signed_up: 'You have signed up successfully.'
       updated: 'You updated your account successfully.'
       destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
       new:
         title: 'Zarejestruj się'
-        register: 'Zarejestuj'
+        submit: 'Zarejestuj'
+      edit:
+        title: Edytuj użytkownika
+        submit: Zapisz zmiany
+        blank: "Zostaw puste żeby nie zmieniać"
+        current: "Wpisz aktualne hasło, żeby potwierdzić zmiany"
+        cancel:
+          title: "Usuń swoje konto"
+          cancel: "Usuń"
+          sure: "Jesteś pewny?"
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account was successfully unlocked. You are now signed in.'
+      new:
+        title: "Wyślij instrukcje odblokowania konta"
+        submit: "Wyślij"
     mailer:
-      confirmation_instructions: 'Confirmation instructions'
-      reset_password_instructions: 'Reset password instructions'
-      unlock_instructions: 'Unlock Instructions'
+      confirmation_instructions: 
+        subject: 'Indtrukcje aktywacji konta'
+      reset_password_instructions: 
+        subject: 'Instrukcje zmiany hasła'
+      unlock_instructions: 
+        subject: 'Instrukcje odblokowania konta'
     shared:
       links:
         sign_in: "Zaloguj się"
