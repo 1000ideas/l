@@ -27,6 +27,10 @@ html, body {
   position: relative;
   line-height: 18px;
   color: #000;
+
+  h3 {
+    margin-top: 0;
+  }
 }
 
 .center-box .notice {
@@ -42,7 +46,7 @@ html, body {
   width: 18px;
   margin: 0;
   background-image: image-url("admin/icons.png");
-  background-position: 0 -156px;  
+  background-position: 0 -170px;  
   position: absolute;
   top: .5em;
   left: .6em;
