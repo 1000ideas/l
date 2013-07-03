@@ -3,7 +3,7 @@
   <h2><%= t('.title') %></h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render partial: "devise/shared/links" %>
+    <%= render partial: 'devise/shared/errors', object: resource.errors %>
 
     <div class="field">
       <%= f.label :email %>
@@ -20,7 +20,7 @@
       <%= f.password_field :password_confirmation %>
     </div>
 
-    <%= f.submit t('.submit') %>
+    <%= f.button t('.submit') %>
   <% end %>
 
   <div class="shared-links">

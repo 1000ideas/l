@@ -48,9 +48,11 @@ html, body {
   left: .6em;
 }
 
-#login-box {
-  margin-top: 200px;
-}
+#login-box { margin-top: 200px; }
+#register-box { margin-top: 200px; }
+#password-box { margin-top: 200px; }
+#confirm-box { margin-top: 200px; }
+#unlock-box { margin-top: 200px; }
 
 form {
     padding: 2em 3em;
@@ -99,7 +101,7 @@ input[type=submit] {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   display: block;
-  margin: 1em 0 1em auto;
+  margin: 1em auto 1em 118px;
   padding: 0 2em;
   line-height: 30px;
   width: 8em;
@@ -107,15 +109,26 @@ input[type=submit] {
   color: #ffffff;
   background-color: #e6085c;
   border: 0;
+  cursor: pointer;
 }
 
 .shared-links {
   text-align: center;
-}
+  
+  > a {
+    display: inline-block;
+    margin: 1em .2em;
+    color: #e6085c;
+    text-decoration: none;
+    line-height: 1.6em;
+    padding: 0 1em;
+    border-radius: 1em;
 
-.shared-links > a {
-  display: inline-block;
-  margin: 0 1em;
-  color: #e6085c;
+    &:hover {
+      color: #fff;
+      background-color: #e6085c;
+
+    }
+  }
 }
 

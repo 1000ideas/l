@@ -1,6 +1,5 @@
 /*
- *= require jquery_ui/jquery.ui.core
- *= require jquery_ui/jquery.ui.tabs
+ *= require jquery.ui.all
  *= require lightbox
  *= require uploadify
  *= require admin/layout

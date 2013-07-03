@@ -17,10 +17,10 @@ module L
     #   - +devise+
     #   - +cancan+
     #   - +rolify+
-    #   - +globalize3+ - z repozytorium git, bo najnowsza wersja z rubygem.com
-    #     nie działa z Rails 3.2
+    #   - +globalize3+
     #   - +paperclip+
     #   - +will_paginate+
+    #   - +jquery-ui-rails+
     #   - +acts_as_tree+
     #   - +mysql2+
     #   - +tiny_mce_uploads+
@@ -101,12 +101,13 @@ module L
           gem 'globalize3', '~> 0.3.0'
           
           gem 'paperclip'
+          gem 'jquery-ui-rails'
 
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
 
-          gem 'tiny_mce_uploads'
+          gem 'tiny_mce_uploads', '~> 0.3.0'
         end
 
         Bundler.with_clean_env do
