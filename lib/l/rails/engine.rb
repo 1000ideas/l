@@ -14,6 +14,13 @@ module L
         end
       end
 
+      initializer "controller" do |app|
+        ActiveSupport.on_load(:action_controller) do
+          include L::Controllers::ExceptionsRescues
+          include L::FilterHelper
+        end
+      end
+
       initializer "string_extension" do |app|
         String.class_eval do
           include L::StringExtension
