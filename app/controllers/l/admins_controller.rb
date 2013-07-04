@@ -13,7 +13,7 @@ module L
     # *GET* /admin
     #
     def show
-      authorize! :manage, :self
+      authorize! :read, current_user
 
       respond_to do |format|
         format.html
@@ -25,7 +25,7 @@ module L
     # *POST* /admin/update_user
     #
     def update_user
-      authorize! :manage, :self
+      authorize! :update, current_user
 
       respond_to do |format|
 

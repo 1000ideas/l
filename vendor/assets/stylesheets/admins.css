@@ -2,10 +2,12 @@
  *= require jquery.ui.all
  *= require lightbox
  *= require uploadify
+ *= require custom_selector
  *= require admin/layout
  *= require admin/style
  *= require admin/layout/tabs
  *= require admin/layout/tables
+ *= require admin/layout/lists
  *= require admin/layout/forms
  *= require admin/layout/custom-forms
  *= require admin/layout/gallery_photos

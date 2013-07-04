@@ -7,23 +7,25 @@
 
 <p id="notice"><%= notice %></p>
 
-<% unless @newsletter_mail.blank? %>
-<table class="rows">
-  <thead>
-    <tr>
-      <th>E-mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @newsletter_mail.each do |news| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td><%= news.mail %></td>
-        <td class="options"><%= link_to t('destroy'), newsletter_mail_path(news), :confirm => t('confirm'), :method => :delete, :class => "destroy", :title => t('destroy') %></td>
-      </tr>
-      <tr class="spacer"><td></td></tr>
-    <% end %>
-  </tbody>
-</table>
+<ul class="items-list one-column" data-page="<%= @newsletter_mail.current_page %>">
+  <li class="header">
+    <div class="group">
+      <div><%= L::NewsletterMail.human_attribute_name :mail %></div>
+    </div>
+  </li>
+  <% @newsletter_mail.each do |news| %>
+  <li>
+    <div class="group">
+      <div class="select"><%= selection_tag news %></div>
+      <div><%= news.mail %></div>
+      <div class="options">
+        <%= link_to t('destroy'), news, class: "destroy", title: t('destroy'),
+          data: {confirm: t('confirm'), method: :delete } %>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>
 
 <%= will_paginate @newsletter_mail %>
 

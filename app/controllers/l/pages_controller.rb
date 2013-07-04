@@ -14,12 +14,11 @@ module L
     # *GET* /pages
     #
     def index
-      authorize! :manage, :all
+      authorize! :manage, L::Page
       @pages = L::Page.roots
 
       respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render xml: @pages }
+        format.html 
       end
     end
 
@@ -37,6 +36,7 @@ module L
       else
         @page = L::Page.find(params[:id])
       end
+      authorize! :read, @page
 
       render layout: '/l/layouts/standard'
     end
@@ -47,8 +47,10 @@ module L
     # *GET* /pages/new
     #
     def new
-      authorize! :manage, :all
       @page = L::Page.new
+      authorize! :create, @page
+
+
       (I18n.available_locales).each {|locale|
         @page.translations.build locale: locale
       }
@@ -66,8 +68,10 @@ module L
     # *GET* /pages/1/edit
     #
     def edit
-      authorize! :manage, :all
+      
       @page = L::Page.find(params[:id])
+      authorize! :update, @page
+
       @parents = L::Page.where('`id` <> ?', @page.id).all 
     end
 
@@ -76,8 +80,9 @@ module L
     # *POST* /pages
     #
     def create
-      authorize! :manage, :all
       @page = L::Page.new(params[:l_page])
+      authorize! :create, @page
+
       @parents = L::Page.all
 
 
@@ -97,18 +102,17 @@ module L
     # *PUT* /pages/1
     #
     def update
-      authorize! :manage, :all
       @page = L::Page.find(params[:id])
+      authorize! :update, @page
+
       @parents = L::Page.all
 
 
       respond_to do |format|
         if @page.update_attributes(params[:l_page])
           format.html { redirect_to(pages_url, notice: I18n.t('update.success')) }
-          format.xml  { head :ok }
         else
           format.html { render action: "edit" }
-          format.xml  { render xml: @page.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -118,8 +122,9 @@ module L
     # *DELETE* /pages/1
     #
     def destroy
-      authorize! :manage, :all
       @page = L::Page.find(params[:id])
+      authorize! :destroy, @page
+
       @page.destroy
 
       respond_to do |format|
@@ -135,8 +140,8 @@ module L
     # *GET* /pages/1/unhide
     #
     def hide
-      authorize! :manage, :all
       @page = L::Page.find(params[:id])
+      authorize! :update, @page
 
       status = params[:status].to_i || 1
       name = ['unhide', 'hide'][status]
@@ -157,9 +162,9 @@ module L
     # *GET* /pages/1/switch
     #
     def switch
-      authorize! :manage, :all
       target_page = L::Page.find(params[:target_id])
       page = L::Page.find(params[:id])
+      authorize! :update, page
 
       status = case params[:method]
         when 'child' then page.set_parent!(target_page)

@@ -8,31 +8,29 @@
 <p id="notice"><%= notice %></p>
 
 <%= render partial: 'l/partials/switcher', object: @galleries %>
-
-<table class="rows">
-  <thead>
-    <tr>
-      <th><%= L::Gallery.human_attribute_name :name %></th>
-      <th><%= L::Gallery.human_attribute_name :content %></th>
-      <th><%= L::Gallery.human_attribute_name :thumb %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @galleries.each do |gallery| %>
-    <tr class="<%= cycle('odd', 'even') %>">
-
-      <td class="gallery_name"><%= gallery.name %></td>
-      <td><%=raw gallery.content %></td>
-      <td class="options">
-        <%= link_to t('destroy'), gallery_path(gallery), class: "destroy", title: t('destroy'),
-          data: { confirm: t('confirm'), method: :delete } %>
-        <%= link_to t('show'), gallery_path(gallery), class: "show", title: t('show'), target: "blank" %>
+<ul class="items-list two-columns" data-page="<%= @galleries.current_page %>">
+  <li class="header">
+    <div class="group">
+      <div><%= L::Gallery.human_attribute_name :name %></div>
+      <div><%= L::Gallery.human_attribute_name :content %></div>
+      <div><%= L::Gallery.human_attribute_name :thumb %></div>
+    </div>
+  </li>
+  <% @galleries.each do |gallery| %>
+  <li>
+    <div class="group">
+      <div class="select"><%= selection_tag gallery %></div>
+      <div><%= gallery.email %></div>
+      <div><%= gallery.role %></div>
+      <div class="options">
+        <%= link_to t('show'), gallery, class: "show", title: t('show'), target: '_blank' %>
         <%= link_to t('edit'), edit_gallery_path(gallery), class: "edit", title: t('edit') %>
-      </td>
-    </tr>
-    <tr class="spacer"><td></td></tr>
+        <%= link_to t('destroy'), gallery, class: "destroy", title: t('destroy'),
+          data: {confirm: t('confirm'), method: :delete } %>
+      </div>
+    </div>
+  </li>
   <% end %>
-  </tbody>
-</table>
+</ul>
 
 <%= will_paginate @galleries %>

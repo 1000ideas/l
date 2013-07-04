@@ -1,0 +1,20 @@
+<li>
+  <div class="group">
+    <div class="select"><%= selection_tag page %></div>
+    <div><%= page.title %></div>
+    <div><%= page.url %></div>
+    <div class="options">
+      <%= link_to t('show'), page_path(page), class: "show", title: t('show'), target: '_blank' %>
+      <%= link_to t('edit'), edit_page_path(page), class: "edit", title: t('edit') %>
+      <%= link_to t('destroy'), page_path(page), class: "destroy", title: t('destroy'),
+        data: {confirm: t('confirm'), method: :delete } %>
+    </div>
+  </div>
+  <% if page.children.any? %>
+    <ul>
+      <% page.children.each do |p| %>
+        <%= render 'page_list_item', page: p %>
+      <% end %>
+    </ul>    
+  <% end %>
+</li>

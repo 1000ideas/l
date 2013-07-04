@@ -12,11 +12,20 @@
 <%%= render "filter" %>
 <%%= render partial: 'l/partials/switcher', object: @<%= plural_table_name %> %>
 
-<table class="rows">
-  <thead>
-    <tr>
+<%- class_name = case attributes.length
+      when 1 then 'one-column'
+      when 2 then 'two-columns'
+      when 3 then 'three-columns'
+      when 4 then 'four-columns'
+      when 5 then 'five-columns'
+      else 'multi-columns'
+    end 
+-%>
+<ul class="items-list <%= class_name %>" data-page="<%%= @<%=plural_table_name %>.current_page %>">
+  <li class="header">
+    <div class="group">
 <% for attribute in attributes -%>
-      <th>
+      <div>
         <%%= <%= class_name %>.human_attribute_name :<%= attribute.name %> %>
 <% if attribute.type == :file -%>
         <%%= sort_tag :<%= attribute.name %>_file_name, :asc %>
@@ -25,32 +34,32 @@
         <%%= sort_tag :<%= attribute.name %>, :asc %>
         <%%= sort_tag :<%= attribute.name %>, :desc %>
 <% end -%>
-      </th>
+      </div>
 <% end -%>
-    </tr>
-  </thead>
-  <tbody>
-    <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
-    <tr  class="<%%= cycle('odd', 'even') %>">
+    </div>
+  </li>
+  <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+  <li>
+    <div class="group">
+      <div class="select"><%= selection_tag news %></div>
 <% for attribute in attributes -%>
 <% if attribute.type == :file -%>
-        <td><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></td>
+        <div><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></div>
 <% elsif attribute.type =~ /tiny_mce_.*/ -%>
-        <td><%%= raw <%= singular_table_name %>.<%= attribute.name %> %></td>
+        <div><%%= raw <%= singular_table_name %>.<%= attribute.name %> %></div>
 <% else -%>
-        <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+        <div><%%= <%= singular_table_name %>.<%= attribute.name %> %></div>
 <% end -%>
 <% end -%>
-      <td class="options">
+      <div class="options">
         <%%= link_to t('edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit') %>
         <%%= link_to t('show'), <%= singular_table_name %>, class: "show", title: t('show'), target: "_blank" %>
         <%%= link_to t('destroy'), <%= singular_table_name %>, class: "destroy", title: t('destroy'), data: { confirm: t('confirm'), method: :delete } %>
-      </td>
-    </tr>
-    <tr class="spacer"><td></td></tr>
-    <%% end %>
-  </tbody>
-</table>
+      </div>
+    </div>
+  </li>    
+  <%% end %>
+</ul>
 
 <%% end %>
 

@@ -8,31 +8,29 @@
 <p id="notice"><%= notice %></p>
 <%= render partial: 'l/partials/switcher', object: @users %>
 
-<table class="rows">
-  <thead>
-    <tr>
-      <th></th>
-      <th><%= User.human_attribute_name :email %></th>
-      <th><%= User.human_attribute_name :role %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td><%= selection_tag user %></td>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-        <td class="options">
-          <%= link_to t('show'), user, class: "show", title: t('show'), target: '_blank' %>
-          <%= link_to t('edit'), edit_user_path(user), class: "edit", title: t('edit') %>
-          <%= link_to t('destroy'), user, class: "destroy", title: t('destroy'),
-            data: {confirm: t('confirm'), method: :delete } %>
-        </td>
-      </tr>
-      <tr class="spacer"><td></td></tr>
-    <% end %>
-  </tbody>
-</table>
+<ul class="items-list two-columns" data-page="<%= @users.current_page %>">
+  <li class="header">
+    <div class="group">
+      <div><%= User.human_attribute_name :email %></div>
+      <div><%= User.human_attribute_name :role %></div>
+    </div>
+  </li>
+  <% @users.each do |user| %>
+  <li>
+    <div class="group">
+      <div class="select"><%= selection_tag user %></div>
+      <div><%= user.email %></div>
+      <div><%= user.role %></div>
+      <div class="options">
+        <%= link_to t('show'), user, class: "show", title: t('show'), target: '_blank' %>
+        <%= link_to t('edit'), edit_user_path(user), class: "edit", title: t('edit') %>
+        <%= link_to t('destroy'), user, class: "destroy", title: t('destroy'),
+          data: {confirm: t('confirm'), method: :delete } %>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>
 
 <%= link_to t('destroy_selected'), 
   "javascript: LazyAdmin.destroy_selected('.selection','users')", 

@@ -82,30 +82,8 @@ var LazyAdmin = {
     });
   },
   form_customization_init: function() {
-    $('form select').each(function(){
-        $(this).addClass('custom');
-    });
-
-    setInterval(function(){
-      $('form select.custom:not(.customized)').map(function() {
-          LazyAdmin.customize_select(this);
-          $(this).addClass('customized');
-      });
-    }, 100);
-
-    $(document).on('change', 'div.custom_select select', function() {
-        LazyAdmin.reload_custom_select_span(this);
-    });
-  },
-  customize_select: function(obj) { 
-    $(obj).wrap('<div class="custom_select" />');
-    $('<span class="custom_select_title"></span>').insertBefore(obj);
-    LazyAdmin.reload_custom_select_span(obj);
-  },
-  reload_custom_select_span: function(obj) {
-    var txt = $(obj).find("option:selected").text();
-    $(obj).prev('span.custom_select_title').text(txt);
-  },
+    $('form select').customSelect();
+  },  
   form_upload_init: function() {
     var placeholder = null, form_data = {}, csrf_token = '', csrf_param = '',
       script_path = '', session_key = '', queue_id = '';

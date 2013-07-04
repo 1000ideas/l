@@ -11,8 +11,12 @@ module L
     #
     # *GET* /users/
     def index
-      authorize! :menage, :all
-      @users = User.all.paginate :page => params[:page], :per_page => params[:per_page]||10
+      authorize! :read, User
+      @users = User.all.paginate page: params[:page], per_page: params[:per_page] || 10
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     # Akcja wyświetlająca informacje o pojedynczym uzytkowniku.
@@ -20,8 +24,12 @@ module L
     # *GET* /users/1
     #
     def show
-      authorize! :menage, :all
       @user = User.find(params[:id])
+      authorize! :read, @user
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     # Akcja wyświetlająca formularz tworzenia nowego użytkownika.
@@ -29,8 +37,12 @@ module L
     # *GET* /users/new
     #
     def new
-      authorize! :menage, :all
       @user = User.new
+      authorize! :create, @user
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     # Akcja wyświetlająca formularz edycji istniejącego użytkownika.
@@ -38,8 +50,12 @@ module L
     # *GET* /users/1/edit
     #
     def edit
-      authorize! :menage, :all
       @user = User.find(params[:id])
+      authorize! :update, @user
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     # Akcja tworząca nowego uzytkwnika.
@@ -47,13 +63,17 @@ module L
     # *POST* /users/1
     #
     def create
-      authorize! :menage, :all
       @user = User.new(params[:user])
-      if @user.save
-        redirect_to users_path, notice: I18n.t('create.success')
-      else
-        render :action => :new
+      authorize! :create, @user
+
+      respond_to do |format|
+        if @user.save
+          format.html { redirect_to users_path, notice: I18n.t('create.success') }
+        else
+          format.html { render :action => :new }
+        end        
       end
+      
     end
 
     # Akcja aktualizująca istniejącego użytkownika.
@@ -61,12 +81,15 @@ module L
     # *PUT* /users/1
     #
     def update
-      authorize! :menage, :all
       @user = User.find(params[:id])
-      if @user.update_attributes(params[:user])
-        redirect_to users_path, notice: I18n.t('update.success')
-      else
-        render :action => :edit
+      authorize! :update, @user
+
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to users_path, notice: I18n.t('update.success') }
+        else
+          format.html { render :action => :edit }
+        end
       end
     end
 
@@ -74,9 +97,11 @@ module L
     #
     # *DELETE* /users/1
     def destroy
-      authorize! :menage, :all
       @user = User.find(params[:id])
+      authorize! :destroy, @user
+
       @user.destroy
+
       respond_to do |format|
         format.html { redirect_to :back, notice: t('delete.success') }
         format.js

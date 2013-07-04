@@ -1,0 +1,96 @@
+ul.items-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    display: block;
+    margin-bottom: 5px;
+
+    > div.group { position: relative; background: #ddd; }
+    > div.group:hover { background: #ccc; }
+    &:nth-child(even) > div.group { background: #ededed; }
+    &:nth-child(even) > div.group:hover { background: #ccc; }
+
+    &.header > div.group  {
+      background: #fff;
+      font-weight: bold;
+      &:hover { background: #fff }
+    }
+
+    > div.group > div {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1.2em;
+      margin: 1em 0;
+      text-align: center;
+
+      &.select { 
+        width: 35px;
+
+        input[type=checkbox] {
+          margin: 0 .5em;
+        }
+      }
+    }
+
+    &.header > div.group > div:nth-child(1),
+    > div.group > div:nth-child(2) {
+      width: 95%;
+      width: calc(100% - 35px);
+    }
+
+    &.header > div.group > div:nth-child(1) { padding-left: 35px; }
+
+    > div.group:hover > div.options{ display: block; }
+    > div.group > div.options {
+      display: none;
+      position: absolute;
+      right: 0.5em;
+      top: 50%;
+      margin: -8px 0 0 0;
+      text-align: right;
+
+      a {
+        display: inline-block;
+        background-image: image-url("admin/icons.png");
+        background-repeat: no-repeat;
+        width: 16px;
+        height: 16px;
+        margin: 0 .5em;
+        text-indent: 99999px;
+        overflow: hidden;
+        vertical-align: middle;
+
+        &.show { background-position: 0 -194px; }
+        &.edit { background-position: 0 -16px; }
+        &.destroy { background-position: 0 -35px; width: 13px; }
+        &.hide { background-position: 0 2px;}
+        &.unhide { background-position: 0 -152px; }
+        &.promo_del { background-position: 0 -137px; }
+        &.promo_add { background-position: 0 -118px; }
+      }
+    }
+
+    ul {
+      margin-top: 5px;
+    }
+
+  }
+
+  &.two-columns {
+    li {
+      &.header > div.group > div:nth-child(1),
+      > div.group > div:nth-child(2) {
+        width: 45%;
+        width: calc(50% - 35px);
+      }
+
+      &.header > div.group > div:nth-child(1) { padding-left: 35px; }
+      
+      &.header > div.group > div:nth-child(2),
+      > div.group > div:nth-child(3) {
+        width: 49%;
+      }
+    }
+  }
+}

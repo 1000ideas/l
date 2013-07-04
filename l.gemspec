@@ -147,6 +147,7 @@ Gem::Specification.new do |s|
     "lib/generators/l/l/templates/setup_mail.rb",
     "lib/generators/l/l/templates/user_model.rb",
     "lib/generators/l/l/templates/users.rb",
+    "lib/generators/l/l/templates/views/application/404.html.erb",
     "lib/generators/l/l/templates/views/application/index.html.erb",
     "lib/generators/l/l/templates/views/application/search.html.erb",
     "lib/generators/l/l/templates/views/devise/confirmations/new.html.erb",
@@ -161,7 +162,6 @@ Gem::Specification.new do |s|
     "lib/generators/l/l/templates/views/devise/shared/_errors.html.erb",
     "lib/generators/l/l/templates/views/devise/shared/_links.erb",
     "lib/generators/l/l/templates/views/devise/unlocks/new.html.erb",
-    "lib/generators/l/l/templates/views/shared/404.html.erb",
     "lib/generators/l/mobile/mobile_generator.rb",
     "lib/generators/l/module/module_generator.rb",
     "lib/generators/l/module/templates/_filter.html.erb",
@@ -184,6 +184,7 @@ Gem::Specification.new do |s|
     "lib/generators/l/page/templates/pages.rb",
     "lib/generators/l/views/views_generator.rb",
     "lib/l.rb",
+    "lib/l/controllers/exceptions_rescues.rb",
     "lib/l/generators/actions.rb",
     "lib/l/rails.rb",
     "lib/l/rails/engine.rb",
@@ -261,7 +262,6 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<highline>, [">= 0"])
-      s.add_runtime_dependency(%q<jquery-ui-rails>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
@@ -269,7 +269,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<simplecov>, [">= 0"])
     else
       s.add_dependency(%q<highline>, [">= 0"])
-      s.add_dependency(%q<jquery-ui-rails>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
@@ -278,7 +277,6 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<highline>, [">= 0"])
-    s.add_dependency(%q<jquery-ui-rails>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])

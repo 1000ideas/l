@@ -41,7 +41,7 @@ module L
     member do
       get :hide, defaults: { status: 1 }
       get :unhide, action: 'hide', defaults: { status: 0 }
-      get :switch
+      match 'switch/:target_id', via: :get
     end
   end
 
