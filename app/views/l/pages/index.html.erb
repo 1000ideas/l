@@ -2,44 +2,12 @@
   <%= render 'submenu' %>
 <% end %>
 
-<% content_for :head do %>
-  <script type="text/javascript">
-    
-    $(function(){
-    
-      $(".even,.odd").draggable({helper: 'clone', cursor: 'move'});
-      $(".spacer").droppable({
-        hoverClass: 'ui-state-hover',
-        drop: function(event, ui) {
-          var old_id = $(ui.draggable).find('input[type=hidden]').val();
-          var new_id = $(this).prevAll('tr.odd, tr.even').first().find('input[type=hidden]').val();
-          var act = 'drop_after';
-          if ( $(this).hasClass('as_child') ) act = 'child';
-
-          $.get('pages/'+old_id+'/switch',{target_id: new_id, method: act},function(data){
-            if ( data.success ) {
-              document.location.reload();
-            } else {
-              $('#notice').html(data.errors[0]);
-              $('#notice').show();
-              setTimeout(function() {
-                $('#notice').fadeOut(3000);
-              }, 3000);
-            }
-            
-          });
-        }
-      });
-    });
-  </script>
-<% end %>
-
 <% title t('pages.index.title') %>
 <% breadcrumbs_admin link_to(t('pages.index.title'), pages_path) %>
 
 <p id="notice"><%= notice %></p>
 
-<ul class="items-list two-columns">
+<ul class="items-list two-columns sortable">
   <li class="header">
     <div class="group">
       <div><%= L::Page.human_attribute_name :title %></div>

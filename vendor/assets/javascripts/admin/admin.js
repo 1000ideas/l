@@ -5,7 +5,43 @@ var LazyAdmin = {
     LazyAdmin.form_customization_init();
     LazyAdmin.form_upload_init();
 
+    $("ul.items-list.sortable li").draggable({
+      appendTo: 'body',
+      revert: 'invalid',
+      cursor: 'move'
+    });
+    
+    $("ul.items-list.sortable li:not(.header)").droppable({
+      hoverClass: 'ui-state-hover',
+      greedy: true,
+      drop: function(event, ui) {
+        var old_id = $(ui.draggable).find('input[type=checkbox]').val();
+        var new_id = $(this).find('input[type=checkbox]').val();
+        $(ui.draggable).css({
+          position: '',
+          top: '',
+          left: ''
+        }).insertAfter(this);
+        var act = 'drop_after';
+        if ( $(this).hasClass('as_child') ) act = 'child';
+
+        $.get('pages/'+old_id+'/switch/' + new_id, { method: act},function(data){
+          if ( data.success ) {
+            document.location.reload();
+          } else {
+            $('#notice').html(data.errors[0]);
+            $('#notice').show();
+            setTimeout(function() {
+              $('#notice').fadeOut(3000);
+            }, 3000);
+          }
+          
+        });
+      }
+    });
+
     if (typeof(LazyAdmin.extension_setup) == "function") LazyAdmin.extension_setup();
+
 
 
   },

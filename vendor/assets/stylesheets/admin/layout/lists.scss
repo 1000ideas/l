@@ -6,6 +6,28 @@ ul.items-list {
     display: block;
     margin-bottom: 5px;
 
+    &.ui-state-hover {
+      border: 0;
+      background: none;
+      padding-bottom: 35px;
+      
+      // > div.group {margin-bottom: 5px;}
+
+      // &:after {
+      //   content: '';
+      //   height: 30px;
+      //   display: block;
+      //   border: 4px dashed #ccc;
+      //   background: #eee;
+        
+      // }
+    }
+
+    &.ui-draggable-dragging {
+      z-index: 2;
+      > ul {display: none;}
+    }
+
     > div.group { position: relative; background: #ddd; }
     > div.group:hover { background: #ccc; }
     &:nth-child(even) > div.group { background: #ededed; }
