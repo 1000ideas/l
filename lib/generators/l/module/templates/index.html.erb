@@ -41,7 +41,7 @@
   <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
   <li>
     <div class="group">
-      <div class="select"><%= selection_tag news %></div>
+      <div class="select"><%%= selection_tag <%= singular_table_name %> %></div>
 <% for attribute in attributes -%>
 <% if attribute.type == :file -%>
         <div><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></div>

@@ -8,7 +8,7 @@
 <p id="notice"><%= notice %></p>
 
 <%= render partial: 'l/partials/switcher', object: @galleries %>
-<ul class="items-list two-columns" data-page="<%= @galleries.current_page %>">
+<ul class="items-list three-columns" data-page="<%= @galleries.current_page %>">
   <li class="header">
     <div class="group">
       <div><%= L::Gallery.human_attribute_name :name %></div>

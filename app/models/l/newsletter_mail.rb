@@ -34,6 +34,10 @@ module L
       n.update_attribute(:confirm_token, nil)
     end
 
+    def confirm
+      self.update_attribute(:confirm_token, nil)
+    end
+
     protected
 
     # Przy tworzeniu nowego adresu (zapisaniu się użytkownika) uzupełnij pole

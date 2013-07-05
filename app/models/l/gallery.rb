@@ -14,6 +14,8 @@ module L
   # Tłumaczone atrybuty: +name+, +content+.
   #
   class Gallery < ActiveRecord::Base
+    self.per_page = 10
+    
     has_many :gallery_photos, :dependent => :destroy
     attr_accessible :name, :content, :translations_attributes
 

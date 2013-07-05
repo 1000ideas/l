@@ -6,25 +6,20 @@ ul.items-list {
     display: block;
     margin-bottom: 5px;
 
+    &.ui-draggable {
+      cursor: pointer;
+    }
+
     &.ui-state-hover {
       border: 0;
       background: none;
-      padding-bottom: 35px;
-      
-      // > div.group {margin-bottom: 5px;}
-
-      // &:after {
-      //   content: '';
-      //   height: 30px;
-      //   display: block;
-      //   border: 4px dashed #ccc;
-      //   background: #eee;
-        
-      // }
+      margin-bottom: 0;
+      border-bottom: 5px solid #e6085c;
     }
 
     &.ui-draggable-dragging {
       z-index: 2;
+      background: #fff;
       > ul {display: none;}
     }
 
@@ -58,7 +53,7 @@ ul.items-list {
     &.header > div.group > div:nth-child(1),
     > div.group > div:nth-child(2) {
       width: 95%;
-      width: calc(100% - 35px);
+      width: calc(100% - 40px);
     }
 
     &.header > div.group > div:nth-child(1) { padding-left: 35px; }
@@ -112,6 +107,26 @@ ul.items-list {
       &.header > div.group > div:nth-child(2),
       > div.group > div:nth-child(3) {
         width: 49%;
+      }
+    }
+  }
+
+
+  &.three-columns {
+    li {
+      &.header > div.group > div:nth-child(1),
+      > div.group > div:nth-child(2) {
+        width: 25%;
+        width: calc(33% - 35px);
+      }
+
+      &.header > div.group > div:nth-child(1) { padding-left: 35px; }
+      
+      &.header > div.group > div:nth-child(2),
+      &.header > div.group > div:nth-child(3),
+      > div.group > div:nth-child(3),
+      > div.group > div:nth-child(4) {
+        width: 33%;
       }
     }
   }

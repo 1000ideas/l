@@ -145,17 +145,24 @@ module L
 
       def add_default_abilites # :nodoc:
         abilities = <<-CONTENT
-  user ||= User.new
-  if user.has_role? :admin
-    can :manage, :all
-    can :manage, :self    
-    can :read, :all
-  elsif user.has_role? :user
-    can :manage, :self    
-    can :read, :all
-  else
-    can :read, :all
-  end
+    user ||= User.new
+
+    if user.has_role? :admin
+      can :manage, User
+      can :manage, L::Page
+      can :manage, L::News
+      can :manage, L::Gallery
+      can :manage, L::GalleryPhoto
+      can :manage, L::NewsletterMail
+    elsif user.has_role? :user
+      can [:read, :update], User, id: user.id
+    end
+
+    can :read, L::Page
+    can :read, L::News
+    can :read, L::Gallery
+    can :read, L::GalleryPhoto
+    can :create, L::NewsletterMail
 
         CONTENT
         insert_into_file 'app/models/ability.rb', abilities, after: "initialize(user)\n"

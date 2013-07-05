@@ -13,23 +13,23 @@ module L
     # *GET* /news
     #
     def index
-      authorize! :menage, :all
-      @news = L::News.order("created_at DESC").
-        paginate :page => params[:page], :per_page => params[:per_page]||10
+      @news = L::News.paginate page: params[:page]
+      authorize! :menage, L::News
 
       respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @news }
+        format.html
       end
     end
 
-    # Akcja wyświetlająca pojedynczy news. Dostępna dla wszystich.
+    # Akcja wyświetlająca pojedynczy news. Dostępna dla mogących czytać newsy.
     #
     # *GET* /news/1
     #
     def show
       @news = L::News.find(params[:id])
-      render :layout => "l/layouts/standard"
+      authorize! :read, @news
+
+      render layout: "l/layouts/standard"
     end
 
     # Akcja wyświetlająca formularz tworzenia nowego newsa. Dostępna tylko dla
@@ -38,15 +38,15 @@ module L
     # *GET* /news/new
     #
     def new
-      authorize! :menage, :all
       @news = L::News.new
+      authorize! :create, @news
+
       (I18n.available_locales).each {|locale|
         @news.translations.build :locale => locale
       }
 
       respond_to do |format|
-        format.html # new.html.erb
-        format.xml  { render :xml => @news }
+        format.html
       end
     end
 
@@ -56,8 +56,12 @@ module L
     # *GET* /news/1/edit
     #
     def edit
-      authorize! :menage, :all
       @news = L::News.find(params[:id])
+      authorize! :update, @news
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     # Akcja tworząca nowego newsa. Dostępna tylko dla administratora.
@@ -65,16 +69,14 @@ module L
     # *POST* /news
     #
     def create
-      authorize! :menage, :all
       @news = L::News.new(params[:l_news])
+      authorize! :create, @news
 
       respond_to do |format|
         if @news.save
           format.html { redirect_to(news_index_url, :notice => I18n.t('create.success')) }
-          format.xml  { render :xml => @news, :status => :created, :location => @news }
         else
           format.html { render :action => "new" }
-          format.xml  { render :xml => @news.errors, :status => :unprocessable_entity }
         end
       end
     end
@@ -85,16 +87,14 @@ module L
     # *PUT* /news/1
     #
     def update
-      authorize! :menage, :all
       @news = L::News.find(params[:id])
+      authorize! :update, @news
 
       respond_to do |format|
         if @news.update_attributes(params[:l_news])
           format.html { redirect_to(news_index_url, :notice => I18n.t('update.success')) }
-          format.xml  { head :ok }
         else
           format.html { render :action => "edit" }
-          format.xml  { render :xml => @news.errors, :status => :unprocessable_entity }
         end
       end
     end
@@ -104,22 +104,22 @@ module L
     # *DELETE* /news/1
     #
     def destroy
-      authorize! :menage, :all
       @news = L::News.find(params[:id])
+      authorize! :destroy, @news
+
       @news.destroy
 
       respond_to do |format|
         format.html { redirect_to news_index_url, notice: t('destroy.success') }
-        format.xml  { head :ok }
         format.js
       end
     end
 
     # GET /news/list
     def list
-      @news = L::News.
-        order("created_at DESC").
-        paginate :page => params[:page], :per_page => params[:per_page] || 5
+      @news = L::News.paginate(page: params[:page], per_page: 5)
+      authorize! :read, L::News
+
       render :layout => "l/layouts/standard"
     end
   end

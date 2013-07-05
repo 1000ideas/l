@@ -166,14 +166,19 @@ module L
       page = L::Page.find(params[:id])
       authorize! :update, page
 
-      status = case params[:method]
-        when 'child' then page.set_parent!(target_page)
-        else page.insert_after!(target_page)
+      # Przenieść do modelu przy okazji pisania SortableConcern
+      L::Page.transaction do
+        L::Page.where('`position` > ?', target_page.position)
+          .where(parent_id: target_page.parent_id)
+          .update_all('position = position+1')
+        page.update_attributes!(
+          parent_id: target_page.parent_id,
+          position: target_page.position + 1)
       end
 
-      render json: {success: status, errors: target_page.errors.full_messages }
+      head :ok
     rescue ActiveRecord::RecordInvalid => ex
-      render json: {success: false, errors: ex.record.errors.full_messages }
+      render json: page.errors.full_messages, status: :unprocessable_entity
     end
 
   end

@@ -20,9 +20,12 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class Page < ActiveRecord::Base
+    default_scope order('`position` DESC')
+
     validates :title, presence: true
-    validates :url, presence: true
-    validate :unique_url_within_siblings
+    validates :url, presence: true, uniqueness: {scope: :parent_id}
+    # validate :unique_url_within_siblings
+    validate :detect_tree_loops
 
     attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
       :position, :parent_id, :hidden_flag, :translations_attributes
@@ -193,9 +196,21 @@ module L
 
     private
     
-    # Sprawdza czy pośród rodzeństwa nie ma stron o takim samym url
-    def unique_url_within_siblings
-      errors.add(:url, :taken) if siblings.count {|p| p.url == url } > 0
+    # # Sprawdza czy pośród rodzeństwa nie ma stron o takim samym url
+    # def unique_url_within_siblings
+    #   errors.add(:url, :taken) if siblings.count {|p| p.url == url } > 0
+    # end
+
+    # Sprawdza czy istnieją zapętlenia w drzewie stron
+    def detect_tree_loops
+      page = self
+      until page.parent.nil?
+        if page.parent_id == self.id
+          errors.add(:base, :tree_loop)
+          break
+        end
+        page = page.parent
+      end
     end
 
 

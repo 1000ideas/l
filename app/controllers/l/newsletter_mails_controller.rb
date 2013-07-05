@@ -14,7 +14,9 @@ module L
     # *POST* /newsletter_mails
     #
     def create
+
       @newsletter_mail = L::NewsletterMail.new(params[:l_newsletter_mail])
+      authorize! :create, @newsletter_mail
 
       respond_to do |format|
         if @newsletter_mail.save
@@ -44,13 +46,17 @@ module L
     # *GET* /newsletter_mail/confirm
     #
     def confirm
-      if L::NewsletterMail.confirm(params[:token])
+      @mail = L::NewsletterMail.find_by_confirm_token(params[:token])
+      authorize! :create, @mail
+
+      if @mail.try(:confirm)
         flash[:newsletter_notice_class] = 'notice'
         flash[:newsletter_notice] = I18n.t('newsletter.confirmed')
       else
         flash[:newsletter_notice_class] = 'alert'
         flash[:newsletter_notice] = I18n.t('newsletter.error')
       end
+      
       redirect_to root_path
     end
 
@@ -60,7 +66,7 @@ module L
     # *GET* /newsletter_mails
     #
     def index
-      authorize! :menage, :all
+      authorize! :menage, L::NewsletterMail
       @newsletter_mail = L::NewsletterMail.where(:confirm_token => nil).
         paginate( :page => params[:page], :per_page => params[:per_page]||10 )
     end
@@ -71,7 +77,7 @@ module L
     # *GET* /newsletter_mails/send_mail
     #
     def send_mail_edit
-      authorize! :menage, :all
+      authorize! :menage, NewsletterMail      
       @emails = L::NewsletterMail.where(:confirm_token => nil).all
     end
 
@@ -81,7 +87,7 @@ module L
     # *POST* /newsletter_mails/send_mail
     #
     def send_mail
-      authorize! :menage, :all
+      authorize! :menage, L::NewsletterMail
       if params[:emails].nil?
         flash[:alert] = "Nie wybrano odbiorców."
       else
@@ -101,8 +107,8 @@ module L
     # *DELETE* /newsletter_mails/1
     #
     def destroy
-      authorize! :menage, :all
       @newsletter_mail = L::NewsletterMail.find(params[:id])
+      authorize! :destroy, @newsletter_mail
       @newsletter_mail.destroy
 
       respond_to do |format|

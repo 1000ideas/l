@@ -5,7 +5,7 @@
     <% @gallery_photos.each do |photo| %>
       <li>
       <%= collection_lightbox_tag photo.photo, 'gallery', original_style: :big, target: '_blank' %>
-      <%= link_to t('gallery_photos.show_photos.delete'), gallery_gallery_photo_path(gallery_id: photo.gallery_id, id: photo.id), data: { confirm: t('gallery_photos.show_photos.confirm'), method: :delete, remote: true } %>
+      <%= link_to t('gallery_photos.show_photos.delete'), gallery_photo_path(gallery_id: photo.gallery_id, id: photo.id), data: { confirm: t('gallery_photos.show_photos.confirm'), method: :delete, remote: true } %>
       </li>
     <% end %>
   </ul>

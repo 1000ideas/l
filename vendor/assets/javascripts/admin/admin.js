@@ -5,7 +5,7 @@ var LazyAdmin = {
     LazyAdmin.form_customization_init();
     LazyAdmin.form_upload_init();
 
-    $("ul.items-list.sortable li").draggable({
+    $("ul.items-list.sortable li:not(.header)").draggable({
       appendTo: 'body',
       revert: 'invalid',
       cursor: 'move'
@@ -15,35 +15,57 @@ var LazyAdmin = {
       hoverClass: 'ui-state-hover',
       greedy: true,
       drop: function(event, ui) {
-        var old_id = $(ui.draggable).find('input[type=checkbox]').val();
-        var new_id = $(this).find('input[type=checkbox]').val();
-        $(ui.draggable).css({
-          position: '',
-          top: '',
-          left: ''
-        }).insertAfter(this);
-        var act = 'drop_after';
-        if ( $(this).hasClass('as_child') ) act = 'child';
+        var object, id, target, target_id;
 
-        $.get('pages/'+old_id+'/switch/' + new_id, { method: act},function(data){
-          if ( data.success ) {
-            document.location.reload();
-          } else {
-            $('#notice').html(data.errors[0]);
-            $('#notice').show();
-            setTimeout(function() {
-              $('#notice').fadeOut(3000);
-            }, 3000);
-          }
-          
+        object = $(ui.draggable);
+        id = object.find('input[type=checkbox]').val();
+
+        var target = $(this)
+        var target_id = target.find('input[type=checkbox]').val();
+        
+        LazyAdmin.show_loader();
+
+        $.get('pages/' + id + '/switch/' + target_id, function(data){
+          object.insertAfter(target);
+        }).fail(function(jqXHR, textStatus) {
+          $('#notice').html(jqXHR.responseJSON.join('. '));
+          $('#notice').show();
+          setTimeout(function() {
+            $('#notice').fadeOut(3000);
+          }, 3000);
+        }).always(function() {
+          object.css({
+            position: '',
+            top: '',
+            left: ''
+          });
+          LazyAdmin.hide_loader();
         });
       }
     });
+
+
+    // $(document)
+    //   .ajaxComplete(LazyAdmin.hide_loader)
+    //   .ajaxSend(LazyAdmin.show_loader);
 
     if (typeof(LazyAdmin.extension_setup) == "function") LazyAdmin.extension_setup();
 
 
 
+  },
+  show_loader: function() {
+    var loader = $('body > div#lazy-loader')
+    if (loader.length == 0) {
+      loader = $('<div>')
+        .attr('id', 'lazy-loader')
+        .css({display: 'none'})
+        .appendTo( $('body') )
+    }
+    loader.fadeIn('fast');
+  },
+  hide_loader: function() {
+    $('body > div#lazy-loader').fadeOut('fast');
   },
   destroy_selected: function(selector, controller) {
     LazyAdmin.action_on_selected(selector, controller, null, 'delete');
