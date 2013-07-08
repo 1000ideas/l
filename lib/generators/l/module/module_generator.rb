@@ -88,6 +88,10 @@ module L
         template 'controller.rb', controller_path
       end
 
+      def add_abilities
+        inject_into_file 'app/models/ability.rb', "\\k<indent>  can :manage, #{class_name}\n", after: %r{(?<indent>[ ]+).+user\.(?:has_role\?\s+:)?admin\??\n}
+      end
+
       def add_routes # :nodoc:
         routing_code = "resources :#{plural_name}" 
         log :route, routing_code

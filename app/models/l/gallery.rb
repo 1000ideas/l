@@ -32,7 +32,7 @@ module L
     #   - +style+ - styl miniatury, domyślnie +:thumb+
     #
     def thumbnail(style = :thumb)
-      self.gallery_photos.first.photo.url(style)
+      self.gallery_photos.first.try(:photo, style)
     rescue
       ''
     end

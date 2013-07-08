@@ -2,8 +2,8 @@
   <%= render 'submenu' %>
 <% end %>
 
-<% title t('users.index.title') %>
-<% breadcrumbs_admin link_to(t('users.index.title'), users_path) %>
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('.title'), users_path) %>
 
 <p id="notice"><%= notice %></p>
 <%= render partial: 'l/partials/switcher', object: @users %>

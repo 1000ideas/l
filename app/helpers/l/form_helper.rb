@@ -18,7 +18,7 @@ module L
       check_box_tag "#{name}[]", object.id, false, options 
     end
 
-    # Metoda wyświetlajaca przycisk do sortowania, jako +submit_tag+.
+    # Metoda wyświetlajaca przycisk do sortowania, jako +button_tag+.
     #
     # * *Argumenty*:
     #
@@ -30,10 +30,12 @@ module L
     #     pliku +config/locales/pl.yml+.
     def sort_tag(name, type, options = {})
       options = options.reverse_merge({
-        class: [],
         name: 'sort',
-        title:I18n.t("sort.#{type.to_s}")
+        title:I18n.t("sort.#{type.to_s}"),
+        value: "#{name.to_s}_#{type.to_s}"
       })
+
+      options[:class] = ["sort", options.delete(:class)].compact.flatten
 
       if options[:class].is_a? String
         options[:class] = [options[:class], (type == :asc ? 'up' : 'down')].uniq
@@ -41,7 +43,9 @@ module L
         options[:class].push(type == :asc ? 'up' : 'down').uniq!
       end
 
-      submit_tag "#{name.to_s}_#{type.to_s}", options
+
+
+      button_tag "", options
     end
   end
 end

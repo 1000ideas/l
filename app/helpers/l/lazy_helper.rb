@@ -27,10 +27,10 @@ module L
     #  - +value+ - tekst do skrócenia
     #  - +length+ - maksymalna długość teksty na wyjściu, domyślnie 50
     #
-    def short(value, length=50)
+    def short(value, length = 50)
       v = strip_tags(value)
       if v.mb_chars.length > length
-        raw(v.mb_chars.slice(0,length-1).to_s + "&ellips;")
+        (v.mb_chars.slice(0,length-1).to_s + "&hellip;").html_safe
       else
         v
       end

@@ -11,21 +11,22 @@
 <ul class="items-list three-columns" data-page="<%= @galleries.current_page %>">
   <li class="header">
     <div class="group">
+      <div><%= L::Gallery.human_attribute_name :thumb %></div>
       <div><%= L::Gallery.human_attribute_name :name %></div>
       <div><%= L::Gallery.human_attribute_name :content %></div>
-      <div><%= L::Gallery.human_attribute_name :thumb %></div>
     </div>
   </li>
   <% @galleries.each do |gallery| %>
   <li>
     <div class="group">
       <div class="select"><%= selection_tag gallery %></div>
-      <div><%= gallery.email %></div>
-      <div><%= gallery.role %></div>
+      <div><%= image_tag(gallery.thumbnail, alt: gallery.name) unless gallery.thumbnail.nil? %></div>
+      <div><%= gallery.name %></div>
+      <div><%= short gallery.content %></div>
       <div class="options">
-        <%= link_to t('show'), gallery, class: "show", title: t('show'), target: '_blank' %>
+        <%= link_to t('show'), gallery_path(gallery), class: "show", title: t('show'), target: '_blank' %>
         <%= link_to t('edit'), edit_gallery_path(gallery), class: "edit", title: t('edit') %>
-        <%= link_to t('destroy'), gallery, class: "destroy", title: t('destroy'),
+        <%= link_to t('destroy'), gallery_path(gallery), class: "destroy", title: t('destroy'),
           data: {confirm: t('confirm'), method: :delete } %>
       </div>
     </div>

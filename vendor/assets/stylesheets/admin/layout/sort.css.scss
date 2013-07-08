@@ -1,16 +1,22 @@
-FORM th input[type="submit"] {
-    height:18px;
-    text-indent:-9999px;
-    width:15px;
-    float: none;
-    padding: 0;
-    margin-left: 5px;
+form li.header button.sort {
+  display: inline-block;
+  vertical-align: middle;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height:18px;
+  text-indent:-9999px;
+  overflow: hidden;
+  width:15px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  cursor: pointer;
 }
 
-FORM th input[type="submit"].down {
+form li.header button.sort.down {
     background:image-url("admin/array_down.gif") no-repeat scroll 0 0 transparent;
 }
 
-FORM th input[type="submit"].up {
+form li.header button.sort.up {
     background:image-url("admin/array_up.gif") no-repeat scroll 0 0 transparent;
 }
