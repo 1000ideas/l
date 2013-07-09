@@ -15,7 +15,9 @@ module L
     #
     def index
       authorize! :manage, L::Page
-      @pages = L::Page.roots
+      @pages = L::Page
+        .ordered
+        .roots
 
       respond_to do |format|
         format.html 
@@ -153,32 +155,21 @@ module L
       end
     end
 
-    # Akcja pozwalająca zamienić kolejność stron. Wymaganym paarmetrem jest
-    # +target_id+ - id strony wględem której wykonywana jest akcja. Dodatkowym
-    # parametrem jest +method+ określający czy strona ma zostać
-    # ustawiona jako potomek (wartość: +child+) lub wstawiona poniżej
-    # wybranej storny w drzewie.
+    # Akcja pozwalająca zamienić kolejność stron. A dokładnie wstawić stronę
+    # za inną stroną w kolejności.
     #
-    # *GET* /pages/1/switch
+    # *POST* /pages/1/after/2
     #
-    def switch
+    def after
       target_page = L::Page.find(params[:target_id])
       page = L::Page.find(params[:id])
       authorize! :update, page
 
-      # Przenieść do modelu przy okazji pisania SortableConcern
-      L::Page.transaction do
-        L::Page.where('`position` > ?', target_page.position)
-          .where(parent_id: target_page.parent_id)
-          .update_all('position = position+1')
-        page.update_attributes!(
-          parent_id: target_page.parent_id,
-          position: target_page.position + 1)
+      if page.put_after(target_page)
+        head :ok
+      else
+        render json: page.errors.full_messages, status: :unprocessable_entity
       end
-
-      head :ok
-    rescue ActiveRecord::RecordInvalid => ex
-      render json: page.errors.full_messages, status: :unprocessable_entity
     end
 
   end

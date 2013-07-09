@@ -13,7 +13,9 @@ module L
     # *GET* /news
     #
     def index
-      @news = L::News.paginate page: params[:page]
+      @news = L::News
+        .ordered
+        .paginate page: params[:page]
       authorize! :menage, L::News
 
       respond_to do |format|

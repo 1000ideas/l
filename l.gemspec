@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2013-07-03"
+  s.date = "2013-07-09"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -87,6 +87,7 @@ Gem::Specification.new do |s|
     "app/views/l/pages/_edit_form.erb",
     "app/views/l/pages/_form.html.erb",
     "app/views/l/pages/_page_item.html.erb",
+    "app/views/l/pages/_page_list_item.html.erb",
     "app/views/l/pages/_submenu.erb",
     "app/views/l/pages/_tooltip.html.erb",
     "app/views/l/pages/edit.html.erb",
@@ -184,6 +185,7 @@ Gem::Specification.new do |s|
     "lib/generators/l/page/templates/pages.rb",
     "lib/generators/l/views/views_generator.rb",
     "lib/l.rb",
+    "lib/l/concerns/sortable.rb",
     "lib/l/controllers/exceptions_rescues.rb",
     "lib/l/generators/actions.rb",
     "lib/l/rails.rb",
@@ -219,6 +221,7 @@ Gem::Specification.new do |s|
     "vendor/assets/images/uploadify-cancel.png",
     "vendor/assets/javascripts/admin/admin.js",
     "vendor/assets/javascripts/admins.js",
+    "vendor/assets/javascripts/custom_selector.js.coffee",
     "vendor/assets/javascripts/html5shiv.js",
     "vendor/assets/javascripts/jquery.mobile.js",
     "vendor/assets/javascripts/jquery.uploadify.js",
@@ -232,6 +235,7 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/admin/layout/filter.css.scss",
     "vendor/assets/stylesheets/admin/layout/forms.css.scss",
     "vendor/assets/stylesheets/admin/layout/gallery_photos.css.scss",
+    "vendor/assets/stylesheets/admin/layout/lists.scss",
     "vendor/assets/stylesheets/admin/layout/send_mail.css.scss",
     "vendor/assets/stylesheets/admin/layout/sort.css.scss",
     "vendor/assets/stylesheets/admin/layout/switcher.css.scss",
@@ -241,6 +245,7 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/admins.css",
     "vendor/assets/stylesheets/ceebox.css",
     "vendor/assets/stylesheets/common.css",
+    "vendor/assets/stylesheets/custom_selector.css.scss",
     "vendor/assets/stylesheets/jquery.mobile.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.core.css",
     "vendor/assets/stylesheets/jquery_ui/jquery.ui.dialog.css",

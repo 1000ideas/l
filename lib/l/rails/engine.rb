@@ -21,6 +21,12 @@ module L
         end
       end
 
+      initializer "model" do |app|
+        ActiveSupport.on_load(:active_record) do
+          include L::Concerns::Sortable
+        end
+      end
+
       initializer "string_extension" do |app|
         String.class_eval do
           include L::StringExtension

@@ -12,7 +12,7 @@
   </div>
   <% if page.children.any? %>
     <ul>
-      <% page.children.each do |p| %>
+      <% page.children.ordered.each do |p| %>
         <%= render 'page_list_item', page: p %>
       <% end %>
     </ul>    

@@ -20,11 +20,8 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class Page < ActiveRecord::Base
-    default_scope order('`position` DESC')
-
     validates :title, presence: true
     validates :url, presence: true, uniqueness: {scope: :parent_id}
-    # validate :unique_url_within_siblings
     validate :detect_tree_loops
 
     attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
@@ -33,13 +30,15 @@ module L
     translates :title, :content
     accepts_nested_attributes_for :translations
 
-    acts_as_tree order: "position"
+    acts_as_tree
   
     after_save :set_default_position
 
+    sortable :position, scope: :parent_id
+
     # Strony podrzędne które nie są ukryte.
     def unhidden_children
-      self.children.delete_if { |ch| ch.hidden_flag == 1 }
+      self.children.where(hidden_flag: false)
     end
     
     # Metoda wyszukująca stron pasujący do podane frazy. Wyszukiwanie odbywa
@@ -73,99 +72,6 @@ module L
     #   - +page+ - strona która może być przodkiem.
     def ancestor?(page)
       not ancestors.find {|p| p.id == page.id}.nil?
-    end
-
-    # Wstawia stronę jako ostatnie dziecko strony +page+. Zapewnie spójność
-    # danych. Sprawdza czy strony nie będą tworzyły pętli oraz wszystkie
-    # walidatory strony (szczególnie niepowtarzalność +url+ w obrębie rodzica). W
-    # przypadku błędu wyrzucany jest wyjątek
-    # <tt>ActiveRecord::RecordInvalid</tt>.
-    #
-    # * *Argumenty*:
-    #
-    #   - +page+ - strona która ma zostać nowym rodzicem strony.
-    #
-    def set_parent!(page)
-      Page.transaction do
-        unless self.change_parent(page)
-          raise ActiveRecord::RecordInvalid.new(self)
-        end
-      end
-      true
-    end
-
-    # Wstawia stronę jako następną w kolejności za stronę +page+. W razie
-    # potrzeby zmieniany jest rodzic strony. Zapewnia spójność danych. Sprawdza
-    # czy strony nie tworzą pętli oraz przeprowadza walidację (w szczególnosci
-    # niepowtarzalność +url+ w obrębie rodzica). W przypadku błędu wyrzucany
-    # jest wyjątek <tt>ActiveRecord::RecordInvalid</tt>
-    #
-    # * *Argumenty*:
-    #
-    #   - +page+ - strona która ma poprzedzać wybraną stronę.
-    #
-    def insert_after!(page)
-      Page.transaction do
-        if parent_id != page.parent_id
-          unless self.change_parent(page.parent)
-            raise ActiveRecord::RecordInvalid.new(self)
-          end
-        else
-          self.class.where('position > ?', position).where(parent_id: parent_id).
-            update_all('position = position-1')
-          page.reload
-        end  
-        unless self.drop_after(page)
-          raise ActiveRecord::RecordInvalid.new(self)
-        end
-      end
-      true
-    end
-
-    # Wstawia stroną w stukturę stron na pozycji za podaną stroną. Strony muszą
-    # mieć tego samego rodzica.
-    #
-    # * *Argumenty*:
-    #
-    #   - +where_page+ - strona za którą należy wstawić wybraną stronę.
-    #
-    def drop_after(where_page)
-      if parent_id != where_page.parent_id
-        errors.add(:parent_id, :diffrent)
-        return false
-      end
-      new_position = where_page.position + 1
-      unless new_position == position
-        self.class.where('position >= ?', new_position).
-          where(parent_id: parent_id).
-          update_all('position = position+1')
-        update_attribute :position, new_position
-      else
-        true
-      end
-    end
-
-    # Wypina stronę z drzewa stron i wpina ją pod podanym rodzicem. Nowa strona
-    # rodzic nie może należeć do potomków wybranej strony. Strona dodawana jest
-    # na koniec listy dzieci.
-    #
-    # * *Argumenty*:
-    #
-    #   - +new_parent+ - strona która ma się stać nowym rodzicem wybranej strony.
-    #
-    def change_parent(new_parent = nil)
-      if new_parent and ( new_parent.ancestor?(self) or new_parent.id == id)
-        errors.add(:parent_id, :loop)
-        return false
-      end
-      pid = new_parent ? new_parent.id : nil
-      old_parent_id = parent_id
-      old_position = position
-      position = nil
-      status = update_attributes(position: nil, parent_id: pid)
-      self.class.where('position > ?', old_position).where(parent_id: old_parent_id).
-        update_all('position = position-1')
-      status
     end
 
     # Pobiera token strony, czyli bezpośrednią ścieżkę url wybranej strony i stron

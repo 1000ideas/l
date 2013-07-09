@@ -66,9 +66,11 @@ module L
     # *GET* /newsletter_mails
     #
     def index
-      authorize! :menage, L::NewsletterMail
-      @newsletter_mail = L::NewsletterMail.where(:confirm_token => nil).
-        paginate( :page => params[:page], :per_page => params[:per_page]||10 )
+      authorize! :manage, L::NewsletterMail
+      @newsletter_mail = L::NewsletterMail
+        .ordered
+        .where(:confirm_token => nil)
+        .paginate page: params[:page]
     end
 
     # Akcja wyświetlająca formularz nowego listu newslettera. Dostępna tylko

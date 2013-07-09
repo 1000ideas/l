@@ -11,7 +11,7 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class News < ActiveRecord::Base    
-    default_scope order('`created_at` DESC')
+    scope :ordered, order("`#{table_name}`.`created_at` DESC")
     self.per_page = 10
 
     attr_accessible :title, :content, :photo, :photo_delete, :translations_attributes

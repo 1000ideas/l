@@ -14,6 +14,7 @@ module L
   # Tłumaczone atrybuty: +name+, +content+.
   #
   class Gallery < ActiveRecord::Base
+    scope :ordered, order("`#{table_name}`.`created_at` DESC")
     self.per_page = 10
     
     has_many :gallery_photos, :dependent => :destroy

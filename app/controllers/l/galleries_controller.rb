@@ -15,7 +15,9 @@ module L
     # *GET* /galleries
     #
     def index
-      @galleries = L::Gallery.paginate page: params[:page]
+      @galleries = L::Gallery
+        .ordered
+        .paginate page: params[:page]
       authorize! :menage, L::Gallery
 
       respond_to do |format|

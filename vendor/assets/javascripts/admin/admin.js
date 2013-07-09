@@ -15,17 +15,26 @@ var LazyAdmin = {
       hoverClass: 'ui-state-hover',
       greedy: true,
       drop: function(event, ui) {
-        var object, id, target, target_id;
+        var object, id, target, target_id, url;
 
         object = $(ui.draggable);
         id = object.find('input[type=checkbox]').val();
 
-        var target = $(this)
-        var target_id = target.find('input[type=checkbox]').val();
+        target = $(this)
+        target_id = target.find('input[type=checkbox]').val();
         
         LazyAdmin.show_loader();
 
-        $.get('pages/' + id + '/switch/' + target_id, function(data){
+        url = $(this).parents('ul.sortable').data('url') + '';
+
+        if (url.indexOf(':id') < 0 || url.indexOf(':target_id') < 0) {
+          throw "Element ul.sortable must have data-url. Url has to have :id and :target_id placeholders."
+        }
+
+        url = url.replace(':id', id).replace(':target_id', target_id)
+
+
+        $.post(url, function(data){
           object.insertAfter(target);
         }).fail(function(jqXHR, textStatus) {
           $('#notice').html(jqXHR.responseJSON.join('. '));
@@ -35,7 +44,6 @@ var LazyAdmin = {
           }, 3000);
         }).always(function() {
           object.css({
-            position: '',
             top: '',
             left: ''
           });
@@ -44,13 +52,7 @@ var LazyAdmin = {
       }
     });
 
-
-    // $(document)
-    //   .ajaxComplete(LazyAdmin.hide_loader)
-    //   .ajaxSend(LazyAdmin.show_loader);
-
     if (typeof(LazyAdmin.extension_setup) == "function") LazyAdmin.extension_setup();
-
 
 
   },
