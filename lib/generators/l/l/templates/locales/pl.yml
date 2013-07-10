@@ -63,6 +63,12 @@ pl:
     news: "Aktualności"
     search: "Szukaj"
   helpers:
+    roles:
+      user:
+        admin: Administrator
+        user: Użytkownik
+        facebook: Użytkownik Facebooka
+        mod: Moderator
     submit:
       create: "Utwórz"
       update: "Zapisz zmiany"
