@@ -6,6 +6,7 @@
 <% breadcrumbs_admin link_to(t('.title'), users_path) %>
 
 <p id="notice"><%= notice %></p>
+<%= render "filter" %>
 <%= render partial: 'l/partials/switcher', object: @users %>
 
 <ul class="items-list two-columns" data-page="<%= @users.current_page %>">
@@ -20,7 +21,7 @@
     <div class="group">
       <div class="select"><%= selection_tag user %></div>
       <div><%= user.email %></div>
-      <div><%= user.role %></div>
+      <div><%= user.human_role %></div>
       <div class="options">
         <%= link_to t('show'), user, class: "show", title: t('show'), target: '_blank' %>
         <%= link_to t('edit'), edit_user_path(user), class: "edit", title: t('edit') %>
@@ -35,3 +36,5 @@
 <%= link_to t('destroy_selected'), 
   "javascript: LazyAdmin.destroy_selected('.selection','users')", 
   data: {confirm: t('confirm') } %>
+
+<%= will_paginate @news %>

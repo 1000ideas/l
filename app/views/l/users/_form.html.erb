@@ -14,8 +14,8 @@
       <%= f.password_field :password_confirmation %>
     </div>
     <div class="field">
-      <%= f.label :set_role %>
-      <%= f.collection_select :set_role, ["admin", "user"], :to_s, :to_s, selected: f.object.role %>
+      <%= f.label :role %>
+      <%= f.select :role, User.roles_for_select %>
     </div>
   </div>
   <div class="actions">

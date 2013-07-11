@@ -64,11 +64,10 @@ pl:
     search: "Szukaj"
   helpers:
     roles:
-      user:
-        admin: Administrator
-        user: Użytkownik
-        facebook: Użytkownik Facebooka
-        mod: Moderator
+      admin: Administrator
+      user: Użytkownik
+      facebook: Użytkownik Facebooka
+      mod: Moderator
     submit:
       create: "Utwórz"
       update: "Zapisz zmiany"

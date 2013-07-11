@@ -41,6 +41,8 @@ class CreateUsers < ActiveRecord::Migration
       ## Invitable
       # t.string :invitation_token
 
+      t.integer :roles_mask, limit: 8, null: false, default: 0
+
       t.timestamps
     end
 

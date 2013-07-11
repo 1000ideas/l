@@ -1,4 +1,24 @@
 pl:
+  l:
+    users:
+      submenu:
+        index: Lista Użytkowników
+        new: Dodaj użytkownika
+      index:
+        title: Użytkownicy
+        email: Email
+        role: Role
+      new:
+        title: Dodawanie użytkownika
+      edit:
+        title: Edycja użytkownika
+      show:
+        title: Szczegóły użytkownika
+    submenu:
+      new: Dodaj
+    partials:
+      switcher:
+        label_html: "Wyświetl %{start}-%{finish} z %{total}"
   admin:
     title: "Panel admina"
   unauthorized:
@@ -25,22 +45,7 @@ pl:
     news: Aktualności
     galleries: Galerie
     newsletter: Newsletter
-  users:
-    submenu:
-      index: Lista Użytkowników
-      new: Dodaj użytkownika
-    index:
-      title: Użytkownicy
-      email: Email
-      role: Role
-    new:
-      title: Dodawanie użytkownika
-    edit:
-      title: Edycja użytkownika
-    show:
-      title: Szczegóły użytkownika
-  submenu:
-    new: Dodaj
+  
   pages:
     submenu:
       index: Lista stron
@@ -49,6 +54,7 @@ pl:
       title: Nowa strona
   admins:
     submenu:
+      homepage: Strona główna
       edit_profile: Edytuj profil
     show:
       title: Strona główna

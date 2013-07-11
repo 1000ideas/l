@@ -12,7 +12,18 @@ module L
     # *GET* /users/
     def index
       authorize! :read, User
-      @users = User.all.paginate page: params[:page], per_page: params[:per_page] || 10
+      @users = User
+
+      unless filter(:email).blank?
+        @users = @users.where('`users`.`email` LIKE ?', "%#{filter(:email)}%")
+      end
+
+      unless filter(:role).blank?
+        @users = @users.with_role filter(:role).to_sym
+      end
+
+      @users = @users.paginate page: params[:page],
+        per_page: 10
 
       respond_to do |format|
         format.html

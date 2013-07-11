@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.3.26"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2013-07-09"
+  s.date = "2013-07-11"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -185,6 +185,7 @@ Gem::Specification.new do |s|
     "lib/generators/l/page/templates/pages.rb",
     "lib/generators/l/views/views_generator.rb",
     "lib/l.rb",
+    "lib/l/concerns/roles.rb",
     "lib/l/concerns/sortable.rb",
     "lib/l/controllers/exceptions_rescues.rb",
     "lib/l/generators/actions.rb",

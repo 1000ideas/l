@@ -41,7 +41,7 @@ module L
     member do
       get :hide, defaults: { status: 1 }
       get :unhide, action: 'hide', defaults: { status: 0 }
-      match 'after/:target_id', action: :after, via: :post
+      match 'after/:target_id', action: :after, via: :post, as: :after
     end
   end
 

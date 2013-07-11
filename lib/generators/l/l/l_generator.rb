@@ -16,7 +16,6 @@ module L
     #
     #   - +devise+
     #   - +cancan+
-    #   - +rolify+
     #   - +globalize3+
     #   - +paperclip+
     #   - +will_paginate+
@@ -86,7 +85,7 @@ module L
       end
       
       class << self
-        delegate :next_migration_number, :to => ActiveRecord::Generators::Base
+        delegate :next_migration_number, to: ActiveRecord::Generators::Base
       end
       
       def add_gems # :nodoc:
@@ -96,7 +95,6 @@ module L
           gem 'devise', "~> 2.0.0"
           
           gem 'cancan'
-          gem 'rolify'
 
           gem 'globalize3', '~> 0.3.0'
           
@@ -107,7 +105,7 @@ module L
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
 
-          gem 'tiny_mce_uploads', '~> 0.3.0'
+          gem 'tiny_mce_uploads', '~> 0.2.1'
         end
 
         Bundler.with_clean_env do
@@ -139,10 +137,6 @@ module L
         generate 'cancan:ability'
       end
 
-      def generate_rolify_role # :nodoc:
-        generate 'rolify:role -q'
-      end
-
       def add_default_abilites # :nodoc:
         abilities = <<-CONTENT
     user ||= User.new
@@ -172,10 +166,14 @@ module L
       ##### dodanie danych do seeds.rb
       def add_seeds_data # :nodoc:
         dane = <<-CONTENT
-admin = User.create email:  "admin@admin.pl", password:  "admin", :password_confirmation => "admin"
-admin.add_role :admin
+print "Adding seeds data..."
 
-print "Seeds added\n"
+admin = User.create email: 'admin@admin.pl',
+  password: 'admin',
+  password_confirmation: 'admin',
+  role: :admin
+
+puts "done!"
         CONTENT
 
         prepend_file "db/seeds.rb", dane
@@ -274,10 +272,6 @@ require 'will_paginate/array'
 
       def copy_devise_views # :nodoc:
         directory "views/devise", "app/views/devise"
-      end
-
-      def copy_shared_views # :nodoc:
-        directory "views/shared", "app/views/shared"
       end
 
       def copy_view # :nodoc:

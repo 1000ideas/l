@@ -17,9 +17,10 @@ FORM .filter .field strong {
 }
 
 FORM .filter .field label {
-    width:150px;
+    width: auto;
     float: none;
     margin: 3px 0;
+    display: inline-block;
 }
 
 FORM .filter .field input {
@@ -30,7 +31,15 @@ FORM .filter .field input {
     margin: 4px 5px;
 }
 
+FORM .filter .field .custom-selector {
+    height: 17px;
+    line-height: 17px;
+    width: 100px;
+    margin: 4px 5px;
+
+}
+
 FORM .filter .field input[type="submit"] {
-    line-height: 20px;
-    height: 20px;
+  line-height: 20px;
+  height: 20px;
 }

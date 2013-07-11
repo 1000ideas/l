@@ -7,7 +7,7 @@
 
 <p id="notice"><%= notice %></p>
 
-<ul class="items-list two-columns sortable">
+<ul class="items-list two-columns sortable" data-url="<%= after_page_path(id: ':id', target_id: ':target_id') %>">
   <li class="header">
     <div class="group">
       <div><%= L::Page.human_attribute_name :title %></div>
