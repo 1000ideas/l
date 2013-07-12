@@ -19,6 +19,23 @@ module L
       link_to t("menu.#{name}"), url, class: class_name
     end
 
+    # Generuj link wykonujący akcje na zaznaczonych elementach
+    #
+    # * *Argumenty*:
+    #    - +title+ - Treść linka
+    #    - +url+ - Url linka, musi zawierać placeholer +:id+
+    #    - +options+ - opcje, takie jak w link_to
+    def action_on_selection(title, url, options = {})
+      
+      jsopt = {
+        selector: options.delete(:selector) || '.selection',
+        method: options[:data].try(:delete, :method) || 'get',
+        type: options[:data].try(:delete, :type)
+      }
+
+      link_to title, "javascript: lazy.action_on_selected('#{j url}', #{jsopt.to_json})", options
+    end
+
     # Metoda skracająca tekst (robiąca zajawkę). Na końcu dodawany jest wielokropek, jeżeli
     # orginalny tekst był dłuższy niż wymagana długość.
     #

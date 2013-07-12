@@ -33,8 +33,9 @@
   <% end %>
 </ul>
 
-<%= link_to t('destroy_selected'), 
-  "javascript: LazyAdmin.destroy_selected('.selection','users')", 
-  data: {confirm: t('confirm') } %>
+<% if @users.any? %>
+<%= action_on_selection t('destroy_selected'), user_path(id: ':id'), data: {method: :delete, confirm: t('confirm')} %>  
+<% end %>
+
 
 <%= will_paginate @news %>

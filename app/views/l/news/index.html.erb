@@ -7,7 +7,7 @@
 <% breadcrumbs_admin link_to(t('news.index.title'), news_index_path) %>
 
 <p id="notice"><%= notice %></p>
-
+<% if @news.any? %>
 <%= render partial: 'l/partials/switcher', object: @news %>
 
 
@@ -33,7 +33,9 @@
   <% end %>
 </ul>
 
-<%= link_to t('destroy_selected'), 
-  "javascript: LazyAdmin.destroy_selected('.selection','news')", 
-  data: { confirm: t('confirm') } %>
+
+<%= action_on_selection t('destroy_selected'), news_path(id: ':id'), data: {method: :delete, confirm: t('confirm')} %>
+
 <%= will_paginate @news %>
+  
+<% end %>
