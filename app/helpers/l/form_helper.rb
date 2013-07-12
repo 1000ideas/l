@@ -43,9 +43,22 @@ module L
         options[:class].push(type == :asc ? 'up' : 'down').uniq!
       end
 
-
-
       button_tag "", options
+    end
+
+    # Tag input[type=files] obsługiwany przez plugin 
+    # jquery-fileupload. Argumenty jak w file_field_tag.
+    # Domyślnie możliwy wybór wielu plików
+    # 
+    def file_upload_tag(name, options = {})
+      class_name = options.delete(:class)
+      options[:class] = [:fileupload, :'custom-file-input', class_name].flatten.compact!
+      options[:multiple] = true if options[:multiple].nil?
+
+      options[:data] ||= {}
+      options[:data][:label] ||= I18n.t(:label, default: 'Select file', scope: 'helpers.fileupload')
+
+      file_field_tag(name, options)
     end
   end
 end

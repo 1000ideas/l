@@ -68,6 +68,8 @@ pl:
       user: Użytkownik
       facebook: Użytkownik Facebooka
       mod: Moderator
+    fileupload:
+      label: Wybierz plik
     submit:
       create: "Utwórz"
       update: "Zapisz zmiany"

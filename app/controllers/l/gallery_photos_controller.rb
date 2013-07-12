@@ -8,11 +8,11 @@ module L
     # *DELETE* /galleries/1/photos/1
     #
     def destroy
-      @photo = L::GalleryPhoto.find(params[:id])
+      @gallery = L::Gallery.find(params[:gallery_id])
+      @photo = @gallery.gallery_photos.find(params[:id])
       authorize! :destroy, @photo
-
-      @gallery_photos = @photo.gallery.gallery_photos
-      @delete = @photo.destroy
+      
+      @photo.destroy
 
       respond_to do |format|
         format.js
@@ -25,13 +25,11 @@ module L
     # *POST* /galleries/1/photos
     #
     def create
-      @photo = L::GalleryPhoto.new(swfupload_file: params[:Filedata],
-                                   gallery_id: params[:gallery_id])
+      @gallery = L::Gallery.find(params[:gallery_id])
+      @photo = @gallery.gallery_photos.new(photo: params[:photo])
       authorize! :create, @photo
 
-      @saved = @photo.save
-      @gallery = @photo.gallery
-      @gallery_photos = @gallery.gallery_photos
+      @photo.save
 
       respond_to do |format|
         format.js

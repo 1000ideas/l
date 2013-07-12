@@ -1,3 +1,3 @@
-<% if @saved %>
-  $('#show_photos').html("<%= escape_javascript render(partial: "l/gallery_photos/show_photos") %>");
+<% if @photo.errors.empty? %>
+  $('#show_photos').html("<%=j render(partial: "l/gallery_photos/show_photos") %>");
 <% end %>

@@ -145,34 +145,69 @@ var LazyAdmin = {
     $('form select').customSelect();
   },  
   form_upload_init: function() {
-    var placeholder = null, form_data = {}, csrf_token = '', csrf_param = '',
-      script_path = '', session_key = '', queue_id = '';
-    placeholder = $('#upload_photo');
 
-    script_path = placeholder.data('path');
-    queue_id = placeholder.find('.queue').attr('id');
-    session_key = placeholder.data('cookie-session-key');
-    session_value = placeholder.data('cookie-session-value'); 
-    form_data[session_key] = session_value;
+    $("input[type=file].fileupload").fileupload({
+      sequentialUploads: true,
+      singleFileUploads: true,
+      add: function(e, data) {
+        var queue;
+        queue = data.fileInput.data('queue');
+        
+        if (typeof queue != "undefined") {
+          var remove, name, progress, context;
+          file = data.files[0];
 
-    csrf_token = $('meta[name=csrf-token]').attr('content');
-    csrf_param = $('meta[name=csrf-param]').attr('content');
-    form_data[csrf_param] = encodeURI(csrf_token);
+          remove = $('<a>')
+            .attr('href', '#')
+            .html('&times;')
+            .addClass('close')
+            .click(function(event) {
+              event.preventDefault();
+              data.jqXHR.abort();
+            });            
 
-    $("#upload_photo .button").uploadify({
-      swf: '/assets/uploadify.swf',
-      uploader: script_path,
-      queueID: queue_id,
-      buttonText: 'Wybierz pliki',
-      formData: form_data,
-      onUploadSuccess: function(file, data) {
-        try {
-          eval(data);
-        } catch (ex) {
-          console.log(ex);
+          name = $('<p>')
+            .html(file.name);
+
+          progress = $('<div>')
+            .addClass('progress')
+            .progressbar();
+
+          context = data.context = $('<div>')
+            .append( remove )
+            .append( name )
+            .append( progress )
+            .addClass('queue-item')
+            .appendTo( '#' + queue )
         }
-      }
+
+        data.submit();        
+      },
+      progress: function (e, data) {
+        
+        if (typeof data.context != "undefined") {
+          var progress = parseInt(data.loaded / data.total * 100, 10);
+          console.log(progress);
+          data.context
+            .find('.progress')
+            .progressbar('value', progress);
+        }
+      },
+      always: function (e, data) {
+        
+        if (typeof data.context != "undefined") {
+          setTimeout(function() {
+            data.context
+              .fadeOut('slow', function() {
+                $(this).remove();
+              });
+          }, 3000);
+        }
+      }      
     });
+
+    $("input[type=file].custom-file-input.fileupload").customFileInput({path: false});
+    $("input[type=file].custom-file-input").customFileInput();
 
   }
 

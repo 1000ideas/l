@@ -45,7 +45,7 @@ module L
         get :list
         post :upload
       end
-      resources :gallery_photos, :controller => 'l/gallery_photos'
+      resources :photos, :controller => 'l/gallery_photos'
     end
         CONTENT
         log :route, "resources :galleries"

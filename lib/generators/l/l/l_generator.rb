@@ -20,6 +20,7 @@ module L
     #   - +paperclip+
     #   - +will_paginate+
     #   - +jquery-ui-rails+
+    #   - +jquery-fileupload-rails+
     #   - +acts_as_tree+
     #   - +mysql2+
     #   - +tiny_mce_uploads+
@@ -100,6 +101,7 @@ module L
           
           gem 'paperclip'
           gem 'jquery-ui-rails'
+          gem 'jquery-fileupload-rails'
 
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
@@ -257,12 +259,15 @@ require 'will_paginate/array'
 
       def add_assets_to_pipeline # :nodoc:
         inject_into_file 'app/assets/javascripts/application.js', 
-          "//= require lightbox\n",
+          "//= require lightbox\n//= require jquery-fileupload/basic\n",
           after: "jquery_ujs\n"
 
         inject_into_file 'app/assets/stylesheets/application.css', 
           "\n *= require lightbox\n *= require lazy", 
           before: "\n*/"
+
+        copy_file "assets/admins.js", 'app/assets/javascripts/admins.js'
+        copy_file "assets/admins.css", 'app/assets/stylesheets/admins.css'
       end
 
 
@@ -278,16 +283,8 @@ require 'will_paginate/array'
         generate 'l:views' if options.views
       end
 
-      def add_flash_sessions_cookie_middleware # :nodoc:
-        _config = <<-CONTENT
-Rails.application.config.middleware.insert_before(
-  Rails.application.config.session_store,
-  FlashSessionCookieMiddleware,
-  Rails.application.config.session_options[:key]
-)
-        CONTENT
-        append_to_file 'config/initializers/session_store.rb', _config, verbose: false
-        log :initializers, 'Add FlashSessionCookieMiddleware to session_store.rb'
+      def add_jquery_fileupload_middleware # :nodoc:
+        initializer('jquery_fileupload.rb', "Rails.application.config.middleware.use JQuery::FileUpload::Rails::Middleware")
       end
 
       def generate_mobile # :nodoc:

@@ -1,16 +1,12 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag "jquery_ui/jquery.ui.tabs", "jquery_ui/jquery.ui.core", "admin/layout/tabs" %>
-<% end %>
-
 <% content_for :submenu do %>
   <%= render "submenu" %>
 <% end %>
 
 <p id="notice"><%= notice %></p>
 
-<% content_for :title do t('galleries.edit.title') end %>
-<% breadcrumbs_admin link_to(t('galleries.index.title'), galleries_path),
-  link_to(t('galleries.edit.title'), edit_gallery_path) %>
+<% content_for :title do t('.title') end %>
+<% breadcrumbs_admin link_to(t('l.galleries.index.title'), galleries_path),
+  link_to(t('.title'), edit_gallery_path) %>
 
 <div class="cols-container">
   <div class="main-column">

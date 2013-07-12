@@ -26,23 +26,24 @@
       <% end %>
     </div>
 
-    <%- session_key = Rails.application.config.session_options[:key] -%>
-    <div class="group upload" 
-      id="upload_photo" 
-      data-path="<%= gallery_photos_url(@gallery, format: :js) %>" 
-      data-cookie-session-key="<%= session_key %>"
-      data-cookie-session-value ="<%= cookies[session_key] %>">
-      <div class='button' id="upload_photo_button"><%= t('galleries.form.upload') %></div>
-      <h2><%= t('galleries.form.upload_queue') %></h2>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+
+    <% end #END FORM %>
+
+    <%= form_tag gallery_photos_url(@gallery, format: :js), method: :post do %>
+    <div class="group upload" id="upload_photo">
+      <%= file_upload_tag :photo, data: {label: t('.upload'), queue: 'upload_photo_queue' } %>
+      <h2><%= t('.upload_queue') %></h2>
       <div class='queue' id="upload_photo_queue"></div>
     </div>
     <div id="show_photos">
       <%= render :partial => "l/gallery_photos/show_photos" %>
     </div>
+    <% end %>
 
 
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end #END FORM %>
+  
+  
 </div>

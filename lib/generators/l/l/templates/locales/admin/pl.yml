@@ -16,6 +16,29 @@ pl:
         title: Szczegóły użytkownika
     submenu:
       new: Dodaj
+    galleries:
+      submenu:
+        new: Dodaj galerię
+        index: Lista galerii
+      index:
+        title: Galerie
+        parent: Galeria-rodzic
+        name: Nazwa galerii
+        content: "Treść"
+      new:
+        title: Dodawanie galerii
+      edit:
+        title: Edycja galerii
+      form: !map:ActiveSupport::HashWithIndifferentAccess
+        hierarchy: "Hierarchia"
+        data: "Szczegóły galerii"
+        upload_queue: "Kolejka plików"
+        files_sent: "wysłanych plików"
+        upload: "Wybierz zdjęcia"
+        cancel: "Anuluj wysyłanie"
+      edit_form:
+        upload: "Wybierz zdjęcia"
+        upload_queue: "Kolejka plików"
     partials:
       switcher:
         label_html: "Wyświetl %{start}-%{finish} z %{total}"
@@ -83,26 +106,7 @@ pl:
     index:
       column_title: Tytuł
       title: Aktualności
-  galleries:
-    submenu:
-      new: Dodaj galerię
-      index: Lista galerii
-    index:
-      title: Galerie
-      parent: Galeria-rodzic
-      name: Nazwa galerii
-      content: "Treść"
-    new:
-      title: Dodawanie galerii
-    edit:
-      title: Edycja galerii
-    form: !map:ActiveSupport::HashWithIndifferentAccess
-      hierarchy: "Hierarchia"
-      data: "Szczegóły galerii"
-      upload_queue: "Kolejka plików"
-      files_sent: "wysłanych plików"
-      upload: "Wybierz zdjęcia"
-      cancel: "Anuluj wysyłanie"
+
   gallery_photos: !map:ActiveSupport::HashWithIndifferentAccess
     show_photos: !map:ActiveSupport::HashWithIndifferentAccess
       photos_added: "Zdjęcia dodane do galerii:"

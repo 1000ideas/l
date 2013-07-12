@@ -31,12 +31,6 @@ module L
       :path => ":rails_root/public/system/gallery_photos/:id/:style/:filename",
       :url => "/system/gallery_photos/:id/:style/:filename"
 
-
-    # Fix the mime types. Make sure to require the mime-types gem
-    def swfupload_file=(data)
-      data.content_type = MIME::Types.type_for(data.original_filename).to_s
-      self.photo = data
-    end
   end
 
 end
