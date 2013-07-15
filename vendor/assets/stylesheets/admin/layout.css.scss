@@ -1,5 +1,11 @@
 #header {
   padding: 20px 10px;
+
+  &:after {
+    display: block;
+    clear: both;
+    content: ' ';
+  }
 }
 
 #header #logos {
@@ -64,6 +70,14 @@
   background-color: #fff;
   border: 1px solid #dfdfdf;
   border-top: 0;
+
+
+  &:after {
+    display: block;
+    clear: both;
+    content: ' ';
+  }
+  
 }
 
 #content .cols-container {

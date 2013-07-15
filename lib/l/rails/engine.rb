@@ -2,7 +2,7 @@ module L
   module Rails # :nodoc:
     class Engine < ::Rails::Engine # :nodoc:
       initializer "precompile", :group => :all do |app|
-        app.config.assets.precompile += ["jquery.js", "jquery_ujs.js", "admin.js", "admins.js", "admins.css", 'admin/admin_login.css', 'html5shiv.js']
+        app.config.assets.precompile += ["jquery.js", "jquery_ujs.js", "admin.js", "admins.js", "admins.css", 'admin/admin_login.css', 'ie8polyfill.js']
       end
 
       initializer "helper" do |app|

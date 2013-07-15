@@ -1,4 +1,4 @@
-LABEL {
+label {
     float: left;
     width: 120px;
     margin: 10px 20px 10px 0;
@@ -6,7 +6,19 @@ LABEL {
     text-align: right;
 }
 
-INPUT {
+input[type=email],
+input[type=password],
+input[type=number],
+input[type=search],
+input[type=tel],
+input[type=url],
+input[type=date],
+input[type=datetime],
+input[type=datetime-local],
+input[type=time],
+input[type=month],
+input[type=week],
+input[type=text] {
     float: left;
     width: 220px;
     height: 20px;

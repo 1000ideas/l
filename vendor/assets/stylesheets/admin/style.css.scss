@@ -43,3 +43,16 @@
     line-height: 20px;
     font-weight: bold;
 }
+
+.email_list {
+  overflow: auto;
+  clear: both;
+
+  .email {
+    float: left;
+    line-height: 35px;
+    height: 35px;
+    display: block;
+    width: 300px;
+  }
+}

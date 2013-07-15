@@ -22,13 +22,15 @@ class Loader
 
 class Sortable
   constructor: (options = {})->
-    url = '' + $('ul.items-list.sortable').parents('ul.sortable').data('url')
+    return if $('ul.items-list.sortable').length == 0
+
+    url = '' + $('ul.items-list.sortable').first().data('url')
 
     if url.length == 0
       throw "Element ul.sortable must have data-url."
 
     if url.indexOf(':id') < 0 || url.indexOf(':target_id') < 0
-      throw "Url has to have :id and :target_id placeholders."
+      throw "Url '#{url}' has to have :id and :target_id placeholders."
 
     $("ul.items-list.sortable li:not(.header)").draggable appendTo: 'body',
       revert: 'invalid',
@@ -37,15 +39,20 @@ class Sortable
     $("ul.items-list.sortable li:not(.header)").droppable hoverClass: 'ui-state-hover',
       greedy: true,
       drop: (event, ui) ->
+
         object = $(ui.draggable)
         id = object.find('input[type=checkbox]').val()
 
         target = $(this)
         target_id = target.find('input[type=checkbox]').val()
 
+        action_url = url
+          .replace(':id', id)
+          .replace(':target_id', target_id)
+
         Loader.show()
 
-        $.post(url, (data) ->
+        $.post(action_url, (data) ->
           object.insertAfter(target)
         )
         .fail( (jqXHR, textStatus) ->
@@ -63,6 +70,7 @@ class Sortable
 
 class LazyAdmin
   constructor: ->
+    @_sortable_list()
     @_custom_select()
     @_custom_file_input()
     @_locales_tabs()
@@ -104,7 +112,10 @@ class LazyAdmin
     # if ids.length > 0
       # window.location.reload()
 
-    false
+    return
+
+  _sortable_list: ->
+    @_sortable = new Sortable()
 
   _locales_tabs: ->
     $('.tabs_container').each ->
@@ -121,6 +132,11 @@ class LazyAdmin
     $("input[type=file].custom-file-input").customFileInput();
 
   _fileupload: ->
+    if Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0
+      $("input[type=file].fileupload").each ->
+        $(this).prop('multiple', false)
+
+
     $("input[type=file].fileupload").fileupload sequentialUploads: true,
       singleFileUploads: true,
       add: (e, data) ->

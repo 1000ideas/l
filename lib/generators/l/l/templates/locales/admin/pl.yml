@@ -1,6 +1,11 @@
 pl:
   l:
     users:
+      filter:
+        filter_by: "Filtruj:"
+        filter: Filtruj
+        clear: Wyczyść
+        roles_prompt: "Wybierz..."
       submenu:
         index: Lista Użytkowników
         new: Dodaj użytkownika
@@ -68,7 +73,6 @@ pl:
     news: Aktualności
     galleries: Galerie
     newsletter: Newsletter
-  
   pages:
     submenu:
       index: Lista stron
@@ -96,6 +100,8 @@ pl:
     index:
       title: Lista maili
   news:
+    form:
+      select_photo: Wybierz zdjęcie
     edit:
       title: Edycja aktualności
     new:

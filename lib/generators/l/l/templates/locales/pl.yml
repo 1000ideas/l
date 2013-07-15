@@ -348,7 +348,8 @@ pl:
         content: Treść
         title: Tytuł
         photo: "Zdjęcie"
-        photo_img: "Aktualne zdjęcie"
+        photo_image: "Aktualne zdjęcie"
+        photo_delete: "Usuń zdjęcie"
         photo_content_type: Zdjęcie
       l/gallery:
         name: 'Nazwa'

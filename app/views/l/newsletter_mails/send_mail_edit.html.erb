@@ -2,10 +2,6 @@
   <%= render "submenu" %>
 <% end %>
 
-<% content_for :head do %>
-  <%= stylesheet_link_tag "admin/layout/send_mail"  %>
-<% end %>
-
 <% title t('newsletter_mails.send_mail.title') %>
 <% breadcrumbs_admin link_to(t('newsletter_mails.send_mail.title'), send_mail_newsletter_mails_path) %>
 

@@ -6,6 +6,7 @@
     <meta name="keywords" content="<%= yield_keywords %>" />
     <%= stylesheet_link_tag 'admins' %>
     <%= tiny_mce_uploads_stylesheets_if_needed %>
+    <!--[if lt IE 9]><%= javascript_include_tag 'ie8polyfill' %><![endif]-->
     <%= javascript_include_tag 'admins' %>
     <%= tiny_mce_uploads_javascripts_if_needed %>
     <%= yield :head %>

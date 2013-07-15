@@ -19,7 +19,7 @@
       <div class="select"><%= selection_tag news %></div>
       <div><%= news.mail %></div>
       <div class="options">
-        <%= link_to t('destroy'), news, class: "destroy", title: t('destroy'),
+        <%= link_to t('destroy'), newsletter_mail_path(news), class: "destroy", title: t('destroy'),
           data: {confirm: t('confirm'), method: :delete } %>
       </div>
     </div>

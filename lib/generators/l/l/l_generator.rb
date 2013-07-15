@@ -266,6 +266,9 @@ require 'will_paginate/array'
           "\n *= require lightbox\n *= require lazy", 
           before: "\n*/"
 
+        gsub_file 'app/assets/stylesheets/application.css', 
+          /^.*require_tree.*\n/, ''
+
         copy_file "assets/admins.js", 'app/assets/javascripts/admins.js'
         copy_file "assets/admins.css", 'app/assets/stylesheets/admins.css'
       end

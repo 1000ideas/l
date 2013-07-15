@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "l"
-  s.version = "0.4.0"
+  s.version = "0.5.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2013-07-11"
+  s.date = "2013-07-15"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -71,7 +71,7 @@ Gem::Specification.new do |s|
     "app/views/l/news/_form.html.erb",
     "app/views/l/news/_submenu.erb",
     "app/views/l/news/_tooltip.html.erb",
-    "app/views/l/news/destroy.js.erb",
+    "app/views/l/news/destroy.js.coffee",
     "app/views/l/news/edit.html.erb",
     "app/views/l/news/index.html.erb",
     "app/views/l/news/list.html.erb",
@@ -117,7 +117,7 @@ Gem::Specification.new do |s|
     "app/views/l/users/_form.html.erb",
     "app/views/l/users/_submenu.erb",
     "app/views/l/users/_tooltip.html.erb",
-    "app/views/l/users/destroy.js.erb",
+    "app/views/l/users/destroy.js.coffee",
     "app/views/l/users/edit.html.erb",
     "app/views/l/users/index.html.erb",
     "app/views/l/users/new.html.erb",
@@ -222,39 +222,36 @@ Gem::Specification.new do |s|
     "vendor/assets/images/lightbox/prev.png",
     "vendor/assets/images/swfupload_button.png",
     "vendor/assets/images/uploadify-cancel.png",
+    "vendor/assets/javascripts/custom_file_input.coffee",
     "vendor/assets/javascripts/custom_selector.js.coffee",
     "vendor/assets/javascripts/html5shiv.js",
+    "vendor/assets/javascripts/ie8polyfill.js",
     "vendor/assets/javascripts/jquery.mobile.js",
-    "vendor/assets/javascripts/lazy/admin.js",
-    "vendor/assets/javascripts/lightbox.js.erb",
-    "vendor/assets/stylesheets/admin/activities.css.scss",
+    "vendor/assets/javascripts/lazy/admin.coffee",
+    "vendor/assets/javascripts/lazy/admin1.js",
+    "vendor/assets/javascripts/lightbox.js",
+    "vendor/assets/javascripts/selectivizr.js",
     "vendor/assets/stylesheets/admin/admin.css.scss",
     "vendor/assets/stylesheets/admin/admin_login.css.scss",
     "vendor/assets/stylesheets/admin/layout.css.scss",
     "vendor/assets/stylesheets/admin/layout/custom-forms.css.scss",
     "vendor/assets/stylesheets/admin/layout/filter.css.scss",
     "vendor/assets/stylesheets/admin/layout/forms.css.scss",
-    "vendor/assets/stylesheets/admin/layout/gallery_photos.css.scss",
+    "vendor/assets/stylesheets/admin/layout/gallery_photos.scss",
+    "vendor/assets/stylesheets/admin/layout/ie8polyfill.css",
     "vendor/assets/stylesheets/admin/layout/lists.scss",
     "vendor/assets/stylesheets/admin/layout/send_mail.css.scss",
     "vendor/assets/stylesheets/admin/layout/sort.css.scss",
     "vendor/assets/stylesheets/admin/layout/switcher.css.scss",
-    "vendor/assets/stylesheets/admin/layout/tables.css.scss",
     "vendor/assets/stylesheets/admin/layout/tabs.css.scss",
     "vendor/assets/stylesheets/admin/style.css.scss",
-    "vendor/assets/stylesheets/ceebox.css",
     "vendor/assets/stylesheets/common.css",
+    "vendor/assets/stylesheets/custom_file_input.scss",
     "vendor/assets/stylesheets/custom_selector.css.scss",
     "vendor/assets/stylesheets/jquery.mobile.css",
-    "vendor/assets/stylesheets/jquery_ui/jquery.ui.core.css",
-    "vendor/assets/stylesheets/jquery_ui/jquery.ui.dialog.css",
-    "vendor/assets/stylesheets/jquery_ui/jquery.ui.tabs.css",
-    "vendor/assets/stylesheets/jquery_ui/jquery.ui.theme.css",
     "vendor/assets/stylesheets/lazy.scss",
     "vendor/assets/stylesheets/lightbox.scss",
-    "vendor/assets/stylesheets/style.css",
-    "vendor/assets/stylesheets/uploadify.css",
-    "vendor/assets/swf/uploadify.swf"
+    "vendor/assets/stylesheets/style.css"
   ]
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]

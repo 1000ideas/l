@@ -26,7 +26,6 @@ module L
     #    - +url+ - Url linka, musi zawierać placeholer +:id+
     #    - +options+ - opcje, takie jak w link_to
     def action_on_selection(title, url, options = {})
-      
       jsopt = {
         selector: options.delete(:selector) || '.selection',
         method: options[:data].try(:delete, :method) || 'get',

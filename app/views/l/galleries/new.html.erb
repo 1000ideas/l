@@ -1,6 +1,7 @@
 <% content_for :submenu do %>
   <%= render "submenu" %>
 <% end %>
+
 <% content_for :title do t('.title') end %>
 <% breadcrumbs_admin link_to(t('l.galleries.index.title'), galleries_path),
   link_to(t('.title'), new_gallery_path) %>
