@@ -1,5 +1,5 @@
 <div>
-  <%= form_for(@gallery, :url => galleries_path, :method => :post) do |f| %>
+  <%= form_for(@gallery, url: galleries_path, method: :post) do |f| %>
     <%= render partial: 'l/partials/errors', object: @gallery.errors %>
 
     <div id="form_tabs" class="tabs_container">
@@ -12,14 +12,14 @@
       <% i = 0 %>
       <%= f.fields_for :translations do |builder| %>
         <div id="tab<%= i = i+1 %>">
-          <%= builder.hidden_field :locale, :value => builder.object.locale.to_s %>
+          <%= builder.hidden_field :locale %>
           <div class="field">
             <%= builder.label :name %>
             <%= builder.text_field :name %>
           </div>
           <div class="field field_with_tinymce">
             <%= builder.label :content %>
-            <%= builder.text_area :content, :class => "mceSimple" %>
+            <%= builder.text_area :content, class: "mceSimple" %>
           </div>
         </div>
       <% end %>

@@ -79,8 +79,12 @@ module L
     # *GET* /newsletter_mails/send_mail
     #
     def send_mail_edit
-      authorize! :menage, NewsletterMail      
+      authorize! :menage, NewsletterMail
       @emails = L::NewsletterMail.where(:confirm_token => nil).all
+
+      if @emails.empty?
+        redirect_to({action: :index}, notice: t('no_mails', scope: 'l.newsletter_mails.form')) and return
+      end
     end
 
     # Akcja sprawdza i wysyła newsleter do wybranych użytkowników. Dostepna

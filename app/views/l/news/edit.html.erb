@@ -2,9 +2,8 @@
   <%= render "submenu" %>
 <% end %>
 
-<% title t('news.edit.title') %>
-<% breadcrumbs_admin link_to(t('news.index.title'), news_index_path),
-                     link_to(t('news.edit.title'), edit_news_path(@news)) %>
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('l.news.index.title'), news_index_path), link_to(t('.title'), edit_news_path(@news)) %>
 
 <div class="cols-container">
   <div class="main-column">
@@ -15,4 +14,4 @@
   </div>
 </div>
 
-<%= link_to t('back'), news_index_path %>
+<%= link_to t('helpers.actions.back'), news_index_path %>

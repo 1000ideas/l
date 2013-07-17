@@ -17,7 +17,10 @@ module L
   #   - <tt>belongs_to :gallery</tt> - galeria do której należy zdjęcie
   #
   class GalleryPhoto < ActiveRecord::Base
-    attr_accessible :gallery_id, :photo, :swfupload_file
+    attr_accessible :gallery_id, :photo
+
+    validates :gallery_id, presence: true
+    validates :photo, attachment_presence: true
 
     belongs_to :gallery
     has_attached_file :photo, 

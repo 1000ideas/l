@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  s.date = "2013-07-15"
+  s.date = "2013-07-17"
   s.description = "Bunch of generators for lazy programmers"
   s.email = "admin@1000i.pl"
   s.extra_rdoc_files = [
@@ -86,12 +86,10 @@ Gem::Specification.new do |s|
     "app/views/l/newsletter_mails/send_mail_edit.html.erb",
     "app/views/l/pages/_edit_form.erb",
     "app/views/l/pages/_form.html.erb",
-    "app/views/l/pages/_page_item.html.erb",
     "app/views/l/pages/_page_list_item.html.erb",
     "app/views/l/pages/_submenu.erb",
     "app/views/l/pages/_tooltip.html.erb",
     "app/views/l/pages/edit.html.erb",
-    "app/views/l/pages/hidden.rjs",
     "app/views/l/pages/index.html.erb",
     "app/views/l/pages/new.html.erb",
     "app/views/l/pages/show.html.erb",
@@ -140,7 +138,6 @@ Gem::Specification.new do |s|
     "lib/generators/l/l/templates/application_helper.rb",
     "lib/generators/l/l/templates/assets/admins.css",
     "lib/generators/l/l/templates/assets/admins.js",
-    "lib/generators/l/l/templates/locales/admin/pl.yml",
     "lib/generators/l/l/templates/locales/devise.en.yml",
     "lib/generators/l/l/templates/locales/devise.pl.yml",
     "lib/generators/l/l/templates/locales/en.yml",
@@ -197,6 +194,7 @@ Gem::Specification.new do |s|
     "lib/l/string_extension.rb",
     "lib/l/version.rb",
     "lib/middleware/flash_session_cookie_middleware.rb",
+    "rails/locale/pl.yml",
     "vendor/assets/images/admin/1000ideas_creative_agency.png",
     "vendor/assets/images/admin/array_down.gif",
     "vendor/assets/images/admin/array_up.gif",

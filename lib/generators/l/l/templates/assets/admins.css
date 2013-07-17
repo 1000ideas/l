@@ -6,7 +6,6 @@
  *= require admin/layout
  *= require admin/style
  *= require admin/layout/tabs
- *= require admin/layout/tables
  *= require admin/layout/lists
  *= require admin/layout/forms
  *= require admin/layout/custom-forms

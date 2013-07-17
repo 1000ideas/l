@@ -32,14 +32,14 @@
     <%= f.fields_for :translations do |builder| %>
 
       <div id="tab<%= i = i+1 %>" class="group">
-        <%= builder.hidden_field :locale, value: builder.object.locale.to_s %>
+        <%= builder.hidden_field :locale %>
         <div class="field">
           <%= builder.label :title %>
           <%= builder.text_field :title %>
         </div>
         <div class="field field_with_textarea">
           <%= builder.label :content %>
-          <%= builder.text_area :content, class: "mceAdvance" %>
+          <%= builder.text_area :content, class: "mceFileupload" %>
         </div>
       </div>
     <% end %>

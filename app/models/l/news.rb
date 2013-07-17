@@ -22,10 +22,9 @@ module L
       :url => "/system/news_photos/:id/:style/:filename"
 
 
-    validates :title, :presence => true
-    validates :content, :presence => true
-    validates_attachment_content_type :photo,
-      :content_type => ['image/jpeg', 'image/png', 'image/gif', 'image/bmp']
+    validates :title, presence: true
+    validates :content, presence: true
+    validates :photo, attachment_content_type: { content_type: ['image/jpeg', 'image/png', 'image/gif', 'image/bmp'] }
   
     @@per_page = 5
 

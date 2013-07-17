@@ -17,6 +17,7 @@ module L
     #   - +devise+
     #   - +cancan+
     #   - +globalize3+
+    #   - +rails-i18n+
     #   - +paperclip+
     #   - +will_paginate+
     #   - +jquery-ui-rails+
@@ -98,6 +99,7 @@ module L
           gem 'cancan'
 
           gem 'globalize3', '~> 0.3.0'
+          gem 'rails-i18n'
           
           gem 'paperclip'
           gem 'jquery-ui-rails'
@@ -206,7 +208,7 @@ puts "done!"
         ROUTE
         inject_into_file "config/routes.rb", 
           devise_route, 
-          after: %r{Application\.routes\.draw do$}
+          after: %r{Application\.routes\.draw do\n}
       end
       
       ###### modyfikacja config/application.rb
@@ -223,7 +225,6 @@ require 'will_paginate/array'
     config.time_zone = 'Warsaw'
     config.i18n.default_locale = #{lang_symbols.first.inspect}
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'admin', '*.{rb,yml}').to_s]
     config.i18n.available_locales = #{lang_symbols.inspect}
         CONTENT
         
@@ -244,7 +245,6 @@ require 'will_paginate/array'
       def copy_locales # :nodoc:
         template "locales/pl.yml", "config/locales/pl.yml"
         copy_file "locales/devise.pl.yml", "config/locales/devise.pl.yml"
-        copy_file "locales/admin/pl.yml", "config/locales/admin/pl.yml"
       end
 
       def copy_mailer_configuration # :nodoc:

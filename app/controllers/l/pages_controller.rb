@@ -6,8 +6,8 @@ module L
   # wyświetlać tylko pojedyncze strony.
   #
   class PagesController < ApplicationController
-    uses_tinymce [:advance], only: [:new, :create]
-    uses_tinymce [:fileupload], only: [:edit, :update]
+    uses_tinymce [:fileupload], only: [:new, :create, :edit, :update]
+    
     layout "l/layouts/admin"
 
     # Akcja wyświetlająca listę istniejących stron w strukturze drzewiastej.
@@ -41,7 +41,7 @@ module L
       end
       authorize! :read, @page
 
-      render layout: '/l/layouts/standard'
+      render layout: 'l/layouts/standard'
     end
 
     # Akcja wyświetlająca formularz tworzenia nowej strony. Dostep tylko dla
@@ -70,8 +70,7 @@ module L
     #
     # *GET* /pages/1/edit
     #
-    def edit
-      
+    def edit      
       @page = L::Page.find(params[:id])
       authorize! :update, @page
 
@@ -150,9 +149,9 @@ module L
       name = ['unhide', 'hide'][status]
 
       if @page.update_attribute(:hidden_flag, status)
-        redirect_to :back, notice: I18n.t("#{name}.success")
+        redirect_to :back, notice: I18n.t("#{name}.success", scope: 'l.pages')
       else
-        redirect_to :back, notice: I18n.t("#{name}.failure")
+        redirect_to :back, notice: I18n.t("#{name}.failure", scope: 'l.pages')
       end
     end
 

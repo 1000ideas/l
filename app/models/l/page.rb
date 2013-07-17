@@ -112,7 +112,7 @@ module L
       page = self
       until page.parent.nil?
         if page.parent_id == self.id
-          errors.add(:base, :tree_loop)
+          errors.add(:parent_id, :loop)
           break
         end
         page = page.parent

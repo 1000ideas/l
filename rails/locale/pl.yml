@@ -1,0 +1,233 @@
+pl:
+  l:
+    users:
+      filter:
+        filter_by: "Filtruj:"
+        filter: Filtruj
+        clear: Wyczyść
+        roles_prompt: "Wybierz..."
+      submenu:
+        index: Lista Użytkowników
+        new: Dodaj użytkownika
+      index:
+        title: Użytkownicy
+        email: Email
+        role: Role
+      new:
+        title: Dodawanie użytkownika
+      edit:
+        title: Edycja użytkownika
+      show:
+        title: Szczegóły użytkownika
+    submenu:
+      new: Dodaj
+    galleries:
+      submenu:
+        new: Dodaj galerię
+        index: Lista galerii
+      index:
+        title: Galerie
+        parent: Galeria-rodzic
+        name: Nazwa galerii
+        content: "Treść"
+      new:
+        title: Dodawanie galerii
+      edit:
+        title: Edycja galerii
+      form: !map:ActiveSupport::HashWithIndifferentAccess
+        hierarchy: "Hierarchia"
+        data: "Szczegóły galerii"
+        upload_queue: "Kolejka plików"
+        files_sent: "wysłanych plików"
+        upload: "Wybierz zdjęcia"
+        cancel: "Anuluj wysyłanie"
+      edit_form:
+        upload: "Wybierz zdjęcia"
+        upload_queue: "Kolejka plików"
+    news:
+      list:
+        title: Aktualności
+      form:
+        select_photo: Wybierz zdjęcie
+      edit:
+        title: Edycja aktualności
+      new:
+        title: Dodawanie aktualności
+      submenu:
+        new: Dodaj aktualność
+        index: Lista aktualności
+      index:
+        title: Aktualności
+    pages:
+      index:
+        title: Strony
+      submenu:
+        index: Lista stron
+        new: Dodawanie strony
+      new:
+        title: Nowa strona
+      edit:
+        title: Edytuj stronę
+      hide:
+        success: "Strona została ukyta."
+        failure: "Nie udało się ukryć strony."
+      unhide:
+        success: "Strona została uwidoczniona."
+        failure: "Nie udało się uwidocznić strony."
+    gallery_photos:
+      show_photos:
+        photos_added: Dodane zdjęcia
+    admins:
+      submenu:
+        homepage: Strona główna
+        edit_profile: Edytuj profil
+      show:
+        title: Strona główna
+        edit_profile: Edytuj profil
+        update: Zapisz zmiany
+    newsletter_mails:
+      form:
+        addresses_list: "Lista użytkowników"
+        addresses_list_info: "Wybierz adresy osób, do których zostanie wysłany list."
+        mail: "Treść listu"
+        mail_info: "Stwórz swój list za pomocą wizualnego edytora."
+        no_mails: "W bazie nie jest zapisany żaden adres e-mail."
+        attachment: "Załącznik"
+        send_mail: Wyślij
+      submenu:
+        index: Lista maili
+        send_mail: Wyślij mail
+      send_mail_edit:
+        title: Wyślij mail
+      send_mail:
+        title: Wyślij mail
+      index:
+        title: Lista maili
+    partials:
+      switcher:
+        label_html: "Wyświetl %{start}-%{finish} z %{total}"
+    admin:
+      title: "Panel admina"
+    layout:
+      logged_as: "Zalogowany jako:"
+      logout: Wyloguj
+  helpers:
+    roles:
+      admin: Administrator
+      user: Użytkownik
+      facebook: Użytkownik Facebooka
+      mod: Moderator
+    fileupload:
+      label: Wybierz plik
+    actions:
+      more: Więcej
+      new: "Dodaj"
+      edit: "Edytuj"
+      back: "Powrót"
+      show: "Pokaż"
+      destroy: "Usuń"
+      sure: "Jesteś pewny?"
+      confirm: "Czy na pewno?"
+      hide: "Ukryj"
+      unhide: "Uwidocznij"
+      destroy: "Usuń"
+      destroy_selected: "Usuń zaznaczone"
+    submit:
+      user:
+        update: Zapisz zmiany
+        create: Utwórz użytkownika
+        submit: Zapisz zmiany
+      l_news:
+        update: Aktualizuj wpis
+        create: Utwórz wpis
+        submit: Zapisz
+      l_page:
+        update: Aktualizuj stronę
+        create: Utwórz stronę
+        submit: Zapisz stronę
+      l_gallery:
+        update: Aktualizuj galerię
+        create: Utwórz galerię
+        submit: Zapisz galerię
+  menu:
+    main_page: Strona główna
+    users: Użytkownicy
+    pages: Strony
+    news: Aktualności
+    galleries: Galerie
+    newsletter: Newsletter
+  activerecord:
+    models:
+      l/page: strona
+      l/news: aktualność
+      l/gallery: galeria
+      l/newsletter_mail: email
+    attributes:
+      l/page:
+        parent: "Strona rodzic"
+        url: "Url strony"
+        title: "Tytuł"
+        meta_description: "Opis strony (meta)"
+        meta_keywords: "Słowa kluczowe strony (meta)"
+        content: "Treść"
+        parent_id: "Strona nadrzędna"
+      l/page/translation:
+        title: Tytuł
+        content: Treść
+      l/news:
+        content: Treść
+        title: Tytuł
+        photo: Zdjęcie
+        photo_image: Aktualne zdjęcie
+        photo_delete: Usuń zdjęcie
+        photo_content_type: Zdjęcie
+      l/news/translation:
+        title: Tytuł
+        content: Treść
+      l/gallery:
+        name: Nazwa
+        content: Opis
+        thumb: 'Miniatura'
+      l/gallery/translation:
+        name: Nazwa
+        content: Treść
+      l/gallery_photo:
+        gallery_id: Galeria
+        photo: Zdjęcie
+      l/newsletter_mail:
+        mail: Adres e-mail
+    errors:
+      models:
+        l/page:
+          attributes:
+            title:
+              blank: jest wymagany
+            url:
+              blank: jest wymagane
+              taken: 'nie może powtarzać się wśród stron o tym samym rodzicu'
+            parent_id: 
+              loop: 'nie może stać się stroną podrzędną'
+        l/news:
+          attributes:
+            title:
+              blank: jest wymagany
+            content:
+              blank: jest wymagana
+            photo:
+              image: "musi być plikiem graficznym (dopuszczalne rozszerzenia: jpeg, png, gif, bmp)"
+        l/gallery:
+          attributes:
+            name:
+              blank: jest wymagana
+        l/gallery_photo:
+          attributes:
+            gallery_id: 
+              blank: musi być podana
+            photo: 
+              blank: musi być wybrane
+        l/newsletter_mail:
+          attributes:
+            mail:
+              blank: jest wymagany
+              invalid: jest niepoprawny
+              taken: już istnieje w bazie

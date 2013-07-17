@@ -57,11 +57,11 @@ module L
     #
     # * *Argumenty*:
     #
-    #   - +*value+ - link, lub tablica linków stron w kolejności od najdalszej
+    #   - +*value+ - link lub tablica linków stron w kolejności od najdalszej
     #   do najbliższej użytkownikowi. Ostatnim elementem zwykle jest tytuł
     #   storny na której znajduje się użytkownik.
     def breadcrumbs(*value)
-      bread = ['<a href="/">'+I18n.t('breadcrumbs.home')+'</a>']
+      bread = [ link_to(I18n.t('menu.main_page'), root_path) ]
       bread += value
       instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
     end
@@ -76,7 +76,7 @@ module L
     #   do najbliższej użytkownikowi. Ostatnim elementem zwykle jest tytuł
     #   storny na której znajduje się użytkownik.
     def breadcrumbs_admin(*value)
-      bread = ['<a href="/admin">'+I18n.t('admins.show.title')+'</a>']
+      bread = ['<a href="/admin">'+I18n.t('show.title', scope: 'l.admins')+'</a>']
       bread += value
       instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
     end
@@ -117,17 +117,17 @@ module L
 
     # Pobierz aktualną wartość meta opisu strony.
     def yield_description
-      @value_for_meta_description||t('meta.description')
+      @value_for_meta_description || t('meta.description')
     end
 
     # Pobierz aktualną wartość słów kluczowych strony.
     def yield_keywords
-      @value_for_meta_keywords||t('meta.keywords')
+      @value_for_meta_keywords || t('meta.keywords')
     end
 
     # Pobierz aktualny tytuł strony.
     def yield_title
-      @value_for_meta_title||t('meta.title')
+      @value_for_meta_title || t('meta.title')
     end
 
     private

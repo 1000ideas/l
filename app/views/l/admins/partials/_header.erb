@@ -3,8 +3,8 @@
     <%= link_to image_tag('admin/1000ideas_creative_agency.png', :alt => '1000ideas'), 'http://1000i.pl', :target => "blank"  %>
   </div>
   <div id="login_info">
-    <%= t('layout.logged_as') %> <%= current_user.email %><br />
-    <%= link_to t('layout.logout'), destroy_user_session_path, :method => :delete %>
+    <%= t('l.layout.logged_as') %> <%= current_user.email %><br />
+    <%= link_to t('l.layout.logout'), destroy_user_session_path, :method => :delete %>
   </div>
   <div class="cb"></div>
 </div>

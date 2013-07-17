@@ -1,11 +1,11 @@
 <% unless @gallery.gallery_photos(true).blank? %>
-<h2><%= t('gallery_photos.show_photos.photos_added') %></h2>
+<h2><%= t('.photos_added') %></h2>
 <div class="group">
   <ul class="photos_list">
     <% @gallery.gallery_photos(true).each do |photo| %>
       <li>
       <%= collection_lightbox_tag photo.photo, 'gallery', original_style: :big, target: '_blank', class: 'photo-link' %>
-      <%= link_to t('gallery_photos.show_photos.delete'), gallery_photo_path(gallery_id: photo.gallery_id, id: photo.id), class: :'remove-photo', data: { confirm: t('gallery_photos.show_photos.confirm'), method: :delete, remote: true } %>
+      <%= link_to t('helpers.actions.destroy'), gallery_photo_path(gallery_id: photo.gallery_id, id: photo.id), class: :'remove-photo', data: { confirm: t('helpers.actions.confirm'), method: :delete, remote: true } %>
       </li>
     <% end %>
   </ul>

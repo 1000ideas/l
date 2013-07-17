@@ -34,7 +34,7 @@
 </ul>
 
 <% if @users.any? %>
-<%= action_on_selection t('destroy_selected'), user_path(id: ':id'), data: {method: :delete, confirm: t('confirm')} %>  
+<%= action_on_selection t('helpers.actions.destroy_selected'), user_path(id: ':id'), data: {method: :delete, confirm: t('helpers.actions.confirm')} %>  
 <% end %>
 
 

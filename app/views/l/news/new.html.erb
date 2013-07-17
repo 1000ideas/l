@@ -2,9 +2,8 @@
   <%= render "submenu" %>
 <% end %>
 
-<% title t('news.new.title') %>
-<% breadcrumbs_admin link_to(t('news.index.title'), news_index_path),
-                     link_to(t('news.new.title'), new_news_path) %>
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('l.news.index.title'), news_index_path), link_to(t('.title'), new_news_path) %>
 
 <div class="cols-container">
   <div class="main-column">

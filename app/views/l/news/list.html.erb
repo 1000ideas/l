@@ -1,7 +1,7 @@
-<% breadcrumbs t('breadcrumbs.news') %>
-<% title t('news.name') %>
+<% breadcrumbs t('.title') %>
+<% title t('.title') %>
 
-<h2><%= t('news.name') %></h2>
+<h2><%= t('.title') %></h2>
 <% unless @news.blank? %>
   <ul id="news_list">
     <% @news.each do |news| %>
@@ -12,7 +12,7 @@
           <%= image_tag news.photo.url(:thumb) %>
         <% end if news.photo? %>
         <div class="content"><%=short news.content, 160 %></div>
-        <div class="more"><%= link_to t('more'), news_path(news) %></div>
+        <div class="more"><%= link_to t('helpers.actions.more'), news_path(news) %></div>
       </li>
     <% end %>
   </ul>

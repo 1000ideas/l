@@ -1,30 +1,29 @@
-<%= form_tag send_mail_newsletter_mails_path, :method => :post, :multipart => true do %>
-  <h2><%= t('newsletter_mails.send_mail.addresses_list') %></h2>
-  <p>Wybierz adresy osób, do których zostanie wysłany list.</p>
+<%= form_tag send_mail_newsletter_mails_path, method: :post do %>
+  <h2><%= t('.addresses_list') %></h2>
+  <p><%= t('.addresses_list_info') %></p>
   <div class="group">
     <div class="email_list">
-      <% if !@emails.empty? %>
+      <% if @emails.any? %>
         <% @emails.in_groups(4, false) do |col| %>
           <% col.each do |email| %>
             <div class="email"><%= check_box_tag "emails[]", email.mail, true %> <%= email.mail %></div>
           <% end %>
         <% end %>
-
       <% else %>
-        <p>Brak adresów w bazie.</p>
+        <p><%= t('.no_mails') %></p>
       <% end %>
     </div>
   </div>
 
-  <h2><%= t('newsletter_mails.send_mail.mail') %></h2>
-  <p>Stwórz swój list za pomocą wizualnego edytora.</p>
+  <h2><%= t('.mail') %></h2>
+  <p><%= t('.mail_info') %></p>
   <div class="group">
     <div class="field_with_tinymce">
-      <%= label_tag :text, t('newsletter_mails.send_mail.mail') %>
-      <%= text_area_tag :text, params[:text], :class => "mceAdvance" %>
+      <%= label_tag :text, t('.mail') %>
+      <%= text_area_tag :text, params[:text], class: "mceAdvance" %>
     </div>
     
   </div>
 
-  <%= submit_tag t('newsletter_mails.send_mail.send_mail') %>
+  <%= submit_tag t('.send_mail') %>
 <% end %>

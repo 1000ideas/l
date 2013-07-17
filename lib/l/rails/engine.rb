@@ -1,6 +1,12 @@
 module L
   module Rails # :nodoc:
     class Engine < ::Rails::Engine # :nodoc:
+
+      initializer "i18n" do |app|
+        path = Dir[File.join(File.dirname(__FILE__), '../../..', 'rails/locale/*.{rb,yml}')]
+        I18n.load_path.concat(path)
+      end
+
       initializer "precompile", :group => :all do |app|
         app.config.assets.precompile += ["jquery.js", "jquery_ujs.js", "admin.js", "admins.js", "admins.css", 'admin/admin_login.css', 'ie8polyfill.js']
       end

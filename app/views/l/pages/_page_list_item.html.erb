@@ -4,10 +4,15 @@
     <div><%= page.title %></div>
     <div><%= page.url %></div>
     <div class="options">
-      <%= link_to t('show'), page_path(page), class: "show", title: t('show'), target: '_blank' %>
-      <%= link_to t('edit'), edit_page_path(page), class: "edit", title: t('edit') %>
-      <%= link_to t('destroy'), page_path(page), class: "destroy", title: t('destroy'),
-        data: {confirm: t('confirm'), method: :delete } %>
+      <% if page.hidden_flag? %>
+        <%= link_to t('helpers.actions.unhide'), unhide_page_path(page), class: "unhide", title: t('helpers.actions.unhide'), target: '_blank' %>  
+      <% else %>
+        <%= link_to t('helpers.actions.hide'), hide_page_path(page), class: "hide", title: t('helpers.actions.hide'), target: '_blank' %>
+      <% end %>
+      
+      <%= link_to t('helpers.actions.show'), page_path(page), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
+      <%= link_to t('helpers.actions.edit'), edit_page_path(page), class: "edit", title: t('helpers.actions.edit') %>
+      <%= link_to t('helpers.actions.destroy'), page_path(page), class: "destroy", title: t('helpers.actions.destroy'), data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
     </div>
   </div>
   <% if page.children.any? %>

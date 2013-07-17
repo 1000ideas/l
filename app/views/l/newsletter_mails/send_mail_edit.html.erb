@@ -2,8 +2,8 @@
   <%= render "submenu" %>
 <% end %>
 
-<% title t('newsletter_mails.send_mail.title') %>
-<% breadcrumbs_admin link_to(t('newsletter_mails.send_mail.title'), send_mail_newsletter_mails_path) %>
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('.title'), send_mail_newsletter_mails_path) %>
 
 <p id="notice"><%= flash[:notice] %></p>
 <p id="alert"><%= flash[:alert] %></p>

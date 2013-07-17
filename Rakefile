@@ -22,7 +22,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Bunch of generators for lazy programmers}
   gem.email = "admin@1000i.pl"
   gem.authors = ["Bartek Bulat", "Krzystof Kosman"]
-  gem.files = %w(LICENSE README INSTALL Rakefile) + Dir.glob("{app,vendor,config,lib,public}/**/*")
+  gem.files = %w(LICENSE README INSTALL Rakefile) + Dir.glob("{app,vendor,config,lib,public,rails}/**/*")
 
   # dependencies defined in Gemfile
 end

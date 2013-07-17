@@ -2,8 +2,8 @@
   <%= render "submenu" %>
 <% end %>
 
-<% title t('newsletter_mails.index.title') %>
-<% breadcrumbs_admin link_to(t('newsletter_mails.index.title'), newsletter_mails_path) %>
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('.title'), newsletter_mails_path) %>
 
 <p id="notice"><%= notice %></p>
 
@@ -19,8 +19,7 @@
       <div class="select"><%= selection_tag news %></div>
       <div><%= news.mail %></div>
       <div class="options">
-        <%= link_to t('destroy'), newsletter_mail_path(news), class: "destroy", title: t('destroy'),
-          data: {confirm: t('confirm'), method: :delete } %>
+        <%= link_to t('helpers.actions.destroy'), newsletter_mail_path(news), class: "destroy", title: t('helpers.actions.destroy'), data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
       </div>
     </div>
   </li>
