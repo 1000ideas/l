@@ -24,7 +24,8 @@ module L
           _direction = (opts[:direction] || :asc).to_sym
           _direction = :asc unless _direction.in? [:asc, :desc]
 
-          @@_sortable_options = {
+          
+          self.class_variable_set "@@_sortable_options", {
             column: _column,
             scope: _scope,
             direction: _direction
@@ -48,11 +49,11 @@ module L
         end
 
         def sortable?
-          @@_sortable_options.is_a? Hash
+          self.sortable_options.is_a? Hash
         end
 
         def sortable_options
-          @@_sortable_options
+          self.class_variable_get("@@_sortable_options")
         end
 
       end
