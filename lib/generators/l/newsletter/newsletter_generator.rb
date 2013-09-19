@@ -57,6 +57,7 @@ CONTENT
 
       def copy_newsletter_mails_views # :nodoc:
         directory "../../../../../app/views/l/newsletter_mails", "app/views/l/newsletter_mails"
+        directory "../../../../../app/views/l/admin/newsletter_mails", "app/views/l/admin/newsletter_mails"
         copy_file "_newsletter.erb", "app/views/l/partials/_newsletter.erb"
       end
 
@@ -66,19 +67,35 @@ CONTENT
 
       def add_newsletter_route # :nodoc:
         routing_code = <<-CONTENT
-  resources :newsletter_mails, controller: 'l/newsletter_mails', only: [:index, :create, :destroy] do
-    collection do
-      get :send_mail, action: :send_mail_edit
-      post :send_mail
-      get :confirm
-    end
-  end
+
+      resources :newsletter_mails, only: [:index, :destroy] do
+        collection do
+          get :send_mail, action: :send_mail_edit
+          post :send_mail
+        end
+      end
+
         CONTENT
 
         inject_into_file 'config/routes.rb', 
           routing_code, 
-          :before => "resources :users", 
-          :verbose => false
+          after: %r{^\s*scope module: 'l/admin'.*\n},
+          verbose: false
+
+        routing_code = <<-CONTENT
+
+  resources :newsletter_mails,  module: :l, only: [:create] do
+    get :confirm, on: :collection
+  end
+
+        CONTENT
+
+        inject_into_file 'config/routes.rb', 
+          routing_code, 
+          before: %r{^\s*scope path: 'admin'}, 
+          verbose: false
+
+
         log :route, "resources :newsletter_mails"
       end
 

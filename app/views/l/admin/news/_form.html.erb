@@ -1,0 +1,36 @@
+<%= form_for(@news, url: admin_news_index_path, method: 'post', html: { multipart: true }) do |f| %>
+  <%= render partial: 'l/partials/errors', object: @news.errors %>
+  <div id="form_tabs" class="tabs_container">
+    <ul>
+      <% k = 0 %>
+      <% I18n.available_locales.each do |el| %>
+        <li><a href="#tab<%= k = k+1 %>"><%=  el.to_s  %></a></li>
+      <% end %>
+    </ul>
+
+    <% i = 0 %>
+    <%= f.fields_for :translations do |builder| %>
+      <div id="tab<%= i = i+1 %>" class="group">
+        <%= builder.hidden_field :locale %>
+        <div class="field">
+          <%= builder.label :title %>
+          <%= builder.text_field :title %>
+        </div>
+        <div class="field field_with_tinymce">
+          <%= builder.label :content %>
+          <%= builder.text_area :content, cols: 70, rows: 5, class: "mceSimple" %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+  <div class="group">
+    <div class="field">
+      <%= f.label :photo %>
+      <%= f.file_field :photo, class: 'custom-file-input', data: {label: t('.select_photo') } %>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

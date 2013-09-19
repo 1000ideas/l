@@ -84,6 +84,8 @@ module L
           end
 
           self.class.transaction do
+            self.fix_order_column_after_save if target.send(column).nil?
+
             torder = target.send(column)
             case direction
             when :asc then 

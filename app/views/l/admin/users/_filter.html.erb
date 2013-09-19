@@ -1,0 +1,23 @@
+<%= form_tag admin_users_path, method: :get do %>
+<div class="filter">
+
+  <div class="field">
+  
+    <strong><%= t('.filter_by') %></strong>
+
+    <%= label_tag :filter_email, User.human_attribute_name(:email)  %>
+    <%= text_field_tag "filter[email]", filter(:email) %>
+
+    <%= label_tag :filter_role, User.human_attribute_name(:role)  %>
+    <%= select_tag "filter[role]", options_for_select(User.roles_for_select, filter(:role)), prompt: t('.roles_prompt') %>
+
+    <%= submit_tag t('.filter') %>
+    
+  </div>
+
+  <div class="field">
+    <%= link_to t('.clear'), admin_users_path %>
+  </div>
+
+</div>
+<% end %>

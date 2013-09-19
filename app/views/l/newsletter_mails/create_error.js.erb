@@ -1,4 +1,0 @@
-$('#newsletter_notice')
-  .removeClass('notice')
-  .addClass('alert')
-  .html("<%= escape_javascript @newsletter_mail.errors.full_messages.first  %>");

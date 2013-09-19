@@ -1,0 +1,37 @@
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('.title'), admin_users_path) %>
+
+<p id="notice"><%= notice %></p>
+<%= render "filter" %>
+<%= render partial: 'l/partials/switcher', object: @users %>
+
+<ul class="items-list two-columns" data-page="<%= @users.current_page %>">
+  <li class="header">
+    <div class="group">
+      <div><%= User.human_attribute_name :email %></div>
+      <div><%= User.human_attribute_name :role %></div>
+    </div>
+  </li>
+  <% @users.each do |user| %>
+  <li>
+    <div class="group">
+      <div class="select"><%= selection_tag user %></div>
+      <div><%= user.email %></div>
+      <div><%= user.human_role %></div>
+      <div class="options">
+        <%= link_to t('show'), admin_user_path(user), class: "show", title: t('show'), target: '_blank' %>
+        <%= link_to t('edit'), edit_admin_user_path(user), class: "edit", title: t('edit') %>
+        <%= link_to t('destroy'), admin_user_path(user), class: "destroy", title: t('destroy'),
+          data: {confirm: t('confirm'), method: :delete } %>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>
+
+<% if @users.any? %>
+<%= action_on_selection t('helpers.actions.destroy_selected'), admin_user_path(id: ':id'), data: {method: :delete, confirm: t('helpers.actions.confirm')} %>  
+<% end %>
+
+
+<%= will_paginate @news %>

@@ -1,0 +1,24 @@
+<%= form_for([:admin, @user]) do |f| %>
+  <%= render partial: 'l/partials/errors', object: @user.errors %>
+  <div class="group">
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="field">
+      <%= f.label :role %>
+      <%= f.select :role, User.roles_for_select %>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

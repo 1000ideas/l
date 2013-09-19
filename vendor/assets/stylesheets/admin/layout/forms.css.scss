@@ -40,7 +40,11 @@ INPUT[type=checkbox] {
     border: none;
 }
 
-INPUT[type=submit] {
+button[type=submit],
+input[type=submit] {
+    display: inline-block;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
     float: right;
     padding: 0 30px;
     line-height: 30px;
@@ -91,8 +95,37 @@ FORM .field:after {
 FORM .field {
     display: block;
 }
-FORM .field LABEL {
+FORM .field label {
     width: 150px;
+
+    &[data-tip] {
+        cursor: help;
+
+        &:before {
+            content: '[?] ';
+            color: #e6085c;
+        }
+
+        &:hover {
+            position: relative;
+            &:after {
+                content: attr(data-tip);
+                display: inline-block;
+                width: auto;
+                position: absolute;
+                background: #fff;
+                border: 1px solid #e6085c;
+                top: 50%;
+                left: 100%;
+                white-space: nowrap;
+                line-height: 1em;
+                padding: .5em 1em;
+                margin-top: -1em;
+                margin-left: 1em;
+                box-shadow: 1px 1px 1px #ddd;
+            }
+        }
+    }
 }
 FORM .field_with_editor,
 FORM .field_text_area {

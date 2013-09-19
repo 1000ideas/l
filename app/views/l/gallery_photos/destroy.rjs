@@ -1,3 +1,0 @@
-if @delete
-  page.replace_html :show_photos, :partial => "lazy_programmer/gallery_photos/show_photos"
-end

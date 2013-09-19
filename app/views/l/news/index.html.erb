@@ -1,41 +1,20 @@
-<% content_for :submenu do %>
-  <%= render "submenu" %>
-<% end %>
-
-
+<% breadcrumbs t('.title') %>
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('.title'), news_index_path) %>
 
-<p id="notice"><%= notice %></p>
-<% if @news.any? %>
-<%= render partial: 'l/partials/switcher', object: @news %>
-
-
-<ul class="items-list one-column" data-page="<%= @news.current_page %>">
-  <li class="header">
-    <div class="group">
-      <div><%= L::News.human_attribute_name :title %></div>
-    </div>
-  </li>
-  <% @news.each do |news| %>
-  <li>
-    <div class="group">
-      <div class="select"><%= selection_tag news %></div>
-      <div><%= news.title %></div>
-      <div class="options">
-        <%= link_to t('helpers.actions.show'), news_path(news), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
-        <%= link_to t('helpers.actions.edit'), edit_news_path(news), class: "edit", title: t('helpers.actions.edit') %>
-        <%= link_to t('helpers.actions.destroy'), news_path(news), class: "destroy", title: t('helpers.actions.destroy'),
-          data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
-      </div>
-    </div>
-  </li>
-  <% end %>
-</ul>
-
-
-<%= action_on_selection t('helpers.actions.destroy_selected'), news_path(id: ':id'), data: {method: :delete, confirm: t('helpers.actions.confirm')} %>
-
-<%= will_paginate @news %>
-  
+<h2><%= t('.title') %></h2>
+<% unless @news.blank? %>
+  <ul id="news_list">
+    <% @news.each do |news| %>
+      <li>
+        <h3><%= news.title %></h3>
+        <div class="date"><%= l news.created_at, format: '%d-%m-%Y %H:%M' %></div>
+        <%= content_tag :div, class: 'image' do %>
+          <%= image_tag news.photo.url(:thumb) %>
+        <% end if news.photo? %>
+        <div class="content"><%=short news.content, 160 %></div>
+        <div class="more"><%= link_to t('helpers.actions.more'), news_path(news) %></div>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
+<%= will_paginate @news %>

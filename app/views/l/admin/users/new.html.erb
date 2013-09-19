@@ -1,0 +1,13 @@
+<% title t('.title') %>
+<% breadcrumbs_admin link_to(t('.title'), new_admin_user_path) %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="cols-container">
+  <div class="main-column">
+    <%= render 'form' %>
+  </div>
+  <div class="tooltip-column">
+    <%= render 'tooltip' %>
+  </div>
+</div>

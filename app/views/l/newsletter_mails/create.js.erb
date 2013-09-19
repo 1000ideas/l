@@ -1,6 +1,13 @@
-$('#newsletter_notice')
-  .removeClass('alert')
-  .addClass('notice')
-  .html("<%= escape_javascript t('newsletter.added') %>");
+<% if @mail.errors.any? %>
+  $('#newsletter_notice')
+    .removeClass('notice')
+    .addClass('alert')
+    .html("<%=j @mail.errors.full_messages.first  %>");
+<% else %>
+  $('#newsletter_notice')
+    .removeClass('alert')
+    .addClass('notice')
+    .html("<%=j t('newsletter.added') %>");
+<% end %>
 
 

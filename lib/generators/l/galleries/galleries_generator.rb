@@ -33,26 +33,32 @@ module L
       def copy_galleries_views # :nodoc:
         directory "../../../../../app/views/l/galleries", 
           "app/views/l/galleries"
-        directory "../../../../../app/views/l/gallery_photos", 
-          "app/views/l/gallery_photos"
+        directory "../../../../../app/views/l/admin/galleries", 
+          "app/views/l/admin/galleries"
+        directory "../../../../../app/views/l/admin/gallery_photos", 
+          "app/views/l/admin/gallery_photos"
       end
 
       def add_galleries_route # :nodoc:
         routing_code = <<-CONTENT
 
-    resources :galleries, :controller => 'l/galleries'   do
-      collection do
-        get :list
-        post :upload
+      resources :galleries, except: [:show] do
+        resources :photos, controller: :gallery_photos, only: [:create, :destroy]
       end
-      resources :photos, :controller => 'l/gallery_photos'
-    end
+
         CONTENT
-        log :route, "resources :galleries"
+
         inject_into_file 'config/routes.rb', 
           routing_code, 
-          :before => %r{^\s*resources :users}, 
-          :verbose => false
+          after: %r{^\s*scope module: 'l/admin'.*\n}, 
+          verbose: false
+
+        inject_into_file 'config/routes.rb', 
+          "\n  resources :galleries,  module: :l, only: [:index, :show]\n\n", 
+          before: %r{^\s*scope path: 'admin'}, 
+          verbose: false
+
+        log :route, "resources :galleries"
       end
 
       def add_search_results_in_search_action # :nodoc:

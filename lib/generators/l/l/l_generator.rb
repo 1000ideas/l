@@ -153,7 +153,7 @@ module L
       can :manage, L::GalleryPhoto
       can :manage, L::NewsletterMail
     elsif user.has_role? :user
-      can [:read, :update], User, id: user.id
+      can [:read, :update, :destroy], User, id: user.id
     end
 
     can :read, L::Page
@@ -195,6 +195,7 @@ puts "done!"
       # wiec tutaj dodajemy do niego zmodyfikowany route'
       def add_devise_route # :nodoc:
         devise_route = <<-ROUTE
+
   devise_for :users, 
     path: '',
     path_names: {

@@ -32,21 +32,21 @@ module L
       def copy_news_views # :nodoc:
         directory "../../../../../app/views/l/news", 
           "app/views/l/news"
+
+        directory "../../../../../app/views/l/admin/news", 
+          "app/views/l/admin/news"
       end
 
-      def add_news_route # :nodoc:
-        routing_code = <<-CONTENT
-  resources :news, :controller => 'l/news' do
-    collection do
-      get :list
-    end
-  end
-        CONTENT
+      def add_news_routes # :nodoc:
+        inject_into_file 'config/routes.rb', 
+          "\n      resources :news, except: [:show]\n", 
+          after: %r{^\s*scope module: 'l/admin'.*\n}, 
+          verbose: false
 
         inject_into_file 'config/routes.rb', 
-          routing_code, 
-          :before => %r{^\s*resources :users}, 
-          :verbose => false
+          "\n  resources :news, module: :l, only: [:index, :show]\n\n", 
+          before: %r{^\s*scope path: 'admin'}, 
+          verbose: false
         log :route, "resources :news"
       end
 

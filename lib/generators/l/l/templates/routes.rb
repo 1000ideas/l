@@ -1,13 +1,15 @@
 
+  scope path: 'admin', as: :admin do
+    scope module: 'l/admin' do
+      resources :users
+    end
 
-  resources :users, controller: 'l/users' 
-  resource :admin, controller: 'l/admins', only: [:show] do
-    post :update_user, as: :update_user, on: :member
+    get '', to: 'devise/registrations#edit', constraints: lambda { |request|  request.env["devise.mapping"] = Devise.mappings[:user]; true }
   end
 
-  <% if options.lang.length > 1 %>
+  <%- if options.lang.length > 1 -%>
   match 'switch_lang/:lang', to: 'application#switch_lang', as:  :switch_lang
-  <% end %>
+  <%- end -%>
   match 'search', to: 'application#search', as: :search
   root to: 'application#index'
 

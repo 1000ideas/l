@@ -12,11 +12,15 @@ module L
     #   - +class_name+ - lista dodatkowych klas CSS
     #
     def admin_menu_link(name, url = nil, options = {})
-      url = method("#{name}_path").call if url.nil?
+      if url.nil?
+        url = url_for([:admin, name]) rescue url_for([:admin, name, :index])
+      end
       ctrl_name = (options.delete(:controller) || name).to_s
       class_name = [*options.delete(:class_name)]
       class_name.push('active') if controller_name == ctrl_name
       link_to t("menu.#{name}"), url, class: class_name
+    rescue ActionController::RoutingError
+      ''
     end
 
     # Generuj link wykonujący akcje na zaznaczonych elementach
@@ -76,7 +80,7 @@ module L
     #   do najbliższej użytkownikowi. Ostatnim elementem zwykle jest tytuł
     #   storny na której znajduje się użytkownik.
     def breadcrumbs_admin(*value)
-      bread = ['<a href="/admin">'+I18n.t('show.title', scope: 'l.admins')+'</a>']
+      bread = [ link_to(I18n.t('title', scope: 'l.admin'), admin_path) ]
       bread += value
       instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
     end

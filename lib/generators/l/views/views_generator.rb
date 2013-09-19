@@ -6,7 +6,7 @@ module L
     # Generator kopiujący widoki podstawowej aplikacji Lazego.
     class ViewsGenerator< ::Rails::Generators::Base
 
-      @@views_list = %w{layouts partials admins users}
+      @@views_list = %w{partials admins users}
 
       class_option :except,
         type: :array,
@@ -21,8 +21,14 @@ module L
       end
 
       def copy_views # :nodoc:
-        (@@views_list - options[:except]).each do |view|
+        except = options[:except] || []
+
+        (@@views_list - except).each do |view|
           directory "views/l/#{view}", "app/views/l/#{view}"
+        end
+
+        unless except.include? 'layouts'
+          directory "views/layouts/l", "app/views/layouts/l"
         end
       end
     end

@@ -1,0 +1,11 @@
+<tr class="<%= cycle('odd', 'even') %>">
+
+  <td class="gallery_name"><%= gallery_item.name %></td>
+  <td><%=raw gallery_item.content %></td>
+  <td class="options">
+    <%= link_to t('destroy'), admin_gallery_path(gallery_item), data: { confirm: t('confirm'), method: :delete }, class: "destroy", title: t('destroy') %>
+    <%= link_to t('show'), admin_gallery_path(gallery_item), class: "show", title: t('show'), target: "blank" %>
+    <%= link_to t('edit'), edit_admin_gallery_path(gallery_item), class: "edit", title: t('edit') %>
+  </td>
+</tr>
+<tr class="spacer"><td></td></tr>

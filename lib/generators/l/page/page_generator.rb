@@ -33,22 +33,26 @@ module L
       def copy_pages_views # :nodoc:
         directory "../../../../../app/views/l/pages", 
           "app/views/l/pages"
+
+        directory "../../../../../app/views/l/admin/pages", 
+          "app/views/l/admin/pages"
       end
 
       def add_pages_route # :nodoc:
         routing_code = <<-CONTENT
-  resources :pages, controller: 'l/pages'  do
-    member do
-      get :hide, defaults: { status: 1 }
-      get :unhide, action: 'hide', defaults: { status: 0 }
-      match 'after/:target_id', action: :after, via: :post, as: :after
-    end
-  end
+
+      resources :pages, except: [:show] do
+        member do
+          get :hide, defaults: { status: 1 }
+          get :unhide, action: 'hide', defaults: { status: 0 }
+          match 'after/:target_id', action: :after, via: :post, as: :after
+        end
+      end
 
         CONTENT
         inject_into_file 'config/routes.rb', 
           routing_code, 
-          before: %r{^\s*resources :users}, 
+          after: %r{^\s*scope module: 'l/admin'.*\n}, 
           verbose: false
         log :route, "resources :pages"
 

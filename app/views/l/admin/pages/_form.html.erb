@@ -1,0 +1,51 @@
+<%= form_for(@page, url: admin_pages_path, method: 'post') do |f| %>
+  <%= render partial: 'l/partials/errors', object: @page.errors %>
+  <div class="group">
+    <% unless @parents.blank? %>
+    <div class="field">
+      <%= f.label :parent %>
+      <%= f.collection_select :parent_id, @parents, :id, :title, prompt: 'Wybierz' %>
+    </div>
+    <% end %>
+    <div class="field">
+      <%= f.label :url %>
+      <%= f.text_field :url %>
+    </div>
+    <div class="field">
+      <%= f.label :meta_description %>
+      <%= f.text_field :meta_description %>
+    </div>
+    <div class="field">
+      <%= f.label :meta_keywords %>
+      <%= f.text_field :meta_keywords %>
+    </div>
+  </div>
+  <div id="form_tabs" class="tabs_container">
+    <ul>
+      <% k = 0 %>
+      <% I18n.available_locales.each do |el| %>
+        <li><a href="#tab<%= k = k+1 %>"><%=  el.to_s  %></a></li>
+      <% end %>
+    </ul>
+
+    <% i = 0 %>
+    <%= f.fields_for :translations do |builder| %>
+
+      <div id="tab<%= i = i+1 %>" class="group">
+        <%= builder.hidden_field :locale %>
+        <div class="field">
+          <%= builder.label :title %>
+          <%= builder.text_field :title %>
+        </div>
+        <div class="field field_with_textarea">
+          <%= builder.label :content %>
+          <%= builder.text_area :content, class: "mceFileupload" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

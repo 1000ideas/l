@@ -56,8 +56,13 @@ class Sortable
           object.insertAfter(target)
         )
         .fail( (jqXHR, textStatus) ->
+          text = if jqXHR.responseJSON?
+            jqXHR.responseJSON.join('. ')
+          else
+            "Network error"
+
           $('#notice')
-            .html(jqXHR.responseJSON.join('. '))
+            .html(text)
             .show()
           setTimeout ->
             $('#notice').fadeOut(3000);

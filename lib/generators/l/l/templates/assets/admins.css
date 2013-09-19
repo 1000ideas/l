@@ -5,6 +5,7 @@
  *= require custom_file_input
  *= require admin/layout
  *= require admin/style
+ *= require admin/login
  *= require admin/layout/tabs
  *= require admin/layout/lists
  *= require admin/layout/forms

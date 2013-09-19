@@ -1,3 +1,0 @@
-if @saved
-  page.replace_html :show_photos, :partial => "l/gallery_photos/show_photos"
-end

@@ -3,19 +3,18 @@ pl:
     '404':
       title: Błąd 404
       message: Nie znaleziono szukanej strony
-  newsletter: 
-    name: "Newsletter"
+  newsletter:
     info: "Wpisz swój adres e-mail, aby otrzymywać nasz biuletyn elektroniczny."
-    sign: "Zapisz się"
-    wait: "Proszę czekać..."
-    confirmed: "Email potwierdzony"
+    wait: "Proszę czekać..."    
     added: "Adres został dodany."
-    already_exists: 'Podany adres już istnieje.'
-    invalid: 'Błędny adres e-mail.'
     confirmation:
       subject: "Newsletter - Potwierdź swój adres email"
+      confirmed: "Subskrypcja została potwierdzona."
+      error: "Nie udało się potwierdzić adresu e-mail."
     send_mail:
       subject: "Newsletter"
+      no_emails: "Nie wybrano żadnego odbiorcy."
+      sended: "Wiadomość została wysłana do %{count} odbiorców."
   sort:
     asc: "Sortuj rosnąco"
     desc: "Sortuj malejąco"
@@ -49,6 +48,8 @@ pl:
         password_confirmation: "Powtórz hasło"
         set_role: "Wybierz uprawnienia"
         role : Uprawnienia
+        remember_me: Zapamiętaj
+        current_password: "Aktualne hasło"
       attachment:
         upload: Plik
         upload_content_type: 'Typ pliku'
