@@ -27,10 +27,11 @@
         <div id="menu">
           <%= admin_menu_link(:main_page, admin_path, class_name: :first, controller: :registrations) %>
           <%= admin_menu_link(:users) if current_user.admin? %>
-          <%= admin_menu_link(:pages) if current_user.admin? %>
-          <%= admin_menu_link(:news) if current_user.admin? %>
-          <%= admin_menu_link(:galleries) if current_user.admin? %>
-          <%= admin_menu_link(:newsletter_mails) if current_user.admin? %>
+          <%#= admin_menu_link(:pages) if current_user.admin? %>
+          <%#= admin_menu_link(:news) if current_user.admin? %>
+          <%#= admin_menu_link(:galleries) if current_user.admin? %>
+          <%#= admin_menu_link(:newsletter_mails) if current_user.admin? %>
+          <%= link_to t('.homepage'), root_path, class: :right %>
         </div>
         <div id="submenu">
           <%= render('submenu') rescue '' %>

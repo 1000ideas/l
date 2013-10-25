@@ -6,7 +6,7 @@ module L
     # Generator kopiujący widoki podstawowej aplikacji Lazego.
     class ViewsGenerator< ::Rails::Generators::Base
 
-      @@views_list = %w{partials admins users}
+      @@views_list = %w{partials admin/users}
 
       class_option :except,
         type: :array,

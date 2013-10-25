@@ -94,16 +94,16 @@ module L
         if options.gems
           prepend_to_file 'Gemfile', "source 'http://1000i.co/gems'\n"
 
-          gem 'devise', "~> 2.0.0"
+          # gem 'devise', "~> 2.0.0"
           
           gem 'cancan'
 
           gem 'globalize3', '~> 0.3.0'
           gem 'rails-i18n'
           
-          gem 'paperclip'
-          gem 'jquery-ui-rails'
-          gem 'jquery-fileupload-rails'
+          # gem 'paperclip'
+          # gem 'jquery-ui-rails'
+          # gem 'jquery-fileupload-rails'
 
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
@@ -172,10 +172,16 @@ module L
         dane = <<-CONTENT
 print "Adding seeds data..."
 
+passwd = (0...5).map{ ('a'..'z').to_a[rand(26)] }.join
+
 admin = User.create email: 'admin@admin.pl',
-  password: 'admin',
-  password_confirmation: 'admin',
+  password: passwd,
+  password_confirmation: passwd,
   role: :admin
+
+if admin.errors.empty?
+  print "\nAdmin password: '\#{passwd}'\n..."
+end
 
 puts "done!"
         CONTENT

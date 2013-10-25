@@ -1,5 +1,9 @@
 
+
   scope path: 'admin', as: :admin do
+    scope module: :admin do
+    end
+
     scope module: 'l/admin' do
       resources :users
     end

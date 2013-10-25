@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
 
   def layout_by_resource
     if devise_controller?
-      "l/layouts/admin_login"
+      "l/admin"
     else
-      "l/layouts/standard"
+      "l/standard"
     end
   end
 

@@ -1,13 +1,11 @@
-<%% content_for :submenu do %>
-<%%= render "submenu" %>
-<%% end %>
+<%% title t('.title') %>
+<%% breadcrumbs_admin link_to(t('.title'), admin_<%= index_helper %>_path) %>
 
-<%% title t('<%= plural_table_name %>.index.title') %>
-<%% breadcrumbs_admin link_to(t('<%= plural_table_name %>.index.title'), <%= index_helper %>_path) %>
+<% [:alert, :notice].each do |name| %>
+<%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
+<% end %>
 
-<p id="notice"><%%= notice %></p>
-
-<%%= form_tag <%= index_helper %>_path, method: :get do %>
+<%%= form_tag admin_<%= index_helper %>_path, method: :get do %>
 
 <%%= render "filter" %>
 <%%= render partial: 'l/partials/switcher', object: @<%= plural_table_name %> %>
@@ -15,16 +13,13 @@
 <%- columns_class_name = case attributes.length
       when 1 then 'one-column'
       when 2 then 'two-columns'
-      when 3 then 'three-columns'
-      when 4 then 'four-columns'
-      when 5 then 'five-columns'
-      else 'multi-columns'
+      else 'three-columns'
     end 
 -%>
-<ul class="items-list <%= columns_class_name %>" data-page="<%%= @<%=plural_table_name %>.current_page %>">
+<ul class="items-list <%= columns_class_name %>">
   <li class="header">
     <div class="group">
-<% for attribute in attributes -%>
+<% for attribute in attributes.first(3) -%>
       <div>
         <%%= <%= class_name %>.human_attribute_name :<%= attribute.name %> %>
 <% if attribute.type == :file -%>
@@ -42,7 +37,7 @@
   <li>
     <div class="group">
       <div class="select"><%%= selection_tag <%= singular_table_name %> %></div>
-<% for attribute in attributes -%>
+<% for attribute in attributes.first(3) -%>
 <% if attribute.type == :file -%>
         <div><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></div>
 <% elsif attribute.type =~ /tiny_mce_.*/ -%>
@@ -52,9 +47,9 @@
 <% end -%>
 <% end -%>
       <div class="options">
-        <%%= link_to t('edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit') %>
-        <%%= link_to t('show'), <%= singular_table_name %>, class: "show", title: t('show'), target: "_blank" %>
-        <%%= link_to t('destroy'), <%= singular_table_name %>, class: "destroy", title: t('destroy'), data: { confirm: t('confirm'), method: :delete } %>
+        <%%= link_to t('edit', scope: [:helpers, :actions]), edit_admin_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit', scope: [:helpers, :actions]) %>
+        <%%= link_to t('destroy', scope: [:helpers, :actions]), [:admin, <%= singular_table_name %>], class: "destroy", title: t('destroy', scope: [:helpers, :actions]), data: { confirm: t('confirm', scope: [:helpers, :actions]), method: :delete } %>
+        <%%= link_to t('show', scope: [:helpers, :actions]), <%= singular_table_name %>, class: "show", title: t('show', scope: [:helpers, :actions]), target: "_blank" %>
       </div>
     </div>
   </li>    

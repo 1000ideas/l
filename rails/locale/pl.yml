@@ -1,4 +1,8 @@
 pl:
+  layouts:
+    l:
+      admin:
+        homepage: "Strona główna"
   l:
     admin:
       title: Panel administratora
@@ -118,6 +122,27 @@ pl:
     layout:
       logged_as: "Zalogowany jako:"
       logout: Wyloguj
+  admin:
+    create:
+      success: "Pomyślnie utworzono"
+    update:
+      success: "Pomyślnie zaktualizowano"
+    destroy:
+      success: "Pomyślnie usunięto"
+  defaults:
+    create:
+      success: "Pomyślnie utworzono"
+    update:
+      success: "Pomyślnie zaktualizowano"
+    destroy:
+      success: "Pomyślnie usunięto"
+    tooltip:
+      title: "Uwaga"
+      content_html: "Przykładowy tekst informacyjny"
+    filter:
+      title: "Filtruj wg"
+      button: "Filtruj"
+      clear: "Wyczyść"
   helpers:
     roles:
       admin: Administrator

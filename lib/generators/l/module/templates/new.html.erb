@@ -1,12 +1,10 @@
-<%% content_for :submenu do %>
-  <%%= render "submenu" %>
-<%% end %>
+<%% title t('.title') %>
+<%% breadcrumbs_admin link_to(t('admin.<%= plural_table_name %>.index.title'), admin_<%= index_helper %>_path),
+  link_to(t('.title'), new_admin_<%= singular_table_name %>_path) %>
 
-<%% title t('<%= plural_table_name %>.new.title') %>
-<%% breadcrumbs_admin link_to(t('<%= plural_table_name %>.index.title'), <%= index_helper %>_path),
-                      link_to(t('<%= plural_table_name %>.new.title'), new_<%= singular_table_name %>_path) %>
-
-<p id="notice"><%%= notice %></p>
+<% [:alert, :notice].each do |name| %>
+<%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
+<% end %>
 
 <div class="cols-container">
   <div class="main-column">
@@ -17,4 +15,4 @@
   </div>
 </div>   
 
-<%%= link_to t('back'), <%= index_helper %>_path %>
+<%%= link_to t('back', scope: [:helpers, :actions]), admin_<%= index_helper %>_path %>

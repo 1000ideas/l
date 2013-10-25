@@ -43,7 +43,7 @@ module L
       end
 
       def generate_model # :nodoc:
-        invoke :model, model_args, :migration => true
+        invoke :model, model_args, migration: true
       end
 
       def insert_file_fields_to_migration # :nodoc:
@@ -61,8 +61,8 @@ module L
 
         file_attributes.each do |a|
           inject_into_file model_path, 
-            "  has_attached_file :#{a.name}, styles: { medium: '300x300>', thumb: '100x100#' }\n",
-            :after => "ActiveRecord::Base\n"
+            "  has_attached_file :#{a.name}\n",
+              after: "ActiveRecord::Base\n"
         end
       end
 
@@ -86,81 +86,81 @@ module L
       
       def create_controller_files # :nodoc:
         template 'controller.rb', controller_path
+        template 'admin_controller.rb', admin_controller_path
       end
 
       def add_abilities
-        inject_into_file 'app/models/ability.rb', "\\k<indent>  can :manage, #{class_name}\n", after: %r{(?<indent>[ ]+).+user\.(?:has_role\?\s+:)?admin\??\n}
+        inject_into_file 'app/models/ability.rb',
+         "      can :manage, #{class_name}\n", 
+         after: %r{^\s*if user\.(?:has_role\?\s+:)?admin\??\n}
       end
 
       def add_routes # :nodoc:
-        routing_code = "resources :#{plural_name}" 
+        routing_code = "resources :#{plural_name}, except: [:show]" 
+        inject_into_file 'config/routes.rb',
+          "      #{routing_code}\n",
+          after: %r{^\s*scope module: :admin.*\n},
+          verbose: false
+
         log :route, routing_code
-        inject_into_file 'config/routes.rb', "  #{routing_code}\n", :before => "resources :users", :verbose => false
+      end
+
+      def add_front_routes # :nodoc:
+        routing_code = "resources :#{plural_name}, only: [:index, :show]"
+        inject_into_file 'config/routes.rb',
+          "  #{routing_code}\n",
+          before: %r{^\s*scope path: 'admin'.*\n},
+          verbose: false
+
+        log :route, routing_code
       end
 
       def create_view_folder # :nodoc:
         empty_directory File.join("app/views", controller_file_path)
+        empty_directory File.join("app/views/admin", controller_file_path)
       end
 
       def copy_view_files # :nodoc:
-        available_views.each do |view|
+        available_admin_views.each do |view|
           filename = "#{view}.html.erb"
-          template filename, File.join("app/views", controller_file_path, filename)
+          template filename, File.join("app/views/admin", controller_file_path, filename)
         end
+        template "front_index.html.erb", File.join("app/views", controller_file_path, "index.html.erb")
+        template "front_show.html.erb", File.join("app/views", controller_file_path, "show.html.erb")
       end
 
       def add_translations # :nodoc:
-        menu_names = {}
-        if options.interactive
-          require 'highline/import'
-
-          say "Wprowadź polskie tłumaczenia:"
-          menu_names = {
-            :menu => ask("Etykieta przycisku w menu głównym: ") {|q| q.default = "#{plural_name}" }
-          }
-          
-          say "Etykiety przycisków w podmenu:"
-          menu_names.merge!(
-            :sub_new => ask("# Dodaj nowy element:") { |q| q.default = "Dodaj #{name}" },
-            :sub_idx => ask("# Lista elementów:") {|q| q.default = "Lista #{plural_name}" }
-          )
-
-          say "Tytuły stron modułu:"
-          menu_names.merge!(
-            :new => ask("# Tytuł strony dodawania elementu:") { |q| q.default = "Dodawanie #{name}" },
-            :idx => ask("# Tytuł strony listy  elementów:") {|q| q.default = "#{plural_name}" },
-            :edt => ask("# Tytuł strony edycji elementu:") {|q| q.default = "Edycja #{name}" }
-          )
-        end
-
-        trans = { "#{plural_name.downcase}" => {
+        trans = { 
+          'admin' => {
+            "#{plural_table_name}" => {
               'submenu' => {
-                'new' => menu_names[:sub_new] || "Add #{name.downcase}",
-                'index' => menu_names[:sub_idx] || "List #{plural_name}"
+                'new' => "Add #{singular_table_name}",
+                'index' => "List #{plural_table_name}"
               },
               'new' => {
-                'title' => menu_names[:new] || "Add #{name.downcase}"
+                'title' => "Add #{singular_table_name}"
               },
               'index' => {
-                'title' => menu_names[:idx] || "#{plural_name.capitalize}"
+                'title' => "#{plural_name.capitalize}"
               },
               'edit' => {
-                'title' =>  menu_names[:edt] || "Edit #{name.downcase}"
+                'title' =>  "Edit #{singular_table_name}"
               }
-            }}
+            }.merge(I18n.t('defaults', locale: :pl))
+          },
+          "#{plural_table_name}" => {
+            'index' => {
+              'title' => plural_name.capitalize
+            },
+            'show' => {
+              'title' => name.capitalize
+            }
+          }
+        }
 
-        if options.interactive
-          say "Tłumaczenia atrybutów modelu:"
-          attr_names = attributes.map do |at| 
-            hname = ask("# #{at.name}:") {|q| q.default = at.human_name }
-            [at.name, hname]
-          end
-          attr_hash =  Hash[attr_names]
-        else
-          attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
-        end
+        attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
 
-        trans['menu'] = {"#{plural_name.downcase}" => menu_names[:menu] || plural_name.capitalize}
+        trans['menu'] = {"#{plural_name.downcase}" => plural_name.capitalize}
         trans['activerecord'] = { 'attributes' => {"#{name.downcase}" => attr_hash} }
 
         I18n.available_locales.each do |locale|
@@ -168,20 +168,21 @@ module L
         end
       end
 
-      def add_link_in_menu # :nodoc:
-        pld = plural_name.downcase
-        link = <<-LINK
-  <%= admin_menu_link(:#{pld}) if current_user.has_role? :admin %>
-        LINK
-        inject_into_file File.join(destination_root, 'app/views/l/admins/partials/_header.erb'), link, :before => "</div>\n<div id=\"submenu\">"
-      rescue
-        log :skip, "Adding link in admin"
+      def add_admin_menu_link
+        link = "<%= admin_menu_link(:#{plural_table_name}) if current_user.admin? %>"
+        inject_into_file "app/views/layouts/l/admin.html.erb",
+          "          #{link}\n",
+          before: %r{^\s*<%= link_to.*root_path.*right.*$},
+          verbose: false
+
+        log :insert, link
+
       end
 
       private
 
-      def available_views
-        %w(index edit show new _filter _form _submenu _tooltip)
+      def available_admin_views
+        %w(index edit new _filter _form _submenu _tooltip)
       end
 
       def model_args
@@ -217,6 +218,10 @@ module L
 
       def controller_path
         @controller_path ||= File.join("app", "controllers", "#{controller_file_path}_controller.rb")
+      end
+
+      def admin_controller_path
+        @admin_controller_path ||= File.join("app", "controllers", "admin", "#{controller_file_path}_controller.rb")
       end
 
       def mobile_controller_path

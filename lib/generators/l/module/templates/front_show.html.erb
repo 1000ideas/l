@@ -1,12 +1,4 @@
-<%% content_for :submenu do %>
-<%%= render "submenu" %>
-<%% end %>
-
-<%% title t('<%= plural_table_name %>.show.title') %>
-<%% breadcrumbs_admin link_to(t('<%= plural_table_name %>.index.title'), <%= index_helper %>_path),
-                      link_to(t('<%= plural_table_name %>.show.title'), <%= singular_table_name %>_path) %>
-
-<p id="notice"><%%= notice %></p>
+<h2><%%= t('.title') %></h2>
 
 <dl>
 <% for attribute in attributes -%>
@@ -20,3 +12,5 @@
 <% end -%>
 <% end -%>
 </dl>
+
+<%%= link_to t('back', scope: [:helpers, :actions]), <%= index_helper %>_path %>

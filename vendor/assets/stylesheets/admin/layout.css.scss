@@ -30,34 +30,36 @@
 #menu {
   width: 100%;
   background-color: #89244a;
-
-  -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
-  -moz-border-radius-topright: 5px;
   border-top-right-radius: 5px;
+  
+  &:after {
+    content: ' ';
+    display:block;
+    clear: both;
+  }
+
+  a {
+    float: left;
+    padding: 10px;
+    line-height: 20px;
+    color: #fff;
+    text-decoration: none;
+    &.active, &:focus, &:hover {
+      background-color: #e6085c;
+      outline: none;
+    }
+    &:first-child {
+      border-top-left-radius: 5px;
+    }
+
+    &.right {
+      float: right;
+      border-top-right-radius: 5px;
+    }
+  }
 }
-#menu:after {
-  content: ' ';
-  display:block;
-  clear: both;
-}
-#menu a {
-  float: left;
-  padding: 10px;
-  line-height: 20px;
-  color: #fff;
-  text-decoration: none;
-}
-#menu a.active,
-#menu a:focus,
-#menu a:hover {
-  background-color: #e6085c;
-  outline: none;
-}
-#menu a:first-child {
-  -moz-border-radius-topleft: 5px;
-  border-top-left-radius: 5px;
-}
+
 
 #submenu {
   padding: 10px;

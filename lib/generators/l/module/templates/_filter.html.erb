@@ -1,6 +1,6 @@
 <div class="filter">
   <div class="field">
-    <strong>Filtruj: </strong>
+    <strong><%%= t('.title') %></strong>
 
 <% for attribute in attributes -%>
     <%%= label_tag :filter_<%= attribute.name %>, <%= class_name %>.human_attribute_name(:<%= attribute.name %>)  %>
@@ -11,12 +11,11 @@
     <% end -%>
 
 <% end -%>
-
-    <%%= submit_tag "Filtruj" %>
+    <%%= submit_tag t('.button') %>
   </div>
 
   <div class="field">
-    <%%= link_to "Wyczyść", <%= index_helper %>_path %>
+    <%%= link_to t('.clear'), admin_<%= index_helper %>_path %>
   </div>
 
 </div>

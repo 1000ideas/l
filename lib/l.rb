@@ -1,2 +1,6 @@
 require 'l/rails'
 require 'middleware/flash_session_cookie_middleware'
+require 'devise'
+require 'paperclip'
+require 'jquery-ui-rails'
+require 'jquery-fileupload-rails'
