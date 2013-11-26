@@ -1,5 +1,8 @@
 module L
   module Controllers
+    # Moduł rozszerzający kontrolery od domyślne akcje po wyjątkach RecordNotFound 
+    # oraz CanCan::AccessDenied. Akcje można nadpisać definując własne metody
+    # `rescue_from_access_denied` lub `rescue_from_not_found`.
     module ExceptionsRescues
       extend ActiveSupport::Concern
 

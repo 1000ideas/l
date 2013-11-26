@@ -97,7 +97,7 @@ module L::Concerns
 
         @_available_roles = roles.map(&:to_sym)
 
-        include InstanceMethods
+        include CommonInstanceMethods
 
         shorthands = options[:shorthands].nil? ? true : options[:shorthands]
 
@@ -115,10 +115,10 @@ module L::Concerns
 
         class_eval do
           scope :with_role,
-            lambda {|role_name| where("(roles_mask & :mask) == :mask", mask: role_mask(role_name)) }
+            lambda {|role_name| where("(roles_mask & :mask) = :mask", mask: role_mask(role_name)) }
 
           scope :with_only_role,
-            lambda {|role_name| where("roles_mask  == :mask", mask: role_mask(role_name)) }
+            lambda {|role_name| where("roles_mask  = :mask", mask: role_mask(role_name)) }
 
           scope :with_any_role,
             lambda {|*roles_names| where("(roles_mask & :mask) != 0", mask: roles_names.sum {|r| role_mask(r)}) }
@@ -202,7 +202,7 @@ module L::Concerns
     end
 
     # Metody wspólne dla modeli posiadaących jedną/wiele roli.
-    module InstanceMethods      
+    module CommonInstanceMethods      
 
       # Lista dostepnych ról dla użytkownika
       def available_roles
