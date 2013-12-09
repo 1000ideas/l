@@ -19,10 +19,10 @@
       <div><%= user.email %></div>
       <div><%= user.human_role %></div>
       <div class="options">
-        <%= link_to t('show'), admin_user_path(user), class: "show", title: t('show'), target: '_blank' %>
-        <%= link_to t('edit'), edit_admin_user_path(user), class: "edit", title: t('edit') %>
-        <%= link_to t('destroy'), admin_user_path(user), class: "destroy", title: t('destroy'),
-          data: {confirm: t('confirm'), method: :delete } %>
+        <%= link_to t('helpers.actions.show'), admin_user_path(user), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
+        <%= link_to t('helpers.actions.edit'), edit_admin_user_path(user), class: "edit", title: t('helpers.actions.edit') %>
+        <%= link_to t('helpers.actions.destroy'), admin_user_path(user), class: "destroy", title: t('helpers.actions.destroy'),
+          data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
       </div>
     </div>
   </li>

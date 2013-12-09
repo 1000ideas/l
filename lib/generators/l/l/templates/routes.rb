@@ -6,9 +6,11 @@
 
     scope module: 'l/admin' do
       resources :users
+      root to: "admin/index"
     end
 
-    get '', to: 'devise/registrations#edit', constraints: lambda { |request|  request.env["devise.mapping"] = Devise.mappings[:user]; true }
+    # get '', to: 'devise/registrations#edit', constraints: lambda { |request|  request.env["devise.mapping"] = Devise.mappings[:user]; true }
+
   end
 
   <%- if options.lang.length > 1 -%>

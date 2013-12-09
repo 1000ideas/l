@@ -6,6 +6,13 @@ pl:
   l:
     admin:
       title: Panel administratora
+      admin:
+        index:
+          title: Strona startowa
+          welcome: "Witaj w panelu administracyjnym! Co chcesz zrobić?"
+        submenu:
+          profile: "Edytuj profil"
+
       users:
         tooltip:
           head: Uwaga!
