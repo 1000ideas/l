@@ -1,5 +1,5 @@
 #header {
-  padding: 20px 10px;
+  padding: 1em;
 
   &:after {
     display: block;
@@ -19,8 +19,9 @@
 }
 
 #header #login_info {
+  margin-top: 1em;
   float: right;
-    text-align: right;
+  text-align: right;
 }
 
 #header a img {
