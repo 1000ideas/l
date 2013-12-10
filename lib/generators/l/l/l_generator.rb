@@ -133,8 +133,7 @@ module L
       end
 
       def inject_user_config_into_model # :nodoc:
-        user_class_setup = load_template('user_model.rb')
-        inject_into_class user_model_path, user_class_name, user_class_setup
+        inject_into_class user_model_path, user_class_name, "include L::Concerns::LazyUser\n"
       end
 
       def generate_cancan_ability # :nodoc:
