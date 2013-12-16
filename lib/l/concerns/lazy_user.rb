@@ -13,11 +13,21 @@ module L
         devise :database_authenticatable, :timeoutable,
                :rememberable, :trackable, :registerable,
                :validatable
+        
+        attr_accessor :updated_by
+        attr_accessible :email, :password, :password_confirmation, :remember_me,
+          :updated_by
 
-        attr_accessible :email, :password, :password_confirmation, :remember_me
+        private
 
+        def updated_by_admin?
+          updated_by.present? and updated_by.admin?
         end
 
+        def password_required?
+          super && !updated_by_admin?
+        end
+      end
     end
   end
 end

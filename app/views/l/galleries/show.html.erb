@@ -1,4 +1,6 @@
-<p id="notice"><%= notice %></p>
+<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
+<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
+
 <h2><%= @gallery.name %></h2>
 <p><%=raw @gallery.content %></p>
 

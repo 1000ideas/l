@@ -30,7 +30,8 @@ input[type=text] {
     border: 1px solid #7d7d7d;
 }
 
-INPUT[type=checkbox] {
+input[type=radio],
+input[type=checkbox] {
     float: left;
     width: 20px;
     height: auto;
@@ -56,14 +57,14 @@ input[type=submit] {
     cursor: pointer;
 }
 
-SELECT {
+select {
     font-size: 10px;
     line-height: 20px;
     margin: 10px 0;
     width: 220px;
 }
 
-TEXTAREA {
+textarea {
     border:1px solid #7D7D7D;
     color:#7D7D7D;
     float:left;
@@ -72,11 +73,11 @@ TEXTAREA {
     margin:10px 0;
 }
 
-FORM p {
+form p {
     color: #666666;
 }
 
-FORM .group {
+form .group {
     background-color: #F8F8F8; /* !important; */
     border-bottom: 1px solid #E4E4E4;
     border-top: 1px solid #E4E4E4;
@@ -84,18 +85,18 @@ FORM .group {
     margin: 15px 0;
 }
 
-FORM .tabs_container:after,
-FORM .group:after,
-FORM .field:after {
+form .tabs_container:after,
+form .group:after,
+form .field:after {
   content: ' ';
   display: block;
   clear: both;
 }
 
-FORM .field {
+form .field {
     display: block;
 }
-FORM .field label {
+form .field label {
     width: 150px;
 
     &[data-tip] {
@@ -127,14 +128,14 @@ FORM .field label {
         }
     }
 }
-FORM .field_with_editor,
-FORM .field_text_area {
+form .field_with_editor,
+form .field_text_area {
     display: block;
 }
-FORM .field_with_editor LABEL {
+form .field_with_editor label {
     margin: 0 20px 0 0;
 }
-FORM .actions {
+form .actions {
     clear: both;
     height: 50px;
 }

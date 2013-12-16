@@ -6,38 +6,11 @@
   border: 1px solid #dfdfdf;
   border-radius: 5px;
 
-  .notice, .alert {
-    background-color: #f88;
-    border: 1px solid #a00;
-    padding: .5em .5em .5em 2.5em;
-    border-radius: .5em;
-    margin: .5em 0 1em 0;
-    position: relative;
-    line-height: 18px;
-    color: #000;
-
-    h3 {
-      margin-top: 0;
+  .notice,
+  .alert {
+    h2 {
+      
     }
-  }
-
-  .notice {
-    background-color: #FE9;
-    border: 1px solid #c90;
-  }
-
-  .notice:before,
-  .alert:before {
-    content: ' ';
-    display: block;
-    height: 18px;
-    width: 18px;
-    margin: 0;
-    background-image: image-url("admin/icons.png");
-    background-position: 0 -170px;  
-    position: absolute;
-    top: .5em;
-    left: .6em;
   }
 
   &#login-box { margin-top: 200px; }

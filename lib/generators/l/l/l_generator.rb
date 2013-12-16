@@ -89,6 +89,30 @@ module L
       class << self
         delegate :next_migration_number, to: ActiveRecord::Generators::Base
       end
+
+      ###### modyfikacja config/application.rb
+      def add_application_config # :nodoc:
+        requiry = <<-CONTENT
+require 'mime/types'
+require 'base64'
+require 'will_paginate/array'
+        CONTENT
+        
+        lang_symbols = options.lang.map{|l| l.to_sym }
+
+        setting = <<-CONTENT
+    config.time_zone = 'Warsaw'
+    config.i18n.enforce_available_locales = false
+    config.i18n.default_locale = #{lang_symbols.first.inspect}
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+    config.i18n.available_locales = #{lang_symbols.inspect}
+        CONTENT
+        
+        inject_into_file "config/application.rb", requiry, 
+          after:  "require 'rails/all'\n", verbose: false
+        inject_into_class "config/application.rb", 'Application', setting, verbose: false
+        log :application, "Insert application configuration"
+      end
       
       def add_gems # :nodoc:
         if options.gems
@@ -119,6 +143,14 @@ module L
 
       def install_devise # :nodoc:
         generate 'devise:install -q'
+
+        inject_into_file 'config/initializers/devise.rb',
+          "\n  config.password_length = 5..128",
+          after: /config\.password_length.*$/
+
+        inject_into_file 'config/initializers/devise.rb',
+          "\n  config.email_regexp = /\\A([^@\\s]+)@((?:[-a-z0-9]+\\.)+[a-z]{2,})\\Z/i",
+          after: /config\.email_regexp.*$/
       end
 
       def tinymce_uploads_install # :nodoc:
@@ -171,7 +203,11 @@ module L
         dane = <<-CONTENT
 print "Adding seeds data..."
 
-passwd = (0...5).map{ ('a'..'z').to_a[rand(26)] }.join
+passwd = if Rails.env.development?
+  "admin"
+else
+ (0...5).map{ ('a'..'z').to_a[rand(26)] }.join
+end
 
 admin = User.create email: 'admin@admin.pl',
   password: passwd,
@@ -179,7 +215,9 @@ admin = User.create email: 'admin@admin.pl',
   role: :admin
 
 if admin.errors.empty?
-  print "\nAdmin password: '\#{passwd}'\n..."
+  puts "\\nAdmin password: '\#{passwd}'"
+else
+  puts "\\nError while creating admin account: \#{admin.errors.full_messages.join('. ')}."
 end
 
 puts "done!"
@@ -217,28 +255,6 @@ puts "done!"
           after: %r{Application\.routes\.draw do\n}
       end
       
-      ###### modyfikacja config/application.rb
-      def add_application_config # :nodoc:
-        requiry = <<-CONTENT
-require 'mime/types'
-require 'base64'
-require 'will_paginate/array'
-        CONTENT
-        
-        lang_symbols = options.lang.map{|l| l.to_sym }
-
-        setting = <<-CONTENT
-    config.time_zone = 'Warsaw'
-    config.i18n.default_locale = #{lang_symbols.first.inspect}
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
-    config.i18n.available_locales = #{lang_symbols.inspect}
-        CONTENT
-        
-        inject_into_file "config/application.rb", requiry, 
-          after:  "require 'rails/all'\n", verbose: false
-        inject_into_class "config/application.rb", 'Application', setting, verbose: false
-        log :application, "Insert application configuration"
-      end
 
       ##### dodanie treści do application controller
       def add_app_controller_content # :nodoc:

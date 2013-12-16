@@ -1,7 +1,8 @@
 <% title t('.title') %>
 <% breadcrumbs_admin link_to(t('.title'), admin_galleries_path) %>
 
-<p id="notice"><%= notice %></p>
+<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
+<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
 <%= render partial: 'l/partials/switcher', object: @galleries %>
 <ul class="items-list three-columns" data-page="<%= @galleries.current_page %>">

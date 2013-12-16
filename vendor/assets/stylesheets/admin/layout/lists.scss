@@ -92,8 +92,16 @@ ul.items-list {
         &.destroy { background-position: 0 -35px; width: 13px; }
         &.hide { background-position: 0 2px;}
         &.unhide { background-position: 0 -152px; }
-        &.promo_del { background-position: 0 -137px; }
+        &.download { background-position: 0 -72px;}
+        &.settings { background-position: 0 -53px;}
+        &.check { background-position: 0 -98px;}
+        &.add { background-position: 0 -118px; }
+        &.delete { background-position: 0 -137px; }
+        &.info { background-position: 0 -172px; }
+
+        //Backward
         &.promo_add { background-position: 0 -118px; }
+        &.promo_del { background-position: 0 -137px; }
       }
     }
 

@@ -94,6 +94,8 @@ module L::Admin
       @user = User.find(params[:id])
       authorize! :update, @user
 
+      @user.updated_by = current_user
+
       respond_to do |format|
         if @user.update_attributes(params[:user])
           format.html { redirect_to admin_users_path, notice: I18n.t('update.success') }

@@ -5,9 +5,8 @@
 <% title t('.title') %>
 <% breadcrumbs_admin link_to(t('.title'), send_mail_admin_newsletter_mails_path) %>
 
-<p id="notice"><%= flash[:notice] %></p>
-<p id="alert"><%= flash[:alert] %></p>
-
+<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
+<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
 <div class="cols-container">
   <div class="main-column">

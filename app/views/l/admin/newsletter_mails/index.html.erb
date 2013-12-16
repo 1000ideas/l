@@ -1,7 +1,8 @@
 <% title t('.title') %>
 <% breadcrumbs_admin link_to(t('.title'), admin_newsletter_mails_path) %>
 
-<p id="notice"><%= notice %></p>
+<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
+<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
 <ul class="items-list one-column" data-page="<%= @newsletter_mail.current_page %>">
   <li class="header">
