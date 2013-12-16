@@ -7,6 +7,8 @@
 <%= render "filter" %>
 <%= render partial: 'l/partials/switcher', object: @users %>
 
+<% if @users.any? %>
+<%= form_for :selection, url: [:selection, :admin, :users], html: {method: :post} do |f| %>
 <ul class="items-list two-columns" data-page="<%= @users.current_page %>">
   <li class="header">
     <div class="group">
@@ -17,7 +19,7 @@
   <% @users.each do |user| %>
   <li>
     <div class="group">
-      <div class="select"><%= selection_tag user %></div>
+      <div class="select"><%= f.check_box :ids, {multiple: true}, user.id, nil %></div>
       <div><%= user.email %></div>
       <div><%= user.human_role %></div>
       <div class="options">
@@ -31,9 +33,7 @@
   <% end %>
 </ul>
 
-<% if @users.any? %>
-<%= action_on_selection t('helpers.actions.destroy_selected'), admin_user_path(id: ':id'), data: {method: :delete, confirm: t('helpers.actions.confirm')} %>  
+<%= f.select :action, User.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
 <% end %>
-
-
 <%= will_paginate @news %>
+<% end %>

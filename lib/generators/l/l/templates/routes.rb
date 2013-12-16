@@ -5,7 +5,11 @@
     end
 
     scope module: 'l/admin' do
-      resources :users
+      resources :users do
+        collection do
+          post :selection
+        end
+      end
       get '', to: "admin#index"
     end
 

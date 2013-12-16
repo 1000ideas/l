@@ -76,6 +76,7 @@ class Sortable
 class LazyAdmin
   constructor: ->
     @_sortable_list()
+    @_selection_actions()
     @_custom_select()
     @_custom_file_input()
     @_locales_tabs()
@@ -85,39 +86,19 @@ class LazyAdmin
     Loader
 
   action_on_selected: (url, options = {}) ->
-    self = this
-
-    selector = options.selector ? '.selection'
-
-    _method = options.method ? 'get'
-    type = if _method == 'get' then 'get' else 'post'
-    dataType = options.type || 'script'
-
-    ids = $(selector)
-      .filter(':checked')
-      .map ->
-        $(this).val()
-
-    action_counter = ids.length
-
-    @loader().show()
-
-    ids.each ->
-      $.ajax
-        url: url.replace(':id', this),
-        dataType: dataType,
-        type: type,
-        data : {_method: _method },
-        complete: ->
-          action_counter -= 1
-          if action_counter == 0
-            self.loader().hide()
-            window.location.reload()
-
-    # if ids.length > 0
-      # window.location.reload()
-
+    console.log("Not used any more")
     return
+
+  _selection_actions: ->
+    $('form select#selection_action').on 'change', (event) ->
+      ids = []
+      for obj in $(this.form).serializeArray()
+        if obj.name == 'selection[ids][]'
+          ids.push obj.value
+      if ids.length > 0
+        $(this.form).submit()
+      else
+        $(this).val('')
 
   _sortable_list: ->
     @_sortable = new Sortable()

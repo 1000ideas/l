@@ -29,6 +29,7 @@ module L
 
       initializer "model" do |app|
         ActiveSupport.on_load(:active_record) do
+          include L::Concerns::MassActions
           include L::Concerns::Sortable
           include L::Concerns::Roles
         end

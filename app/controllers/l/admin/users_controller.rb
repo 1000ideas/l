@@ -120,5 +120,18 @@ module L::Admin
       end
     end
 
+    def selection
+      authorize! :manage, User
+      selection = User.selection_object(params[:selection])
+
+      respond_to do |format|
+        if selection.perform!
+          format.html { redirect_to :back, notice: t("selection.#{selection.action}.success") }
+        else
+          format.html { redirect_to :back, alert: t("selection.#{selection.action}.failure") }
+        end
+      end
+    end
+
   end
 end
