@@ -47,6 +47,7 @@ module L
           get :unhide, action: 'hide', defaults: { status: 0 }
           match 'after/:target_id', action: :after, via: :post, as: :after
         end
+        post :selection, on: :collection
       end
 
         CONTENT

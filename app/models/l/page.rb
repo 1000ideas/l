@@ -36,6 +36,11 @@ module L
 
     sortable :position, scope: :parent_id
 
+    set_mass_actions :destroy, :hide, :unhide
+    define_perfom_action(:hide) { update_all(hidden_flag: 1) }
+    define_perfom_action(:unhide) { update_all(hidden_flag: 0) }
+
+
     # Strony podrzędne które nie są ukryte.
     def unhidden_children
       self.children.where(hidden_flag: false)

@@ -95,7 +95,7 @@ class LazyAdmin
       for obj in $(this.form).serializeArray()
         if obj.name == 'selection[ids][]'
           ids.push obj.value
-      if ids.length > 0
+      if ids.length > 0 and $(this).val().length > 0
         $(this.form).submit()
       else
         $(this).val('')

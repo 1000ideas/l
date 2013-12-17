@@ -34,12 +34,25 @@ module L::Concerns
         common_adding_roles_actions(*roles)
         include ManyRolesInstanceMethods
 
-        class_eval do 
-          scope :with_only_roles,
-            lambda {|*roles_names| where("roles_mask == :mask", mask: roles_names.sum {|r| role_mask(r)}) }
+        class_eval do
+          
+          # Dodaj wybraną rolę dla podzbioru użytkowników
+          def self.add_role_for_all(role_name)
+            update_all(["`#{table_name}`.`roles_mask` = `#{table_name}`.`roles_mask` | ?", role_mask(role_name)])
+          end
 
+          # Usuń wybraną rolę dla podzbioru użytkowników
+          def self.remove_role_from_all(role_name)
+            update_all(["`#{table_name}`.`roles_mask` = `#{table_name}`.`roles_mask` & ~?", role_mask(role_name)])
+          end
+
+          # Wybierz użytkowników którzy posiadają dokładnie podane role (ani roli wiecej, ani mniej)
+          scope :with_only_roles,
+            lambda {|*roles_names| where("`#{table_name}`.`roles_mask` == :mask", mask: roles_names.sum {|r| role_mask(r)}) }
+
+          # Wybierz użytkowników którzy posiadają podane role (mogą również pełnić inne dodatkowe role)
           scope :with_roles,
-            lambda {|*roles_names| where("(roles_mask & :mask) == :mask", mask: roles_names.sum {|r| role_mask(r)}) }
+            lambda {|*roles_names| where("(`#{table_name}`.`roles_mask` & :mask) == :mask", mask: roles_names.sum {|r| role_mask(r)}) }
 
           attr_accessible :roles
         end
@@ -114,14 +127,23 @@ module L::Concerns
 
 
         class_eval do
+
+          # Ustaw rolę dla podzbioru użytkowników
+          def self.role_for_all(role_name)
+            update_all(roles_mask: role_mask(role_name))
+          end
+
+          # Wybierz użytkowników posiadających conajmniej podaną rolę
           scope :with_role,
-            lambda {|role_name| where("(roles_mask & :mask) = :mask", mask: role_mask(role_name)) }
+            lambda {|role_name| where("(`#{table_name}`.`roles_mask` & :mask) = :mask", mask: role_mask(role_name)) }
 
+          # Wybierz użytkowników posiadających tylko podaną rolę
           scope :with_only_role,
-            lambda {|role_name| where("roles_mask  = :mask", mask: role_mask(role_name)) }
+            lambda {|role_name| where("``#{table_name}`.roles_mask`  = :mask", mask: role_mask(role_name)) }
 
+          # Wybierz użytkowników posiadających conajmniej jedną z podanych ról
           scope :with_any_role,
-            lambda {|*roles_names| where("(roles_mask & :mask) != 0", mask: roles_names.sum {|r| role_mask(r)}) }
+            lambda {|*roles_names| where("(`#{table_name}`.`roles_mask` & :mask) != 0", mask: roles_names.sum {|r| role_mask(r)}) }
 
           if default_role
             before_create :set_default_role

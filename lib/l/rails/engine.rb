@@ -23,6 +23,7 @@ module L
       initializer "controller" do |app|
         ActiveSupport.on_load(:action_controller) do
           include L::Controllers::ExceptionsRescues
+          include L::Controllers::GenericInfo
           include L::FilterHelper
         end
       end

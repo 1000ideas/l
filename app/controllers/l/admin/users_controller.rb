@@ -78,7 +78,7 @@ module L::Admin
 
       respond_to do |format|
         if @user.save
-          format.html { redirect_to admin_users_path, notice: I18n.t('create.success') }
+          format.html { redirect_to admin_users_path, notice: info(:success) }
         else
           format.html { render :action => :new }
         end        
@@ -98,7 +98,7 @@ module L::Admin
 
       respond_to do |format|
         if @user.update_attributes(params[:user])
-          format.html { redirect_to admin_users_path, notice: I18n.t('update.success') }
+          format.html { redirect_to admin_users_path, notice: info(:success) }
         else
           format.html { render :action => :edit }
         end
@@ -115,20 +115,25 @@ module L::Admin
       @user.destroy
 
       respond_to do |format|
-        format.html { redirect_to :back, notice: t('delete.success') }
+        format.html { redirect_to :back, notice: info(:success) }
         format.js
       end
     end
 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Wymagane parametry to selection[ids] oraz selection[action].
+    #
+    # *POST* /admin/pages/selection
+    #
     def selection
       authorize! :manage, User
       selection = User.selection_object(params[:selection])
 
       respond_to do |format|
         if selection.perform!
-          format.html { redirect_to :back, notice: t("selection.#{selection.action}.success") }
+          format.html { redirect_to :back, notice: info(selection.action, :success) }
         else
-          format.html { redirect_to :back, alert: t("selection.#{selection.action}.failure") }
+          format.html { redirect_to :back, alert: info(selection.action, :success) }
         end
       end
     end

@@ -155,12 +155,36 @@ pl:
       button: "Filtruj"
       clear: "Wyczyść"
   helpers:
+    status:
+      hide:
+        success: "Pomyślnie ukryto"
+        failure: "Wystąpił błąd podczas ukrywania"
+      unhide: 
+        success: "Pomyślnie uwidoczniono"
+        failure: "Wystąpił błąd podczas uwidoczniania"
+      create:
+        success: "Pomyślnie utworzono"
+        failure: "Wystąpił błąd podczas tworzenia"
+      update:
+        success: "Pomyślnie zaktualizowano"
+        failure: "Wystąpił błąd podczas aktualizacji"
+      destroy:
+        success: "Pomyślnie usunięto"
+        failure: "Wystąpił błąd podczas usuwania"
+      make_admin:
+        success: "Pomyślnie zmieniono uprawnienia: administrator"
+        failure: "Wystąpił błąd podczas zmiany uprawnień"
+      make_user:
+        success: "Pomyślnie zmieniono uprawnienia: użytkownik"
+        failure: "Wystąpił błąd podczas zmiany uprawnień"
     mass:
       prompt: "Z zaznaczonymi:"
       destroy: "Usuń"
       make_admin: "Zmień rolę: Administrator"
       make_user: "Zmień rolę: Użytkownik"
       make_mod: "Zmień rolę: Moderator"
+      hide: "Ukryj"
+      unhide: "Uwidocznij"
     roles:
       admin: Administrator
       user: Użytkownik

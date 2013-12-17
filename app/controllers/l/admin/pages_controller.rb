@@ -16,6 +16,7 @@ module L::Admin
       authorize! :manage, L::Page
       
       @pages = L::Page
+        .with_translations
         .ordered
         .roots
 
@@ -69,7 +70,7 @@ module L::Admin
 
       respond_to do |format|
         if @page.save
-          format.html { redirect_to(admin_pages_path, notice: I18n.t('create.success')) }
+          format.html { redirect_to(admin_pages_path, notice: info(:success)) }
         else
           format.html { render action: "new" }
         end
@@ -89,7 +90,7 @@ module L::Admin
 
       respond_to do |format|
         if @page.update_attributes(params[:l_page])
-          format.html { redirect_to(admin_pages_path, notice: I18n.t('update.success')) }
+          format.html { redirect_to(admin_pages_path, notice: info(:success)) }
         else
           format.html { render action: "edit" }
         end
@@ -107,7 +108,7 @@ module L::Admin
       @page.destroy
 
       respond_to do |format|
-        format.html { redirect_to :back, notice: I18n.t('delete.success') }
+        format.html { redirect_to :back, notice: info(:success) }
       end
     end
 
@@ -125,9 +126,9 @@ module L::Admin
       name = ['unhide', 'hide'][status]
 
       if @page.update_attribute(:hidden_flag, status)
-        redirect_to :back, notice: I18n.t("#{name}.success", scope: 'l.pages')
+        redirect_to :back, notice: info(name, :success)
       else
-        redirect_to :back, notice: I18n.t("#{name}.failure", scope: 'l.pages')
+        redirect_to :back, notice: info(name, :failure)
       end
     end
 
@@ -148,5 +149,26 @@ module L::Admin
       end
     end
 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Wymagane parametry to selection[ids] oraz selection[action].
+    #
+    # *POST* /admin/pages/selection
+    #
+    def selection
+      authorize! :manage, L::Page
+      selection = L::Page.selection_object(params[:selection])
+
+      respond_to do |format|
+        if selection.perform!
+          format.html { redirect_to :back, notice: info(selection.action, :success) }
+        else
+          format.html { redirect_to :back, alert: info(selection.action, :failure) }
+        end
+      end
+    end
+
   end
+
+
+
 end

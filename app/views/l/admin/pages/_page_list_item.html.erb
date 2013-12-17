@@ -1,13 +1,13 @@
 <li>
-  <div class="group">
-    <div class="select"><%= selection_tag page %></div>
+  <div class="group<%= " unactive" if page.hidden_flag? %>">
+    <div class="select"><%= f.check_box :ids, {multiple: true}, page.id, nil %></div>
     <div><%= page.title %></div>
     <div><%= page.url %></div>
     <div class="options">
       <% if page.hidden_flag? %>
-        <%= link_to t('helpers.actions.unhide'), unhide_admin_page_path(page), class: "unhide", title: t('helpers.actions.unhide'), target: '_blank' %>  
+        <%= link_to t('helpers.actions.unhide'), unhide_admin_page_path(page), class: "unhide", title: t('helpers.actions.unhide') %>  
       <% else %>
-        <%= link_to t('helpers.actions.hide'), hide_admin_page_path(page), class: "hide", title: t('helpers.actions.hide'), target: '_blank' %>
+        <%= link_to t('helpers.actions.hide'), hide_admin_page_path(page), class: "hide", title: t('helpers.actions.hide') %>
       <% end %>
       
       <%= link_to t('helpers.actions.show'), admin_page_path(page), class: "show", title: t('helpers.actions.show'), target: '_blank' %>

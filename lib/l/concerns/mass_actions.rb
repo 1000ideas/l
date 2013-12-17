@@ -22,7 +22,7 @@ module L
               ::Rails.logger.debug "[MassActions] Perform #{action} on #{klass.name}(#{@ids.join(', ')})"
               klass.where(id: @ids).send :"__mass_perform_#{@action}_all"
             else
-              ::Rails.logger.error "[MassActions] Define mass action in class #{klass.name} by calling: define_perfom_action(#{@action}) do ... end"
+              ::Rails.logger.error "[MassActions] Define mass action in class #{klass.name} by calling: define_perfom_action(:#{@action}) do ... end"
             end
           else
             false

@@ -29,6 +29,10 @@ ul.items-list {
       border: 0;
       padding: 0;
       margin: 0;
+
+      &.unactive {
+        color: #888;
+      }
     }
     > div.group:hover { background: #ccc; }
     &:nth-child(even) > div.group { background: #ededed; }

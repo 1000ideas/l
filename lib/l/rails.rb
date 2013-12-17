@@ -1,5 +1,6 @@
 require 'l/string_extension'
 require 'l/controllers/exceptions_rescues'
+require 'l/controllers/generic_info'
 require 'l/concerns/lazy_user'
 require 'l/concerns/mass_actions'
 require 'l/concerns/sortable'

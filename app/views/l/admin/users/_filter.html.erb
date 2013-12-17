@@ -1,23 +1,21 @@
-<%= form_tag admin_users_path, method: :get do %>
+<%= form_for :filter, url: admin_users_path, html: {method: :get} do |f| %>
 <div class="filter">
+  <div class="field">  
+    <h3><%= t('.filter_by') %></h3>
 
-  <div class="field">
-  
-    <strong><%= t('.filter_by') %></strong>
+    <%= f.label :email, User.human_attribute_name(:email)  %>
+    <%= f.text_field :email, value: filter(:email) %>
 
-    <%= label_tag :filter_email, User.human_attribute_name(:email)  %>
-    <%= text_field_tag "filter[email]", filter(:email) %>
+    <%= f.label :role, User.human_attribute_name(:role)  %>
+    <%= f.select :role, User.roles_for_select, include_blank: t('.roles_prompt'),
+      selected: filter(:role) %>
 
-    <%= label_tag :filter_role, User.human_attribute_name(:role)  %>
-    <%= select_tag "filter[role]", options_for_select(User.roles_for_select, filter(:role)), prompt: t('.roles_prompt') %>
-
-    <%= submit_tag t('.filter') %>
+    <%= f.button t('.filter') %>
     
   </div>
 
   <div class="field">
     <%= link_to t('.clear'), admin_users_path %>
   </div>
-
 </div>
 <% end %>

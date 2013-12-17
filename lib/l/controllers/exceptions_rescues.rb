@@ -48,7 +48,7 @@ module L
         respond_to do |format|
           format.html do
             @exception = ex
-            render layout: 'l/layouts/standard', action: "404", status: 404
+            render layout: 'l/standard', action: "404", status: 404
           end
           format.any do
             head :not_found, warning: ex.message
