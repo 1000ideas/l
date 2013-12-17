@@ -39,7 +39,7 @@ module L
 
       def add_news_routes # :nodoc:
         inject_into_file 'config/routes.rb', 
-          "\n      resources :news, except: [:show]\n", 
+          "\n      resources :news, except: [:show] do\n        post :selection, on: :collection\n      end\n", 
           after: %r{^\s*scope module: 'l/admin'.*\n}, 
           verbose: false
 

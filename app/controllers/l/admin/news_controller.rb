@@ -15,6 +15,7 @@ module L::Admin
       authorize! :manage, L::News
       
       @news = L::News
+        .with_translations
         .ordered
         .paginate page: params[:page]
 
@@ -65,7 +66,7 @@ module L::Admin
 
       respond_to do |format|
         if @news.save
-          format.html { redirect_to(admin_news_index_path, :notice => I18n.t('create.success')) }
+          format.html { redirect_to(admin_news_index_path, notice: info(:success)) }
         else
           format.html { render :action => "new" }
         end
@@ -83,7 +84,7 @@ module L::Admin
 
       respond_to do |format|
         if @news.update_attributes(params[:l_news])
-          format.html { redirect_to(admin_news_index_path, :notice => I18n.t('update.success')) }
+          format.html { redirect_to(admin_news_index_path, notice: info(:success)) }
         else
           format.html { render :action => "edit" }
         end
@@ -101,8 +102,27 @@ module L::Admin
       @news.destroy
 
       respond_to do |format|
-        format.html { redirect_to admin_news_index_url, notice: t('destroy.success') }
+        format.html { redirect_to admin_news_index_url, notice: info(:success) }
         format.js
+      end
+    end
+
+
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Wymagane parametry to selection[ids] oraz selection[action].
+    #
+    # *POST* /admin/pages/selection
+    #
+    def selection
+      authorize! :manage, L::News
+      selection = L::News.selection_object(params[:selection])
+
+      respond_to do |format|
+        if selection.perform!
+          format.html { redirect_to :back, notice: info(selection.action, :success) }
+        else
+          format.html { redirect_to :back, alert: info(selection.action, :failure) }
+        end
       end
     end
 
