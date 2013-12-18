@@ -5,8 +5,6 @@
 <%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
 <% end %>
 
-<%%= form_tag admin_<%= index_helper %>_path, method: :get do %>
-
 <%%= render "filter" %>
 <%%= render partial: 'l/partials/switcher', object: @<%= plural_table_name %> %>
 
@@ -16,6 +14,8 @@
       else 'three-columns'
     end 
 -%>
+
+<%%= form_for :selection, url: selection_admin_<%= index_helper %>_path, html: {method: :post} do |f| %>
 <ul class="items-list <%= columns_class_name %>">
   <li class="header">
     <div class="group">
@@ -36,7 +36,7 @@
   <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
   <li>
     <div class="group">
-      <div class="select"><%%= selection_tag <%= singular_table_name %> %></div>
+      <div class="select"><%%= f.check_box :ids, {multiple: true}, <%= singular_table_name %>.id, nil %></div>
 <% for attribute in attributes.first(3) -%>
 <% if attribute.type == :file -%>
         <div><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></div>
@@ -56,6 +56,7 @@
   <%% end %>
 </ul>
 
+<%%= f.select :action, <%= class_name %>.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
 <%% end %>
 
 <%%= will_paginate @<%= plural_table_name %> %>

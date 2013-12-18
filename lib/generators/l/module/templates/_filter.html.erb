@@ -1,17 +1,17 @@
+<%%= form_for :filter, url: admin_<%= index_helper %>_path, html: {method: :get} do |f| %>
 <div class="filter">
   <div class="field">
-    <strong><%%= t('.title') %></strong>
+    <h3><%%= t('.title') %></h3>
 
 <% for attribute in attributes -%>
-    <%%= label_tag :filter_<%= attribute.name %>, <%= class_name %>.human_attribute_name(:<%= attribute.name %>)  %>
+    <%%= f.label :<%= attribute.name %>, <%= class_name %>.human_attribute_name(:<%= attribute.name %>)  %>
     <% if attribute.type == :file -%>
-    <%%= text_field_tag "filter[<%= attribute.name %>_file_name]", filter(:<%= attribute.name %>_file_name) %>
+    <%%= f.text_field :"<%= attribute.name %>_file_name", value: filter(:<%= attribute.name %>_file_name) %>
     <% else -%>
-    <%%= text_field_tag "filter[<%= attribute.name %>]", filter(:<%= attribute.name %>) %>
+    <%%= f.text_field "<%= attribute.name %>", value:  filter(:<%= attribute.name %>) %>
     <% end -%>
-
 <% end -%>
-    <%%= submit_tag t('.button') %>
+    <%%= f.button t('.button') %>
   </div>
 
   <div class="field">
@@ -19,3 +19,4 @@
   </div>
 
 </div>
+<%% end %>

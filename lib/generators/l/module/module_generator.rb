@@ -98,7 +98,7 @@ module L
       def add_routes # :nodoc:
         routing_code = "resources :#{plural_name}, except: [:show]" 
         inject_into_file 'config/routes.rb',
-          "      #{routing_code}\n",
+          "      #{routing_code} do\n        post :selection, on: :collection\n      end\n",
           after: %r{^\s*scope module: :admin.*\n},
           verbose: false
 
@@ -130,6 +130,11 @@ module L
       end
 
       def add_translations # :nodoc:
+        defaults = I18n.t('defaults', locale: :pl).stringify_keys
+        defaults.keys.each do |k|
+          defaults[k].stringify_keys!
+        end
+
         trans = { 
           'admin' => {
             "#{plural_table_name}" => {
@@ -146,7 +151,7 @@ module L
               'edit' => {
                 'title' =>  "Edit #{singular_table_name}"
               }
-            }.merge(I18n.t('defaults', locale: :pl))
+            }.merge(defaults)
           },
           "#{plural_table_name}" => {
             'index' => {

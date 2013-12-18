@@ -1,8 +1,5 @@
 class Admin::<%= controller_class_name %>Controller < ApplicationController
 
-  @@i18n_scope = [:admin, :<%= plural_table_name %>]
-  cattr_reader :i18n_scope
-
 <% if used_tiny_mce_classes.size > 0 -%>
   uses_tinymce <%= used_tiny_mce_classes.to_s -%>, only: [:new, :edit, :create, :update]
 <% end -%>
@@ -59,7 +56,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= orm_instance.save %>
-        format.html { redirect_to(admin_<%= plural_table_name %>_path, notice: I18n.t('create.success', scope: self.class.i18n_scope) ) }
+        format.html { redirect_to(admin_<%= plural_table_name %>_path, notice: info(:success) ) }
       else
         format.html { render action: "new" }
       end
@@ -72,7 +69,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= orm_instance.update_attributes("params[:#{singular_table_name}]") %>
-        format.html { redirect_to(admin_<%= plural_table_name %>_path, notice: I18n.t('update.success', scope: self.class.i18n_scope) ) }
+        format.html { redirect_to(admin_<%= plural_table_name %>_path, notice: info(:success) ) }
       else
         format.html { render action: "edit" }
       end
@@ -85,8 +82,22 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
     @<%= orm_instance.destroy %>
 
     respond_to do |format|
-      format.html { redirect_to :back, notice: I18n.t('destroy.success', scope: self.class.i18n_scope) } 
+      format.html { redirect_to :back, notice: info(:success) } 
       format.any  { head :ok }
     end
   end
+
+  def selection
+    authorize! :manage, <%= class_name %>
+    selection = <%= class_name %>.selection_object(params[:selection])
+
+    respond_to do |format|
+      if selection.perform!
+        format.html { redirect_to :back, notice: info(selection.action, :success) }
+      else
+        format.html { redirect_to :back, alert: info(selection.action, :success) }
+      end
+    end
+  end
+
 end
