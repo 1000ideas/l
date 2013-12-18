@@ -120,6 +120,7 @@ pl:
           send_mail: Wyślij
         submenu:
           index: Lista maili
+          unconfirmed: Niepotwierdzone adresy
           send_mail: Wyślij mail
         send_mail_edit:
           title: Wyślij mail
@@ -177,6 +178,9 @@ pl:
       make_user:
         success: "Pomyślnie zmieniono uprawnienia: użytkownik"
         failure: "Wystąpił błąd podczas zmiany uprawnień"
+      confirm:
+        success: "Pomyślnie potwierdzono"
+        failure: "Wystąpił błąd podczas próby potwierdzenia"
     mass:
       prompt: "Z zaznaczonymi:"
       destroy: "Usuń"
@@ -185,6 +189,7 @@ pl:
       make_mod: "Zmień rolę: Moderator"
       hide: "Ukryj"
       unhide: "Uwidocznij"
+      confirm: "Potwierdź"
     roles:
       admin: Administrator
       user: Użytkownik
@@ -201,6 +206,7 @@ pl:
       destroy: "Usuń"
       sure: "Jesteś pewny?"
       confirm: "Czy na pewno?"
+      mail_confirm: "Potwierdź"
       hide: "Ukryj"
       unhide: "Uwidocznij"
       destroy: "Usuń"

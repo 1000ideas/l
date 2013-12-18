@@ -168,7 +168,4 @@ module L::Admin
     end
 
   end
-
-
-
 end

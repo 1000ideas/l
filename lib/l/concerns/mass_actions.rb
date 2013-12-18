@@ -32,7 +32,7 @@ module L
 
 
       included do 
-        define_perfom_action :destroy do
+        define_perform_action :destroy do
           destroy_all
         end
       end
@@ -59,13 +59,14 @@ module L
           class_variable_set "@@mass_actions", actions
         end
 
-        def mass_actions_for_select
-          mass_actions.map do |n|
+        def mass_actions_for_select(*only)
+          only = mass_actions if only.empty?
+          (mass_actions & only).map do |n|
             [human_mass_action(n), n]
           end
         end
 
-        def define_perfom_action(name, &block)
+        def define_perform_action(name, &block)
           (class << self; self; end).send :define_method, :"__mass_perform_#{name}_all", block
         end
 

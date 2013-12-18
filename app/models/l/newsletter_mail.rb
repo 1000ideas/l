@@ -8,10 +8,16 @@ module L
   #     email. Potwierdzony adres email ma token równy +nil+.
   class NewsletterMail < ActiveRecord::Base
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
-    self.per_page = 10
+    self.per_page = 15
 
     attr_accessible :mail, :confirm_token
     before_create :set_token
+
+    scope :unconfirmed, lambda { where("`#{table_name}`.`confirm_token` IS NOT NULL") }
+    scope :confirmed, lambda { where(confirm_token: nil) }
+
+    set_mass_actions :destroy, :confirm
+    define_perform_action(:confirm) { update_all(confirm_token: nil) }
 
     validates :mail, 
       presence: true, 
@@ -39,6 +45,10 @@ module L
 
     def confirm
       self.update_attribute(:confirm_token, nil)
+    end
+
+    def confirmed?
+      confirm_token.nil?
     end
 
     protected

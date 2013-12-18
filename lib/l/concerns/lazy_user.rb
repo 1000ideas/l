@@ -19,8 +19,8 @@ module L
           :updated_by
 
         set_mass_actions :destroy, :make_admin, :make_user
-        define_perfom_action(:make_admin) { role_for_all(:admin) }
-        define_perfom_action(:make_user) { role_for_all(:user) }
+        define_perform_action(:make_admin) { role_for_all(:admin) }
+        define_perform_action(:make_user) { role_for_all(:user) }
 
         private
 

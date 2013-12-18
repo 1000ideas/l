@@ -72,7 +72,9 @@ CONTENT
         collection do
           get :send_mail, action: :send_mail_edit
           post :send_mail
+          post :selection
         end
+        put :confirm, on: :member
       end
 
         CONTENT

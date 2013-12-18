@@ -15,10 +15,17 @@ module L::Admin
     #
     def index
       authorize! :manage, L::NewsletterMail
-      @newsletter_mail = L::NewsletterMail
-        .ordered
-        .where(:confirm_token => nil)
-        .paginate page: params[:page]
+      @newsletter_mail = L::NewsletterMail.ordered
+
+      if params[:unconfirmed]
+        @mass = [:destroy, :confirm]
+        @newsletter_mail = @newsletter_mail.unconfirmed
+      else
+        @mass = [:destroy]
+        @newsletter_mail = @newsletter_mail.confirmed
+      end
+
+      @newsletter_mail = @newsletter_mail.paginate page: params[:page]
     end
 
     # Akcja wyświetlająca formularz nowego listu newslettera. Dostępna tylko
@@ -55,7 +62,7 @@ module L::Admin
         flash[:notice] = t('newsletter.send_mail.sended', count: params[:emails].count)
       end
       respond_to do |format|
-        format.html { redirect_to(admin_newsletter_mails_path) }
+        format.html { redirect_to(admin_newsletter_mails_path, notice: info(:success)) }
       end
     end
 
@@ -70,7 +77,41 @@ module L::Admin
       @newsletter_mail.destroy
 
       respond_to do |format|
-        format.html { redirect_to( admin_newsletter_mails_path ) }
+        format.html { redirect_to(:back, notice: info(:success) ) }
+      end
+    end
+
+    # Akcja pozwalająca potwierdzić wybrany adres. Dostępna tylko dla
+    # administratora.
+    #
+    # *DELETE* /newsletter_mails/1/confirm
+    #
+    def confirm
+      @newsletter_mail = L::NewsletterMail.find(params[:id])
+      authorize! :destroy, @newsletter_mail
+      @newsletter_mail.confirm
+
+      respond_to do |format|
+        format.html { redirect_to(:back, notice: info(:success) ) }
+      end
+    end
+
+
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Wymagane parametry to selection[ids] oraz selection[action].
+    #
+    # *POST* /admin/newsletter_mail/selection
+    #
+    def selection
+      authorize! :manage, L::NewsletterMail
+      selection = L::NewsletterMail.selection_object(params[:selection])
+
+      respond_to do |format|
+        if selection.perform!
+          format.html { redirect_to :back, notice: info(selection.action, :success) }
+        else
+          format.html { redirect_to :back, alert: info(selection.action, :failure) }
+        end
       end
     end
 
