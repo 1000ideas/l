@@ -14,10 +14,11 @@
   </li>
   <% @newsletter_mail.each do |news| %>
   <li>
-    <div class="group">
+    <div class="group" data-context="true">
       <div class="select"><%= f.check_box :ids, {multiple: true}, news.id, nil %></div>
       <div><%= news.mail %></div>
-      <div class="options">
+      <a href="#" data-context-button="true"></a>
+      <div class="options" data-context-target="true">
         <% unless news.confirmed? %>
         <%= link_to t('helpers.actions.mail_confirm'), confirm_admin_newsletter_mail_path(news), class: "check", title: t('helpers.actions.mail_confirm'), data: {method: :put } %>
         <% end %>

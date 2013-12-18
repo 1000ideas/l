@@ -16,10 +16,11 @@
   </li>
   <% @news.each do |news| %>
   <li>
-    <div class="group">
+    <div class="group" data-context="true">
       <div class="select"><%= f.check_box :ids, {multiple: true}, news.id, nil %></div>
       <div><%= news.title %></div>
-      <div class="options">
+      <a href="#" data-context-button="true"></a>
+      <div class="options" data-context-target="true">
         <%= link_to t('helpers.actions.show'), admin_news_path(news), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
         <%= link_to t('helpers.actions.edit'), edit_admin_news_path(news), class: "edit", title: t('helpers.actions.edit') %>
         <%= link_to t('helpers.actions.destroy'), admin_news_path(news), class: "destroy", title: t('helpers.actions.destroy'),

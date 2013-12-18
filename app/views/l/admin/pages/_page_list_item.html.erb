@@ -1,9 +1,10 @@
 <li>
-  <div class="group<%= " unactive" if page.hidden_flag? %>">
+  <div class="group<%= " unactive" if page.hidden_flag? %>" data-context="true">
     <div class="select"><%= f.check_box :ids, {multiple: true}, page.id, nil %></div>
     <div><%= page.title %></div>
     <div><%= page.url %></div>
-    <div class="options">
+    <a href="#" data-context-button="true"></a>
+    <div class="options" data-context-target="true">
       <% if page.hidden_flag? %>
         <%= link_to t('helpers.actions.unhide'), unhide_admin_page_path(page), class: "unhide", title: t('helpers.actions.unhide') %>  
       <% else %>
@@ -18,7 +19,7 @@
   <% if page.children.any? %>
     <ul>
       <% page.children.ordered.each do |p| %>
-        <%= render 'page_list_item', page: p %>
+        <%= render 'page_list_item', page: p, f: f %>
       <% end %>
     </ul>    
   <% end %>

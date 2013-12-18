@@ -35,7 +35,7 @@
   </li>
   <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
   <li>
-    <div class="group">
+    <div class="group" data-context="true">
       <div class="select"><%%= f.check_box :ids, {multiple: true}, <%= singular_table_name %>.id, nil %></div>
 <% for attribute in attributes.first(3) -%>
 <% if attribute.type == :file -%>
@@ -46,10 +46,11 @@
         <div><%%= <%= singular_table_name %>.<%= attribute.name %> %></div>
 <% end -%>
 <% end -%>
-      <div class="options">
+      <a href="#" data-context-button="true"></a>
+      <div class="options" data-context-target="true">
+        <%%= link_to t('show', scope: [:helpers, :actions]), <%= singular_table_name %>, class: "show", title: t('show', scope: [:helpers, :actions]), target: "_blank" %>
         <%%= link_to t('edit', scope: [:helpers, :actions]), edit_admin_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit', scope: [:helpers, :actions]) %>
         <%%= link_to t('destroy', scope: [:helpers, :actions]), [:admin, <%= singular_table_name %>], class: "destroy", title: t('destroy', scope: [:helpers, :actions]), data: { confirm: t('confirm', scope: [:helpers, :actions]), method: :delete } %>
-        <%%= link_to t('show', scope: [:helpers, :actions]), <%= singular_table_name %>, class: "show", title: t('show', scope: [:helpers, :actions]), target: "_blank" %>
       </div>
     </div>
   </li>    
