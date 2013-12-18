@@ -43,6 +43,7 @@ module L
         routing_code = <<-CONTENT
 
       resources :galleries, except: [:show] do
+        post :selection, on: :collection
         resources :photos, controller: :gallery_photos, only: [:create, :destroy]
       end
 

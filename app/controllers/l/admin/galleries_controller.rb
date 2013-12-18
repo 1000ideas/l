@@ -103,5 +103,23 @@ module L::Admin
       end
     end
 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Wymagane parametry to selection[ids] oraz selection[action].
+    #
+    # *POST* /admin/galleries/selection
+    #
+    def selection
+      authorize! :manage, L::Gallery
+      selection = L::Gallery.selection_object(params[:selection])
+
+      respond_to do |format|
+        if selection.perform!
+          format.html { redirect_to :back, notice: info(selection.action, :success) }
+        else
+          format.html { redirect_to :back, alert: info(selection.action, :failure) }
+        end
+      end
+    end
+
   end
 end

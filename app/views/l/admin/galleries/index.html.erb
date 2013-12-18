@@ -7,23 +7,23 @@
 
 
 <%= render partial: 'l/partials/switcher', object: @galleries %>
-<ul class="items-list three-columns" data-page="<%= @galleries.current_page %>">
+
+<%= form_for :selection, url: [:selection, :admin, :galleries], html: {method: :post} do |f| %>
+<ul class="items-list two-columns" data-page="<%= @galleries.current_page %>">
   <li class="header">
     <div class="group">
       <div><%= L::Gallery.human_attribute_name :thumb %></div>
       <div><%= L::Gallery.human_attribute_name :name %></div>
-      <div><%= L::Gallery.human_attribute_name :content %></div>
     </div>
   </li>
   <% @galleries.each do |gallery| %>
   <li>
     <div class="group">
-      <div class="select"><%= selection_tag gallery %></div>
+      <div class="select"><%= f.check_box :ids, {multiple: true}, gallery.id, nil %></div>
       <div><%= image_tag(gallery.thumbnail, alt: gallery.name) unless gallery.thumbnail.nil? %></div>
       <div><%= gallery.name %></div>
-      <div><%= short gallery.content %></div>
       <div class="options">
-        <%= link_to t('helpers.actions.show'), admin_gallery_path(gallery), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
+        <%= link_to t('helpers.actions.show'), gallery_path(gallery), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
         <%= link_to t('helpers.actions.edit'), edit_admin_gallery_path(gallery), class: "edit", title: t('helpers.actions.edit') %>
         <%= link_to t('helpers.actions.destroy'), admin_gallery_path(gallery), class: "destroy", title: t('helpers.actions.destroy'),
           data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
@@ -32,5 +32,7 @@
   </li>
   <% end %>
 </ul>
+<%= f.select :action, L::Gallery.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
+<% end %>
 
 <%= will_paginate @galleries %>
