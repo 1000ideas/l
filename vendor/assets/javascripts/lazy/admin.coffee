@@ -90,8 +90,9 @@ class LazyAdmin
     console.log("Not used any more")
     return
 
-  close_all_context_menus: ->
+  close_all_context_menus: (except = null) ->
     $('[data-context-target]:visible')
+      .not(except)
       .hide()
       .removeClass('from-mouse')
 
@@ -123,6 +124,9 @@ class LazyAdmin
 
     $(document).on 'click', 'a[data-context-button]', (event) =>
       event.preventDefault()
+      
+      @close_all_context_menus(event.currentTarget)
+
       $(event.currentTarget)
         .siblings('[data-context-target]')
         .removeClass('from-mouse')
