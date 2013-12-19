@@ -99,10 +99,6 @@ class LazyAdmin
   open_context_menu_for: (element, x, y) ->
     @close_all_context_menus()
     menu = $(element).find('[data-context-target]')
-    # console.log menu
-    # w = menu.innerWidth()
-    # console.log w, $(document).width(), x, menu.css('left')
-    # x -= w if $(document).width() - x <= w*1.5
 
     menu
       .addClass('from-mouse')
@@ -135,9 +131,6 @@ class LazyAdmin
         .css(top: '', left: '')
         .toggle()
       false
-      # debugger
-      # $(event.currentTarget).siblings('[data-context-target]').toggle()
-
 
   _selection_actions: ->
     $('form select#selection_action').on 'change', (event) ->
