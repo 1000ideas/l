@@ -124,11 +124,13 @@ class LazyAdmin
 
     $(document).on 'click', 'a[data-context-button]', (event) =>
       event.preventDefault()
-      
-      @close_all_context_menus(event.currentTarget)
 
-      $(event.currentTarget)
+      menu = $(event.currentTarget)
         .siblings('[data-context-target]')
+      
+      @close_all_context_menus(menu[0])
+
+      menu
         .removeClass('from-mouse')
         .css(top: '', left: '')
         .toggle()
