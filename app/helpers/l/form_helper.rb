@@ -30,20 +30,22 @@ module L
     #     pliku +config/locales/pl.yml+.
     def sort_tag(name, type, options = {})
       options = options.reverse_merge({
-        name: 'sort',
-        title:I18n.t("sort.#{type.to_s}"),
-        value: "#{name.to_s}_#{type.to_s}"
+        title:I18n.t("sort.#{type.to_s}")
       })
 
-      options[:class] = ["sort", options.delete(:class)].compact.flatten
+      class_name = ["sort", *options.delete(:class)]
 
-      if options[:class].is_a? String
-        options[:class] = [options[:class], (type == :asc ? 'up' : 'down')].uniq
-      elsif options[:class].is_a? Enumerable
-        options[:class].push(type == :asc ? 'up' : 'down').uniq!
+      sort_type = "#{name.to_s}_#{type.to_s}"
+
+      if (params[:sort] == sort_type)
+        class_name << "current"
       end
 
-      button_tag "", options
+      class_name << (type == :asc ? 'up' : 'down')
+
+      options[:class] = class_name
+      
+      link_to "", {sort: sort_type}, options
     end
 
     # Tag input[type=files] obsługiwany przez plugin 
