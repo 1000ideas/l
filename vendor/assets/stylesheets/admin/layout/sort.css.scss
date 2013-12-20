@@ -1,23 +1,31 @@
-form li.header button.sort {
-  display: inline-block;
-  vertical-align: middle;
-  box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  height:18px;
-  text-indent:-9999px;
-  overflow: hidden;
-  width:15px;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  cursor: pointer;
-  float: none;
-}
+form li.header {
 
-form li.header button.sort.down {
-    background:image-url("admin/array_down.gif") no-repeat scroll 0 0 transparent;
-}
+  a.sort,
+  button.sort {
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    height:18px;
+    text-indent:-9999px;
+    overflow: hidden;
+    width:15px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    float: none;
 
-form li.header button.sort.up {
-    background:image-url("admin/array_up.gif") no-repeat scroll 0 0 transparent;
+    &.down {
+      background:image-url("admin/array_down.gif") no-repeat scroll 0 0 transparent;      
+    }
+
+    &.up {
+      background:image-url("admin/array_up.gif") no-repeat scroll 0 0 transparent;      
+    }
+
+    &.current {
+      border: 1px solid #e6085c;
+    }
+  }
 }
