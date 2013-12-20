@@ -10,7 +10,7 @@ module L
   #
   # Tłumaczone atrybuty: +title+ i +content+.
   #
-  class News < ActiveRecord::Base    
+  class News < ActiveRecord::Base
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
     self.per_page = 10
 
@@ -30,6 +30,8 @@ module L
 
     translates :title, :content
     accepts_nested_attributes_for :translations
+
+
 
     
     def photo_delete # :nodoc:

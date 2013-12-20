@@ -128,11 +128,9 @@ module L
       #   (+String+) rozpoczynającą się przecinkiem lista atrybutów elementu
       #   HTML pola
       def field_options(attr)
-        if attr.type.to_s.match %r{^tiny_mce_([a-z_]*)$}
+        if attr.type.to_s.match %r{^tinymce_([a-z_]*)$}
           opt = {
-            :class => "mce#{$1.capitalize}",
-            :cols => 70,
-            :rows => 5
+            :type => :"#{$1}"
           }
           ", " + opt.to_s[1..-2]
         elsif attr.field_type == :text_area
@@ -158,8 +156,8 @@ module L
       def field_type(attr)
         if attr.type == :file
           :file_field
-        elsif attr.type =~ /^tiny_mce_/
-          :text_area
+        elsif attr.type =~ /^tinymce_/
+          :tinymce
         else
           attr.field_type
         end
@@ -179,7 +177,6 @@ module L
         cls = ['field']
         cls << 'field_with_date' if [:date, :datetime, :timestamp].include? attr.type
         cls << 'field_with_time' if attr.type == :time
-        cls << 'field_with_textarea' if attr.type =~ /^tiny_mce_/
         cls.join ' '
       end
     end

@@ -6,7 +6,6 @@ module L::Admin
   # usuwanie osób z listy.
   #
   class NewsletterMailsController < AdminController
-    uses_tinymce :advance, :only => [:send_mail_edit]
     
     # Akcja wyświetlająca liste zapisanych i potwierdzonych adresów email.
     # Dostępna tylko dla administratora.

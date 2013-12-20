@@ -4,8 +4,6 @@ module L::Admin
   #
   # Pozwala administratorowi dodawać edytować i usuwać galerie i zdjęcia.
   class GalleriesController < AdminController
-  
-    uses_tinymce :simple, :only => [:new, :edit, :create, :update]
 
     # Akcja wyświetlająca listę galerii w panelu administracyjnym.
     #

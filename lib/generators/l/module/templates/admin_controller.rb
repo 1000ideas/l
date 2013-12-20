@@ -1,8 +1,5 @@
 class Admin::<%= controller_class_name %>Controller < ApplicationController
 
-<% if used_tiny_mce_classes.size > 0 -%>
-  uses_tinymce <%= used_tiny_mce_classes.to_s -%>, only: [:new, :edit, :create, :update]
-<% end -%>
   layout "l/admin"
 
   def index

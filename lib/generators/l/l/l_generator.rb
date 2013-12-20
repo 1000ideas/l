@@ -125,15 +125,12 @@ require 'will_paginate/array'
           gem 'globalize3', '~> 0.3.0'
           gem 'rails-i18n'
           
-          # gem 'paperclip'
-          # gem 'jquery-ui-rails'
-          # gem 'jquery-fileupload-rails'
 
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
 
-          gem 'tiny_mce_uploads', '~> 0.2.1'
+          gem 'tinymce-rails', github: '1000ideas/tinymce-rails', branch: 'rails_3_2'
         end
 
         Bundler.with_clean_env do
@@ -153,8 +150,9 @@ require 'will_paginate/array'
           after: /config\.email_regexp.*$/
       end
 
-      def tinymce_uploads_install # :nodoc:
-        generate 'tiny_mce_uploads'
+      def tinymce_install # :nodoc:
+        generate 'tinymce:install'
+        rake "tinymce:lang:all"
       end
       
       def invoke_user_model # :nodoc:

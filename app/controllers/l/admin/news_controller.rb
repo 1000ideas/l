@@ -5,7 +5,6 @@ module L::Admin
   # Pozwala na dodawanie, edycję i usuwanie aktualnosci.
   #
   class NewsController < AdminController
-    uses_tinymce :simple, :only => [:new, :edit, :create, :update]
     
     # Akcja wyświetlająca listę aktualności w panelu administracyjnym.
     #

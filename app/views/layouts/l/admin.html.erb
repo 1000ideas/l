@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= "#{t('l.admin.title')} :: #{yield_title}" %></title>
     <%= tag :meta, name: :robots, content: 'noindex, nofollow' %>
     <%= stylesheet_link_tag 'admins' %>
-    <%= tiny_mce_uploads_stylesheets_if_needed %>
     <!--[if lt IE 9]><%= javascript_include_tag 'ie8polyfill' %><![endif]-->
     <%= javascript_include_tag 'admins' %>
-    <%= tiny_mce_uploads_javascripts_if_needed %>
     <%= yield :head %>
     <%= csrf_meta_tag %>
   </head>

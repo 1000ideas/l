@@ -1,9 +1,10 @@
 label {
-    float: left;
     width: 120px;
     margin: 10px 20px 10px 0;
     line-height: 20px;
     text-align: right;
+    display: inline-block;
+    vertical-align: top;
 }
 
 input[type=email],
@@ -19,7 +20,8 @@ input[type=time],
 input[type=month],
 input[type=week],
 input[type=text] {
-    float: left;
+    display: inline-block;
+    vertical-align: top;
     width: 220px;
     height: 20px;
     line-height: 20px;
@@ -32,7 +34,8 @@ input[type=text] {
 
 input[type=radio],
 input[type=checkbox] {
-    float: left;
+    display: inline-block;
+    vertical-align: middle;
     width: 20px;
     height: auto;
     line-height: 20px;
@@ -62,16 +65,27 @@ select {
     line-height: 20px;
     margin: 10px 0;
     width: 220px;
+    display: inline-block;
+    vertical-align: middle;
+
 }
 
 textarea {
     border:1px solid #7D7D7D;
     color:#7D7D7D;
-    float:left;
+    display: inline-block;
+    vertical-align: middle;
     font-size:10px;
     line-height:20px;
     margin:10px 0;
 }
+
+.mce-tinymce.mce-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
 
 form p {
     color: #666666;

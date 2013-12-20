@@ -6,7 +6,6 @@ module L::Admin
   # wyświetlać tylko pojedyncze strony.
   #
   class PagesController < AdminController
-    uses_tinymce [:fileupload], only: [:new, :create, :edit, :update]
     
     # Akcja wyświetlająca listę istniejących stron w strukturze drzewiastej.
     #

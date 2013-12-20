@@ -18,7 +18,7 @@
         </div>
         <div class="field field_with_tinymce">
           <%= builder.label :content %>
-          <%= builder.text_area :content, cols: 70, rows: 5, class: "mceSimple" %>
+          <%= builder.tinymce :content %>
         </div>
       </div>
     <% end %>

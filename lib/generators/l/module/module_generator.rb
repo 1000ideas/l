@@ -14,7 +14,7 @@ module L
     #   - +attributes+ - lista par +nazwa+:+typ+, gdzie +nazwa+ jest dowolną nazwą
     #     pola, a +typ+ jest typem pola i jest taki jak w generatorze scaffold oraz
     #     dodatkowo może być równy +file+ gdy pole ma być załącznikiem +Paperclip+
-    #     lub +tiny_mce_theme+ (gdzie +theme+ jest nazwą szablonu TinyMCE:
+    #     lub +tinymce_theme+ (gdzie +theme+ jest nazwą szablonu TinyMCE:
     #     fileupload, advance, simple) jeśli pole ma być polem tekstowym edytowanym
     #     w edytorze TinyMCE
     #
@@ -29,7 +29,7 @@ module L
     class ModuleGenerator < ::Rails::Generators::NamedBase
       include L::Generators::Actions
 
-      argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tiny_mce_(theme)'
+      argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tinymce_(theme)'
       class_option :orm, :default => "active_record"
       class_option :searchable, :type => :array, :default => [], :desc => 'Argumenty które mają być wyszukiwane', :banner => 'field field ...'
       class_option :interactive, aliases: '-i', type: :boolean, default: false, desc: "Tryb interaktywny"
@@ -192,7 +192,7 @@ module L
 
       def model_args
         ARGV.map do |arg|
-          arg.gsub(%r{:file(:|$)}, ":string\\1").gsub(%r{:tiny_mce[a-z_]*(:|$)}, ":text\\1")
+          arg.gsub(%r{:file(:|$)}, ":string\\1").gsub(%r{:tinymce[a-z_]*(:|$)}, ":text\\1")
         end
       end
 
@@ -200,13 +200,13 @@ module L
         @file_attr ||= attributes.select{ |a| a.type == :file }
       end
 
-      def tiny_mce_attributes
-        @tiny_attr ||= attributes.select{ |a| a.type.to_s.match /^tiny_mce_.*$/ }
+      def tinymce_attributes
+        @tiny_attr ||= attributes.select{ |a| a.type.to_s.match /^tinymce_.*$/ }
       end
 
-      def used_tiny_mce_classes
-        tiny_mce_attributes.map do |attr|
-          attr.type.match /^tiny_mce_(.*)$/
+      def used_tinymce_classes
+        tinymce_attributes.map do |attr|
+          attr.type.match /^tinymce_(.*)$/
           $1.to_sym
         end
       end

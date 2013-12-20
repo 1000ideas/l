@@ -39,7 +39,7 @@
         </div>
         <div class="field field_with_tinymce">
           <%= builder.label :content %>
-          <%= builder.text_area :content, class: "mceFileupload" %>
+          <%= builder.tinymce :content, type: :advance %>
           <div class="cb"></div>
         </div>
       </div>

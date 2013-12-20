@@ -20,7 +20,7 @@
   <div class="group">
     <div class="field_with_tinymce">
       <%= label_tag :text, t('.mail') %>
-      <%= text_area_tag :text, params[:text], class: "mceAdvance" %>
+      <%= tinymce_tag :text, params[:text], type: :advance %>
     </div>
     
   </div>

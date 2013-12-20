@@ -25,7 +25,7 @@ form .field_with_date > div.custom-selector {
 form .field_with_time .custom-selector { width: 60px; }
 
 form div.custom-file-input {
-  float: left;
+  display: inline-block;
   margin: 10px 0;
   height: 24px;
   line-height: 24px;
