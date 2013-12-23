@@ -153,6 +153,7 @@ require 'will_paginate/array'
       def tinymce_install # :nodoc:
         generate 'tinymce:install'
         rake "tinymce:lang:all"
+        copy_file "assets/tinymce-rails-upload.css.scss", 'app/assets/javascripts/tinymce-rails-upload.css.scss'
       end
       
       def invoke_user_model # :nodoc:
