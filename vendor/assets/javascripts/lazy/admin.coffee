@@ -100,9 +100,10 @@ class LazyAdmin
     @close_all_context_menus()
     menu = $(element).find('[data-context-target]')
 
+    scrollTop = $(document).scrollTop()
     menu
       .addClass('from-mouse')
-      .css(top: y, left: x)
+      .css(top: scrollTop + y, left: x)
       .show()
 
   _context_menu: ->
