@@ -53,12 +53,12 @@ If you want to add your own module to operate on some model run:
 rails g l:module MODULE_NAME field:type field:type ...
 ```
 
-Its working just like `model` generator with some extension. You can use `file` type if you want field be a paperclip attachment. Also type `tiny_mce_[theme]` is allowed for text field with TinyMCE editor, where `[theme]` is one of defined TinyMCE themes: `fileupload`, `advance` and `simple`.
+Its working just like `model` generator with some extension. You can use `file` type if you want field be a paperclip attachment. Also type `tinymce_[theme]` is allowed for text field with TinyMCE editor, where `[theme]` is one of defined TinyMCE themes: `simple` and `advance`.
 
 
 
 ## Contributing to L
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
@@ -69,7 +69,7 @@ Its working just like `model` generator with some extension. You can use `file` 
 
 ## Copyright
 
-Copyright (c) 2012 1000ideas. 
+Copyright (c) 2012 1000ideas.
 See LICENSE.txt for further details.
 
 ## Developers

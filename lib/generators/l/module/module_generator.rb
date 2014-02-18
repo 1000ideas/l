@@ -60,8 +60,8 @@ module L
         return unless model_exists?
 
         file_attributes.each do |a|
-          inject_into_file model_path, 
-            "  has_attached_file :#{a.name}\n",
+          inject_into_file model_path,
+            "  has_attached_file :#{a.name}\n  validates_attachment :#{a.name}, content_type: {content_type: /.*/}\n",
               after: "ActiveRecord::Base\n"
         end
       end
@@ -75,15 +75,15 @@ module L
   end
           CONTENT
           inject_into_class model_path, name.capitalize, search_method
-        
-          inject_into_file 'app/controllers/application_controller.rb', 
-            "    @#{plural_name.downcase} = #{name.capitalize}.search(params[:q])\n", 
+
+          inject_into_file 'app/controllers/application_controller.rb',
+            "    @#{plural_name.downcase} = #{name.capitalize}.search(params[:q])\n",
             after: "def search\n"
         end
       end
 
       check_class_collision :suffix => "Controller"
-      
+
       def create_controller_files # :nodoc:
         template 'controller.rb', controller_path
         template 'admin_controller.rb', admin_controller_path
@@ -91,12 +91,12 @@ module L
 
       def add_abilities
         inject_into_file 'app/models/ability.rb',
-         "      can :manage, #{class_name}\n", 
+         "      can :manage, #{class_name}\n",
          after: %r{^\s*if user\.(?:has_role\?\s+:)?admin\??\n}
       end
 
       def add_routes # :nodoc:
-        routing_code = "resources :#{plural_name}, except: [:show]" 
+        routing_code = "resources :#{plural_name}, except: [:show]"
         inject_into_file 'config/routes.rb',
           "      #{routing_code} do\n        post :selection, on: :collection\n      end\n",
           after: %r{^\s*scope module: :admin.*\n},
@@ -135,7 +135,7 @@ module L
           defaults[k].stringify_keys!
         end
 
-        trans = { 
+        trans = {
           'admin' => {
             "#{plural_table_name}" => {
               'submenu' => {
