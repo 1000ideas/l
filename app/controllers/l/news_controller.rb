@@ -6,7 +6,7 @@ module L
   #
   class NewsController < ApplicationController
     layout "l/standard"
-    
+
     # Akcja wyświetlająca listę aktualności. Dostępna dla mogących czytać newsy.
     #
     # *GET* /news
@@ -16,7 +16,7 @@ module L
       @news = L::News
         .ordered
         .paginate page: params[:page]
-      
+
 
       respond_to do |format|
         format.html
@@ -31,7 +31,9 @@ module L
       @news = L::News.find(params[:id])
       authorize! :read, @news
 
-      render layout: "l/layouts/standard"
+      respond_to do |format|
+        format.html
+      end
     end
 
   end

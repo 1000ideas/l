@@ -19,21 +19,20 @@ module L
   class GalleryPhoto < ActiveRecord::Base
     attr_accessible :gallery_id, :photo
 
-    validates :gallery_id, presence: true
-    validates :photo, attachment_presence: true
-
     belongs_to :gallery
-    has_attached_file :photo, 
-      :styles => { 
+    has_attached_file :photo,
+      :styles => {
         :big => "800x600>",
-        :medium => "300x300>", 
-        :small_crop => "120x120", 
-        :small => "120x120>", 
+        :medium => "300x300>",
+        :small_crop => "120x120",
+        :small => "120x120>",
         :thumb => "100x100>",
         :mobile_thumb => "80x80#" },
       :path => ":rails_root/public/system/gallery_photos/:id/:style/:filename",
       :url => "/system/gallery_photos/:id/:style/:filename"
 
+    validates :gallery_id, presence: true
+    validates_attachment :photo, presence: true, content_type: {content_type: /^image/}
   end
 
 end

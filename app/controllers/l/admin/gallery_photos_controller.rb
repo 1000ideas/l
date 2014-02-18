@@ -11,7 +11,7 @@ module L::Admin
       @gallery = L::Gallery.find(params[:gallery_id])
       @photo = @gallery.gallery_photos.find(params[:id])
       authorize! :destroy, @photo
-      
+
       @photo.destroy
 
       respond_to do |format|
@@ -35,6 +35,6 @@ module L::Admin
         format.js
       end
     end
-  
+
   end
 end

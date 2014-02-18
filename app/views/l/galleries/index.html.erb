@@ -1,10 +1,18 @@
-<% unless @gallery.blank? %>
-	<% @gallery.each do |gallery| %>
-	<div>
-	  <b><%= link_to gallery.name, gallery_path(gallery) %></b><br />
-          <%=raw gallery.content %>
-	</div>
+<h2><%= t('.title') %></h2>
+<% unless @galleries.blank? %>
+  <ul id="galleries-list">
+	<% @galleries.each do |gallery| %>
+    <li>
+      <h3><%= gallery.name %></h3>
+      <div class="date"><%= l gallery.created_at, format: '%d-%m-%Y %H:%M' %></div>
+      <%= content_tag :div, class: 'thumb' do %>
+        <%= image_tag gallery.thumbnail(:thumb) %>
+      <% end unless gallery.thumbnail.nil? %>
+      <div class="content"><%=short gallery.content, 160 %></div>
+      <div class="more"><%= link_to t('helpers.actions.more'), gallery_path(gallery) %></div>
+	 </li>
 	<% end %>
+  </ul>
 <% end %>
 
-<%= will_paginate @gallery %>
+<%= will_paginate @galleries %>

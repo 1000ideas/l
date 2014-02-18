@@ -31,7 +31,9 @@ module L
       @gallery = L::Gallery.find(params[:id])
       authorize! :read, @gallery
 
-      render :layout => "l/standard"
+      respond_to do |format|
+        format.html
+      end
     end
 
   end

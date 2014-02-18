@@ -128,6 +128,12 @@ pl:
           title: Wyślij mail
         index:
           title: Lista maili
+    news:
+      index:
+        title: "Aktualności"
+    galleries:
+      index:
+        title: "Galerie"
     partials:
       switcher:
         label_html: "Wyświetl %{start}-%{finish} z %{total}"
@@ -160,7 +166,7 @@ pl:
       hide:
         success: "Pomyślnie ukryto"
         failure: "Wystąpił błąd podczas ukrywania"
-      unhide: 
+      unhide:
         success: "Pomyślnie uwidoczniono"
         failure: "Wystąpił błąd podczas uwidoczniania"
       create:
@@ -295,7 +301,7 @@ pl:
             url:
               blank: jest wymagane
               taken: 'nie może powtarzać się wśród stron o tym samym rodzicu'
-            parent_id: 
+            parent_id:
               loop: 'nie może stać się stroną podrzędną'
         l/news:
           attributes:
@@ -311,9 +317,9 @@ pl:
               blank: jest wymagana
         l/gallery_photo:
           attributes:
-            gallery_id: 
+            gallery_id:
               blank: musi być podana
-            photo: 
+            photo:
               blank: musi być wybrane
         l/newsletter_mail:
           attributes:

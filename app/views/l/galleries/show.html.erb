@@ -1,7 +1,8 @@
-<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
-<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
+<% title @gallery.name  %>
+<% breadcrumbs link_to( t('l.galleries.index.title'), galleries_path), @gallery.name  %>
 
 <h2><%= @gallery.name %></h2>
+<div class="date"><%= l @gallery.created_at, format: '%d-%m-%Y %H:%M' %></div>
 <p><%=raw @gallery.content %></p>
 
 <ul class="show_photos">
@@ -9,4 +10,4 @@
     <li><%= collection_lightbox_tag(photo.photo, 'gallery', target: '_blank') %></li>
   <% end %>
 </ul>
-<%= link_to t('helpers.actions.back'), "/galleries/list" %>
+
