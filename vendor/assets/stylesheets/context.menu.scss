@@ -1,0 +1,43 @@
+[data-context] {
+  position: relative;
+
+  [data-context-target] { display: none; }
+}
+
+[data-context-holder] {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #d7d7d7;
+  list-style: none;
+  margin: 0;
+
+  &.from-button {
+    margin: 0 0 0 -10em;
+    // width: 10.5em;
+    // overflow: hidden;
+  }
+
+  a {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    text-align: left;
+    display: block;
+    width: auto;
+    line-height: 2em;
+    padding: .5em;
+    width: 10em;
+    margin: 0;
+    color: #333;
+
+    &:before {
+      position: relative;
+      top: -2px;
+      margin-right: .3em;
+    }
+
+    &:hover {
+      background-color: #aaa;
+      color: #fff;
+    }
+  }
+}

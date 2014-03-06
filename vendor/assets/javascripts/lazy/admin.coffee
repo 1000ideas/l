@@ -34,8 +34,9 @@ class Sortable
 
     $("ul.items-list.sortable li:not(.header)").draggable appendTo: 'body',
       revert: 'invalid',
-      cursor: 'move'
-    
+      cursor: 'move',
+      cancel: '[data-context-button]'
+
     $("ul.items-list.sortable li:not(.header)").droppable hoverClass: 'ui-state-hover',
       greedy: true,
       drop: (event, ui) ->
@@ -75,7 +76,6 @@ class Sortable
 
 class LazyAdmin
   constructor: ->
-    @_context_menu()
     @_sortable_list()
     @_selection_actions()
     @_custom_select()
@@ -89,49 +89,6 @@ class LazyAdmin
   action_on_selected: (url, options = {}) ->
     console.log("Not used any more")
     return
-
-  close_all_context_menus: (except = null) ->
-    $('[data-context-target]:visible')
-      .not(except)
-      .hide()
-      .removeClass('from-mouse')
-
-  open_context_menu_for: (element, x, y) ->
-    @close_all_context_menus()
-    menu = $(element).find('[data-context-target]')
-
-    scrollTop = $(document).scrollTop()
-    menu
-      .addClass('from-mouse')
-      .css(top: scrollTop + y, left: x)
-      .show()
-
-  _context_menu: ->
-    $(document).on 'contextmenu', '.group[data-context]', (event) =>
-      event.preventDefault()
-      return if $(event.target).closest('[data-context-target]').length > 0
-
-      offset = $(event.currentTarget).offset()
-      @open_context_menu_for(event.currentTarget, event.clientX - offset.left, event.clientY - offset.top)
-
-    $(document).on 'click', (event) =>
-      return if $(event.target).closest('[data-context-target]').length > 0
-      return if $(event.target).closest('[data-context-button]').length > 0
-      @close_all_context_menus()
-
-    $(document).on 'click', 'a[data-context-button]', (event) =>
-      event.preventDefault()
-
-      menu = $(event.currentTarget)
-        .siblings('[data-context-target]')
-      
-      @close_all_context_menus(menu[0])
-
-      menu
-        .removeClass('from-mouse')
-        .css(top: '', left: '')
-        .toggle()
-      false
 
   _selection_actions: ->
     $('form select#selection_action').on 'change', (event) ->
@@ -171,7 +128,7 @@ class LazyAdmin
       singleFileUploads: true,
       add: (e, data) ->
         queue = data.fileInput.data('queue');
-        
+
         if queue
           file = data.files[0];
 
@@ -183,7 +140,7 @@ class LazyAdmin
               event.preventDefault();
               data.jqXHR.abort();
 
-          name = $('<p>').html file.name 
+          name = $('<p>').html file.name
 
           progress = $('<div>')
             .addClass('progress')
@@ -198,7 +155,7 @@ class LazyAdmin
 
         data.submit()
       , progress: (e, data) ->
-        
+
         if data.context
           progress = parseInt(data.loaded / data.total * 100, 10)
           data.context

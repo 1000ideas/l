@@ -3,6 +3,7 @@
  *= require lightbox
  *= require custom_selector
  *= require custom_file_input
+ *= require context.menu
  *= require admin/layout
  *= require admin/style
  *= require admin/login
