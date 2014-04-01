@@ -1,7 +1,7 @@
 class CustomSelector
   constructor: (@element, options = {}) ->
     return if @element.custom_select
-    
+
     options = $.extend({
         class_name: 'custom-selector'
       }, options)
@@ -20,15 +20,15 @@ class CustomSelector
   _set_up_events: ->
     self = this
 
-    $(@element).change (event) ->
+    $(@element).on 'change keydown', (event) ->
       self._set_label()
 
     $(@element).focus ->
-      self.wrapper.addClass 'focus'      
+      self.wrapper.addClass 'focus'
 
     $(@element).blur ->
-      self.wrapper.removeClass 'focus'      
-      
+      self.wrapper.removeClass 'focus'
+
 
   _set_label: ->
     el = $(@element).children(':selected')
