@@ -91,9 +91,23 @@ module L
     # * *Argumenty*:
     #
     #   - +value+ - tytuł strony
-    def title(value)
-      instantiate_yield :title, value
-      content_for(:title) { value }
+    def title(*args)
+      options = args.extract_options!
+      value = args.pop
+      scope = options[:scope] || :default
+      glue = options[:glue] || '-'
+      key = :"#{scope}_title"
+      if value.blank?
+        page_title = I18n.t(:"title.#{scope}", default: [:title, ::Rails.application.class.parent_name])
+        "#{content_for(key)} #{glue} #{page_title}"
+      else
+        _title = content_for(key)
+        if _title.blank?
+          content_for(key, value)
+        else
+          content_for(key, "#{_title} #{glue} #{value}")
+        end
+      end
     end
 
     # Metoda ustawiająca słowa kluczowe strony.

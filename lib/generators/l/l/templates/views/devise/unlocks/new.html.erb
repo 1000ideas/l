@@ -1,8 +1,8 @@
-<% title t('.title') %>
-<div class="center-box" id="unlock-box">
-  <h2><%= t('.title') %></h2>
+<% title t('.title'), scope: :admin %>
 
-  <%= form_for(resource, as: resource_name, url: unlock_path(resource_name)) do |f| %>
+<div class="row login-box">
+  <div class="small-12 columns">
+    <%= form_for(resource, as: resource_name, url: unlock_path(resource_name)) do |f| %>
     <%= render partial: 'devise/shared/errors', object: resource.errors %>
 
     <div class="field">

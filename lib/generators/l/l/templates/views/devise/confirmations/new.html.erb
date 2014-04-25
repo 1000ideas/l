@@ -1,19 +1,32 @@
-<% title t('.title') %>
-<div class="center-box" id="confirm-box">
-  <h2><%= t('.title') %></h2>
+<% title t('.title'), scope: :admin %>
 
-  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name)) do |f| %>
-    <%= render partial: 'devise/shared/errors', object: resource.errors %>
+<div class="row login-box">
+  <div class="columns small-12">
+    <h2><%= t('.title') %></h2>
+    <%= content_tag :div, class: 'alert-box alert', data: {alert: true} do %>
+      <%= alert %>
+      <%= link_to raw('&times;'), '#', class: :close %>
+    <% end unless alert.blank? %>
+    <%= content_tag :div, class: 'alert-box success', data: {alert: true} do %>
+      <%= notice %>
+      <%= link_to raw('&times;'), '#', class: :close %>
+    <% end unless notice.blank? %>
 
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.text_field :email %>
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name)) do |f| %>
+      <%= render partial: 'l/partials/errors', object: resource.errors, locals: { class_name: :alert } %>
+
+      <div class="field <%= ' with-error' if f.object.errors.include?(:email) %>">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </div>
+
+      <div class="center-button">
+        <%= f.button t('.submit'), class: [:button, :secondary, :round] %>
+      </div>
+    <% end %>
+
+    <div class="buttons">
+      <%= link_to t('devise.shared.links.sign_in'), new_session_path(resource_name) %>
     </div>
-
-    <%= f.button t('.submit') %>
-  <% end %>
-
-  <div class="shared-links">
-    <%= render partial: "devise/shared/links" %>
   </div>
 </div>

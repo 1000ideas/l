@@ -7,7 +7,7 @@ require 'l/version'
 Gem::Specification.new do |spec|
   spec.name          = "l"
   spec.version       = L::VERSION
-  spec.authors       = ["Bartek Bulat", "Krzystof Kosman"]
+  spec.authors       = ["Bartek Bulat", "Krzystof Kosman", "Ewelina Milaj", "Mateusz Luterek"]
   spec.email         = ["admin@1000i.pl"]
   spec.description   = %q{Gem for lazy programmers}
   spec.summary       = %q{Bunch of generators for lazy programmers}
@@ -30,4 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'better_errors'
   spec.add_runtime_dependency 'binding_of_caller'
   spec.add_runtime_dependency 'quiet_assets'
+  spec.add_runtime_dependency 'foundation-rails', '~> 5.2.0'
+  spec.add_runtime_dependency 'font-awesome-rails', '~> 4.0.0'
 end

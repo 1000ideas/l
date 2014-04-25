@@ -4,6 +4,7 @@ require 'devise'
 require 'paperclip'
 require 'jquery-ui-rails'
 require 'jquery-fileupload-rails'
+require 'foundation-rails'
 
 if Rails.env.development?
   require 'better_errors'

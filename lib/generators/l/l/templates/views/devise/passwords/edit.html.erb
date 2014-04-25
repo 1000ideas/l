@@ -1,25 +1,29 @@
-<% title t('.title') %>
-<div class="center-box" id="password-box">
-  <h2><%= t('.title') %></h2>
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name)) do |f| %>
-    <%= render partial: 'devise/shared/errors', object: resource.errors %>
+<% title t('.title'), scope: :admin %>
 
-    <%= f.hidden_field :reset_password_token %>
+<div class="row login-box">
+  <div class="small-12 columns">
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name)) do |f| %>
+      <%= render partial: 'l/partials/errors', object: resource.errors, locals: { class_name: :alert } %>
 
-    <div class="field">
-      <%= f.label :password %>
-      <%= f.password_field :password %>
+      <%= f.hidden_field :reset_password_token %>
+
+      <div class="field <%= ' with-error' if f.object.errors.include?(:password) %>">
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </div>
+
+      <div class="field <%= ' with-error' if f.object.errors.include?(:password_confirmation) %>">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation %>
+      </div>
+
+      <div class="center-button">
+        <%= f.button t('.submit'), class: [:button, :secondary, :round] %>
+      </div>
+    <% end %>
+
+    <div class="buttons">
+      <%= link_to t('devise.shared.links.sign_in'), new_session_path(resource_name) %>
     </div>
-
-    <div>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-    </div>
-
-    <%= f.button t('.title') %>
-  <% end %>
-
-  <div class="shared-links">
-    <%= render partial: "devise/shared/links" %>
   </div>
 </div>

@@ -1,49 +1,28 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
   <head>
-    <title><%= "#{t('l.admin.title')} :: #{yield_title}" %></title>
+    <title><%= title(scope: :admin) %></title>
     <%= tag :meta, name: :robots, content: 'noindex, nofollow' %>
-    <%= stylesheet_link_tag 'admins' %>
-    <!--[if lt IE 9]><%= javascript_include_tag 'ie8polyfill' %><![endif]-->
-    <%= javascript_include_tag 'admins' %>
-    <%= yield :head %>
     <%= csrf_meta_tag %>
+    <%= stylesheet_link_tag 'admins' %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= yield :head %>
   </head>
   <body>
     <% if current_user %>
-      <div id="content_tabs">
-        <div id="header">
-          <div id="logos">
-            <%= link_to image_tag('admin/1000ideas_creative_agency.png', alt: '1000ideas'), 'http://1000i.pl', target: "_blank"  %>
-          </div>
-          <div id="login_info">
-            <%= t('l.layout.logged_as') %> <%= current_user.email %><br />
-            <%= link_to t('l.layout.logout'), destroy_user_session_path, :method => :delete %>
-          </div>
-          <div class="cb"></div>
-        </div>
-        <div id="menu">
-          <%= admin_menu_link(:main_page, admin_path, class_name: :first, controller: :registrations) %>
-          <%= admin_menu_link(:users) if current_user.admin? %>
-          <%#= admin_menu_link(:pages) if current_user.admin? %>
-          <%#= admin_menu_link(:news) if current_user.admin? %>
-          <%#= admin_menu_link(:galleries) if current_user.admin? %>
-          <%#= admin_menu_link(:newsletter_mails) if current_user.admin? %>
-          <%= link_to t('.homepage'), root_path, class: :right %>
-        </div>
-        <div id="submenu">
-          <%= render('submenu') rescue '' %>
-        </div>
-        <div id="content">
-          <div class="title">
-            <h1><%= yield :title %></h1>
-            <div class="breadcrumbs"><%= yield_breadcrumbs %></div>
-          </div>
+      <%= render('l/admin/header') %>
+      <div class="row main-content">
+        <%= render('l/admin/menu') %>
+        <div class="columns">
           <%= yield %>
         </div>
       </div>
     <% else %>
       <%= yield %>
+    <% end %>
+    <%= javascript_include_tag 'admins' %>
+    <%= javascript_tag do %>
+      $(document).foundation();
     <% end %>
   </body>
 </html>

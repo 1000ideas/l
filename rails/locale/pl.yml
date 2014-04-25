@@ -1,4 +1,6 @@
 pl:
+  title:
+    admin: "Panel Administracyjny"
   layouts:
     l:
       admin:
