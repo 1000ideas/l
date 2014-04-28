@@ -78,10 +78,44 @@ class LazyAdmin
   constructor: ->
     @_sortable_list()
     @_selection_actions()
-    @_custom_select()
+    # @_custom_select()
     @_custom_file_input()
     @_locales_tabs()
     @_fileupload()
+
+    $(document).on 'opened', '[data-dropdown-content]', (event, dropdown, target) ->
+      if dropdown.hasClass('axis-right')
+        _left = dropdown.position().left + target.outerWidth() - dropdown.outerWidth()
+        dropdown.css(left: _left)
+
+    $(window).on 'resize', (event) =>
+      @set_main_content_height()
+      @submenu_hidden_buttons()
+    @submenu_hidden_buttons()
+    @set_main_content_height()
+
+    $(document).on 'click', '.left-menu li.has-submenu > a', (event) ->
+      event.preventDefault()
+      $(event.currentTarget).parent().toggleClass('opened')
+
+  set_main_content_height: ->
+    _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
+    $('.main-content').height(_height)
+
+  submenu_hidden_buttons: ->
+    $('.submenu + ul[data-dropdown-content] li')
+      .detach()
+      .appendTo('.submenu')
+
+    elements = $('.submenu li:not(.show-more)')
+      .filter (idx) ->
+        $(this).position().top > 0
+      .detach()
+      .appendTo('.submenu + ul[data-dropdown-content]')
+
+    $('.submenu li.show-more').toggle(elements.length > 0)
+
+
 
   loader: ->
     Loader
@@ -111,8 +145,8 @@ class LazyAdmin
       else
         $(this).tabs()
 
-  _custom_select: ->
-    $('select').customSelect();
+  # _custom_select: ->
+  #   $('select').customSelect();
 
   _custom_file_input: ->
     $("input[type=file].custom-file-input.fileupload").customFileInput({path: false});

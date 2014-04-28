@@ -8,6 +8,12 @@ pl:
   l:
     admin:
       title: Panel administratora
+      header:
+        homepage: "Przejdz do strony głównej"
+        edit_homepage: "Edytuj na stronie"
+        profile: "Edytuj profil"
+        logout: "Wyloguj"
+        logined: "Witaj, %{name}"
       admin:
         index:
           title: Strona startowa

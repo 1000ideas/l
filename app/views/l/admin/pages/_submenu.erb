@@ -1,2 +1,11 @@
-<%= link_to t('.index'), admin_pages_path, class: "list" %>
-<%= link_to t('.new'), new_admin_page_path, class: "new" %>
+<ul class="submenu">
+  <li class="show-more"><%= link_to fa_icon('caret-down'), '#', data: {dropdown: 'submenu-dropdown'} %></li>
+  <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_pages_path %></li>
+  <li><%= link_to fa_icon('plus-circle fw', text: t('.new')), new_admin_page_path %></li>
+  <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_pages_path %></li>
+  <li><%= link_to fa_icon('plus-circle fw', text: t('.new')), new_admin_page_path %></li>
+  <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_pages_path %></li>
+  <li><%= link_to fa_icon('plus-circle fw', text: t('.new')), new_admin_page_path %></li>
+</ul>
+<ul id="submenu-dropdown" class="f-dropdown axis-right" data-dropdown-content>
+</ul>

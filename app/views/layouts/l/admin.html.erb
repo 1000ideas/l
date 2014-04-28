@@ -11,9 +11,11 @@
   <body>
     <% if current_user %>
       <%= render('l/admin/header') %>
-      <div class="row main-content">
+      <div class="main-content">
         <%= render('l/admin/menu') %>
-        <div class="columns">
+        <div class="page-content">
+          <%= render('submenu') %>
+          <%= render('filter') rescue ''  %>
           <%= yield %>
         </div>
       </div>

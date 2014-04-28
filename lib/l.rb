@@ -5,6 +5,7 @@ require 'paperclip'
 require 'jquery-ui-rails'
 require 'jquery-fileupload-rails'
 require 'foundation-rails'
+require 'font-awesome-rails'
 
 if Rails.env.development?
   require 'better_errors'

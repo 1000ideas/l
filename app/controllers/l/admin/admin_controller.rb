@@ -4,7 +4,7 @@ module L::Admin
 
     def index
       authorize! :manage, User
-      
+
       respond_to do |format|
         format.html
       end
