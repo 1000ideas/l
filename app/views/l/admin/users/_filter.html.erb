@@ -1,6 +1,7 @@
 <%= form_for :filter, url: admin_users_path, html: {method: :get} do |f| %>
+
 <div class="filter">
-  <div class="field">  
+  <div class="field">
     <h3><%= t('.filter_by') %></h3>
 
     <%= f.label :email, User.human_attribute_name(:email)  %>
@@ -11,7 +12,7 @@
       selected: filter(:role) %>
 
     <%= f.button t('.filter') %>
-    
+
   </div>
 
   <div class="field">

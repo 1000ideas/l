@@ -14,8 +14,11 @@
       <div class="main-content">
         <%= render('l/admin/menu') %>
         <div class="page-content">
-          <%= render('submenu') %>
-          <%= render('filter') rescue ''  %>
+          <% begin %>
+            <%= render('submenu') %>
+          <% rescue ActionView::MissingTemplate %>
+          <% end %>
+
           <%= yield %>
         </div>
       </div>
