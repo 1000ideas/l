@@ -4,12 +4,8 @@
 <%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
 <%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
-
-<div class="cols-container">
-  <div class="main-column">
+<div class="row">
+  <div class="columns small-12">
     <%= render 'form' %>
-  </div>
-  <div class="tooltip-column">
-    <%= render 'tooltip' %>
   </div>
 </div>

@@ -2,10 +2,10 @@
 module L::Admin
   # Kontroler zarządzający uzytkownikami.
   #
-  # Pozwal administratorowi na tworzenie, edycję i usuwanie użytkowników. 
+  # Pozwal administratorowi na tworzenie, edycję i usuwanie użytkowników.
   #
   class UsersController < AdminController
-    
+
     # Akcja wyświetlająca listę wszystkich zarejestrowanych użytkowników
     #
     # *GET* /users/
@@ -22,7 +22,7 @@ module L::Admin
       end
 
       @users = @users.paginate page: params[:page],
-        per_page: 10
+        per_page: 30
 
       respond_to do |format|
         format.html
@@ -81,9 +81,9 @@ module L::Admin
           format.html { redirect_to admin_users_path, notice: info(:success) }
         else
           format.html { render :action => :new }
-        end        
+        end
       end
-      
+
     end
 
     # Akcja aktualizująca istniejącego użytkownika.
@@ -120,7 +120,7 @@ module L::Admin
       end
     end
 
-    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach.
     # Wymagane parametry to selection[ids] oraz selection[action].
     #
     # *POST* /admin/pages/selection

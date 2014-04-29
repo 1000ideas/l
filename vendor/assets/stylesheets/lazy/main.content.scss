@@ -217,12 +217,19 @@
       padding: 0;
       margin: 0;
       list-style: none;
+      overflow-y: auto;
+
       > li.row {
         border-bottom: 1px solid #eee;
 
         > div {
           line-height: 2rem;
           margin: .6em 0;
+
+
+          &.columns.end {
+            padding-right: 3em;
+          }
         }
 
         a[data-context-button] {

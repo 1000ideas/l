@@ -101,6 +101,10 @@ class LazyAdmin
   set_main_content_height: ->
     _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
     $('.main-content').height(_height)
+    if (list = $('.main-content .items-list')).length > 0
+      _list_height = _height - list.position().top
+      list.height(_list_height)
+
 
   submenu_hidden_buttons: ->
     $('.submenu + ul[data-dropdown-content] li')
