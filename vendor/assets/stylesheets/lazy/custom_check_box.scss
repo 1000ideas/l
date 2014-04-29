@@ -1,0 +1,8 @@
+@import 'mixins';
+
+label.custom-check-box {
+  @include custom-checkbox();
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: .5em;
+}

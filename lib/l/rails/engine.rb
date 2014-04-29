@@ -14,10 +14,15 @@ module L
       initializer "helper" do |app|
         ActiveSupport.on_load(:action_view) do
           include L::LazyHelper
-          include L::FormHelper
           include L::FilterHelper
           include L::LightboxHelper
+          self.parent::Helpers::FormHelper.send(:include, L::FormHelper)
+          self.parent::Helpers::FormBuilder.send(:include, L::FormHelper::FormBuilder)
+
         end
+      end
+
+      initializer "form_helper" do |app|
       end
 
       initializer "controller" do |app|

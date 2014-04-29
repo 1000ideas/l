@@ -3,6 +3,7 @@
 .main-content {
   position: relative;
   min-height: 10em;
+  min-width: rem-calc(1024);
 
   .left-menu {
     position: absolute;
@@ -146,6 +147,101 @@
           display: block;
           line-height: 2em;
           margin: 1em 2em 1em 0;
+        }
+      }
+    }
+
+    form.filter-form {
+      display: block;
+      text-align: right;
+      border-bottom: 1px solid #eee;
+
+      > a {
+        display: inline-block;
+        line-height: 2em;
+        margin: .3em 0;
+        .fa {
+          margin: 0 1em 0 .5em;
+        }
+
+      }
+
+      fieldset {
+        text-align: left;
+      }
+
+    }
+
+    ul.items-list-header {
+      list-style: none;
+      border-bottom: 2px solid #eee;
+
+      > li {
+        &:last-child {
+          padding-right: 2rem;
+        }
+
+        > a {
+          display: inline-block;
+          vertical-align: middle;
+          line-height: 2em;
+          margin: .3em 0;
+
+          &.sort {
+            color: lighten($body-font-color, 20%);
+
+            &:hover, &:focus {
+              color: lighten($body-font-color, 10%);
+            }
+            &.current {
+              &:after {
+                font-family: FontAwesome;
+                margin-left: .3em;
+              }
+
+              &.asc:after {
+                content: '\f0d7';
+              }
+
+              &.desc:after {
+                content: '\f0d8';
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+    ul.items-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      > li.row {
+        border-bottom: 1px solid #eee;
+
+        > div {
+          line-height: 2rem;
+          margin: .6em 0;
+        }
+
+        a[data-context-button] {
+          display: block;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          width: 1.8em;
+          height: 1.8em;
+          line-height: 1.8em;
+          margin-top: -0.9em;
+          margin-right: .5em;
+          border: 1px solid #d7d7d7;
+          text-align: center;
+          &.opened {
+            border-bottom-color: #fff;
+            box-shadow: 0 2px 0 -1px #fff;
+            z-index: 11;
+          }
         }
       }
     }

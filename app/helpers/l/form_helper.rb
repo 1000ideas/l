@@ -2,6 +2,34 @@ module L
   # Moduł helpera dodający metody ułatwiajace wstawianie pól formularza.
   module FormHelper
 
+    def custom_check_box(object_name, method, options = {}, cvalue = '1', ucvalue = '0')
+      class_name = *options.delete(:class)
+      class_name.push :'custom-check-box'
+      label(object_name, method, class: class_name) do
+        [
+          check_box(object_name, method, options, cvalue, ucvalue),
+          content_tag(:i)
+        ].join.html_safe
+      end
+    end
+
+    module FormBuilder
+      def select_box(method, object, options = {})
+        plural_name = method.to_s.pluralize
+        options.merge!(multiple: true)
+        class_name = *options.delete(:class)
+        class_name.push :'custom-check-box'
+        label("#{plural_name}_#{object.send(method)}", class: class_name) do
+          [
+            check_box(plural_name, options, object.send(method), nil),
+            @template.content_tag(:i)
+          ].join.html_safe
+        end
+      end
+    end
+
+
+
     # Metoda wyswietlająca checkbox dla obiektu jakiego modelu. Uzywane przy
     # wybieraniu stron do masowych akcji na liście elementów.
     #
@@ -11,11 +39,29 @@ module L
     #     +id+)
     #   - +name+ - nazwa grupy checkboksów, domyślnie +selected+. Używane w js
     #     do manipulacji wybranymi obiektami.
-    #   - +options+ - opcje elementu checkbox, domyślnie: <tt>class='selection'</tt> 
+    #   - +options+ - opcje elementu checkbox, domyślnie: <tt>class='selection'</tt>
     #     i <tt>id="/name/_/id/</tt>.
     def selection_tag(object, name = 'selected', options = {})
       options.merge! class: 'selection', id: "#{name}_#{object.id}"
-      check_box_tag "#{name}[]", object.id, false, options 
+      check_box_tag "#{name}[]", object.id, false, options
+    end
+
+    def sort_column(name, *args)
+      options = args.extract_options!
+      title = args.pop || t(name, scope:[:sort_columns], default: name.to_s.titleize)
+      direction = :asc
+
+      class_name = [:sort, *options.delete(:class)].compact
+
+      if params[:sort].try(:[], :column).try(:to_sym) == name
+        direction = params[:sort].try(:[], :dir) == 'asc' ? :desc : :asc
+        class_name << :current
+        class_name << direction
+      end
+
+      options[:class] = class_name
+
+      link_to title, {sort: {column: name, dir: direction}}, options
     end
 
     # Metoda wyświetlajaca przycisk do sortowania, jako +button_tag+.
@@ -44,14 +90,14 @@ module L
       class_name << (type == :asc ? 'up' : 'down')
 
       options[:class] = class_name
-      
+
       link_to "", {sort: sort_type}, options
     end
 
-    # Tag input[type=files] obsługiwany przez plugin 
+    # Tag input[type=files] obsługiwany przez plugin
     # jquery-fileupload. Argumenty jak w file_field_tag.
     # Domyślnie możliwy wybór wielu plików
-    # 
+    #
     def file_upload_tag(name, options = {})
       class_name = options.delete(:class)
       options[:class] = [:fileupload, :'custom-file-input', class_name].flatten.compact!

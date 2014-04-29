@@ -1,18 +1,16 @@
 <%% title t('.title') %>
-<%% breadcrumbs_admin link_to(t('.title'), admin_<%= index_helper %>_path) %>
 
-<% [:alert, :notice].each do |name| %>
+<%- [:alert, :notice].each do |name| -%>
 <%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
-<% end %>
+<%- end -%>
 
-<%%= render "filter" %>
-<%%= render partial: 'l/partials/switcher', object: @<%= plural_table_name %> %>
+<%= render('filter')  %>
 
 <%- columns_class_name = case attributes.length
       when 1 then 'one-column'
       when 2 then 'two-columns'
       else 'three-columns'
-    end 
+    end
 -%>
 
 <%%= form_for :selection, url: selection_admin_<%= index_helper %>_path, html: {method: :post} do |f| %>
@@ -53,7 +51,7 @@
         <%%= link_to t('destroy', scope: [:helpers, :actions]), [:admin, <%= singular_table_name %>], class: "destroy", title: t('destroy', scope: [:helpers, :actions]), data: { confirm: t('confirm', scope: [:helpers, :actions]), method: :delete } %>
       </div>
     </div>
-  </li>    
+  </li>
   <%% end %>
 </ul>
 

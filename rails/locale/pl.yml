@@ -38,7 +38,7 @@ pl:
           head: Uwaga!
           content: "Wypełnij wszystkie dane użytkownika. Pamiętaj aby nadać mu odpowiednie uprawnienia."
         filter:
-          filter_by: "Filtruj:"
+          open_filters: "Otwórz filtry"
           filter: Filtruj
           clear: Wyczyść
           roles_prompt: "Wybierz..."

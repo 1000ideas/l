@@ -3,6 +3,7 @@
 header.panel-header {
   position: relative;
   border-bottom: 2px solid #eee;
+  min-width: rem-calc(1024);
 
   > hgroup {
     position: absolute;
