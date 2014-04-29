@@ -22,7 +22,7 @@ module L::Admin
       end
 
       @users = @users.paginate page: params[:page],
-        per_page: 30
+        per_page: 15
 
       respond_to do |format|
         format.html

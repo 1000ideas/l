@@ -88,6 +88,13 @@ class LazyAdmin
         _left = dropdown.position().left + target.outerWidth() - dropdown.outerWidth()
         dropdown.css(left: _left)
 
+    $('.items-list')
+      .jScrollPane(autoReinitialise: true)
+      .on 'jsp-initialised jsp-scroll-x', (event) ->
+        jsp = $(event.target).data('jsp')
+        if jsp.getContentHeight() > jsp.getContentPane().height()
+          console.log('load data')
+
     $(window).on 'resize', (event) =>
       @set_main_content_height()
       @submenu_hidden_buttons()
@@ -104,7 +111,6 @@ class LazyAdmin
     if (list = $('.main-content .items-list')).length > 0
       _list_height = _height - list.position().top
       list.height(_list_height)
-
 
   submenu_hidden_buttons: ->
     $('.submenu + ul[data-dropdown-content] li')
