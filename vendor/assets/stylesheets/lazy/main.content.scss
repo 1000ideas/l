@@ -36,9 +36,10 @@
       a { position: relative; display: block; }
     }
 
-    > ul {
+    ul.root {
       padding: 0;
       margin: 0;
+      height: 100%;
       max-height: 100%;
       overflow-y: auto;
 
@@ -87,6 +88,7 @@
 
       }
 
+      .jspPane > li,
       > li {
         padding-top: 1px;
         &.spacer {

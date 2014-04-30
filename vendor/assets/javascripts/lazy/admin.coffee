@@ -87,30 +87,41 @@ class LazyAdmin
       if dropdown.hasClass('axis-right')
         _left = dropdown.position().left + target.outerWidth() - dropdown.outerWidth()
         dropdown.css(left: _left)
+    @submenu_hidden_buttons()
+    @set_main_content_height()
 
     $('.items-list')
-      .jScrollPane(autoReinitialise: true)
-      .on 'jsp-initialised jsp-scroll-x', (event) ->
+      .on 'jsp-initialised jsp-scroll-y', (event) ->
+        window.context_menu && window.context_menu.close_all_context_menus()
         jsp = $(event.target).data('jsp')
-        if jsp.getContentHeight() > jsp.getContentPane().height()
-          console.log('load data')
+        if !jsp? || jsp.isAboutEnd(50)
+          $('.show-more a', event.target).click()
+      .jScrollPane()
+
+    $('.left-menu ul.root').jScrollPane()
 
     $(window).on 'resize', (event) =>
       @set_main_content_height()
       @submenu_hidden_buttons()
-    @submenu_hidden_buttons()
-    @set_main_content_height()
 
     $(document).on 'click', '.left-menu li.has-submenu > a', (event) ->
       event.preventDefault()
       $(event.currentTarget).parent().toggleClass('opened')
 
+    $(document).on 'append-next-page', (event, content) =>
+      element = $(event.target)
+      element.find('.show-more').replaceWith $(content)
+      @set_main_content_height()
+
   set_main_content_height: ->
     _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
     $('.main-content').height(_height)
+    menu = $('.left-menu ul.root')
+    (mjsp = menu.data('jsp')) && mjsp.reinitialise()
     if (list = $('.main-content .items-list')).length > 0
       _list_height = _height - list.position().top
       list.height(_list_height)
+      (jsp = list.data('jsp')) && jsp.reinitialise()
 
   submenu_hidden_buttons: ->
     $('.submenu + ul[data-dropdown-content] li')

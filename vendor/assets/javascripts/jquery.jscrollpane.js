@@ -261,6 +261,9 @@
 				originalScrollTop && elem.scrollTop(0) && scrollToY(originalScrollTop, false);
 				originalScrollLeft && elem.scrollLeft(0) && scrollToX(originalScrollLeft, false);
 
+				if (elem.data('jsp') == null) {
+					elem.data('jsp', jsp);
+				}
 				elem.trigger('jsp-initialised', [isScrollableH || isScrollableV]);
 			}
 
@@ -1357,6 +1360,11 @@
 								'step'		: stepCallback
 							}
 						);
+					},
+					isAboutEnd: function(dist) {
+						dist = dist != null ? dist : 20;
+						hidden =  contentHeight - paneHeight;
+						return  hidden < 0 || hidden - contentPositionY() < dist;
 					},
 					// Returns the current x position of the viewport with regards to the content pane.
 					getContentPositionX: function()

@@ -15,12 +15,5 @@
 </ul>
 
 <% if @users.any? %>
-<%= form_for :selection, url: [:selection, :admin, :users], html: {method: :post} do |f| %>
-<ul class="items-list" data-page="<%= @users.current_page %>">
-  <%= render @users, f: f %>
-</ul>
-
-
-<%#= f.select :action, User.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
-<% end %>
+  <%= render 'list' %>
 <% end %>

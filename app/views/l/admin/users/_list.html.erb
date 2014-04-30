@@ -1,0 +1,12 @@
+<%= form_for :selection, url: '#', html: {method: :post} do |f| %>
+  <ul class="items-list">
+    <%= render @users, f: f %>
+    <% unless @users.next_page.nil? %>
+    <li class="row show-more">
+      <div class="columns small-12 text-center">
+        <%= link_to t('.more'), url_for(params.merge(page: @users.next_page)), data: {remote: true, type: :script, disable_with: t('.wait', default: "Loading...")} %>
+      </div>
+    </div>
+    <% end %>
+  </ul>
+<% end %>

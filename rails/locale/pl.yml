@@ -49,6 +49,9 @@ pl:
           title: Użytkownicy
           email: Email
           role: Role
+        list:
+          more: "Załaduj kolejnych użytkowników"
+          wait: "Ładuję..."
         new:
           title: Dodawanie użytkownika
         edit:

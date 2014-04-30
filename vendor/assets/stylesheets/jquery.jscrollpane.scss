@@ -21,7 +21,7 @@
 	right: 0;
 	width: 10px;
 	height: 100%;
-	background: #fff;
+	background: transparent;
 }
 
 .jspHorizontalBar {
@@ -30,7 +30,7 @@
 	left: 0;
 	width: 100%;
 	height: 10px;
-	background: red;
+	background: transparent;
 }
 
 .jspHorizontalBar, .jspVerticalBar {
@@ -51,8 +51,8 @@
 }
 
 .jspTrack {
-	background: #fff;
-  border: 1px solid #fff;
+	background: transparent;
+  border: 1px solid transparent;
 	position: relative;
 }
 
