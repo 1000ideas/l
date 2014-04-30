@@ -1,39 +1,22 @@
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('.title'), admin_galleries_path) %>
 
 <%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
 <%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
+<%= render 'filter' %>
 
 
-<%= render partial: 'l/partials/switcher', object: @galleries %>
-
-<%= form_for :selection, url: [:selection, :admin, :galleries], html: {method: :post} do |f| %>
-<ul class="items-list two-columns" data-page="<%= @galleries.current_page %>">
-  <li class="header">
-    <div class="group">
-      <div><%= L::Gallery.human_attribute_name :thumb %></div>
-      <div><%= L::Gallery.human_attribute_name :name %></div>
-    </div>
+<ul class="row items-list-header">
+  <li class="columns small-3">
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= sort_column :thumbnail, L::Gallery.human_attribute_name(:thumbnail) %>
   </li>
-  <% @galleries.each do |gallery| %>
-  <li>
-    <div class="group" data-context="true">
-      <div class="select"><%= f.check_box :ids, {multiple: true}, gallery.id, nil %></div>
-      <div><%= image_tag(gallery.thumbnail, alt: gallery.name) unless gallery.thumbnail.nil? %></div>
-      <div><%= gallery.name %></div>
-      <a href="#" data-context-button="true"></a>
-      <div class="options" data-context-target="true">
-        <%= link_to t('helpers.actions.show'), gallery_path(gallery), class: "show", title: t('helpers.actions.show'), target: '_blank' %>
-        <%= link_to t('helpers.actions.edit'), edit_admin_gallery_path(gallery), class: "edit", title: t('helpers.actions.edit') %>
-        <%= link_to t('helpers.actions.destroy'), admin_gallery_path(gallery), class: "destroy", title: t('helpers.actions.destroy'),
-          data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
-      </div>
-    </div>
-  </li>
-  <% end %>
+  <li class="columns small-6"><%= sort_column :name, L::Gallery.human_attribute_name(:name) %></li>
+  <li class="columns small-3"><%= sort_column :created_at, L::Gallery.human_attribute_name(:created_at) %></li>
 </ul>
-<%= f.select :action, L::Gallery.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
+
+<% if @galleries.any? %>
+  <%= render 'list' %>
 <% end %>
 
-<%= will_paginate @galleries %>
+<%#= L::Gallery.mass_actions_for_select %>

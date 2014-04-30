@@ -38,6 +38,7 @@ module L
           include L::Concerns::MassActions
           include L::Concerns::Sortable
           include L::Concerns::Roles
+          include L::Concerns::Filtering
         end
       end
 

@@ -5,16 +5,17 @@ module L::Admin
   # Pozwala na dodawanie, edycję i usuwanie aktualnosci.
   #
   class NewsController < AdminController
-    
+
     # Akcja wyświetlająca listę aktualności w panelu administracyjnym.
     #
     # *GET* /news
     #
     def index
       authorize! :manage, L::News
-      
+
       @news = L::News
         .with_translations
+        .filter(params[:filter])
         .ordered
         .paginate page: params[:page]
 
@@ -107,7 +108,7 @@ module L::Admin
     end
 
 
-    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach.
     # Wymagane parametry to selection[ids] oraz selection[action].
     #
     # *POST* /admin/pages/selection

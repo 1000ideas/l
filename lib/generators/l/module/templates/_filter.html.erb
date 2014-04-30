@@ -1,6 +1,6 @@
 <%%= form_for :filter, url: admin_<%= index_helper %>_path, html: {method: :get, class: 'filter-form'} do |f| %>
   <%%= link_to '#', data: {dropdown: 'filter-dropdown'} do %>
-    <%%= t('.open_filters') %>
+    <%%= t('.open_filters', default: :'defaults.filter.open_filters') %>
     <%%= fa_icon 'caret-down' %>
   <%% end %>
   <fieldset class="f-dropdown content medium axis-right" id="filter-dropdown" data-dropdown-content>
@@ -13,8 +13,8 @@
     <%- end -%>
 <%- end -%>
     <div class="buttons text-right">
-      <%%= f.button t('.filter'), class: 'button tiny secondary round' %>
-      <%%= link_to t('.clear'), admin_<%= index_helper %>_path, class: 'button tiny secondary round' %>
+      <%%= f.button t('.filter', default: :'defaults.filter.filter'), class: 'button tiny secondary round' %>
+      <%%= link_to t('.clear', default: :'defaults.filter.clear'), admin_<%= index_helper %>_path, class: 'button tiny secondary round' %>
     </div>
   </fieldset>
 <%% end %>

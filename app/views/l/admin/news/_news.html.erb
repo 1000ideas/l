@@ -1,0 +1,17 @@
+<li class="row" data-context>
+  <div class="columns small-6">
+    <%= f.select_box :id, news %>
+    <%= news.title %>
+  </div>
+  <div class="columns small-3">
+    <%= l news.created_at.to_date, format: :long %>
+  </div>
+  <div class="columns small-3">&nbsp;</div>
+  <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
+  <ul data-context-target>
+    <li><%= link_to t('helpers.actions.show'), admin_news_path(news), class: "show", title: t('helpers.actions.show'), target: '_blank' %></li>
+    <li><%= link_to t('helpers.actions.edit'), edit_admin_news_path(news), class: "edit", title: t('helpers.actions.edit') %></li>
+    <li><%= link_to t('helpers.actions.destroy'), admin_news_path(news), class: "destroy", title: t('helpers.actions.destroy'),
+    data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
+  </ul>
+</li>

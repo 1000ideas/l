@@ -5,6 +5,9 @@ pl:
     l:
       admin:
         homepage: "Strona główna"
+  filter:
+    filter
+
   l:
     admin:
       title: Panel administratora
@@ -78,9 +81,9 @@ pl:
           success: "Strona została uwidoczniona."
           failure: "Nie udało się uwidocznić strony."
       news:
-        tooltip:
-          head: Uwaga!
-          content: "Słowa kluczowe ważne są i przecinkami należy odzielać je. Pamiętaj o tym kiedy formularz wypełniać będziesz ten."
+        filter:
+          published_before: 'Opublikowane przed'
+          published_after: 'Opublikowane po'
         list:
           title: Aktualności
         form:
@@ -179,7 +182,9 @@ pl:
     filter:
       title: "Filtruj wg"
       button: "Filtruj"
+      filter: "Filtruj"
       clear: "Wyczyść"
+      open_filters: "Otwórz filtry"
   helpers:
     status:
       hide:
@@ -265,6 +270,9 @@ pl:
     galleries: Galerie
     newsletter: Newsletter
     newsletter_mails: Newsletter
+  attributes:
+    created_at: "Data utworzenia"
+    updated_at: "Data modyfikacji"
   errors:
     template:
       header:
@@ -297,6 +305,7 @@ pl:
         photo_image: Aktualne zdjęcie
         photo_delete: Usuń zdjęcie
         photo_content_type: Zdjęcie
+        published_at: Data publikacji
       l/news/translation:
         title: Tytuł
         content: Treść

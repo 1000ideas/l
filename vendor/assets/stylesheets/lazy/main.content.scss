@@ -225,6 +225,14 @@
         border-bottom: 1px solid #eee;
 
         > div {
+          &:after {
+            content: '';
+            height: 100%;
+            margin: 0 0 0 -1px;
+            vertical-align: middle;
+            display: inline-block;
+          }
+
           line-height: 2rem;
           margin: .6em 0;
 

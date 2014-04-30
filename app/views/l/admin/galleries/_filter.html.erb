@@ -1,0 +1,15 @@
+<%= form_for :filter, url: admin_news_index_path, html: {method: :get, class: 'filter-form'} do |f| %>
+  <%= link_to '#', data: {dropdown: 'filter-dropdown'} do %>
+    <%= t('.open_filters', default: :'defaults.filter.open_filters') %>
+    <%= fa_icon 'caret-down' %>
+  <% end %>
+  <fieldset class="f-dropdown content medium axis-right" id="filter-dropdown" data-dropdown-content>
+    <%= f.label :name, L::Gallery.human_attribute_name(:name)  %>
+    <%= f.text_field :name, value: filter(:name) %>
+
+    <div class="buttons text-right">
+      <%= f.button t('.filter', default: :'defaults.filter.filter'), class: 'button tiny secondary round' %>
+      <%= link_to t('.clear', default: :'defaults.filter.clear'), admin_news_index_path, class: 'button tiny secondary round' %>
+    </div>
+  </fieldset>
+<% end %>

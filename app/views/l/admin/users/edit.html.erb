@@ -1,9 +1,7 @@
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('.title'), edit_admin_user_path(@user)) %>
 
 <%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
 <%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
-
 
 <div class="row">
   <div class="columns small-12">
