@@ -66,6 +66,29 @@ module L
         end
       end
 
+      def add_filters_to_model
+        return unless model_exists?
+
+        inject_into_file model_path,
+          %(  scope :filter_by_created_before, lambda {|date| where("`created_at` < ?", Date.parse(date)) }\n),
+            after: "ActiveRecord::Base\n"
+        inject_into_file model_path,
+          %(  scope :filter_by_created_after, lambda {|date| where("`created_at` > ?", Date.parse(date)) }\n),
+            after: "ActiveRecord::Base\n"
+
+        attributes.each do |attribute|
+          field_name = if attribute.type == :file
+            "#{attribute.name}_file_name"
+          else
+            attribute.name
+          end
+          inject_into_file model_path,
+            "  scope :filter_by_#{field_name}, lambda {|value| where(#{field_name}: value) }\n",
+              after: "ActiveRecord::Base\n"
+
+        end
+      end
+
       def add_search_method_to_model # :nodoc:
         unless options.searchable.blank? or not model_exists?
           where_clause = options.searchable.map {|f| "#{f} LIKE :pattern" } .join(' OR ')
@@ -81,6 +104,7 @@ module L
             after: "def search\n"
         end
       end
+
 
       check_class_collision :suffix => "Controller"
 

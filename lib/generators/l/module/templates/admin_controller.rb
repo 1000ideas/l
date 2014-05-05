@@ -5,20 +5,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
   def index
     authorize! :manage, <%= class_name %>
     @<%= plural_table_name %> = <%= class_name %>
-
-<% for attribute in attributes -%>
-<% if attribute.type == :file -%>
-    unless filter(:<%= attribute.name %>_file_name).blank?
-      @<%= plural_table_name %> = @<%= plural_table_name %>.
-        where("`<%= attribute.name %>_file_name` LIKE ?", "%#{filter(:<%= attribute.name %>_file_name)}%")
-    end
-<% else -%>
-    unless filter(:<%= attribute.name %>).blank?
-      @<%= plural_table_name %> = @<%= plural_table_name %>.
-        where("`<%= attribute.name %>` LIKE ?", "%#{filter(:<%= attribute.name %>)}%")
-    end
-<% end -%>
-<% end -%>
+      .filter(params[:filter])
 
     @<%= plural_table_name %> = @<%= plural_table_name %>.order(sort_order) if sort_results?
     @<%= plural_table_name %> = @<%= plural_table_name %>.all.paginate page: params[:page]

@@ -12,6 +12,19 @@
     <%%= f.text_field :<%= attribute.name %>, value:  filter(:<%= attribute.name %>) %>
     <%- end -%>
 <%- end -%>
+
+    <%%= f.label :created_before, t('.created_before')  %>
+    <div class="row collapse">
+      <div class="columns small-11"><%%= f.text_field :created_before, value: filter(:created_before) %></div>
+      <%%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+    </div>
+
+    <%%= f.label :created_after, t('.created_after')  %>
+    <div class="row collapse">
+      <div class="columns small-11"><%%= f.text_field :created_after, value: filter(:created_after) %></div>
+      <%%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+    </div>
+
     <div class="buttons text-right">
       <%%= f.button t('.filter', default: :'defaults.filter.filter'), class: 'button tiny secondary round' %>
       <%%= link_to t('.clear', default: :'defaults.filter.clear'), admin_<%= index_helper %>_path, class: 'button tiny secondary round' %>
