@@ -160,14 +160,11 @@ class LazyAdmin
     @_sortable = new Sortable()
 
   _locales_tabs: ->
-    $('.tabs_container').each ->
+    $('.locales-tabs').each ->
       if $(this).children('ul').first().children('li').length == 1
         $(this).children('ul').first().hide()
       else
         $(this).tabs()
-
-  # _custom_select: ->
-  #   $('select').customSelect();
 
   _custom_file_input: ->
     $("input[type=file].custom-file-input.fileupload").customFileInput({path: false});

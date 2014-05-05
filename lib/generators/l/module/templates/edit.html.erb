@@ -1,18 +1,14 @@
-<%% title t('.title')  %>
-<%% breadcrumbs_admin link_to(t('admin.<%= plural_table_name %>.index.title'),admin_<%= index_helper %>_path),
-  link_to(t('.title'), edit_admin_<%= singular_table_name %>_path(@<%= singular_table_name %>)) %>
+<%% title t('.title') %>
 
-<% [:alert, :notice].each do |name| %>
+<%- [:alert, :notice].each do |name| -%>
 <%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
-<% end %>
+<%- end -%>
 
-<div class="cols-container">
-  <div class="main-column">
+<div class="row">
+  <div class="columns small-12">
     <%%= render 'form' %>
   </div>
-  <div class="tooltip-column">
-    <%%= render 'tooltip' %>
+  <div class="columns small-12 text-right">
+    <%%= link_to t('back', scope: [:helpers, :actions]), admin_<%= index_helper %>_path, class: [:button, :tiny, :secondary] %>
   </div>
-</div>                     
-
-<%%= link_to t('back', scope: [:helpers, :actions]), admin_<%= index_helper %>_path %>
+</div>

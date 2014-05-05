@@ -1,29 +1,21 @@
-<%= form_tag send_mail_admin_newsletter_mails_path, method: :post do %>
+<%= form_for :newsletter, url: send_mail_admin_newsletter_mails_path, method: :post do |f| %>
   <h2><%= t('.addresses_list') %></h2>
   <p><%= t('.addresses_list_info') %></p>
-  <div class="group">
-    <div class="email_list">
-      <% if @emails.any? %>
-        <% @emails.in_groups(4, false) do |col| %>
-          <% col.each do |email| %>
-            <div class="email"><%= check_box_tag "emails[]", email.mail, true %> <%= email.mail %></div>
-          <% end %>
-        <% end %>
-      <% else %>
-        <p><%= t('.no_mails') %></p>
-      <% end %>
-    </div>
-  </div>
+  <ul class="email-list small-block-grid-4">
+    <% @emails.each do |email| %>
+      <li class=""><%= f.select_box :mail, email, checked: true %><%= email.mail %></li>
+    <% end %>
+  </ul>
 
   <h2><%= t('.mail') %></h2>
   <p><%= t('.mail_info') %></p>
   <div class="group">
     <div class="field_with_tinymce">
-      <%= label_tag :text, t('.mail') %>
-      <%= tinymce_tag :text, params[:text], type: :advance %>
+      <%= f.label :text, t('.mail') %>
+      <%= f.tinymce :text, value: params[:text], type: :advance %>
     </div>
-    
+
   </div>
 
-  <%= submit_tag t('.send_mail') %>
+  <%= f.button t('.send_mail') %>
 <% end %>

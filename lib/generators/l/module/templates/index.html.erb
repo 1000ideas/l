@@ -4,61 +4,17 @@
 <%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
 <%- end -%>
 
-<%= render('filter')  %>
+<%%= render('filter')  %>
 
-<%- columns_class_name = case attributes.length
-      when 1 then 'one-column'
-      when 2 then 'two-columns'
-      else 'three-columns'
-    end
--%>
-
-<%%= form_for :selection, url: selection_admin_<%= index_helper %>_path, html: {method: :post} do |f| %>
-<ul class="items-list <%= columns_class_name %>">
-  <li class="header">
-    <div class="group">
-<% for attribute in attributes.first(3) -%>
-      <div>
-        <%%= <%= class_name %>.human_attribute_name :<%= attribute.name %> %>
-<% if attribute.type == :file -%>
-        <%%= sort_tag :<%= attribute.name %>_file_name, :asc %>
-        <%%= sort_tag :<%= attribute.name %>_file_name, :desc %>
-<% else -%>
-        <%%= sort_tag :<%= attribute.name %>, :asc %>
-        <%%= sort_tag :<%= attribute.name %>, :desc %>
-<% end -%>
-      </div>
-<% end -%>
-    </div>
+<ul class="row items-list-header">
+  <li class="columns small-6">
+    <%%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%%= sort_column :id, <%= class_name %>.human_attribute_name(:id) %>
   </li>
-  <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
-  <li>
-    <div class="group" data-context="true">
-      <div class="select"><%%= f.check_box :ids, {multiple: true}, <%= singular_table_name %>.id, nil %></div>
-<% for attribute in attributes.first(3) -%>
-<% if attribute.type == :file -%>
-        <div><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></div>
-<% elsif attribute.type =~ /tiny_mce_.*/ -%>
-        <div><%%= raw <%= singular_table_name %>.<%= attribute.name %> %></div>
-<% else -%>
-        <div><%%= <%= singular_table_name %>.<%= attribute.name %> %></div>
-<% end -%>
-<% end -%>
-      <a href="#" data-context-button="true"></a>
-      <div class="options" data-context-target="true">
-        <%%= link_to t('show', scope: [:helpers, :actions]), <%= singular_table_name %>, class: "show", title: t('show', scope: [:helpers, :actions]), target: "_blank" %>
-        <%%= link_to t('edit', scope: [:helpers, :actions]), edit_admin_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit', scope: [:helpers, :actions]) %>
-        <%%= link_to t('destroy', scope: [:helpers, :actions]), [:admin, <%= singular_table_name %>], class: "destroy", title: t('destroy', scope: [:helpers, :actions]), data: { confirm: t('confirm', scope: [:helpers, :actions]), method: :delete } %>
-      </div>
-    </div>
-  </li>
-  <%% end %>
+  <li class="columns small-3"><%%= sort_column :updated_at, <%= class_name %>.human_attribute_name(:updated_at) %></li>
+  <li class="columns small-3"><%%= sort_column :created_at, <%= class_name %>.human_attribute_name(:created_at) %></li>
 </ul>
 
-<%%= f.select :action, <%= class_name %>.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
+<%% if @<%= plural_table_name %>.any? %>
+  <%%=  render 'list' %>
 <%% end %>
-
-<%%= will_paginate @<%= plural_table_name %> %>
-
-
-

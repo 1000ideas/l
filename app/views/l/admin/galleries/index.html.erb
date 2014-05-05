@@ -5,11 +5,10 @@
 
 <%= render 'filter' %>
 
-
 <ul class="row items-list-header">
   <li class="columns small-3">
     <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
-    <%= sort_column :thumbnail, L::Gallery.human_attribute_name(:thumbnail) %>
+    <%= sort_column :thumbnail, L::Gallery.human_attribute_name(:thumbnail), disabled: true %>
   </li>
   <li class="columns small-6"><%= sort_column :name, L::Gallery.human_attribute_name(:name) %></li>
   <li class="columns small-3"><%= sort_column :created_at, L::Gallery.human_attribute_name(:created_at) %></li>

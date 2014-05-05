@@ -1,0 +1,12 @@
+<%%= form_for :selection, url: '#', html: {method: :post} do |f| %>
+  <ul class="items-list">
+    <%%= render partial: '<%= singular_table_name %>', collection: @<%= plural_table_name %>, locals: {f: f} %>
+    <%% unless @<%= plural_table_name %>.next_page.nil? %>
+    <li class="row show-more">
+      <div class="columns small-12 text-center">
+        <%%= link_to t('.more'), url_for(params.merge(page: @<%= plural_table_name %>.next_page)), data: {remote: true, type: :script, disable_with: t('.wait', default: "Loading...")} %>
+      </div>
+    </div>
+    <%% end %>
+  </ul>
+<%% end %>

@@ -1,36 +1,23 @@
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('.title'), admin_newsletter_mails_path) %>
 
 <%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
 <%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
+  <%= render('filter')  %>
 
-<%= form_for :selection, url: [:selection, :admin, :newsletter_mails], html: {method: :post} do |f| %>
-<ul class="items-list one-column" data-page="<%= @newsletter_mail.current_page %>">
-  <li class="header">
-    <div class="group">
-      <div><%= L::NewsletterMail.human_attribute_name :mail %></div>
-    </div>
-  </li>
-  <% @newsletter_mail.each do |news| %>
-  <li>
-    <div class="group" data-context="true">
-      <div class="select"><%= f.check_box :ids, {multiple: true}, news.id, nil %></div>
-      <div><%= news.mail %></div>
-      <a href="#" data-context-button="true"></a>
-      <div class="options" data-context-target="true">
-        <% unless news.confirmed? %>
-        <%= link_to t('helpers.actions.mail_confirm'), confirm_admin_newsletter_mail_path(news), class: "check", title: t('helpers.actions.mail_confirm'), data: {method: :put } %>
-        <% end %>
-        <%= link_to t('helpers.actions.destroy'), admin_newsletter_mail_path(news), class: "destroy", title: t('helpers.actions.destroy'), data: {confirm: t('helpers.actions.confirm'), method: :delete } %>
-      </div>
-    </div>
-  </li>
-  <% end %>
-</ul>
+  <ul class="row items-list-header">
+    <li class="columns small-6">
+      <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+      <%= sort_column :mail, L::NewsletterMail.human_attribute_name(:mail) %>
+    </li>
+    <li class="columns small-3"><%= sort_column :created_at, L::NewsletterMail.human_attribute_name(:created_at) %></li>
+    <li class="columns small-3">&nbsp;</li>
+  </ul>
 
-<%= f.select :action, L::NewsletterMail.mass_actions_for_select(*@mass), include_blank: t('prompt', scope: [:helpers, :mass]) %>
+<% if @newsletter_mail.any? %>
+  <%= render 'list' %>
 <% end %>
 
+<%#= L::NewsletterMail.mass_actions_for_select(*@mass) %>
 
-<%= will_paginate @newsletter_mail %>
+<%#= will_paginate @newsletter_mail %>

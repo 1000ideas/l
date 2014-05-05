@@ -6,3 +6,20 @@
 i.fa {
   font-size: 1.2em;
 }
+
+
+.f-dropdown {
+  li {
+    &.disabled {
+      &:hover, &:focus {
+        background: inherit;
+      }
+
+      span {
+        display: block;
+        padding: $f-dropdown-list-padding;
+        color: $f-dropdown-font-color;
+      }
+    }
+  }
+}

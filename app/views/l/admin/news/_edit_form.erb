@@ -1,16 +1,14 @@
 <%= form_for(@news, url: admin_news_path(@news), method: 'put', html: { multipart: true }) do |f| %>
   <%= render partial: 'l/partials/errors', object: @news.errors %>
-  <div id="form_tabs" class="tabs_container">
+  <div class="locales-tabs">
     <ul>
-      <% k = 0 %>
       <% I18n.available_locales.each do |el| %>
-        <li><a href="#tab<%= k = k+1 %>"><%=  el.to_s  %></a></li>
+        <li><a href="#tab-<%= el %>"><%=  el.to_s  %></a></li>
       <% end %>
     </ul>
 
-    <% i = 0 %>
     <%= f.fields_for :translations do |builder| %>
-      <div id="tab<%= i = i+1 %>" class="group">
+      <div id="tab-<%= builder.object.locale %>" class="group">
         <%= builder.hidden_field :locale %>
         <div class="field">
           <%= builder.label :title %>

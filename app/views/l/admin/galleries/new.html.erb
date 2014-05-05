@@ -1,14 +1,13 @@
 <% content_for :title do t('.title') end %>
-<% breadcrumbs_admin link_to(t('l.admin.galleries.index.title'), admin_galleries_path),
-  link_to(t('.title'), new_admin_gallery_path) %>
 
-<div class="cols-container">
-  <div class="main-column">
+<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
+<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
+
+<div class="row">
+  <div class="columns small-12">
     <%= render 'form' %>
   </div>
-  <div class="tooltip-column">
-    <%= render 'tooltip' %>
+  <div class="columns small-12 text-right">
+    <%= link_to t('helpers.actions.back'), admin_galleries_path, class: 'button tiny secondary' %>
   </div>
 </div>
-
-<%= link_to t('helpers.actions.back'), admin_galleries_path %>

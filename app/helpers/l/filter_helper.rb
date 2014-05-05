@@ -20,7 +20,7 @@ module L
     # Metoda pobierająca porządek sortowania
     #
     # * *Argumenty*:
-    #   
+    #
     #   - +table_name+ - Nazwa tabeli, jeśli chcemy sortować po polu z tabeli
     #     złączonej
     #
@@ -32,10 +32,8 @@ module L
     #
     def sort_order(table_name = nil)
       return '' if params[:sort].blank?
-      regex = %r{^([a-z_]*)_(asc|desc)$}
-      return '' unless params[:sort].match regex
-      name = $1
-      type = $2.upcase
+      name = params[:sort][:column]
+      type = params[:sort][:dir]
       table_name.blank? ? "`#{name}` #{type}" : "`#{table_name}`.`#{name}` #{type}"
     end
 

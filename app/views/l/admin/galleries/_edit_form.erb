@@ -1,48 +1,40 @@
-<div>
-  <%= form_for(@gallery, url: admin_gallery_path(@gallery.id), method: :put) do |f| %>
-    <%= render partial: 'l/partials/errors', object: @gallery.errors %>
-    <div id="form_tabs" class="tabs_container">
-      <ul>
-        <% k = 0 %>
-        <% I18n.available_locales.each do |el| %>
-          <li><a href="#tab<%= k = k+1 %>"><%=  el.to_s  %></a></li>
-        <% end %>
-      </ul>
+<%= form_for(@gallery, url: admin_gallery_path(@gallery.id), method: :put) do |f| %>
+  <%= render partial: 'l/partials/errors', object: @gallery.errors %>
 
-      <% i = 0 %>
-      <%= f.fields_for :translations do |builder| %>
-        <div id="tab<%= i = i+1 %>" class="group">
-          <%= builder.hidden_field :locale %>
-          <div class="field">
-            <%= builder.label :name %>
-            <%= builder.text_field :name %>
-          </div>
-          <div class="field field_with_tinymce">
-            <%= builder.label :content %>
-            <%= builder.tinymce :content %>
-          </div>
-        </div>
+  <div class="locales-tabs">
+    <ul>
+      <% I18n.available_locales.each do |el| %>
+        <li><a href="#tab-<%= el %>"><%=  el.to_s  %></a></li>
       <% end %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-
-    <% end #END FORM %>
-
-    <%= form_tag admin_gallery_photos_url(@gallery, format: :js), method: :post do %>
-    <div class="group upload" id="upload_photo">
-      <%= file_upload_tag :photo, data: {label: t('.upload'), queue: 'upload_photo_queue' } %>
-      <h2><%= t('.upload_queue') %></h2>
-      <div class='queue' id="upload_photo_queue"></div>
-    </div>
-    <div id="show_photos">
-      <%= render partial: "l/admin/gallery_photos/show_photos" %>
-    </div>
+    </ul>
+    <%= f.fields_for :translations do |builder| %>
+      <div id="tab-<%= builder.object.locale %>" class="group">
+        <%= builder.hidden_field :locale %>
+        <div class="field">
+          <%= builder.label :name %>
+          <%= builder.text_field :name %>
+        </div>
+        <div class="field field_with_tinymce">
+          <%= builder.label :content %>
+          <%= builder.tinymce :content %>
+        </div>
+      </div>
     <% end %>
+  </div>
 
+  <div class="actions">
+    <%= f.button %>
+  </div>
 
-  
-  
+<% end #END FORM %>
+
+<%= form_tag admin_gallery_photos_url(@gallery, format: :js), method: :post do %>
+<div class="group upload" id="upload_photo">
+  <%= file_upload_tag :photo, data: {label: t('.upload'), queue: 'upload_photo_queue' } %>
+  <h2><%= t('.upload_queue') %></h2>
+  <div class='queue' id="upload_photo_queue"></div>
 </div>
+<div id="show_photos">
+  <%= render partial: "l/admin/gallery_photos/show_photos" %>
+</div>
+<% end %>

@@ -5,9 +5,6 @@ pl:
     l:
       admin:
         homepage: "Strona główna"
-  filter:
-    filter
-
   l:
     admin:
       title: Panel administratora
@@ -16,7 +13,7 @@ pl:
         edit_homepage: "Edytuj na stronie"
         profile: "Edytuj profil"
         logout: "Wyloguj"
-        logined: "Witaj, %{name}"
+        logined: "%{name}"
       menu:
         dashboard: Dashboard
         users: "Użytkownicy"
@@ -24,6 +21,8 @@ pl:
         news: "Aktualności"
         galleries: "Galerie"
         newsletter: "Newsletter"
+        newsletter_confirmed: "Subskrybenci"
+        newsletter_unconfirmed: "Niepotwierdzone adresy"
         settings: "Ustawienia"
       admin:
         index:
@@ -31,7 +30,6 @@ pl:
           welcome: "Witaj w panelu administracyjnym! Co chcesz zrobić?"
         submenu:
           profile: "Edytuj profil"
-
       users:
         selection:
           destroy:
@@ -129,9 +127,9 @@ pl:
         show_photos:
           photos_added: Dodane zdjęcia
       newsletter_mails:
-        tooltip:
-          head: Uwaga!
-          content: "Słowa kluczowe ważne są i przecinkami należy odzielać je. Pamiętaj o tym kiedy formularz wypełniać będziesz ten."
+        filter:
+          created_before: "Utworzone przed"
+          created_after: "Utworzone po"
         form:
           addresses_list: "Lista użytkowników"
           addresses_list_info: "Wybierz adresy osób, do których zostanie wysłany list."
@@ -271,6 +269,7 @@ pl:
     newsletter: Newsletter
     newsletter_mails: Newsletter
   attributes:
+    id: "Identyfikator"
     created_at: "Data utworzenia"
     updated_at: "Data modyfikacji"
   errors:

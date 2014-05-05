@@ -125,6 +125,8 @@ module L
           filename = "#{view}.html.erb"
           template filename, File.join("app/views/admin", controller_file_path, filename)
         end
+        template "index.js.coffee", File.join("app/views/admin", controller_file_path, "index.js.coffee")
+        template "_object.html.erb", File.join("app/views/admin", controller_file_path, "_#{singular_table_name}.html.erb")
         template "front_index.html.erb", File.join("app/views", controller_file_path, "index.html.erb")
         template "front_show.html.erb", File.join("app/views", controller_file_path, "show.html.erb")
       end
@@ -174,20 +176,21 @@ module L
       end
 
       def add_admin_menu_link
-        link = "<%= admin_menu_link(:#{plural_table_name}) if current_user.admin? %>"
-        inject_into_file "app/views/layouts/l/admin.html.erb",
-          "          #{link}\n",
-          before: %r{^\s*<%= link_to.*root_path.*right.*$},
+        link = <<-CONTENT
+    <li><%= link_to( t('.#{plural_table_name}'), admin_#{index_helper}_path) %></li>
+    <li class="spacer"></li>
+CONTENT
+        inject_into_file "app/views/l/admin/_menu.html.erb",
+          "\n#{link}",
+          after: %r{^\s*<ul class="root">},
           verbose: false
-
         log :insert, link
-
       end
 
       private
 
       def available_admin_views
-        %w(index edit new _filter _form _submenu _tooltip)
+        %w(index edit new _filter _form _submenu _list)
       end
 
       def model_args

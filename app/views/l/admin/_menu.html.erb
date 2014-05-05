@@ -20,8 +20,12 @@
       <%= link_to fa_icon('picture-o fw',text: t('.galleries') ), admin_galleries_path %>
     </li>
     <li class="spacer"></li>
-    <li>
+    <li class="has-submenu">
       <%= link_to fa_icon('envelope-o fw',text: t('.newsletter') ), admin_newsletter_mails_path %>
+      <ul>
+        <li><%= link_to t('.newsletter_confirmed'), admin_newsletter_mails_path %><li>
+        <li><%= link_to t('.newsletter_unconfirmed'), unconfirmed_admin_newsletter_mails_path %><li>
+      </ul>
     </li>
     <li class="spacer"></li>
     <li>

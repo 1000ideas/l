@@ -19,13 +19,13 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
     end
 <% end -%>
 <% end -%>
-    
+
     @<%= plural_table_name %> = @<%= plural_table_name %>.order(sort_order) if sort_results?
     @<%= plural_table_name %> = @<%= plural_table_name %>.all.paginate page: params[:page]
 
     respond_to do |format|
       format.html
-      format.json { render json: @<%= plural_table_name %>}
+      format.js
     end
   end
 
@@ -79,7 +79,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
     @<%= orm_instance.destroy %>
 
     respond_to do |format|
-      format.html { redirect_to :back, notice: info(:success) } 
+      format.html { redirect_to :back, notice: info(:success) }
       format.any  { head :ok }
     end
   end

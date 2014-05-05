@@ -19,7 +19,8 @@ module L
         options.merge!(multiple: true)
         class_name = *options.delete(:class)
         class_name.push :'custom-check-box'
-        label("#{plural_name}_#{object.send(method)}", class: class_name) do
+        tag_value = object.send(method).to_s.gsub(/\s/, "_").gsub(/[^-\w]/, "").downcase
+        label("#{plural_name}_#{tag_value}", class: class_name) do
           [
             check_box(plural_name, options, object.send(method), nil),
             @template.content_tag(:i)
@@ -51,6 +52,7 @@ module L
       title = args.pop || t(name, scope:[:sort_columns], default: name.to_s.titleize)
       direction = :asc
 
+      disabled = options.delete(:disabled) { false }
       class_name = [:sort, *options.delete(:class)].compact
 
       if params[:sort].try(:[], :column).try(:to_sym) == name
@@ -60,8 +62,11 @@ module L
       end
 
       options[:class] = class_name
-
-      link_to title, {sort: {column: name, dir: direction}}, options
+      if disabled
+        link_to title, '#', options
+      else
+        link_to title, {sort: {column: name, dir: direction}}, options
+      end
     end
 
     # Metoda wyświetlajaca przycisk do sortowania, jako +button_tag+.
@@ -76,7 +81,7 @@ module L
     #     pliku +config/locales/pl.yml+.
     def sort_tag(name, type, options = {})
       options = options.reverse_merge({
-        title:I18n.t("sort.#{type.to_s}")
+        title: I18n.t("sort.#{type.to_s}")
       })
 
       class_name = ["sort", *options.delete(:class)]

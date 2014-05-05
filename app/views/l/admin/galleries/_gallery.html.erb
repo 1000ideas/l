@@ -7,10 +7,8 @@
   <div class="columns small-3" data-equalizer-watch><%= l gallery.created_at, format: :long %></div>
   <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
   <ul data-context-target>
-    <li><%= link_to t('helpers.actions.show'), gallery_path(gallery), class: "show", title: t('helpers.actions.show'), target: '_blank' %></li>
-    <li><%= link_to t('helpers.actions.edit'), edit_admin_gallery_path(gallery), class: "edit", title: t('helpers.actions.edit') %></li>
-    <li><%= link_to t('helpers.actions.destroy'), admin_gallery_path(gallery), class: "destroy", title: t('helpers.actions.destroy'),
-          data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
-      </ul>
-    </div>
-  </li>
+    <li><%= link_to fa_icon('search fw', text: t('helpers.actions.show')), gallery_path(gallery), target: '_blank' %></li>
+    <li><%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_gallery_path(gallery) %></li>
+    <li><%= link_to fa_icon('trash-o fw', text: t('helpers.actions.destroy')), admin_gallery_path(gallery), data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
+  </ul>
+</li>
