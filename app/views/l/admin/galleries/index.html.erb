@@ -11,7 +11,7 @@
     <%= sort_column :thumbnail, L::Gallery.human_attribute_name(:thumbnail), disabled: true %>
   </li>
   <li class="columns small-6"><%= sort_column :name, L::Gallery.human_attribute_name(:name) %></li>
-  <li class="columns small-3"><%= sort_column :created_at, L::Gallery.human_attribute_name(:created_at) %></li>
+  <li class="columns small-3"><%= sort_column :updated_at, L::Gallery.human_attribute_name(:updated_at) %></li>
 </ul>
 
 <% if @galleries.any? %>

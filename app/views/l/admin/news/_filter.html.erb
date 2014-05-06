@@ -8,13 +8,13 @@
     <%= f.text_field :title, value: filter(:title) %>
 
     <%= f.label :published_before, t('.published_before')  %>
-    <div class="row collapse">
+    <div class="row collapse input-calendar">
       <div class="columns small-11"><%= f.text_field :published_before, value: filter(:published_before) %></div>
       <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
     </div>
 
     <%= f.label :published_after, t('.published_after')  %>
-    <div class="row collapse">
+    <div class="row collapse input-calendar">
       <div class="columns small-11"><%= f.text_field :published_after, value: filter(:published_after) %></div>
       <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
     </div>

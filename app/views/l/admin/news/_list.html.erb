@@ -6,8 +6,7 @@
       <div class="columns small-12 text-center">
         <%= link_to t('.more'), url_for(params.merge(page: @news.next_page)), data: {remote: true, type: :script, disable_with: t('.wait', default: "Loading...")} %>
       </div>
-    </div>
+    </li>
     <% end %>
-  </ul>
   </ul>
 <% end %>

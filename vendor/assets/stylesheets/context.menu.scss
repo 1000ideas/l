@@ -6,7 +6,7 @@
 
 [data-context-holder] {
   position: absolute;
-  background-color: #fff;
+  background-color: #f2f2f2;
   border: 1px solid #d7d7d7;
   list-style: none;
   margin: 0;
@@ -14,6 +14,7 @@
 
   &.from-button {
     margin: 1.8em 0 0 1.8em;
+    &.dir-up { margin-top: -1px; }
   }
 
   a {

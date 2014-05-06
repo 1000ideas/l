@@ -82,6 +82,7 @@ class LazyAdmin
     @_custom_file_input()
     @_locales_tabs()
     @_fileupload()
+    @_init_data_picker()
 
     $(document).on 'opened', '[data-dropdown-content]', (event, dropdown, target) ->
       if dropdown.hasClass('axis-right')
@@ -96,6 +97,8 @@ class LazyAdmin
         jsp = $(event.target).data('jsp')
         if !jsp? || jsp.isAboutEnd(50)
           $('.show-more a', event.target).click()
+        if jsp?
+          $('.items-list-header').width(jsp.getContentPane().outerWidth())
       .jScrollPane()
 
     $('.left-menu ul.root').jScrollPane()
@@ -112,6 +115,7 @@ class LazyAdmin
       element = $(event.target)
       element.find('.show-more').replaceWith $(content)
       @set_main_content_height()
+
 
   set_main_content_height: ->
     _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
@@ -144,6 +148,27 @@ class LazyAdmin
   action_on_selected: (url, options = {}) ->
     console.log("Not used any more")
     return
+
+  _init_data_picker: ->
+    _init_each_datepicker = ->
+      $('.input-calendar').each ->
+        input = $('input[type=text]', this)
+        return if input.hasClass('hasDatepicker')
+        button = $('a.button', this)
+        input.datepicker()
+        button.click ->
+          input.datepicker('show')
+
+    $(document)
+      .on 'click', '.ui-datepicker, a[data-handler], button[data-handler]', (event) ->
+        event.stopPropagation()
+        event.preventDefault()
+      .ajaxComplete(_init_each_datepicker)
+
+    $.datepicker.setDefaults($.datepicker.regional['pl']);
+    $.datepicker.setDefaults(dateFormat: 'dd/mm/yy');
+    _init_each_datepicker()
+
 
   _selection_actions: ->
     $('form select#selection_action').on 'change', (event) ->

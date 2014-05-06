@@ -4,7 +4,7 @@
     <%= image_tag(gallery.thumbnail, alt: gallery.name) unless gallery.thumbnail.nil? %>
   </div>
   <div class="columns small-6" data-equalizer-watch><%= gallery.name %></div>
-  <div class="columns small-3" data-equalizer-watch><%= l gallery.created_at, format: :long %></div>
+  <div class="columns small-3" data-equalizer-watch><%= l gallery.updated_at, format: :long %></div>
   <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
   <ul data-context-target>
     <li><%= link_to fa_icon('search fw', text: t('helpers.actions.show')), gallery_path(gallery), target: '_blank' %></li>

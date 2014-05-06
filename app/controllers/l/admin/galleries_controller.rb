@@ -10,13 +10,16 @@ module L::Admin
     # *GET* /galleries
     #
     def index
+      authorize! :manage, L::Gallery
+
       @galleries = L::Gallery
-        .ordered
-        .paginate page: params[:page]
-      authorize! :menage, L::Gallery
+        .filter(params[:filter])
+      @galleries = @galleries.order(sort_order) if sort_results?
+      @galleries = @galleries.paginate(page: params[:page])
 
       respond_to do |format|
         format.html
+        format.js
       end
     end
 
@@ -95,13 +98,13 @@ module L::Admin
       authorize! :destroy, @gallery
 
       @gallery.destroy
-      
+
       respond_to do |format|
         format.html { redirect_to(admin_galleries_path) }
       end
     end
 
-    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach.
     # Wymagane parametry to selection[ids] oraz selection[action].
     #
     # *POST* /admin/galleries/selection

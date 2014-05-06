@@ -44,6 +44,10 @@ module L
       self.photo.clear if value.to_i == 1
     end
 
+    def published_at_date
+      I18n.l((published_at || created_at).to_date, format: :edit)
+    end
+
     # Metoda pobierająca n pierwszych newsów innych od tej wiadomości.
     #
     # * *Argumenty*:

@@ -25,8 +25,8 @@ module L
       format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
 
     scope :filter_by_mail, lambda{|title| where("`#{table_name}`.`mail` LIKE ?", "%#{title}%")}
-    scope :filter_by_published_before, lambda{|date| where("`#{table_name}`.`created_at` < ?", Date.parse(date))}
-    scope :filter_by_published_after, lambda{|date| where("`#{table_name}`.`created_at` > ?", Date.parse(date))}
+    scope :filter_by_created_before, lambda{|date| where("`#{table_name}`.`created_at` < ?", Date.parse(date))}
+    scope :filter_by_created_after, lambda{|date| where("`#{table_name}`.`created_at` > ?", Date.parse(date))}
 
     # Metoda klasy pozwalająca potwierdzić adres email z użyciem tokena.
     #

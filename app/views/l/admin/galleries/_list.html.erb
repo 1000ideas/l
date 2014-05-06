@@ -1,5 +1,12 @@
 <%= form_for :selection, url: '#', html: {method: :post} do |f| %>
   <ul class="items-list">
     <%= render partial: 'gallery', collection: @galleries, locals: {f: f} %>
+    <% unless @galleries.next_page.nil? %>
+    <li class="row show-more">
+      <div class="columns small-12 text-center">
+        <%= link_to t('.more'), url_for(params.merge(page: @galleries.next_page)), data: {remote: true, type: :script, disable_with: t('.wait', default: "Loading...")} %>
+      </div>
+    </li>
+    <% end %>
   </ul>
 <% end %>

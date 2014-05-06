@@ -6,7 +6,7 @@ module L::Admin
   # usuwanie osób z listy.
   #
   class NewsletterMailsController < AdminController
-    
+
     # Akcja wyświetlająca liste zapisanych i potwierdzonych adresów email.
     # Dostępna tylko dla administratora.
     #
@@ -24,7 +24,14 @@ module L::Admin
         @newsletter_mail = @newsletter_mail.confirmed
       end
 
-      @newsletter_mail = @newsletter_mail.paginate page: params[:page]
+      @newsletter_mail = @newsletter_mail
+        .filter(params[:filter])
+        .paginate page: params[:page]
+
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     # Akcja wyświetlająca formularz nowego listu newslettera. Dostępna tylko
@@ -96,7 +103,7 @@ module L::Admin
     end
 
 
-    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach.
     # Wymagane parametry to selection[ids] oraz selection[action].
     #
     # *POST* /admin/newsletter_mail/selection

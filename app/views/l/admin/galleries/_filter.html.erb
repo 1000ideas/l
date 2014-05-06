@@ -1,4 +1,4 @@
-<%= form_for :filter, url: admin_news_index_path, html: {method: :get, class: 'filter-form'} do |f| %>
+<%= form_for :filter, url: admin_galleries_path, html: {method: :get, class: 'filter-form'} do |f| %>
   <%= link_to '#', data: {dropdown: 'filter-dropdown'} do %>
     <%= t('.open_filters', default: :'defaults.filter.open_filters') %>
     <%= fa_icon 'caret-down' %>
@@ -7,9 +7,22 @@
     <%= f.label :name, L::Gallery.human_attribute_name(:name)  %>
     <%= f.text_field :name, value: filter(:name) %>
 
+    <%= f.label :updated_before, t('.updated_before')  %>
+    <div class="row collapse input-calendar">
+      <div class="columns small-11"><%= f.text_field :updated_before, value: filter(:updated_before) %></div>
+      <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+    </div>
+
+    <%= f.label :updated_after, t('.updated_after')  %>
+    <div class="row collapse input-calendar">
+      <div class="columns small-11"><%= f.text_field :updated_after, value: filter(:updated_after) %></div>
+      <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+    </div>
+
+
     <div class="buttons text-right">
       <%= f.button t('.filter', default: :'defaults.filter.filter'), class: 'button tiny secondary round' %>
-      <%= link_to t('.clear', default: :'defaults.filter.clear'), admin_news_index_path, class: 'button tiny secondary round' %>
+      <%= link_to t('.clear', default: :'defaults.filter.clear'), admin_galleries_path, class: 'button tiny secondary round' %>
     </div>
   </fieldset>
 <% end %>

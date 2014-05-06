@@ -16,7 +16,7 @@ module L
   class Gallery < ActiveRecord::Base
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
     self.per_page = 10
-    
+
     has_many :gallery_photos, :dependent => :destroy
     attr_accessible :name, :content, :translations_attributes
 
@@ -24,6 +24,10 @@ module L
 
     translates :name, :content
     accepts_nested_attributes_for :translations
+
+    scope :filter_by_name, lambda{|name| where("`#{translations_table_name}`.`name` LIKE ?", "%#{title}%")}
+    scope :filter_by_updated_before, lambda{|date| where("`#{table_name}`.`updated_at` < ?", Date.parse(date))}
+    scope :filter_by_updated_after, lambda{|date| where("`#{table_name}`.`updated_at` > ?", Date.parse(date))}
 
     # Metoda pobierajaca link to miniatury galerii (do pierwszego dodanego
     # obrazka).

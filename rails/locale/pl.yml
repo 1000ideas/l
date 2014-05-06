@@ -98,9 +98,9 @@ pl:
         index:
           title: Aktualności
       galleries:
-        tooltip:
-          head: Uwaga!
-          content: "Słowa kluczowe ważne są i przecinkami należy odzielać je. Pamiętaj o tym kiedy formularz wypełniać będziesz ten."
+        filter:
+          updated_before: "Modyfikowane przed"
+          updated_after: "Modyfikowane po"
         submenu:
           new: Dodaj galerię
           index: Lista galerii
@@ -128,8 +128,8 @@ pl:
           photos_added: Dodane zdjęcia
       newsletter_mails:
         filter:
-          created_before: "Utworzone przed"
-          created_after: "Utworzone po"
+          created_before: "Zapisani przed"
+          created_after: "Zapisani po"
         form:
           addresses_list: "Lista użytkowników"
           addresses_list_info: "Wybierz adresy osób, do których zostanie wysłany list."
@@ -268,6 +268,15 @@ pl:
     galleries: Galerie
     newsletter: Newsletter
     newsletter_mails: Newsletter
+  date:
+    formats:
+      edit: '%d/%m/%Y'
+  time:
+    formats:
+      edit: '%d/%m/%Y %H:%M'
+  datetime:
+    formats:
+      edit: '%d/%m/%Y %H:%M'
   attributes:
     id: "Identyfikator"
     created_at: "Data utworzenia"
@@ -305,6 +314,7 @@ pl:
         photo_delete: Usuń zdjęcie
         photo_content_type: Zdjęcie
         published_at: Data publikacji
+        published_at_date: Data publikacji
       l/news/translation:
         title: Tytuł
         content: Treść
@@ -320,6 +330,7 @@ pl:
         photo: Zdjęcie
       l/newsletter_mail:
         mail: Adres e-mail
+        created_at: "Data zapisania"
       models:
         l/page:
           attributes:
