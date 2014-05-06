@@ -114,6 +114,7 @@ class LazyAdmin
     $(document).on 'append-next-page', (event, content) =>
       element = $(event.target)
       element.find('.show-more').replaceWith $(content)
+      element.foundation()
       @set_main_content_height()
 
 
@@ -140,8 +141,6 @@ class LazyAdmin
 
     $('.submenu li.show-more').toggle(elements.length > 0)
 
-
-
   loader: ->
     Loader
 
@@ -165,7 +164,8 @@ class LazyAdmin
         event.preventDefault()
       .ajaxComplete(_init_each_datepicker)
 
-    $.datepicker.setDefaults($.datepicker.regional['pl']);
+    lang = $('html').attr('lang') ? 'pl'
+    $.datepicker.setDefaults($.datepicker.regional[lang]);
     $.datepicker.setDefaults(dateFormat: 'dd/mm/yy');
     _init_each_datepicker()
 
