@@ -21,7 +21,7 @@ class Loader
 
 class LazyAdmin
   constructor: ->
-    @_selection_actions()
+    @_init_selection()
     @_custom_file_input()
     @_locales_tabs()
     @_fileupload()
@@ -58,12 +58,21 @@ class LazyAdmin
       $(event.currentTarget).parent().toggleClass('opened')
 
     $(document).on 'append-next-page', (event, content) =>
+      all_selected = @all_selected()
       element = $(event.target)
       element.find('.show-more').replaceWith $(content)
       element.foundation()
       @set_main_content_height()
+      if all_selected
+        $('.items-list input[type=checkbox]').each (idx, el) ->
+          $(el)
+            .prop('checked', true)
+            .trigger('change', [true])
+        @selection_changed()
+
 
     @_sortable_list()
+
 
   set_main_content_height: ->
     _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
@@ -116,17 +125,47 @@ class LazyAdmin
     $.datepicker.setDefaults(dateFormat: 'dd/mm/yy');
     _init_each_datepicker()
 
+  selection_changed: (el) ->
+    select_all = $('#selection_all_ids').closest('.custom-check-box')
+    if @all_selected()
+      select_all.removeClass('unknown').addClass('checked')
+    else if @any_selected()
+      select_all.removeClass('checked').addClass('unknown')
+    else
+      select_all.removeClass('checked').removeClass('unknown')
 
-  _selection_actions: ->
-    $('form select#selection_action').on 'change', (event) ->
-      ids = []
-      for obj in $(this.form).serializeArray()
-        if obj.name == 'selection[ids][]'
-          ids.push obj.value
-      if ids.length > 0 and $(this).val().length > 0
-        $(this.form).submit()
+  selected: ->
+    $('.items-list input[type=checkbox]:checked').map (idx, el) ->
+      el.value
+
+  unselected: ->
+    $('.items-list input[type=checkbox]:not(:checked)').map (idx, el) ->
+      el.value
+
+  all_selected: ->
+    @selected().length > 0 and @unselected().length == 0
+
+  any_selected: ->
+    @selected().length > 0
+
+  _init_selection: ->
+    $(document).on 'change', '.items-list input[type=checkbox]', (event, mute) =>
+      el = $(event.currentTarget)
+      @selection_changed(el) unless mute == true
+
+    $(document).on 'click', '#selection_all_ids', (event) =>
+      event.preventDefault();
+      if @any_selected()
+        $('.items-list input[type=checkbox]:checked').each (idx, el) ->
+          $(el)
+            .prop('checked', false)
+            .trigger('change', [true])
       else
-        $(this).val('')
+        $('.items-list input[type=checkbox]').each (idx, el) ->
+          $(el)
+            .prop('checked', true)
+            .trigger('change', [true])
+      @selection_changed()
 
   _sortable_list: ->
     group = $('.items-list[data-sortable-update]:not(.filtered) .jspPane')
