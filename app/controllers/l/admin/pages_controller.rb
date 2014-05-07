@@ -136,26 +136,14 @@ module L::Admin
       end
     end
 
-    # Akcja pozwalająca zamienić kolejność stron. A dokładnie wstawić stronę
-    # za inną stroną w kolejności.
+    # Akcja aktualizująca kolejność i zagnieżdżenie stron. Wymagany parametr
+    # :tree zawierający zserializowaną listę/drzewo z pluginu jquery-sortable.
     #
-    # *POST* /pages/1/after/2
+    # *PUT* /pages/sort
     #
-    def after
-      target_page = L::Page.find(params[:target_id])
-      page = L::Page.find(params[:id])
-      authorize! :update, page
-
-      if page.put_after(target_page)
-        head :ok
-      else
-        render json: page.errors.full_messages, status: :unprocessable_entity
-      end
-    end
-
     def sort
       authorize! :update, L::Page
-      if L::Page.update_positions(params[:tree])
+      if L::Page.update_positions(params.fetch(:tree, {}))
         head :ok
       else
         head :unprocessable_entity

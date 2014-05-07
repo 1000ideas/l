@@ -42,7 +42,9 @@ class LazyAdmin
         if !jsp? || jsp.isAboutEnd(50)
           $('.show-more a', event.target).click()
         if jsp?
-          $('.items-list-header').width(jsp.getContentPane().outerWidth())
+          if (padding = $('.items-list-header').width() - jsp.getContentPane().outerWidth()) > 0
+            $('.items-list-header').css('paddingRight': padding)
+
       .jScrollPane()
 
     $('.left-menu ul.root').jScrollPane()
