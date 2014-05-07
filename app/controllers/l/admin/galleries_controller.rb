@@ -13,8 +13,9 @@ module L::Admin
       authorize! :manage, L::Gallery
 
       @galleries = L::Gallery
+        .with_translations
         .filter(params[:filter])
-      @galleries = @galleries.order(sort_order) if sort_results?
+      @galleries = @galleries.order(sort_order(:galleries)) if sort_results?
       @galleries = @galleries.paginate(page: params[:page])
 
       respond_to do |format|

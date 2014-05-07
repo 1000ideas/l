@@ -25,7 +25,7 @@ module L
     translates :name, :content
     accepts_nested_attributes_for :translations
 
-    scope :filter_by_name, lambda{|name| where("`#{translations_table_name}`.`name` LIKE ?", "%#{title}%")}
+    scope :filter_by_name, lambda{|name| where("`#{translations_table_name}`.`name` LIKE ?", "%#{name}%")}
     scope :filter_by_updated_before, lambda{|date| where("`#{table_name}`.`updated_at` < ?", Date.parse(date))}
     scope :filter_by_updated_after, lambda{|date| where("`#{table_name}`.`updated_at` > ?", Date.parse(date))}
 

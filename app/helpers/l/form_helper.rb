@@ -66,7 +66,7 @@ module L
       filter = params[:filter]
 
       if disabled
-        link_to title, '#', options
+        content_tag(:span, title, options)
       else
         link_to title, {sort: {column: name, dir: direction}, filter: filter}, options
       end

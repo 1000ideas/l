@@ -184,33 +184,35 @@
           padding-right: 2rem;
         }
 
-        > a {
+        .sort {
           display: inline-block;
+          color: lighten($body-font-color, 20%);
           vertical-align: middle;
           line-height: 2em;
           margin: .3em 0;
 
-          &.sort {
-            color: lighten($body-font-color, 20%);
-
-            &:hover, &:focus {
-              color: lighten($body-font-color, 10%);
+          &.current {
+            &:after {
+              font-family: FontAwesome;
+              margin-left: .3em;
             }
-            &.current {
-              &:after {
-                font-family: FontAwesome;
-                margin-left: .3em;
-              }
 
-              &.asc:after {
-                content: '\f0d7';
-              }
+            &.asc:after {
+              content: '\f0d7';
+            }
 
-              &.desc:after {
-                content: '\f0d8';
-              }
+            &.desc:after {
+              content: '\f0d8';
             }
           }
+        }
+        > a {
+
+
+          &:hover, &:focus {
+            color: lighten($body-font-color, 10%);
+          }
+
         }
       }
 

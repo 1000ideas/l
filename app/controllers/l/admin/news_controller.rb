@@ -16,8 +16,8 @@ module L::Admin
       @news = L::News
         .with_translations
         .filter(params[:filter])
-        .ordered
-        .paginate page: params[:page]
+      @news = @news.order(sort_order(:news)) if sort_results?
+      @news = @news.paginate page: params[:page]
 
       respond_to do |format|
         format.html

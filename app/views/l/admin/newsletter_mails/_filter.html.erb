@@ -1,7 +1,12 @@
 <%= form_for :filter, url: '', html: {method: :get, class: 'filter-form'} do |f| %>
   <%= link_to '#', data: {dropdown: 'filter-dropdown'} do %>
-    <%= t('.open_filters', default: :'defaults.filter.open_filters') %>
-    <%= fa_icon 'caret-down' %>
+    <% if filtering? %>
+      <%= fa_icon('check-circle fw')  %>
+      <%= t('.edit_filters', default: :'defaults.filter.edit_filters') %>
+    <% else %>
+      <%= t('.open_filters', default: :'defaults.filter.open_filters') %>
+    <% end %>
+    <%= fa_icon 'caret-down', class: 'arrow' %>
   <% end %>
   <fieldset class="f-dropdown content medium axis-right" id="filter-dropdown" data-dropdown-content>
     <%= f.label :mail, L::NewsletterMail.human_attribute_name(:mail)  %>
