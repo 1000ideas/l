@@ -17,6 +17,12 @@ module L
       params[:filter][name] unless params[:filter].blank?
     end
 
+    def filtering?
+      params[:filter].try(:any?) do |key, value|
+        !value.blank?
+      end
+    end
+
     # Metoda pobierająca porządek sortowania
     #
     # * *Argumenty*:

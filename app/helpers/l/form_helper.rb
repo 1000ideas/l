@@ -62,10 +62,13 @@ module L
       end
 
       options[:class] = class_name
+
+      filter = params[:filter]
+
       if disabled
         link_to title, '#', options
       else
-        link_to title, {sort: {column: name, dir: direction}}, options
+        link_to title, {sort: {column: name, dir: direction}, filter: filter}, options
       end
     end
 

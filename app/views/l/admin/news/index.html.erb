@@ -11,7 +11,7 @@
     <%= sort_column :title, L::News.human_attribute_name(:title) %>
   </li>
   <li class="columns small-3"><%= sort_column :published_at, L::News.human_attribute_name(:published_at) %></li>
-  <li class="columns small-3">&nbsp;</li>
+  <li class="columns small-3"><%= sort_column :updated_at, L::News.human_attribute_name(:updated_at) %></li>
 </ul>
 
 <% if @news.any? %>

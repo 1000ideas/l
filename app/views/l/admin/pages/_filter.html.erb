@@ -1,0 +1,35 @@
+<%= form_for :filter, url: admin_pages_path, html: {method: :get, class: 'filter-form'} do |f| %>
+  <%= link_to '#', data: {dropdown: 'filter-dropdown'} do %>
+    <% if filtering? %>
+      <%= fa_icon('check-circle fw')  %>
+      <%= t('.edit_filters', default: :'defaults.filter.edit_filters') %>
+    <% else %>
+      <%= t('.open_filters', default: :'defaults.filter.open_filters') %>
+    <% end %>
+    <%= fa_icon 'caret-down', class: 'arrow' %>
+  <% end %>
+  <fieldset class="f-dropdown content medium axis-right" id="filter-dropdown" data-dropdown-content>
+    <%= f.label :title, L::Page.human_attribute_name(:title)  %>
+    <%= f.text_field :title, value: filter(:title) %>
+
+    <%= f.label :content, L::Page.human_attribute_name(:content)  %>
+    <%= f.text_field :content, value: filter(:content) %>
+
+    <%= f.label :created_before, t('.created_before')  %>
+    <div class="row collapse input-calendar">
+      <div class="columns small-11"><%= f.text_field :created_before, value: filter(:created_before) %></div>
+      <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+    </div>
+
+    <%= f.label :created_after, t('.created_after')  %>
+    <div class="row collapse input-calendar">
+      <div class="columns small-11"><%= f.text_field :created_after, value: filter(:created_after) %></div>
+      <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+    </div>
+
+    <div class="buttons text-right">
+      <%= f.button t('.filter', default: :'defaults.filter.filter'), class: 'button tiny secondary round' %>
+      <%= link_to t('.clear', default: :'defaults.filter.clear'), admin_pages_path, class: 'button tiny secondary round' %>
+    </div>
+  </fieldset>
+<% end %>

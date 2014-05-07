@@ -1,13 +1,10 @@
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('l.admin.pages.index.title'), admin_pages_path), link_to(t('.title'), edit_admin_page_path(@page) ) %>
 
-<div class="cols-container">
-  <div class="main-column">
+<div class="row">
+  <div class="columns small-12">
     <%= render 'edit_form' %>
   </div>
-  <div class="tooltip-column">
-    <%= render 'tooltip' %>
+  <div class="columns small-12 text-right">
+    <%= link_to t('helpers.actions.back'), admin_pages_path, class: 'button tiny secondary' %>
   </div>
 </div>
-
-<%= link_to t('helpers.actions.back'), admin_pages_path %>

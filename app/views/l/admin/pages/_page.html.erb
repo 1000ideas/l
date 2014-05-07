@@ -1,0 +1,38 @@
+<li class="row" data-context data-id="<%= page.id %>">
+  <div class="columns small-4"  data-equalizer-watch>
+    <a href="#" data-sort-handle><%= fa_icon('ellipsis-v fw') %></a>
+    <%= f.select_box :id, page %>
+    <%= page.title %>
+  </div>
+  <div class="columns small-2" data-equalizer-watch>
+    <%= page.url %>
+  </div>
+  <div class="columns small-3" data-equalizer-watch>
+    <%= l page.created_at, format: :short %>
+  </div>
+  <div class="columns small-3" data-equalizer-watch>
+    <%= l page.created_at, format: :short %>
+    <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
+  </div>
+
+  <ul data-context-target>
+    <% if page.hidden_flag? %>
+      <li><%= link_to t('helpers.actions.unhide'), unhide_admin_page_path(page), class: "unhide", title: t('helpers.actions.unhide') %></li>
+    <% else %>
+      <li><%= link_to t('helpers.actions.hide'), hide_admin_page_path(page), class: "hide", title: t('helpers.actions.hide') %></li>
+    <% end %>
+
+    <li><%= link_to t('helpers.actions.show'), admin_page_path(page), class: "show", title: t('helpers.actions.show'), target: '_blank' %></li>
+    <li><%= link_to t('helpers.actions.edit'), edit_admin_page_path(page), class: "edit", title: t('helpers.actions.edit') %></li>
+    <li><%= link_to t('helpers.actions.destroy'), admin_page_path(page), class: "destroy", title: t('helpers.actions.destroy'), data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
+  </ul>
+  <% unless filtering? %>
+  <ul class="children columns small-12">
+    <% if page.children.any? %>
+      <% page.children.ordered.each do |p| %>
+        <%= render 'page', page: p, f: f %>
+      <% end %>
+    <% end %>
+  </ul>
+  <% end %>
+</li>

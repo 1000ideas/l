@@ -4,8 +4,10 @@
     <%= user.email %>
   </div>
   <div class="columns small-3"><%= user.human_role %></div>
-  <div class="columns small-3 end">&nbsp;</div>
-  <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
+  <div class="columns small-3 end">
+    <%= l user.created_at, format: :short %>
+    <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
+  </div>
   <ul data-context-target>
     <li><%= link_to fa_icon('edit fw', text: t('.edit')), edit_admin_user_path(user) %></li>
     <li><%= link_to fa_icon('trash-o fw', text: t('.destroy')), admin_user_path(user), data: {confirm: t('.confirm', default: 'Sure?'), method: :delete } %></li>

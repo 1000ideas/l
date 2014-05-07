@@ -162,7 +162,7 @@
         display: inline-block;
         line-height: 2em;
         margin: .3em 0;
-        .fa {
+        .fa.arrow {
           margin: 0 1em 0 .5em;
         }
 
@@ -222,10 +222,70 @@
       list-style: none;
       overflow-y: auto;
 
+      &.sortable {
+        background-color: #f2f2f2;
+        li.row {
+          margin-top: 1em;
+          margin-bottom: 1em;
+
+          a[data-sort-handle] {
+            display: block;
+          }
+        }
+
+      }
+
       li.row {
         border-bottom: 1px solid #eee;
 
+        ul.children {
+          list-style: none;
+          clear: both;
+          padding: 0 0 0 3.2em;
+          margin: 0;
+          min-height: 1px;
+          position: static;
+
+          > li.row {
+            border-top: 1px solid #eee;
+            border-bottom: 0;
+            margin: 0;
+            > div:first-child {
+              padding-left: 1.6rem;
+            }
+          }
+        }
+
+        a[data-sort-handle] {
+          display: none;
+          position: absolute;
+          color: #fff;
+          background-color: $primary-color;
+          top: 0;
+          left: 0;
+          height: 100%;
+          // padding: 0 .2em;
+          white-space: nowrap;
+          z-index: 1;
+
+          .fa { vertical-align: middle; width: .6em; }
+
+          &:after {
+            content: '';
+            height: 100%;
+            vertical-align: middle;
+            display: inline-block;
+            width: 0;
+            margin-left: -1px;
+          }
+        }
+
         > div {
+          background-color: #fff;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
           &:after {
             content: '';
             height: 100%;
@@ -235,7 +295,8 @@
           }
 
           line-height: 2rem;
-          margin: .6em 0;
+          padding-top: .6em;
+          padding-bottom: .6em;
 
 
           &.columns.end {

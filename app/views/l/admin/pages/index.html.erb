@@ -1,20 +1,25 @@
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('.title'), admin_pages_path) %>
 
 <%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
 <%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
 
-<%= form_for :selection, url: [:selection, :admin, :pages], html: {method: :post} do |f| %>
-<ul class="items-list two-columns sortable" data-url="<%= after_admin_page_path(id: ':id', target_id: ':target_id') %>">
-  <li class="header">
-    <div class="group">
-      <div><%= L::Page.human_attribute_name :title %></div>
-      <div><%= L::Page.human_attribute_name :url %></div>
-    </div>
+<%= render 'filter' %>
+
+<ul class="row items-list-header">
+  <li class="columns small-4">
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= sort_column :title, L::Page.human_attribute_name(:title), disabled: !filtering? %>
   </li>
-  <% @pages.each do |page| %>
-    <%= render 'page_list_item', page: page, f: f %>
-  <% end %>
+  <li class="columns small-2"><%= sort_column :url, L::Page.human_attribute_name(:url), disabled: !filtering? %></li>
+  <li class="columns small-3"><%= sort_column :updated_at, L::Page.human_attribute_name(:updated_at), disabled: !filtering? %></li>
+  <li class="columns small-3"><%= sort_column :created_at, L::Page.human_attribute_name(:created_at), disabled: !filtering? %></li>
 </ul>
-<%= f.select :action, L::Page.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>
+
+
+<%= form_for :selection, url: '#', html: {method: :post} do |f| %>
+  <ul class="items-list <%= 'filtered' if filtering? %>" data-sortable-update="<%= sort_admin_pages_path %>">
+    <%= render partial: 'page', collection: @pages, locals: {f: f} %>
+  </ul>
 <% end %>
+
+<%#= f.select :action, L::Page.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>

@@ -11,7 +11,7 @@
     <%= sort_column :email, User.human_attribute_name(:email) %>
   </li>
   <li class="columns small-3"><%= sort_column :role, User.human_attribute_name(:role) %></li>
-  <li class="columns small-3">&nbsp;</li>
+  <li class="columns small-3"><%= sort_column :created_at, User.human_attribute_name(:created_at) %></li>
 </ul>
 
 <% if @users.any? %>

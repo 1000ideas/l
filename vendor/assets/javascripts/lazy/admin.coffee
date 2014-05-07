@@ -19,66 +19,9 @@ class Loader
   hide: ->
     @loader.fadeOut()
 
-
-class Sortable
-  constructor: (options = {})->
-    return if $('ul.items-list.sortable').length == 0
-
-    url = '' + $('ul.items-list.sortable').first().data('url')
-
-    if url.length == 0
-      throw "Element ul.sortable must have data-url."
-
-    if url.indexOf(':id') < 0 || url.indexOf(':target_id') < 0
-      throw "Url '#{url}' has to have :id and :target_id placeholders."
-
-    $("ul.items-list.sortable li:not(.header)").draggable appendTo: 'body',
-      revert: 'invalid',
-      cursor: 'move',
-      cancel: '[data-context-button]'
-
-    $("ul.items-list.sortable li:not(.header)").droppable hoverClass: 'ui-state-hover',
-      greedy: true,
-      drop: (event, ui) ->
-
-        object = $(ui.draggable)
-        id = object.find('input[type=checkbox]').val()
-
-        target = $(this)
-        target_id = target.find('input[type=checkbox]').val()
-
-        action_url = url
-          .replace(':id', id)
-          .replace(':target_id', target_id)
-
-        Loader.show()
-
-        $.post(action_url, (data) ->
-          object.insertAfter(target)
-        )
-        .fail( (jqXHR, textStatus) ->
-          text = if jqXHR.responseJSON?
-            jqXHR.responseJSON.join('. ')
-          else
-            "Network error"
-
-          $('#notice')
-            .html(text)
-            .show()
-          setTimeout ->
-            $('#notice').fadeOut(3000);
-          , 3000
-        )
-        .always( ->
-          object.css(top: '', left: '')
-          Loader.hide()
-        )
-
 class LazyAdmin
   constructor: ->
-    @_sortable_list()
     @_selection_actions()
-    # @_custom_select()
     @_custom_file_input()
     @_locales_tabs()
     @_fileupload()
@@ -88,6 +31,7 @@ class LazyAdmin
       if dropdown.hasClass('axis-right')
         _left = dropdown.position().left + target.outerWidth() - dropdown.outerWidth()
         dropdown.css(left: _left)
+
     @submenu_hidden_buttons()
     @set_main_content_height()
 
@@ -117,6 +61,7 @@ class LazyAdmin
       element.foundation()
       @set_main_content_height()
 
+    @_sortable_list()
 
   set_main_content_height: ->
     _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
@@ -182,7 +127,35 @@ class LazyAdmin
         $(this).val('')
 
   _sortable_list: ->
-    @_sortable = new Sortable()
+    group = $('.items-list[data-sortable-update]:not(.filtered) .jspPane')
+      .sortable
+        nested: true
+        group: 'items'
+        handle: 'a[data-sort-handle]'
+        # tolerance: -10
+        containerSelector: 'ul.children, .jspPane'
+        onDrop: (item, container, _super) ->
+          _super(item, container)
+          if (jsp = group.closest('.jspScrollable').data('jsp'))?
+            jsp.reinitialise()
+
+          try
+            url = group.closest('[data-sortable-update]').data('sortable-update')
+            object = {
+              tree: group.sortable('serialize').get(0)
+              _method: 'PUT'
+            }
+            $.ajax
+              url: url
+              data: object
+              type: 'POST'
+              dataType: 'script'
+            true
+          catch error
+            false
+
+    $('.items-list[data-sortable-update]:not(.filtered)').addClass('sortable')
+
 
   _locales_tabs: ->
     $('.locales-tabs').each ->

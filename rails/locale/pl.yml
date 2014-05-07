@@ -183,6 +183,7 @@ pl:
       filter: "Filtruj"
       clear: "Wyczyść"
       open_filters: "Otwórz filtry"
+      edit_filters: "Zmień filtry"
   helpers:
     status:
       hide:

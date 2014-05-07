@@ -33,8 +33,8 @@ module L
     accepts_nested_attributes_for :translations
 
     scope :filter_by_title, lambda{|title| where("`#{translations_table_name}`.`title` LIKE ?", "%#{title}%")}
-    scope :filter_by_published_before, lambda{|date| where("`#{table_name}`.`created_at` < ?", Date.parse(date))}
-    scope :filter_by_published_after, lambda{|date| where("`#{table_name}`.`created_at` > ?", Date.parse(date))}
+    scope :filter_by_published_before, lambda{|date| where("`#{table_name}`.`published_at` < ?", Date.parse(date))}
+    scope :filter_by_published_after, lambda{|date| where("`#{table_name}`.`published_at` > ?", Date.parse(date))}
 
     def photo_delete # :nodoc:
       false
@@ -44,9 +44,14 @@ module L
       self.photo.clear if value.to_i == 1
     end
 
+    def published_at
+      super || created_at
+    end
+
     def published_at_date
       I18n.l((published_at || created_at).to_date, format: :edit)
     end
+
 
     # Metoda pobierająca n pierwszych newsów innych od tej wiadomości.
     #

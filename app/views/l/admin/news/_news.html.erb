@@ -4,10 +4,12 @@
     <%= news.title %>
   </div>
   <div class="columns small-3">
-    <%= l news.created_at.to_date, format: :long %>
+    <%= l news.published_at, format: :long %>
   </div>
-  <div class="columns small-3">&nbsp;</div>
-  <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
+  <div class="columns small-3">
+    <%= l news.updated_at, format: :long %>
+    <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
+  </div>
   <ul data-context-target>
     <li><%= link_to t('helpers.actions.show'), admin_news_path(news), class: "show", title: t('helpers.actions.show'), target: '_blank' %></li>
     <li><%= link_to t('helpers.actions.edit'), edit_admin_news_path(news), class: "edit", title: t('helpers.actions.edit') %></li>

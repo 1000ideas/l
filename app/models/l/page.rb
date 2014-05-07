@@ -11,7 +11,7 @@ module L
   #   - +position+ - pozycja w danej gałęzi drzewa
   #   - +parent_id+ - ID strony nadrzędnej
   #   - +hidden_flag+ - flaga określająca czy strona jest ukryta
-  #   
+  #
   # * *Relacje*:
   #
   #   - <tt>belongs_to :parent</tt> - (Page) strona nadrzędna
@@ -31,7 +31,7 @@ module L
     accepts_nested_attributes_for :translations
 
     acts_as_tree
-  
+
     after_save :set_default_position
 
     sortable :position, scope: :parent_id
@@ -40,12 +40,18 @@ module L
     define_perform_action(:hide) { update_all(hidden_flag: 1) }
     define_perform_action(:unhide) { update_all(hidden_flag: 0) }
 
+    scope :filter_by_title, lambda{|title| where("`#{translations_table_name}`.`title` LIKE ?", "%#{title}%")}
+    scope :filter_by_content, lambda{|content| where("`#{translations_table_name}`.`content` LIKE ?", "%#{content}%")}
+    scope :filter_by_created_before, lambda{|date| where("`#{table_name}`.`created_at` < ?", Date.parse(date))}
+    scope :filter_by_created_after, lambda{|date| where("`#{table_name}`.`created_at` > ?", Date.parse(date))}
+
+
 
     # Strony podrzędne które nie są ukryte.
     def unhidden_children
       self.children.where(hidden_flag: false)
     end
-    
+
     # Metoda wyszukująca stron pasujący do podane frazy. Wyszukiwanie odbywa
     # się wg. atrybutów +title+ i +content+. Przy wyszukiwaniu uwzglądniany
     # jest aktualnie wybrany język. Mozna również określić czy wyszukiwać
@@ -56,7 +62,7 @@ module L
     #   - +search+ - szukana fraza
     #   - +hidden+ - wartość +hidden_flag+ która nie ma być wyszukiwana, np:
     #     dla 1 wyszukujemy wszystkich widocznych stron.
-    #     
+    #
     def self.search(search, hidden = 1)
       find :all,
         joins: :translations,
@@ -81,7 +87,7 @@ module L
 
     # Pobiera token strony, czyli bezpośrednią ścieżkę url wybranej strony i stron
     # nadrzędnych.
-    # 
+    #
     def get_token
       (ancestors.reverse.map { |p| p.url } + [url]).join('/')
     end
@@ -106,7 +112,7 @@ module L
     end
 
     private
-    
+
     # # Sprawdza czy pośród rodzeństwa nie ma stron o takim samym url
     # def unique_url_within_siblings
     #   errors.add(:url, :taken) if siblings.count {|p| p.url == url } > 0

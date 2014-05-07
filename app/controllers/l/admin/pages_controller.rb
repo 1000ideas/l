@@ -6,21 +6,26 @@ module L::Admin
   # wyświetlać tylko pojedyncze strony.
   #
   class PagesController < AdminController
-    
+
     # Akcja wyświetlająca listę istniejących stron w strukturze drzewiastej.
     #
     # *GET* /pages
     #
     def index
       authorize! :manage, L::Page
-      
+
       @pages = L::Page
         .with_translations
-        .ordered
-        .roots
+
+      @pages = if filtering?
+        @pages = @pages.order(sort_order(:pages)) if sort_results?
+        @pages.filter(params[:filter])
+      else
+        @pages.ordered.roots
+      end
 
       respond_to do |format|
-        format.html 
+        format.html
       end
     end
 
@@ -49,11 +54,11 @@ module L::Admin
     #
     # *GET* /pages/1/edit
     #
-    def edit      
+    def edit
       @page = L::Page.find(params[:id])
       authorize! :update, @page
 
-      @parents = L::Page.where('`id` <> ?', @page.id).all 
+      @parents = L::Page.where('`id` <> ?', @page.id).all
     end
 
     # Akcja tworząca nową stronę. Dostęp tylko dla administratora.
@@ -148,7 +153,16 @@ module L::Admin
       end
     end
 
-    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach. 
+    def sort
+      authorize! :update, L::Page
+      if L::Page.update_positions(params[:tree])
+        head :ok
+      else
+        head :unprocessable_entity
+      end
+    end
+
+    # Akcja pozwalająca wykonać masowe operacje na zaznaczonych elementach.
     # Wymagane parametry to selection[ids] oraz selection[action].
     #
     # *POST* /admin/pages/selection
