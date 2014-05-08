@@ -72,6 +72,7 @@ class LazyAdmin
 
 
     @_sortable_list()
+    @selection_changed()
 
 
   set_main_content_height: ->
@@ -134,13 +135,26 @@ class LazyAdmin
     else
       select_all.removeClass('checked').removeClass('unknown')
 
+    $('.submenu .selection a').each (idx, el) =>
+      data = {ids: @selected()}
+      href = $(el).attr('href').split(/[\?&]ids/, 1)[0]
+      glue  = if href.indexOf('?') < 0 then '?' else '&'
+
+      $(el).attr('href', "#{href}#{glue}#{$.param(data)}")
+    $('.submenu').toggleClass('selected', @any_selected())
+    @submenu_hidden_buttons()
+
   selected: ->
-    $('.items-list input[type=checkbox]:checked').map (idx, el) ->
-      el.value
+    $('.items-list input[type=checkbox]:checked')
+      .map (idx, el) ->
+        el.value
+      .get()
 
   unselected: ->
-    $('.items-list input[type=checkbox]:not(:checked)').map (idx, el) ->
-      el.value
+    $('.items-list input[type=checkbox]:not(:checked)')
+      .map (idx, el) ->
+        el.value
+      .get()
 
   all_selected: ->
     @selected().length > 0 and @unselected().length == 0
@@ -195,7 +209,10 @@ class LazyAdmin
           catch error
             false
 
-    $('.items-list[data-sortable-update]:not(.filtered)').addClass('sortable')
+    if (el = $('.items-list[data-sortable-update]:not(.filtered)')).length > 0
+      el.addClass('sortable')
+      if (jsp = el.data('jsp'))?
+        jsp.reinitialise()
 
 
   _locales_tabs: ->

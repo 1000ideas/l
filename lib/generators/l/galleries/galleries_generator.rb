@@ -31,11 +31,11 @@ module L
       end
 
       def copy_galleries_views # :nodoc:
-        directory "../../../../../app/views/l/galleries", 
+        directory "../../../../../app/views/l/galleries",
           "app/views/l/galleries"
-        directory "../../../../../app/views/l/admin/galleries", 
+        directory "../../../../../app/views/l/admin/galleries",
           "app/views/l/admin/galleries"
-        directory "../../../../../app/views/l/admin/gallery_photos", 
+        directory "../../../../../app/views/l/admin/gallery_photos",
           "app/views/l/admin/gallery_photos"
       end
 
@@ -43,28 +43,32 @@ module L
         routing_code = <<-CONTENT
 
       resources :galleries, except: [:show] do
-        post :selection, on: :collection
+        collection do
+          constraints(lambda {|req| req.params.has_key?(:ids)}) do
+            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+          end
+        end
         resources :photos, controller: :gallery_photos, only: [:create, :destroy]
       end
 
         CONTENT
 
-        inject_into_file 'config/routes.rb', 
-          routing_code, 
-          after: %r{^\s*scope module: 'l/admin'.*\n}, 
+        inject_into_file 'config/routes.rb',
+          routing_code,
+          after: %r{^\s*scope module: 'l/admin'.*\n},
           verbose: false
 
-        inject_into_file 'config/routes.rb', 
-          "\n  resources :galleries,  module: :l, only: [:index, :show]\n\n", 
-          before: %r{^\s*scope path: 'admin'}, 
+        inject_into_file 'config/routes.rb',
+          "\n  resources :galleries,  module: :l, only: [:index, :show]\n\n",
+          before: %r{^\s*scope path: 'admin'},
           verbose: false
 
         log :route, "resources :galleries"
       end
 
       def add_search_results_in_search_action # :nodoc:
-        inject_into_file File.join(destination_root, 'app/controllers/application_controller.rb'), 
-          "    @galleries = L::Gallery.search(params[:q])\n", 
+        inject_into_file File.join(destination_root, 'app/controllers/application_controller.rb'),
+          "    @galleries = L::Gallery.search(params[:q])\n",
           :after => "def search\n"
       end
 

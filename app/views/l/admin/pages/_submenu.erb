@@ -5,6 +5,9 @@
   <% else %>
   <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_pages_path %></li>
   <% end %>
+  <li class="selection"><%= link_to fa_icon('trash-o fw', text: t('.destroy')), bulk_destroy_admin_pages_path, data: {method: :delete, confirm: t('.destroy_confirm', default: "Sure?")} %></li>
+  <li class="selection"><%= link_to fa_icon('eye-slash fw', text: t('.hide')), bulk_hide_admin_pages_path(), data: {method: :put} %></li>
+  <li class="selection"><%= link_to fa_icon('eye fw', text: t('.unhide')), bulk_unhide_admin_pages_path(), data: {method: :put} %></li>
 </ul>
 <ul id="submenu-dropdown" class="f-dropdown axis-right" data-dropdown-content>
 </ul>

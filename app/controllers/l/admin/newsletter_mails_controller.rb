@@ -14,19 +14,19 @@ module L::Admin
     #
     def index
       authorize! :manage, L::NewsletterMail
-      @newsletter_mail = L::NewsletterMail.ordered
+      @newsletter_mail = L::NewsletterMail
 
-      if params[:unconfirmed]
-        @mass = [:destroy, :confirm]
-        @newsletter_mail = @newsletter_mail.unconfirmed
+      @newsletter_mail = @newsletter_mail.filter(params[:filter])
+
+      @newsletter_mail = if params[:unconfirmed]
+        ::Rails.logger.debug "UNCONFIRMED"
+        @newsletter_mail.where("`confirm_token` IS NOT NULL")
       else
-        @mass = [:destroy]
-        @newsletter_mail = @newsletter_mail.confirmed
+        @newsletter_mail.confirmed
       end
 
-      @newsletter_mail = @newsletter_mail
-        .filter(params[:filter])
-        .paginate page: params[:page]
+      @newsletter_mail = @newsletter_mail.order(sort_order) if sort_results?
+      @newsletter_mail = @newsletter_mail.paginate(page: params[:page])
 
       respond_to do |format|
         format.html
@@ -110,7 +110,11 @@ module L::Admin
     #
     def selection
       authorize! :manage, L::NewsletterMail
-      selection = L::NewsletterMail.selection_object(params[:selection])
+      selection = {
+        action: params[:bulk_action],
+        ids: params[:ids]
+      }
+      selection = L::NewsletterMail.selection_object(selection)
 
       respond_to do |format|
         if selection.perform!

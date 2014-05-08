@@ -116,7 +116,11 @@ module L::Admin
     #
     def selection
       authorize! :manage, L::News
-      selection = L::News.selection_object(params[:selection])
+      selection = {
+        action: params[:bulk_action],
+        ids: params[:ids]
+      }
+      selection = L::News.selection_object(selection)
 
       respond_to do |format|
         if selection.perform!

@@ -46,6 +46,11 @@ pl:
         submenu:
           index: Lista Użytkowników
           new: Dodaj użytkownika
+          make_admin: "Ustaw rolę administratora"
+          make_user: "Ustaw rolę użytkownika"
+          destroy: "Usuń zaznaczonych użytkowników"
+          destroy: "Usuń zaznaczonych użytkowników"
+          destroy_confirm: "Napewno usunąć zaznaczonych użytkowników?"
         index:
           title: Użytkownicy
           email: Email
@@ -68,6 +73,10 @@ pl:
         submenu:
           index: Lista stron
           new: Dodawanie strony
+          destroy: 'Usuń zaznaczone'
+          destroy_confirm: 'Usunąć zaznaczone strony i wszystkie podstrony?'
+          hide: "Ukryj zaznaczone"
+          unhide: "Upublicznij zaznaczone"
         new:
           title: Nowa strona
         edit:
@@ -95,6 +104,8 @@ pl:
         submenu:
           new: Dodaj aktualność
           index: Lista aktualności
+          destroy: 'Usuń zaznaczone'
+          destroy_confirm: 'Usunąć zaznaczone aktualności?'
         index:
           title: Aktualności
       galleries:
@@ -104,9 +115,10 @@ pl:
         submenu:
           new: Dodaj galerię
           index: Lista galerii
+          destroy: 'Usuń zaznaczone'
+          destroy_confirm: 'Usunąć zaznaczone galerie?'
         index:
           title: Galerie
-          parent: Galeria-rodzic
           name: Nazwa galerii
           content: "Treść"
         new:
@@ -142,6 +154,9 @@ pl:
           index: Lista maili
           unconfirmed: Niepotwierdzone adresy
           send_mail: Wyślij mail
+          destroy: 'Usuń zaznaczone'
+          destroy_confirm: 'Usunąć zaznaczone adresy?'
+          confirm: "Potwierdź zaznaczone"
         send_mail_edit:
           title: Wyślij mail
         send_mail:

@@ -73,7 +73,11 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
   def selection
     authorize! :manage, <%= class_name %>
-    selection = <%= class_name %>.selection_object(params[:selection])
+    selection = {
+      action: params[:bulk_action],
+      ids: params[:ids]
+    }
+    selection = <%= class_name %>.selection_object(selection)
 
     respond_to do |format|
       if selection.perform!

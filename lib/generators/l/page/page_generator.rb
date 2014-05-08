@@ -31,10 +31,10 @@ module L
       end
 
       def copy_pages_views # :nodoc:
-        directory "../../../../../app/views/l/pages", 
+        directory "../../../../../app/views/l/pages",
           "app/views/l/pages"
 
-        directory "../../../../../app/views/l/admin/pages", 
+        directory "../../../../../app/views/l/admin/pages",
           "app/views/l/admin/pages"
       end
 
@@ -45,22 +45,28 @@ module L
         member do
           get :hide, defaults: { status: 1 }
           get :unhide, action: 'hide', defaults: { status: 0 }
-          match 'after/:target_id', action: :after, via: :post, as: :after
         end
-        post :selection, on: :collection
+        collection do
+          put :sort
+          constraints(lambda {|req| req.params.has_key?(:ids)}) do
+            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+            put :bulk_hide, action: :selection, defaults: {bulk_action: :hide}
+            put :bulk_unhide, action: :selection, defaults: {bulk_action: :unhide}
+          end
+        end
       end
 
         CONTENT
-        inject_into_file 'config/routes.rb', 
-          routing_code, 
-          after: %r{^\s*scope module: 'l/admin'.*\n}, 
+        inject_into_file 'config/routes.rb',
+          routing_code,
+          after: %r{^\s*scope module: 'l/admin'.*\n},
           verbose: false
         log :route, "resources :pages"
 
         routing_code = "match '*token' => 'l/pages#show', as: :page_token"
         inject_into_file 'config/routes.rb',
           "  #{routing_code}\n" ,
-          before: %r{^\s*root to:}, 
+          before: %r{^\s*root to:},
           verbose: false
         log :route, routing_code
       end

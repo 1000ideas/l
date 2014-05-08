@@ -120,7 +120,11 @@ module L::Admin
     #
     def selection
       authorize! :manage, User
-      selection = User.selection_object(params[:selection])
+      selection = {
+        action: params[:bulk_action],
+        ids: params[:ids]
+      }
+      selection = User.selection_object(selection)
 
       respond_to do |format|
         if selection.perform!

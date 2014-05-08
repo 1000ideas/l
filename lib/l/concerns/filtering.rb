@@ -5,7 +5,7 @@ module L::Concerns
 
     module ClassMethods
       # Filtruj obiekty klasy względem podanych ograniczeń.
-      def filter(filters)
+      def filter(filters = {})
         filters ||= {}
         filters.inject(self) do |memo, (key, value)|
           filter_name = :"filter_by_#{key}"

@@ -70,17 +70,21 @@ CONTENT
 
       resources :newsletter_mails, only: [:index, :destroy] do
         collection do
+          get :unconfirmed, action: :index, defaults: {unconfirmed: true}
           get :send_mail, action: :send_mail_edit
           post :send_mail
-          post :selection
+          constraints(lambda {|req| req.params.has_key?(:ids)}) do
+            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+            put :bulk_confirm, action: :selection, defaults: {bulk_action: :confirm}
+          end
         end
         put :confirm, on: :member
       end
 
         CONTENT
 
-        inject_into_file 'config/routes.rb', 
-          routing_code, 
+        inject_into_file 'config/routes.rb',
+          routing_code,
           after: %r{^\s*scope module: 'l/admin'.*\n},
           verbose: false
 
@@ -92,9 +96,9 @@ CONTENT
 
         CONTENT
 
-        inject_into_file 'config/routes.rb', 
-          routing_code, 
-          before: %r{^\s*scope path: 'admin'}, 
+        inject_into_file 'config/routes.rb',
+          routing_code,
+          before: %r{^\s*scope path: 'admin'},
           verbose: false
 
 
@@ -106,7 +110,7 @@ CONTENT
   <%= admin_menu_link(:newsletter, newsletter_mails_path, controller: :newsletter_mails) if current_user.has_role? :admin %>"
         LINK
         inject_into_file 'app/views/l/admins/partials/_header.erb',
-          link, 
+          link,
           :before => "</div>\n<div id=\"submenu\">"
       rescue
         log :skip, "Adding link to admin menu"

@@ -5,6 +5,7 @@
   <% else %>
   <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_news_index_path %></li>
   <% end %>
+  <li class="selection"><%= link_to fa_icon('trash-o fw', text: t('.destroy')), bulk_destroy_admin_news_index_path, data: {method: :delete, confirm: t('.destroy_confirm', default: "Sure?")} %></li>
 </ul>
 <ul id="submenu-dropdown" class="f-dropdown axis-right" data-dropdown-content>
 </ul>

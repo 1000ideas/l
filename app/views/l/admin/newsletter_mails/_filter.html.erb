@@ -26,7 +26,7 @@
 
     <div class="buttons text-right">
       <%= f.button t('.filter', default: :'defaults.filter.filter'), class: 'button tiny secondary round' %>
-      <%= link_to t('.clear', default: :'defaults.filter.clear'), admin_news_index_path, class: 'button tiny secondary round' %>
+      <%= link_to t('.clear', default: :'defaults.filter.clear'), {filter: nil}, class: 'button tiny secondary round' %>
     </div>
   </fieldset>
 <% end %>

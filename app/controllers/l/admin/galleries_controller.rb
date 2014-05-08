@@ -112,7 +112,11 @@ module L::Admin
     #
     def selection
       authorize! :manage, L::Gallery
-      selection = L::Gallery.selection_object(params[:selection])
+      selection = {
+        action: params[:bulk_action],
+        ids: params[:ids]
+      }
+      selection = L::Gallery.selection_object(selection)
 
       respond_to do |format|
         if selection.perform!

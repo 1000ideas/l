@@ -7,14 +7,15 @@
     scope module: 'l/admin' do
       resources :users do
         collection do
-          post :selection
+          constraints(lambda {|req| req.params.has_key?(:ids)}) do
+            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+            put :bulk_admin, action: :selection, defaults: {bulk_action: :make_admin}
+            put :bulk_user, action: :selection, defaults: {bulk_action: :make_user}
+          end
         end
       end
       get '', to: "admin#index"
     end
-
-    # get '', to: 'devise/registrations#edit', constraints: lambda { |request|  request.env["devise.mapping"] = Devise.mappings[:user]; true }
-
   end
 
   <%- if options.lang.length > 1 -%>

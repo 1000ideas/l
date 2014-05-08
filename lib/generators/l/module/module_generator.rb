@@ -121,8 +121,18 @@ module L
 
       def add_routes # :nodoc:
         routing_code = "resources :#{plural_name}, except: [:show]"
+        _routing_code = <<-CONTENT
+      resources :#{plural_name}, except: [:show] do
+        collection do
+          constraints(lambda {|req| req.params.has_key?(:ids)}) do
+            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+          end
+        end
+      end
+CONTENT
+
         inject_into_file 'config/routes.rb',
-          "      #{routing_code} do\n        post :selection, on: :collection\n      end\n",
+          _routing_code,
           after: %r{^\s*scope module: :admin.*\n},
           verbose: false
 
@@ -166,7 +176,9 @@ module L
             "#{plural_table_name}" => {
               'submenu' => {
                 'new' => "Add #{singular_table_name}",
-                'index' => "List #{plural_table_name}"
+                'index' => "List #{plural_table_name}",
+                'destroy' => "Destroy selected #{plural_table_name}",
+                'destroy_confirm' => "Destroying selected #{plural_table_name}, sure?"
               },
               'new' => {
                 'title' => "Add #{singular_table_name}"

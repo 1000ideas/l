@@ -30,22 +30,31 @@ module L
       end
 
       def copy_news_views # :nodoc:
-        directory "../../../../../app/views/l/news", 
+        directory "../../../../../app/views/l/news",
           "app/views/l/news"
 
-        directory "../../../../../app/views/l/admin/news", 
+        directory "../../../../../app/views/l/admin/news",
           "app/views/l/admin/news"
       end
 
       def add_news_routes # :nodoc:
-        inject_into_file 'config/routes.rb', 
-          "\n      resources :news, except: [:show] do\n        post :selection, on: :collection\n      end\n", 
-          after: %r{^\s*scope module: 'l/admin'.*\n}, 
+        routing_code = <<-CONTENT
+      resources :news, except: [:show] do
+        collection do
+          constraints(lambda {|req| req.params.has_key?(:ids)}) do
+            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+          end
+        end
+      end
+CONTENT
+        inject_into_file 'config/routes.rb',
+          routing_code,
+          after: %r{^\s*scope module: 'l/admin'.*\n},
           verbose: false
 
-        inject_into_file 'config/routes.rb', 
-          "\n  resources :news, module: :l, only: [:index, :show]\n\n", 
-          before: %r{^\s*scope path: 'admin'}, 
+        inject_into_file 'config/routes.rb',
+          "\n  resources :news, module: :l, only: [:index, :show]\n\n",
+          before: %r{^\s*scope path: 'admin'},
           verbose: false
         log :route, "resources :news"
       end
@@ -59,8 +68,8 @@ module L
         link = <<-LINK
   <%= admin_menu_link(:news, news_index_path) if current_user.has_role? :admin %>
         LINK
-        inject_into_file 'app/views/l/admins/partials/_header.erb', 
-          link, 
+        inject_into_file 'app/views/l/admins/partials/_header.erb',
+          link,
           :before => "</div>\n<div id=\"submenu\">"
       rescue
         log :skip, "Adding link to admin menu"

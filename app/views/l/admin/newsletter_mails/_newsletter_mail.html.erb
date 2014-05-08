@@ -3,7 +3,7 @@
     <%= f.select_box :id, newsletter_mail %>
     <%= newsletter_mail.mail %>
   </div>
-  <div class="columns small-3"><%= l newsletter_mail.created_at.to_date, format: :short %></div>
+  <div class="columns small-3"><%= l newsletter_mail.created_at, format: :long %></div>
   <div class="columns small-3">
     <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
   </div>
