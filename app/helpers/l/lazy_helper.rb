@@ -85,29 +85,34 @@ module L
       instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
     end
 
+    def default_title(scope = nil)
+      defaults = []
+      defaults.unshift([::Rails.application.class.parent_name, *scope].join(' '))
+      defaults.unshift(:title)
+      defaults.unshift(:"#{scope}.title") if scope
+      key = defaults.shift
+      I18n.t(key, default: defaults)
+    end
+
 
     # Metoda ustawiająca tytuł strony.
     #
     # * *Argumenty*:
     #
     #   - +value+ - tytuł strony
-    def title(*args)
-      options = args.extract_options!
-      value = args.pop
-      scope = options[:scope] || :default
+    def title(*values)
+      options = values.extract_options!
+      scope = options[:scope]
+      values.reverse!
       glue = options[:glue] || '-'
-      key = :"#{scope}_title"
-      if value.blank?
-        page_title = I18n.t(:"title.#{scope}", default: [:title, ::Rails.application.class.parent_name])
-        "#{content_for(key)} #{glue} #{page_title}"
+      key = [*scope, :title].join('_').to_sym
+      _title = if content_for?(key)
+        [*values, content_for(key)]
       else
-        _title = content_for(key)
-        if _title.blank?
-          content_for(key, value)
-        else
-          content_for(key, "#{_title} #{glue} #{value}")
-        end
-      end
+        [*values, default_title(scope)]
+      end.join(" #{glue} " )
+      instance_variable_get("@view_flow").set(key, _title)
+      nil
     end
 
     # Metoda ustawiająca słowa kluczowe strony.

@@ -1,10 +1,6 @@
-<% title t('.title') %>
-
-<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
-<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
+<% title t('.title'), scope: :admin %>
 
 <%= render('filter')  %>
-
 <ul class="row items-list-header">
   <li class="columns small-6">
     <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>

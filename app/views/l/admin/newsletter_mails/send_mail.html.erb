@@ -1,4 +1,4 @@
-<% title t('.title') %>
+<% title t('l.admin.newsletter_mails.title'), t('.title'), scope: :admin %>
 
 <%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
 <%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>

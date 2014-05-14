@@ -5,7 +5,6 @@
   <% else %>
   <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_users_path %></li>
   <% end %>
-  <%# TODO: Buttons for selection %>
   <li class="selection"><%= link_to fa_icon('trash-o fw', text: t('.destroy')), bulk_destroy_admin_users_path, data: {method: :delete, confirm: t('.destroy_confirm', default: "Sure?")} %></li>
   <li class="selection"><%= link_to fa_icon('user fw', text: t('.make_admin')), bulk_admin_admin_users_path(), data: {method: :put} %></li>
   <li class="selection"><%= link_to fa_icon('user fw', text: t('.make_user')), bulk_user_admin_users_path(), data: {method: :put} %></li>

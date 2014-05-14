@@ -1,23 +1,16 @@
-<% title t('.title') %>
+<% title t('l.admin.newsletter_mails.title'), t('.title'), scope: :admin %>
 
-<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
-<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
+<%= render('filter')  %>
 
-  <%= render('filter')  %>
-
-  <ul class="row items-list-header">
-    <li class="columns small-6">
-      <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
-      <%= sort_column :mail, L::NewsletterMail.human_attribute_name(:mail) %>
-    </li>
-    <li class="columns small-3"><%= sort_column :created_at, L::NewsletterMail.human_attribute_name(:created_at) %></li>
-    <li class="columns small-3">&nbsp;</li>
-  </ul>
+<ul class="row items-list-header">
+  <li class="columns small-6">
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= sort_column :mail, L::NewsletterMail.human_attribute_name(:mail) %>
+  </li>
+  <li class="columns small-3"><%= sort_column :created_at, L::NewsletterMail.human_attribute_name(:created_at) %></li>
+  <li class="columns small-3">&nbsp;</li>
+</ul>
 
 <% if @newsletter_mail.any? %>
   <%= render 'list' %>
 <% end %>
-
-<%#= L::NewsletterMail.mass_actions_for_select(*@mass) %>
-
-<%#= will_paginate @newsletter_mail %>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
   <head>
-    <title><%= title(scope: :admin) %></title>
+    <title><%= content_for?(:admin_title) ? yield(:admin_title) : default_title(:admin) %></title>
     <%= tag :meta, name: :robots, content: 'noindex, nofollow' %>
     <%= csrf_meta_tag %>
     <%= stylesheet_link_tag 'admins' %>
@@ -14,11 +14,11 @@
       <div class="main-content">
         <%= render('l/admin/menu') %>
         <div class="page-content">
+          <%= render('l/admin/notification') %>
           <% begin %>
             <%= render('submenu') %>
           <% rescue ActionView::MissingTemplate %>
           <% end %>
-
           <%= yield %>
         </div>
       </div>

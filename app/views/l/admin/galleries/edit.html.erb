@@ -1,7 +1,4 @@
-<% content_for :title do t('.title') end %>
-
-<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
-<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
+<% title t('l.admin.galleries.index.title'), t('.title'), scope: :admin %>
 
 <div class="row">
   <div class="columns small-12">

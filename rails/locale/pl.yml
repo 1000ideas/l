@@ -1,6 +1,4 @@
 pl:
-  title:
-    admin: "Panel Administracyjny"
   layouts:
     l:
       admin:
@@ -139,6 +137,7 @@ pl:
         show_photos:
           photos_added: Dodane zdjęcia
       newsletter_mails:
+        title: "Newsletter"
         filter:
           created_before: "Zapisani przed"
           created_after: "Zapisani po"
@@ -176,6 +175,7 @@ pl:
       logged_as: "Zalogowany jako:"
       logout: Wyloguj
   admin:
+    title: Panel Administracyjny
     create:
       success: "Pomyślnie utworzono"
     update:

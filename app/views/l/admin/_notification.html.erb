@@ -1,0 +1,9 @@
+<% if flash.key?(:notice) %>
+  <div data-alert class="alert-box radius">
+    <%= flash[:notice] %>
+  </div>
+<% elsif flash.key?(:alert) %>
+  <div data-alert class="alert-box alert radius">
+    <%= flash[:alert] %>
+  </div>
+<% end %>

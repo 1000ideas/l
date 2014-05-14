@@ -49,7 +49,9 @@ module L
     end
 
     def published_at_date
-      I18n.l((published_at || created_at).to_date, format: :edit)
+      unless published_at.nil?
+        I18n.l( published_at.to_date, format: :edit)
+      end
     end
 
 
