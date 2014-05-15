@@ -53,6 +53,12 @@ pl:
           title: Użytkownicy
           email: Email
           role: Role
+          no_items_html: |
+            Nie ma żadnych użytkowników.
+            Może chcesz <a href="%{link}">stworzyć nowego</a>?
+          no_filtered_items_html: |
+            Nie znaleziono żadnych pasujących użytkowników.
+            Spróbuj zmienić kryteria filtracji.
         list:
           more: "Załaduj kolejnych użytkowników"
           wait: "Ładuję..."
@@ -68,6 +74,12 @@ pl:
           content: "Słowa kluczowe ważne są i przecinkami należy odzielać je. Pamiętaj o tym kiedy formularz wypełniać będziesz ten."
         index:
           title: Strony
+          no_items_html: |
+            Nie ma żadnych stron stałych.
+            Może chcesz <a href="%{link}">utworzyć nową</a>?
+          no_filtered_items_html: |
+            Nie znaleziono żadnych pasujących stron.
+            Spróbuj zmienić kryteria filtracji.
         submenu:
           index: Lista stron
           new: Dodawanie strony
@@ -106,6 +118,12 @@ pl:
           destroy_confirm: 'Usunąć zaznaczone aktualności?'
         index:
           title: Aktualności
+          no_items_html: |
+            Nie ma żadnych aktualności.
+            Może chcesz <a href="%{link}">utworzyć nową</a>?
+          no_filtered_items_html: |
+            Nie znaleziono żadnych pasujących aktualności.
+            Spróbuj zmienić kryteria filtracji.
       galleries:
         filter:
           updated_before: "Modyfikowane przed"
@@ -119,6 +137,12 @@ pl:
           title: Galerie
           name: Nazwa galerii
           content: "Treść"
+          no_items_html: |
+            Aktualnie nie ma żadnych galerii.
+            Może chcesz <a href="%{link}">utworzyć nową</a>?
+          no_filtered_items_html: |
+            Nie znaleziono żadnych pasujących galerii.
+            Spróbuj zmienić kryteria filtracji.
         new:
           title: Dodawanie galerii
         edit:
@@ -162,6 +186,11 @@ pl:
           title: Wyślij mail
         index:
           title: Lista maili
+          no_items_html: |
+            Nie ma żadnych zapisanych adresów e-mail.
+          no_filtered_items_html: |
+            Nie znaleziono żadnych pasujących adresów e-mail.
+            Spróbuj zmienić kryteria filtracji.
     news:
       index:
         title: "Aktualności"
@@ -199,6 +228,13 @@ pl:
       clear: "Wyczyść"
       open_filters: "Otwórz filtry"
       edit_filters: "Zmień filtry"
+    index:
+      no_items_html: |
+        Aktualnie nie ma żadnych obiektów.
+        Może chcesz <a href="%{link}">utworzyć nowy</a>?
+      no_filtered_items_html: |
+        Nie znaleziono żadnych pasujących obiektów.
+        Spróbuj zmienić kryteria filtracji.
   helpers:
     status:
       hide:

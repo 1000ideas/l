@@ -3,7 +3,7 @@
 <%= render('filter')  %>
 <ul class="row items-list-header">
   <li class="columns small-6">
-    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) if @users.any? %>
     <%= sort_column :email, User.human_attribute_name(:email) %>
   </li>
   <li class="columns small-3"><%= sort_column :role, User.human_attribute_name(:role), disabled: true %></li>
@@ -12,4 +12,12 @@
 
 <% if @users.any? %>
   <%= render 'list' %>
+<% elsif filtering? %>
+  <div class="no-items">
+    <%= t('.no_filtered_items_html') %>
+  </div>
+<% else %>
+  <div class="no-items">
+    <%= t('.no_items_html', link: new_admin_user_path) %>
+  </div>
 <% end %>

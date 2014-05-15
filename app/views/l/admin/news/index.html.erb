@@ -4,7 +4,7 @@
 
 <ul class="row items-list-header">
   <li class="columns small-6">
-    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) if @news.any? %>
     <%= sort_column :title, L::News.human_attribute_name(:title) %>
   </li>
   <li class="columns small-3"><%= sort_column :published_at, L::News.human_attribute_name(:published_at) %></li>
@@ -13,6 +13,12 @@
 
 <% if @news.any? %>
   <%= render('list') %>
+<% elsif filtering? %>
+  <div class="no-items">
+    <%= t('.no_filtered_items_html') %>
+  </div>
+<% else %>
+  <div class="no-items">
+    <%= t('.no_items_html', link: new_admin_news_path) %>
+  </div>
 <% end %>
-
-<%#  L::News.mass_actions_for_select %>

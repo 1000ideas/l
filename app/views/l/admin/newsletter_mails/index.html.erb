@@ -4,7 +4,7 @@
 
 <ul class="row items-list-header">
   <li class="columns small-6">
-    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) if @newsletter_mail.any? %>
     <%= sort_column :mail, L::NewsletterMail.human_attribute_name(:mail) %>
   </li>
   <li class="columns small-3"><%= sort_column :created_at, L::NewsletterMail.human_attribute_name(:created_at) %></li>
@@ -13,4 +13,12 @@
 
 <% if @newsletter_mail.any? %>
   <%= render 'list' %>
+<% elsif filtering? %>
+  <div class="no-items">
+    <%= t('.no_filtered_items_html') %>
+  </div>
+<% else %>
+  <div class="no-items">
+    <%= t('.no_items_html') %>
+  </div>
 <% end %>

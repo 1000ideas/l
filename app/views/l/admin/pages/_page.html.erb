@@ -5,13 +5,13 @@
     <%= fa_icon('eye-slash fw') if page.hidden_flag? %>
     <%= page.title %>
   </div>
-  <div class="columns small-2" data-equalizer-watch>
+  <div class="columns small-4" data-equalizer-watch>
     <%= page.url %>
   </div>
-  <div class="columns small-3" data-equalizer-watch>
+  <div class="columns small-2" data-equalizer-watch>
     <%= l page.created_at, format: :short %>
   </div>
-  <div class="columns small-3" data-equalizer-watch>
+  <div class="columns small-2" data-equalizer-watch>
     <%= l page.created_at, format: :short %>
     <a href="#" data-context-button><%= fa_icon('ellipsis-h') %></a>
   </div>

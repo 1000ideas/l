@@ -351,5 +351,18 @@
         }
       }
     }
+
+    div.no-items {
+      margin: .5rem;
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 5rem 3rem;
+      font-size: 1.2rem;
+
+      a {
+        color: $secondary-color;
+        &:focus, &:hover { color: darken($secondary-color, 10%); }
+      }
+    }
   }
 }

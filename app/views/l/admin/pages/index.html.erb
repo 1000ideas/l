@@ -4,19 +4,26 @@
 
 <ul class="row items-list-header">
   <li class="columns small-4">
-    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%= custom_check_box(:selection, :all_ids, {}, 1, nil) if @pages.any? %>
     <%= sort_column :title, L::Page.human_attribute_name(:title), disabled: !filtering? %>
   </li>
-  <li class="columns small-2"><%= sort_column :url, L::Page.human_attribute_name(:url), disabled: !filtering? %></li>
-  <li class="columns small-3"><%= sort_column :updated_at, L::Page.human_attribute_name(:updated_at), disabled: !filtering? %></li>
-  <li class="columns small-3"><%= sort_column :created_at, L::Page.human_attribute_name(:created_at), disabled: !filtering? %></li>
+  <li class="columns small-4"><%= sort_column :url, L::Page.human_attribute_name(:url), disabled: !filtering? %></li>
+  <li class="columns small-2"><%= sort_column :updated_at, L::Page.human_attribute_name(:updated_at), disabled: !filtering? %></li>
+  <li class="columns small-2"><%= sort_column :created_at, L::Page.human_attribute_name(:created_at), disabled: !filtering? %></li>
 </ul>
 
-
-<%= form_for :selection, url: '#', html: {method: :post} do |f| %>
-  <ul class="items-list <%= 'filtered' if filtering? %>" data-sortable-update="<%= sort_admin_pages_path %>">
-    <%= render partial: 'page', collection: @pages, locals: {f: f} %>
-  </ul>
+<% if @pages.any? %>
+  <%= form_for :selection, url: '#', html: {method: :post} do |f| %>
+    <ul class="items-list <%= 'filtered' if filtering? %>" data-sortable-update="<%= sort_admin_pages_path %>">
+      <%= render partial: 'page', collection: @pages, locals: {f: f} %>
+    </ul>
+  <% end %>
+<% elsif filtering? %>
+  <div class="no-items">
+    <%= t('.no_filtered_items_html') %>
+  </div>
+<% else %>
+  <div class="no-items">
+    <%= t('.no_items_html', link: new_admin_page_path) %>
+  </div>
 <% end %>
-
-<%#= f.select :action, L::Page.mass_actions_for_select, include_blank: t('prompt', scope: [:helpers, :mass]) %>

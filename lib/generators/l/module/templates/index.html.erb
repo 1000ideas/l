@@ -8,7 +8,7 @@
 
 <ul class="row items-list-header">
   <li class="columns small-6">
-    <%%= custom_check_box(:selection, :all_ids, {}, 1, nil) %>
+    <%%= custom_check_box(:selection, :all_ids, {}, 1, nil) if @<%= plural_table_name %>.any? %>
     <%%= sort_column :id, <%= class_name %>.human_attribute_name(:id) %>
   </li>
   <li class="columns small-3"><%%= sort_column :updated_at, <%= class_name %>.human_attribute_name(:updated_at) %></li>
@@ -17,4 +17,12 @@
 
 <%% if @<%= plural_table_name %>.any? %>
   <%%=  render 'list' %>
+<%% elsif filtering? %>
+  <div class="no-items">
+    <%%= t('defaults.index.no_filtered_items_html') %>
+  </div>
+<%% else %>
+  <div class="no-items">
+    <%%= t('defaults.index.no_items_html', link: new_admin_<%= singular_table_name %>_path) %>
+  </div>
 <%% end %>
