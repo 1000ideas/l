@@ -70,6 +70,8 @@ class LazyAdmin
             .trigger('change', [true])
         @selection_changed()
 
+    $(document).on 'click', '.f-dropdown:not(.content) a', (event) ->
+      $(document).foundation('dropdown', 'closeall')
 
     @_sortable_list()
     @selection_changed()

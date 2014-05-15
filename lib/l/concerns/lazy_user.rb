@@ -8,6 +8,8 @@ module L
       extend ActiveSupport::Concern
 
       included do
+        acts_as_paranoid
+
         has_role :admin, :user, default: :user
 
         devise :database_authenticatable, :timeoutable,

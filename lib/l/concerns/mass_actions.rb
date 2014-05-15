@@ -17,7 +17,7 @@ module L
         end
 
         def perform!
-          if valid?            
+          if valid?
             if klass.respond_to? :"__mass_perform_#{@action}_all"
               ::Rails.logger.debug "[MassActions] Perform #{action} on #{klass.name}(#{@ids.join(', ')})"
               klass.where(id: @ids).send :"__mass_perform_#{@action}_all"
@@ -31,7 +31,7 @@ module L
       end
 
 
-      included do 
+      included do
         define_perform_action :destroy do
           destroy_all
         end
@@ -51,7 +51,7 @@ module L
           if class_variable_defined? "@@mass_actions"
             class_variable_get "@@mass_actions"
           else
-            [:destroy]  
+            [:destroy]
           end
         end
 
