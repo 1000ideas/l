@@ -1,9 +1,16 @@
+
 <% if flash.key?(:notice) %>
-  <div data-alert class="alert-box radius">
-    <%= flash[:notice] %>
+  <div class="alert-box-wrapper">
+    <div data-alert class="alert-box info radius">
+      <%= flash[:notice] %>
+      <a href="#" class="close">&times;</a>
+    </div>
   </div>
 <% elsif flash.key?(:alert) %>
-  <div data-alert class="alert-box alert radius">
-    <%= flash[:alert] %>
+  <div class="alert-box-wrapper">
+    <div data-alert class="alert-box alert radius">
+      <%= flash[:alert] %>
+      <a href="#" class="close">&times;</a>
+    </div>
   </div>
 <% end %>

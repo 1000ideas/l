@@ -115,6 +115,28 @@
     padding-left: $left-menu-width;
     max-width: $row-width;
 
+    .alert-box-wrapper {
+      position: absolute;
+      text-align: center;
+      left: 0;
+      top: -2rem;
+      width: 100%;
+      z-index: 1;
+
+
+      .alert-box {
+        display: inline-block;
+        margin: 0;
+        font-weight: bold;
+        padding-left: 3em;
+        padding-right: 4em;
+
+        &.info {
+          color: #fff;
+        }
+      }
+    }
+
     ul.submenu {
       position: relative;
       list-style: none;
