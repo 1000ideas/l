@@ -12,6 +12,7 @@
     height: 100%;
     background-color: #f2f2f2;
     padding-bottom: 2em;
+    z-index: 1;
 
     p.copyright {
       position: absolute;
@@ -114,6 +115,7 @@
   .page-content {
     padding-left: $left-menu-width;
     max-width: $row-width;
+    position: relative;
 
     .alert-box-wrapper {
       position: absolute;

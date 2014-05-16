@@ -20,6 +20,8 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class Page < ActiveRecord::Base
+    acts_as_paranoid
+
     validates :title, presence: true
     validates :url, presence: true, uniqueness: {scope: :parent_id}
     validate :detect_tree_loops
@@ -28,6 +30,7 @@ module L
       :position, :parent_id, :hidden_flag, :translations_attributes
 
     translates :title, :content
+    translation_class.acts_as_paranoid
     accepts_nested_attributes_for :translations
 
     acts_as_tree

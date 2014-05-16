@@ -56,6 +56,14 @@ module L
         end
       end
 
+      def nullable_deleted_at_column
+        return if migration_file.nil?
+
+        inject_into_file migration_file,
+          ", null: true",
+          after: 't.datetime :deleted_at'
+      end
+
       def insert_has_attached_file # :nodoc:
         return unless model_exists?
 
@@ -90,23 +98,27 @@ module L
       end
 
       def add_search_method_to_model # :nodoc:
-        unless options.searchable.blank? or not model_exists?
-          where_clause = options.searchable.map {|f| "#{f} LIKE :pattern" } .join(' OR ')
-          search_method = <<-CONTENT
-  def self.search(phrase)
-    find(:all, :conditions => ['#{where_clause}', {:pattern => "%\#{phrase}%"}])
-  end
-          CONTENT
-          inject_into_class model_path, name.capitalize, search_method
+        if model_exists?
+          inject_into_class model_path,
+            name.capitalize,
+            "  acts_as_paranoid\n"
 
-          inject_into_file 'app/controllers/application_controller.rb',
-            "    @#{plural_name.downcase} = #{name.capitalize}.search(params[:q])\n",
-            after: "def search\n"
+          if options.searchable.any?
+            where_clause = options.searchable.map {|f| "#{f} LIKE :pattern" }.join(' OR ')
+            inject_into_class model_path,
+              name.capitalize,
+              %Q[scope :search, lambda {|phrase| where("#{where_clause}", {:pattern => "%\#{phrase}%"})}\n]
+
+
+            inject_into_file 'app/controllers/application_controller.rb',
+              "    @#{plural_name.downcase} = #{name.capitalize}.search(params[:q])\n",
+              after: "def search\n"
+          end
         end
       end
 
 
-      check_class_collision :suffix => "Controller"
+      check_class_collision suffix: "Controller"
 
       def create_controller_files # :nodoc:
         template 'controller.rb', controller_path
@@ -230,9 +242,11 @@ CONTENT
       end
 
       def model_args
-        ARGV.map do |arg|
+        args = ARGV.map do |arg|
           arg.gsub(%r{:file(:|$)}, ":string\\1").gsub(%r{:tinymce[a-z_]*(:|$)}, ":text\\1")
         end
+        args.push('deleted_at:datetime:index') unless args.any? { |arg| /^deleted_at:/ === arg }
+        args
       end
 
       def file_attributes

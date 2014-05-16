@@ -42,7 +42,7 @@ class CreateUsers < ActiveRecord::Migration
       # t.string :invitation_token
 
       t.integer :roles_mask, limit: 8, null: false, default: 0
-      t.datetime :deleted_at
+      t.datetime :deleted_at, null: true
       t.timestamps
     end
 

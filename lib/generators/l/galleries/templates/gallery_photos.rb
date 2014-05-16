@@ -4,8 +4,11 @@ class CreateGalleryPhotos < ActiveRecord::Migration
       t.integer :gallery_id
       t.attachment :photo
 
+      t.datetime :deleted_at
       t.timestamps
     end
+
+    add_index :gallery_photos, :deleted_at, null: true
   end
 
   def self.down

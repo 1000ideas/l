@@ -19,7 +19,7 @@ module L
         def perform!
           if valid?
             if klass.respond_to? :"__mass_perform_#{@action}_all"
-              ::Rails.logger.debug "[MassActions] Perform #{action} on #{klass.name}(#{@ids.join(', ')})"
+              ::Rails.logger.debug "[MassActions] Perform #{action} on #{klass.name}(#{@ids.join(', ')})" if ::Rails.env.development?
               klass.where(id: @ids).send :"__mass_perform_#{@action}_all"
             else
               ::Rails.logger.error "[MassActions] Define mass action in class #{klass.name} by calling: define_perfom_action(:#{@action}) do ... end"

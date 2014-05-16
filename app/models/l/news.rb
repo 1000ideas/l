@@ -11,25 +11,29 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class News < ActiveRecord::Base
+    acts_as_paranoid
+
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
     self.per_page = 10
 
     attr_accessible :title, :content, :photo, :published_at,
-      :photo_delete, :translations_attributes
+      :published_at_date, :photo_delete, :translations_attributes
 
     has_attached_file :photo,
-      :styles => { :thumb=> "120x90", :small => "200x200>", :medium  => "600x400>" },
-      :path => ":rails_root/public/system/news_photos/:id/:style/:filename",
-      :url => "/system/news_photos/:id/:style/:filename"
-
+      styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
+      path: ":rails_root/public/system/news_photos/:id/:style/:filename",
+      url: "/system/news_photos/:id/:style/:filename",
+      preserve_files: true
 
     validates :title, presence: true
     validates :content, presence: true
-    validates :photo, attachment_content_type: { content_type: ['image/jpeg', 'image/png', 'image/gif', 'image/bmp'] }
+    validates :photo, attachment_content_type: { content_type: %r{^image/} }
 
     @@per_page = 5
 
     translates :title, :content
+    translation_class.acts_as_paranoid
+
     accepts_nested_attributes_for :translations
 
     scope :filter_by_title, lambda{|title| where("`#{translations_table_name}`.`title` LIKE ?", "%#{title}%")}
@@ -52,6 +56,10 @@ module L
       unless published_at.nil?
         I18n.l( published_at.to_date, format: :edit)
       end
+    end
+
+    def published_at_date= value
+      self.published_at = value
     end
 
 
