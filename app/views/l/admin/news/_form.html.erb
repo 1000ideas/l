@@ -1,5 +1,14 @@
 <%= form_for(@news, url: admin_news_index_path, method: 'post', html: { multipart: true }) do |f| %>
   <%= render partial: 'l/partials/errors', object: @news.errors %>
+  <div class="group">
+    <div class="field">
+      <%= f.label :published_at_formatted %>
+      <div class="row collapse input-calendar">
+        <div class="columns small-11"><%= f.text_field :published_at_formatted, data: {date: 'datetimepicker'} %></div>
+        <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+      </div>
+    </div>
+  </div>
   <div class="locales-tabs">
     <ul>
       <% I18n.available_locales.each do |el| %>
@@ -22,13 +31,7 @@
 
   </div>
   <div class="group">
-    <div class="field">
-      <%= f.label :published_at_date %>
-      <div class="row collapse input-calendar">
-        <div class="columns small-11"><%= f.text_field :published_at_date %></div>
-        <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
-      </div>
-    </div>
+
     <div class="field">
       <%= f.label :photo %>
       <%= f.file_field :photo, class: 'custom-file-input', data: {label: t('.select_photo') } %>

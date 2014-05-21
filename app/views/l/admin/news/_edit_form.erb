@@ -24,9 +24,9 @@
   </div>
   <div class="group">
     <div class="field">
-      <%= f.label :published_at_date %>
+      <%= f.label :published_at_formatted %>
       <div class="row collapse input-calendar">
-        <div class="columns small-11"><%= f.text_field :published_at_date %></div>
+        <div class="columns small-11"><%= f.text_field :published_at_formatted, data: {date: 'datetimepicker'} %></div>
         <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
       </div>
     </div>

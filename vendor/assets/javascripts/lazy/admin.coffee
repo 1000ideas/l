@@ -73,6 +73,12 @@ class LazyAdmin
     $(document).on 'click', '.f-dropdown:not(.content) a', (event) ->
       $(document).foundation('dropdown', 'closeall')
 
+    @_modal_dialog()
+    $(document).on 'click', '.admin-modal .close', (event) =>
+      event.preventDefault();
+      @close_modal();
+
+
     @_sortable_list()
     @selection_changed()
 
@@ -103,6 +109,23 @@ class LazyAdmin
   loader: ->
     Loader
 
+  modal: (content, options = {}) ->
+    modal = @_modal_dialog()
+    modal.find('.modal-content')
+      .html(content)
+      .append('<a class="close" href="#"></a>')
+    modal.addClass('open')
+
+  close_modal: ->
+    modal = @_modal_dialog()
+    modal.removeClass('open')
+
+  _modal_dialog: ->
+    modal = null
+    if (modal = $('#form-admin-modal')).length == 0
+      modal = $('<div id="form-admin-modal" class="admin-modal"><div class="cover"></div><div class="modal-content"></div></div>').appendTo('body')
+    modal
+
   action_on_selected: (url, options = {}) ->
     console.log("Not used any more")
     return
@@ -111,11 +134,15 @@ class LazyAdmin
     _init_each_datepicker = ->
       $('.input-calendar').each ->
         input = $('input[type=text]', this)
+        method = input.data('date') ? 'datepicker'
         return if input.hasClass('hasDatepicker')
         button = $('a.button', this)
-        input.datepicker()
+        input[method]
+          showButtonPanel: true
+          showOtherMonths: true
+        # })
         button.click ->
-          input.datepicker('show')
+          input[method]('show')
 
     $(document)
       .on 'click', '.ui-datepicker, a[data-handler], button[data-handler]', (event) ->
@@ -126,6 +153,7 @@ class LazyAdmin
     lang = $('html').attr('lang') ? 'pl'
     $.datepicker.setDefaults($.datepicker.regional[lang]);
     $.datepicker.setDefaults(dateFormat: 'dd/mm/yy');
+    $.timepicker.setDefaults($.timepicker.regional[lang]);
     _init_each_datepicker()
 
   selection_changed: (el) ->

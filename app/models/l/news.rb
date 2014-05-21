@@ -17,7 +17,7 @@ module L
     self.per_page = 10
 
     attr_accessible :title, :content, :photo, :published_at,
-      :published_at_date, :photo_delete, :translations_attributes
+      :published_at_formatted, :photo_delete, :translations_attributes
 
     has_attached_file :photo,
       styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
@@ -52,13 +52,13 @@ module L
       super || created_at
     end
 
-    def published_at_date
+    def published_at_formatted
       unless published_at.nil?
-        I18n.l( published_at.to_date, format: :edit)
+        I18n.l(published_at, format: :edit)
       end
     end
 
-    def published_at_date= value
+    def published_at_formatted= value
       self.published_at = value
     end
 
