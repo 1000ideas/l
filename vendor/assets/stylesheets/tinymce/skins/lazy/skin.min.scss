@@ -309,9 +309,6 @@ div.mce-tinymce-inline {
 
 .mce-floatpanel {
   position: absolute;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   &.mce-fixed {
     position: fixed;
   }
@@ -679,7 +676,6 @@ body .mce-abs-layout-item {
   zoom: 1;
   border: 1px solid transparent;
   &:hover, &:focus {
-    color: $secondary-color;
     background-color: #fff;
     zoom: 1;
   }
@@ -705,10 +701,9 @@ body .mce-abs-layout-item {
   button {
     padding: 4px 10px;
     font-size: 14px;
-    line-height: 20px;
-    *line-height: 16px;
+    line-height: 14px;
     cursor: pointer;
-    color: #F00;
+    color: $primary-color;
     text-align: center;
     overflow: visible;
     -webkit-appearance: none;
@@ -719,7 +714,6 @@ body .mce-abs-layout-item {
 
     &:hover, &:focus {
       background: inherit;
-      color: inherit;
     }
   }
   i {
@@ -1212,7 +1206,7 @@ i.mce-i-checkbox {
   .mce-menubtn {
     &:hover, &.mce-active, &:focus {
       border-color: transparent;
-      background: #e6e6e6;
+      background: #fff;
       filter: none;
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
@@ -1282,14 +1276,13 @@ i.mce-i-checkbox {
   padding: 6px 15px 6px 12px;
   clear: both;
   font-weight: normal;
-  line-height: 20px;
-  color: #333;
+  color: $primary-color;
   white-space: nowrap;
   cursor: pointer;
-  line-height: normal;
   border-left: 4px solid transparent;
   margin-bottom: 1px;
   .mce-ico, .mce-text {
+    line-height: 1.6em;
     color: inherit;
   }
   &.mce-disabled {
@@ -1297,11 +1290,18 @@ i.mce-i-checkbox {
       color: #adadad;
     }
   }
-  &:hover .mce-text, &.mce-selected .mce-text, &:focus .mce-text, &:hover .mce-ico, &.mce-selected .mce-ico, &:focus .mce-ico {
-    color: #fff;
+  &:hover .mce-text,
+  &.mce-selected .mce-text,
+  &:focus .mce-text,
+  &:hover .mce-ico,
+  &.mce-selected .mce-ico,
+  &:focus .mce-ico {
+    color: $primary-color;
   }
   &.mce-disabled:hover {
-    background: #ccc;
+    background: #fafafa;
+    color: lighten($primary-color, 30%);
+    .mce-text, .mce-ico { color: inherit; }
   }
 }
 
@@ -1316,7 +1316,7 @@ i.mce-i-checkbox {
 
 .mce-menu-item {
   &:hover .mce-menu-shortcut, &.mce-selected .mce-menu-shortcut, &:focus .mce-menu-shortcut {
-    color: #fff;
+    color: $primary-color;
   }
   .mce-caret {
     margin-top: 4px;
@@ -1324,10 +1324,7 @@ i.mce-i-checkbox {
     margin-right: 6px;
     border-top: 4px solid transparent;
     border-bottom: 4px solid transparent;
-    border-left: 4px solid #333;
-  }
-  &.mce-selected .mce-caret, &:focus .mce-caret, &:hover .mce-caret {
-    border-left-color: #fff;
+    border-left: 4px solid $primary-color;
   }
 }
 
@@ -1374,16 +1371,8 @@ i.mce-i-checkbox {
 .mce-menu-item {
   &:hover, &.mce-selected, &:focus {
     text-decoration: none;
-    color: #fff;
-    background-color: #0081c2;
-    background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
-    background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
-    background-image: -o-linear-gradient(top, #0088cc, #0077b3);
-    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
-    zoom: 1;
+    color: $primary-color;
+    background-color: #f2f2f2;
   }
 }
 
@@ -1420,20 +1409,19 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
   .mce-caret {
     margin-left: 6px;
     margin-right: 0;
-    border-right: 4px solid #333;
+    border-right: 4px solid $primary-color;
     border-left: 0;
   }
-  &.mce-selected .mce-caret, &:focus .mce-caret, &:hover .mce-caret {
-    border-left-color: transparent;
-    border-right-color: #fff;
-  }
+  // &.mce-selected .mce-caret, &:focus .mce-caret, &:hover .mce-caret {
+  //   border-left-color: transparent;
+  //   border-right-color: #fff;
+  // }
 }
 
 .mce-menu {
   position: absolute;
   left: 0;
   top: 0;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background: transparent;
   z-index: 1000;
   padding: 5px 0 5px 0;
@@ -1457,19 +1445,19 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
 }
 
 .mce-menu-sub-tr-tl {
-  margin: -6px 0 0 -1px;
+  margin: -6px 0 0 0;
 }
 
 .mce-menu-sub-br-bl {
-  margin: 6px 0 0 -1px;
+  margin: 6px 0 0 0;
 }
 
 .mce-menu-sub-tl-tr {
-  margin: -6px 0 0 1px;
+  margin: -6px 0 0 0;
 }
 
 .mce-menu-sub-bl-br {
-  margin: 6px 0 0 1px;
+  margin: 6px 0 0 0;
 }
 
 .mce-container-body {
@@ -1654,7 +1642,7 @@ i.mce-i-resize {
 
 
 .mce-ico {
-  font-family: 'tinymce',Arial;
+  font-family: 'FontAwesome';
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -1665,179 +1653,197 @@ i.mce-i-resize {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: inline-block;
+  text-align: center;
   background: transparent center center;
   background-size: cover;
   width: 16px;
   height: 16px;
-  color: $primary-color;
+  color: inherit;
+  position: relative;
+  &:after {
+    position: absolute;
+    font-size: 60%;
+    bottom: 0;
+    right: 0;
+    height: 1em;
+  }
 }
 
 .mce-btn-small .mce-ico {
-  font-family: 'tinymce-small',Arial;
+  font-family: 'FontAwesome';
 }
 
 .mce-i-save:before {
-  content: "\e000";
+  content: "\f0c7";
 }
 
 .mce-i-newdocument:before {
-  content: "\e001";
+  content: "\f016";
 }
 
 .mce-i-fullpage:before {
-  content: "\e002";
+  content: "\f013";
 }
 
 .mce-i-alignleft:before {
-  content: "\e003";
+  content: "\f036";
 }
 
 .mce-i-aligncenter:before {
-  content: "\e004";
+  content: "\f037";
 }
 
 .mce-i-alignright:before {
-  content: "\e005";
+  content: "\f038";
 }
 
 .mce-i-alignjustify:before {
-  content: "\e006";
+  content: "\f039";
 }
 
 .mce-i-cut:before {
-  content: "\e007";
+  content: "\f0c4";
 }
 
 .mce-i-paste:before {
-  content: "\e008";
+  content: "\f0ea";
 }
 
 .mce-i-searchreplace:before {
-  content: "\e009";
+  content: "\f002";
 }
 
 .mce-i-bullist:before {
-  content: "\e00a";
+  content: "\f0ca";
 }
 
 .mce-i-numlist:before {
-  content: "\e00b";
+  content: "\f0cb";
 }
 
 .mce-i-indent:before {
-  content: "\e00c";
+  content: "\f03c";
 }
 
 .mce-i-outdent:before {
-  content: "\e00d";
+  content: "\f03b";
 }
 
 .mce-i-blockquote:before {
-  content: "\e00e";
+  content: "\f10d";
 }
 
 .mce-i-undo:before {
-  content: "\e00f";
+  content: "\f112";
 }
 
 .mce-i-redo:before {
-  content: "\e010";
+  content: "\f064";
 }
 
 .mce-i-link:before {
-  content: "\e011";
+  content: "\f0c1";
 }
 
 .mce-i-unlink:before {
-  content: "\e012";
+  content: "\f127";
 }
 
 .mce-i-anchor:before {
-  content: "\e013";
+  content: "\f097";
 }
 
 .mce-i-image:before {
-  content: "\e014";
+  content: "\f03e";
 }
 
 .mce-i-media:before {
-  content: "\e015";
+  content: "\f03d";
 }
 
 .mce-i-help:before {
-  content: "\e016";
+  content: "\f059";
 }
 
 .mce-i-code:before {
-  content: "\e017";
+  content: "\f121";
 }
 
 .mce-i-insertdatetime:before {
-  content: "\e018";
+  content: "\f017";
 }
 
 .mce-i-preview:before {
-  content: "\e019";
+  content: "\f06e";
 }
 
 .mce-i-forecolor:before, .mce-i-backcolor:before {
-  content: "\e01a";
+  content: "\f031";
 }
 
 .mce-i-table:before {
-  content: "\e01b";
+  content: "\f0ce";
 }
 
 .mce-i-hr:before {
-  content: "\e01c";
+  content: "\f068";
 }
 
 .mce-i-removeformat:before {
-  content: "\e01d";
+  content: "\f031";
+  opacity: .5;
+}
+.mce-i-removeformat:after {
+  content: "\f00d";
 }
 
 .mce-i-subscript:before {
-  content: "\e01e";
+  content: "\f12c";
 }
 
 .mce-i-superscript:before {
-  content: "\e01f";
+  content: "\f12b";
 }
 
 .mce-i-charmap:before {
-  content: "\e020";
+  content: "\f153";
 }
 
 .mce-i-emoticons:before {
-  content: "\e021";
+  content: "\f118";
 }
 
 .mce-i-print:before {
-  content: "\e022";
+  content: "\f02f";
 }
 
 .mce-i-fullscreen:before {
-  content: "\e023";
+  content: "\f065";
 }
 
 .mce-i-spellchecker:before {
-  content: "\e024";
+  content: "\f031";
+  opacity: .5;
+}
+.mce-i-spellchecker:after {
+  content: "\f00c";
 }
 
 .mce-i-nonbreaking:before {
-  content: "\e025";
+  content: "\f07e";
+
 }
 
 .mce-i-template:before {
-  content: "\e026";
+  content: "\f0f6";
 }
 
 .mce-i-pagebreak:before {
-  content: "\e027";
+  content: "\f07d";
 }
 
 .mce-i-restoredraft:before {
-  content: "\e028";
+  content: "\f1da";
 }
 
 .mce-i-untitled:before {
@@ -1845,56 +1851,73 @@ i.mce-i-resize {
 }
 
 .mce-i-bold:before {
-  content: "\e02a";
+  content: "\f032";
 }
 
 .mce-i-italic:before {
-  content: "\e02b";
+  content: "\f033";
 }
 
 .mce-i-underline:before {
-  content: "\e02c";
+  content: "\f0cd";
 }
 
 .mce-i-strikethrough:before {
-  content: "\e02d";
+  content: "\f0cc";
 }
 
 .mce-i-visualchars:before, .mce-i-visualblocks:before {
-  content: "\e02e";
+  content: "\f1dd";
 }
 
 .mce-i-ltr:before {
-  content: "\e02f";
+  content: "\f1dd";
+}
+.mce-i-ltr:after {
+  content: "\f0da";
+  bottom: 50%;
+  margin-bottom: -0.5em;
 }
 
 .mce-i-rtl:before {
-  content: "\e030";
+  content: "\f1dd";
+}
+.mce-i-rtl:after {
+  content: "\f0d9";
+  bottom: 50%;
+  margin-bottom: -0.5em;
 }
 
 .mce-i-copy:before {
-  content: "\e031";
+  content: "\f0c5";
 }
 
-.mce-i-resize:before {
-  content: "\e032";
+.mce-i-resize {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  &:before {
+    content: "\f054";
+  }
 }
 
 .mce-i-browse:before {
-  content: "\e034";
+  content: "\f115";
 }
 
 .mce-i-pastetext:before {
-  content: "\e035";
+  content: "\f0ea";
 }
 
 .mce-i-checkbox:before {
-  content: "\e033";
+  content: "\f00c";
 }
 
 .mce-i-selected {
   &:before {
-    content: "\e033";
+    content: "\f00c";
   }
   visibility: hidden;
 }
