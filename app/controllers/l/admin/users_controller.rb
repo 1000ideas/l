@@ -59,6 +59,7 @@ module L::Admin
 
       respond_to do |format|
         format.html
+        format.js
       end
     end
 
@@ -72,9 +73,12 @@ module L::Admin
 
       respond_to do |format|
         if @user.save
-          format.html { redirect_to admin_users_path, notice: info(:success) }
+          flash.notice = info(:success)
+          format.html { redirect_to admin_users_path  }
+          format.js
         else
           format.html { render :action => :new }
+          format.js
         end
       end
 

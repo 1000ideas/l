@@ -1,8 +1,8 @@
-<%= form_for([:admin, @user], html: {class: :row}) do |f| %>
+<%= form_for([:admin, @user], html: {class: :row, data: {remote: true}}) do |f| %>
   <%#= render partial: 'l/partials/errors', object: @user.errors %>
   <fieldset class="columns small-9 scroll-panel">
-    <h2><%= t('.title') %></h2>
-    <div class="field">
+    <h2><%= t(".title.#{@user.new_record? ? 'create' : 'update'}") %></h2>
+    <div class="field <%= 'error' if f.error?(:email) %>">
       <%= f.label :email %>
       <%= f.text_field :email %>
     </div>
@@ -20,6 +20,12 @@
     </div>
   </fieldset>
   <fieldset class="columns small-3 panel">
-    <%= f.button nil, class: [:button, :secondary, :round, :expand] %>
+    <div class="notification hidden">
+
+    </div>
+    <%= f.button nil, class: [:button, :secondary, :round, :expand], name: :save %>
+    <% if f.object.new_record? %>
+      <%= f.button t('.add_next'), class: [:button, :white, :round, :expand], name: :add_next %>
+    <% end %>
   </fieldset>
 <% end %>

@@ -60,7 +60,10 @@ pl:
             Nie znaleziono żadnych pasujących użytkowników.
             Spróbuj zmienić kryteria filtracji.
         form:
-          title: 'Dodaj użytkownika'
+          title:
+            create: 'Dodaj użytkownika'
+            update: 'Edytuj użytkownika'
+          add_next: 'Zapisz i dodaj kolejnego'
         edit_form:
           title: 'Edytuj użytkownika'
         list:
