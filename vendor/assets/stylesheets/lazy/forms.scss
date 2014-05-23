@@ -1,0 +1,23 @@
+@import 'lazy_overrides';
+
+form.row {
+  height: 100%;
+
+  fieldset.columns {
+    height: 100%;
+    margin: 0;
+    border: 0;
+    padding-top: 3rem;
+
+    &.panel {
+      background: #f2f2f2;
+    }
+
+    h2 {
+      font-size: 2em;
+      color: #555;
+      margin: 0 0 1em 0;
+    }
+
+  }
+}

@@ -1,6 +1,7 @@
-<%= form_for([:admin, @user]) do |f| %>
-  <%= render partial: 'l/partials/errors', object: @user.errors %>
-  <div class="group">
+<%= form_for([:admin, @user], html: {class: :row}) do |f| %>
+  <%#= render partial: 'l/partials/errors', object: @user.errors %>
+  <fieldset class="columns small-9 scroll-panel">
+    <h2><%= t('.title') %></h2>
     <div class="field">
       <%= f.label :email %>
       <%= f.text_field :email %>
@@ -17,8 +18,8 @@
       <%= f.label :role %>
       <%= f.select :role, User.roles_for_select %>
     </div>
-  </div>
-  <div class="actions">
-    <%= f.button %>
-  </div>
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <%= f.button nil, class: [:button, :secondary, :round, :expand] %>
+  </fieldset>
 <% end %>

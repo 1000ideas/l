@@ -59,6 +59,10 @@ pl:
           no_filtered_items_html: |
             Nie znaleziono żadnych pasujących użytkowników.
             Spróbuj zmienić kryteria filtracji.
+        form:
+          title: 'Dodaj użytkownika'
+        edit_form:
+          title: 'Edytuj użytkownika'
         list:
           more: "Załaduj kolejnych użytkowników"
           wait: "Ładuję..."

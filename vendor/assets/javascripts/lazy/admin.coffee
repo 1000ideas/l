@@ -35,23 +35,17 @@ class LazyAdmin
     @submenu_hidden_buttons()
     @set_main_content_height()
 
-    $('.items-list')
-      .on 'jsp-initialised jsp-scroll-y', (event) ->
-        window.context_menu && window.context_menu.close_all_context_menus()
-        jsp = $(event.target).data('jsp')
-        if !jsp? || jsp.isAboutEnd(50)
-          $('.show-more a', event.target).click()
-        if jsp?
-          if (padding = $('.items-list-header').width() - jsp.getContentPane().outerWidth()) > 0
-            $('.items-list-header').css('paddingRight': padding)
-
-      .jScrollPane()
-
-    $('.left-menu ul.root').jScrollPane()
+    $('.items-list, .left-menu ul.root')
+      .perfectScrollbar()
+    $('.items-list').on 'scroll', (event) ->
+      $element = $(event.target)
+      scrollBottom = $element.prop('scrollHeight') - $element.height() - $element.scrollTop()
+      $element.find('.show-more a').click() if scrollBottom < 200
 
     $(window).on 'resize', (event) =>
       @set_main_content_height()
       @submenu_hidden_buttons()
+      $('.ps-container').perfectScrollbar('update')
 
     $(document).on 'click', '.left-menu li.has-submenu > a', (event) ->
       event.preventDefault()
@@ -84,14 +78,11 @@ class LazyAdmin
 
 
   set_main_content_height: ->
-    _height = $(window).innerHeight() - $('header.panel-header').outerHeight()
+    _height = $(window).innerHeight() - $('header.panel-header').outerHeight() - 2
     $('.main-content').height(_height)
-    menu = $('.left-menu ul.root')
-    (mjsp = menu.data('jsp')) && mjsp.reinitialise()
     if (list = $('.main-content .items-list')).length > 0
       _list_height = _height - list.position().top
       list.height(_list_height)
-      (jsp = list.data('jsp')) && jsp.reinitialise()
 
   submenu_hidden_buttons: ->
     $('.submenu + ul[data-dropdown-content] li')
@@ -114,7 +105,9 @@ class LazyAdmin
     modal.find('.modal-content')
       .html(content)
       .append('<a class="close" href="#"></a>')
-    modal.addClass('open')
+    modal
+      .foundation()
+      .addClass('open')
 
   close_modal: ->
     modal = @_modal_dialog()
@@ -212,18 +205,14 @@ class LazyAdmin
       @selection_changed()
 
   _sortable_list: ->
-    group = $('.items-list[data-sortable-update]:not(.filtered) .jspPane')
+    group = $('.items-list[data-sortable-update]:not(.filtered)')
       .sortable
         nested: true
         group: 'items'
         handle: 'a[data-sort-handle]'
-        # tolerance: -10
-        containerSelector: 'ul.children, .jspPane'
+        containerSelector: 'ul.children'
         onDrop: (item, container, _super) ->
           _super(item, container)
-          if (jsp = group.closest('.jspScrollable').data('jsp'))?
-            jsp.reinitialise()
-
           try
             url = group.closest('[data-sortable-update]').data('sortable-update')
             object = {
@@ -239,10 +228,10 @@ class LazyAdmin
           catch error
             false
 
-    if (el = $('.items-list[data-sortable-update]:not(.filtered)')).length > 0
-      el.addClass('sortable')
-      if (jsp = el.data('jsp'))?
-        jsp.reinitialise()
+    if (element = $('.items-list[data-sortable-update]:not(.filtered)')).length > 0
+      element
+        .addClass('sortable')
+        .perfectScrollbar('update')
 
 
   _locales_tabs: ->

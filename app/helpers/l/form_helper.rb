@@ -27,6 +27,20 @@ module L
           ].join.html_safe
         end
       end
+
+      def error?(name)
+        @object.errors.include?(name)
+      end
+
+      def error_messages(name)
+        @object.errors[name].try(:map) do |error|
+          @object.errors.full_message(name, error)
+        end
+      end
+
+      def error_message(name)
+        error_messages(name).try(:first)
+      end
     end
 
 
