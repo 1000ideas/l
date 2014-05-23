@@ -9,6 +9,10 @@ form.row {
     border: 0;
     padding-top: 3rem;
 
+    &.scroll-panel {
+      position: relative;
+      overflow: hidden;
+    }
     &.panel {
       background: #f2f2f2;
     }

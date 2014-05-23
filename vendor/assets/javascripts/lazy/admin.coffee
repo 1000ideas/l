@@ -108,6 +108,8 @@ class LazyAdmin
     modal
       .foundation()
       .addClass('open')
+      .find('.scroll-panel')
+      .perfectScrollbar(includePadding: true)
 
   close_modal: ->
     modal = @_modal_dialog()

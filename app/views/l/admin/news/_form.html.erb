@@ -1,33 +1,42 @@
-<%= form_for(@news, url: admin_news_index_path, method: 'post', html: { multipart: true }) do |f| %>
-  <%= render partial: 'l/partials/errors', object: @news.errors %>
-  <div class="group">
-    <div class="field">
-      <%= f.label :published_at_formatted %>
-      <div class="row collapse input-calendar">
-        <div class="columns small-11"><%= f.text_field :published_at_formatted, data: {date: 'datetimepicker'} %></div>
-        <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
-      </div>
-    </div>
-  </div>
-  <div class="locales-tabs">
-    <ul>
-      <% I18n.available_locales.each do |el| %>
-        <li><a href="#tab-<%= el %>"><%=  el.to_s  %></a></li>
-      <% end %>
-    </ul>
-    <%= f.fields_for :translations do |builder| %>
-      <div id="tab-<%= builder.object.locale %>" class="group">
-        <%= builder.hidden_field :locale %>
-        <div class="field">
-          <%= builder.label :title %>
-          <%= builder.text_field :title %>
-        </div>
-        <div class="field field_with_tinymce">
-          <%= builder.label :content %>
-          <%= builder.tinymce :content, type: :advance %>
-        </div>
-      </div>
+<%= form_for(@news, url: admin_news_index_path, method: 'post', html: {multipart: true, class: :row, data: {remote: true}}) do |f| %>
+  <%#= render partial: 'l/partials/errors', object: @news.errors %>
+  <fieldset class="columns small-9 scroll-panel">
+    <% if  I18n.available_locales.length > 1 %>
+      <dl class="tabs" data-tab>
+        <% I18n.available_locales.each_with_index do |el, idx| %>
+          <dd class="<%= 'active' if idx == 0 %>"><a href="#tab-<%= el %>"><%=  el.to_s  %></a></dd>
+          <% content_for(:tabs_content) do %>
+            <%= f.fields_for :translations, f.object.translation_for(el) do |builder| %>
+              <div id="tab-<%= el %>" class="content <%= 'active' if idx == 0 %>">
+                <%= builder.hidden_field :locale %>
+                <div class="field">
+                  <%= builder.label :title %>
+                  <%= builder.text_field :title %>
+                </div>
+                <div class="field field_with_tinymce">
+                  <%= builder.label :content %>
+                  <%= builder.tinymce :content, type: :advance %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </dl>
     <% end %>
+
+    <div class="tabs-content">
+      <%= content_for(:tabs_content) %>
+    </div>
+
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <%= f.button nil, class: [:button, :secondary, :round, :expand] %>
+    <div class="small-field">
+      <%= f.label :published_at_formatted %>
+      <%= f.text_field :published_at_formatted, data: {inline: 'datetimepicker'} %>
+    </div>
+  </fieldset>
+  <div class="locales-tabs">
 
   </div>
   <div class="group">
@@ -38,6 +47,5 @@
     </div>
   </div>
   <div class="actions">
-    <%= f.button %>
   </div>
 <% end %>

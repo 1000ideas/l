@@ -1,7 +1,7 @@
 <ul class="submenu">
   <li class="show-more"><%= link_to fa_icon('caret-down'), '#', data: {dropdown: 'submenu-dropdown'} %></li>
   <% if action_name == 'index' %>
-  <li><%= link_to fa_icon('plus-circle fw', text: t('.new')), new_admin_news_path %></li>
+  <li><%= link_to fa_icon('plus-circle fw', text: t('.new')), new_admin_news_path(format: :js), data: {remote: true} %></li>
   <% else %>
   <li><%= link_to fa_icon('bars fw', text: t('.index')), admin_news_index_path %></li>
   <% end %>

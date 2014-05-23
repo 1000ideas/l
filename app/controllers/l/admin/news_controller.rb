@@ -40,6 +40,7 @@ module L::Admin
 
       respond_to do |format|
         format.html
+        format.js
       end
     end
 
