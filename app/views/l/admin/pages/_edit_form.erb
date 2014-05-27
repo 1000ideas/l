@@ -1,48 +1,59 @@
-<%= form_for(@page, url: admin_page_path(@page), method: 'put') do |f| %>
-  <%= render partial: 'l/partials/errors', object: @page.errors %>
-  <div class="group">
-    <% unless @parent.blank? %>
-      <div class="field">
-        <%= f.label :parent %>
-        <%= f.collection_select :parent_id, @parents, :id, :title, selected: f.object.parent_id %>
-      </div>
+<%= form_for(@page, url: admin_page_path(@page), method: 'put', html: {class: :row, data: {remote: true}}) do |f| %>
+  <fieldset class="columns small-9 scroll-panel">
+    <h2><%= t(".title") %></h2>
+    <% if  I18n.available_locales.length > 1 %>
+      <dl class="tabs" data-tab>
+        <% I18n.available_locales.each_with_index do |el, idx| %>
+          <dd class="<%= 'active' if idx == 0 %>"><a href="#tab-<%= el %>"><%=  el.to_s  %></a></dd>
+          <% content_for(:tabs_content) do %>
+            <%= f.fields_for :translations, f.object.translation_for(el) do |builder| %>
+              <div id="tab-<%= el %>" class="content <%= 'active' if idx == 0 %>">
+                <%= builder.hidden_field :locale %>
+                <div class="field">
+                  <%= builder.label :title %>
+                  <%= builder.text_field :title %>
+                </div>
+                <div class="field">
+                  <%= builder.label :content %>
+                  <%= builder.tinymce :content, type: :advance %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </dl>
+    <% end %>
+
+    <div class="tabs-content">
+      <%= content_for(:tabs_content) %>
+    </div>
+
+    <% unless @parents.blank? %>
+    <div class="field">
+      <%= f.label :parent %>
+      <%= f.collection_select :parent_id, @parents, :id, :title, prompt: 'Wybierz' %>
+    </div>
     <% end %>
 
     <div class="field">
       <%= f.label :url %>
       <%= f.text_field :url %>
     </div>
+
     <div class="field">
       <%= f.label :meta_description %>
       <%= f.text_field :meta_description %>
     </div>
+
     <div class="field">
       <%= f.label :meta_keywords %>
       <%= f.text_field :meta_keywords %>
     </div>
-  </div>
-  <div class="locales-tabs">
-    <ul>
-      <% I18n.available_locales.each do |el| %>
-        <li><a href="#tab-<%= el %>"><%=  el.to_s  %></a></li>
-      <% end %>
-    </ul>
-    <%= f.fields_for :translations do |builder| %>
-      <div id="tab-<%= builder.object.locale %>" class="group">
-        <%= builder.hidden_field :locale %>
-        <div class="field">
-          <%= builder.label :title %>
-          <%= builder.text_field :title %>
-        </div>
-        <div class="field field_with_tinymce">
-          <%= builder.label :content %>
-          <%= builder.tinymce :content, type: :advance %>
-          <div class="cb"></div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-  <div class="actions">
-    <%= f.button %>
-  </div>
+
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <div class="notification hidden"></div>
+    <%= f.button nil, class: [:button, :secondary, :round, :expand], name: :commit %>
+  </fieldset>
+
 <% end %>

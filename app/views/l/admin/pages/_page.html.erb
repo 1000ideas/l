@@ -24,7 +24,7 @@
     <% end %>
 
     <li><%= link_to fa_icon('search fw', text: t('helpers.actions.show')), admin_page_path(page), target: '_blank' %></li>
-    <li><%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_page_path(page) %></li>
+    <li><%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_page_path(page, format: :js), data: {remote: true} %></li>
     <li><%= link_to fa_icon('trash-o fw', text: t('helpers.actions.destroy')), admin_page_path(page), data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
   </ul>
   <% unless filtering? %>

@@ -38,14 +38,11 @@ module L::Admin
       @page = L::Page.new
       authorize! :create, @page
 
-
-      (I18n.available_locales).each {|locale|
-        @page.translations.build locale: locale
-      }
       @parents = L::Page.all
 
       respond_to do |format|
         format.html
+        format.js
       end
     end
 
@@ -74,9 +71,12 @@ module L::Admin
 
       respond_to do |format|
         if @page.save
-          format.html { redirect_to(admin_pages_path, notice: info(:success)) }
+          flash.notice = info(:success)
+          format.html { redirect_to( admin_pages_path ) }
+          format.js
         else
           format.html { render action: "new" }
+          format.js
         end
       end
     end
@@ -94,9 +94,12 @@ module L::Admin
 
       respond_to do |format|
         if @page.update_attributes(params[:l_page])
-          format.html { redirect_to(admin_pages_path, notice: info(:success)) }
+          flash.notice = info(:success)
+          format.html { redirect_to(admin_pages_path) }
+          format.js
         else
           format.html { render action: "edit" }
+          format.js
         end
       end
     end

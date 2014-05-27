@@ -87,6 +87,9 @@ module L::Admin
       @news = L::News.find(params[:id])
       authorize! :update, @news
 
+      @news.publish! if params.has_key?(:save_and_publish)
+      @news.draft! if params.has_key?(:save_draft)
+
       respond_to do |format|
         if @news.update_attributes(params[:l_news])
           flash.notice = info(:success)

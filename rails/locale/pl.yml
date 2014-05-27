@@ -94,6 +94,10 @@ pl:
           destroy_confirm: 'Usunąć zaznaczone strony i wszystkie podstrony?'
           hide: "Ukryj zaznaczone"
           unhide: "Upublicznij zaznaczone"
+        form:
+          title: Dodaj nową stronę
+        edit_form:
+          title: Aktualizuj stronę
         new:
           title: Nowa strona
         edit:
