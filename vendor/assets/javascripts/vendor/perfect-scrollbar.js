@@ -666,6 +666,8 @@
         $this.data('perfect-scrollbar', $this);
         $this.data('perfect-scrollbar-update', updateBarSizeAndPosition);
         $this.data('perfect-scrollbar-destroy', destroy);
+
+        $this.trigger('init:perfect-scrollbar')
       };
 
       // initialize
