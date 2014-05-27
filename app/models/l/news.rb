@@ -54,12 +54,24 @@ module L
 
     def published_at_formatted
       unless published_at.nil?
-        I18n.l(published_at, format: :edit)
+        I18n.l(self.published_at, format: :edit)
       end
     end
 
     def published_at_formatted= value
       self.published_at = value
+    end
+
+    def published?
+      published_at.present? and published_at < Time.now
+    end
+
+    def publish!
+      self.published_at ||= Time.now
+    end
+
+    def draft!
+      self.published_at = nil if published?
     end
 
 

@@ -23,9 +23,26 @@ class LazyAdmin
   constructor: ->
     @_init_selection()
     @_custom_file_input()
-    @_locales_tabs()
     @_fileupload()
     @_init_data_picker()
+
+    $(document).on 'ajax:complete', 'form', (event) ->
+      $('input:file', event.target).val('').change()
+
+    $(document).on 'click', '.small-field > label', (event) ->
+      $(event.currentTarget).parent().toggleClass('open')
+
+    $(document).on 'change', '.custom-file-field input[type=file]', (event) ->
+      el = $(event.currentTarget)
+      value = null
+      if el.prop('files')?
+        value = $.map $(el.prop('files')), (val, idx) ->
+          val.name
+        value = value.join(', ')
+      else
+        value = el.val().replace(/.*fakepath[\\\/]/, '')
+
+      el.closest('.custom-file-field').find('input[type=text][disabled]').val ( value )
 
     $(document).on 'opened', '[data-dropdown-content]', (event, dropdown, target) ->
       if dropdown.hasClass('axis-right')
@@ -234,14 +251,6 @@ class LazyAdmin
       element
         .addClass('sortable')
         .perfectScrollbar('update')
-
-
-  _locales_tabs: ->
-    $('.locales-tabs').each ->
-      if $(this).children('ul').first().children('li').length == 1
-        $(this).children('ul').first().hide()
-      else
-        $(this).tabs()
 
   _custom_file_input: ->
     $("input[type=file].custom-file-input.fileupload").customFileInput({path: false});

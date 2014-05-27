@@ -6,6 +6,7 @@
     <%= csrf_meta_tag %>
     <%= stylesheet_link_tag 'admins' %>
     <%= javascript_include_tag "vendor/modernizr" %>
+    <%= javascript_include_tag 'admins' %>
     <%= yield :head %>
   </head>
   <body>
@@ -25,7 +26,6 @@
     <% else %>
       <%= yield %>
     <% end %>
-    <%= javascript_include_tag 'admins' %>
     <%= javascript_tag do %>
       $(document).foundation();
     <% end %>

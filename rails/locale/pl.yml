@@ -110,10 +110,16 @@ pl:
           published_after: 'Opublikowane po'
         list:
           title: Aktualności
-        form:
+        form: &NEWS_FORM
+          title: "Tworzenie wiadomości"
           select_photo: Wybierz zdjęcie
+          set_publication_date: Wybierz datę publikacji
+          change_publication_date: Zmień datę publikacji
+          save_and_publish: Zapisz i opublikuj
+          save_draft: Zapisz szkic
         edit_form:
-          select_photo: Wybierz zdjęcie
+          <<: *NEWS_FORM
+          title: "Edycja wiadomości"
         edit:
           title: Edycja aktualności
         new:

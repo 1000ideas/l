@@ -34,10 +34,6 @@ module L::Admin
       @news = L::News.new
       authorize! :create, @news
 
-      (I18n.available_locales).each {|locale|
-        @news.translations.build :locale => locale
-      }
-
       respond_to do |format|
         format.html
         format.js
@@ -55,6 +51,7 @@ module L::Admin
 
       respond_to do |format|
         format.html
+        format.js
       end
     end
 
@@ -66,11 +63,17 @@ module L::Admin
       @news = L::News.new(params[:l_news])
       authorize! :create, @news
 
+      @news.publish! if params.has_key?(:save_and_publish)
+      @news.draft! if params.has_key?(:save_draft)
+
       respond_to do |format|
         if @news.save
-          format.html { redirect_to(admin_news_index_path, notice: info(:success)) }
+          flash.notice = info(:success)
+          format.html { redirect_to(admin_news_index_path) }
+          format.js
         else
           format.html { render :action => "new" }
+          format.js
         end
       end
     end
@@ -86,9 +89,12 @@ module L::Admin
 
       respond_to do |format|
         if @news.update_attributes(params[:l_news])
-          format.html { redirect_to(admin_news_index_path, notice: info(:success)) }
+          flash.notice = info(:success)
+          format.html { redirect_to(admin_news_index_path) }
+          format.js
         else
           format.html { render :action => "edit" }
+          format.js
         end
       end
     end

@@ -1,51 +1,69 @@
-<%= form_for(@news, url: admin_news_path(@news), method: 'put', html: { multipart: true }) do |f| %>
-  <%= render partial: 'l/partials/errors', object: @news.errors %>
-  <div class="locales-tabs">
-    <ul>
-      <% I18n.available_locales.each do |el| %>
-        <li><a href="#tab-<%= el %>"><%=  el.to_s  %></a></li>
-      <% end %>
-    </ul>
-
-    <%= f.fields_for :translations do |builder| %>
-      <div id="tab-<%= builder.object.locale %>" class="group">
-        <%= builder.hidden_field :locale %>
-        <div class="field">
-          <%= builder.label :title %>
-          <%= builder.text_field :title %>
-        </div>
-        <div class="field field_with_tinymce">
-          <%= builder.label :content %>
-          <%= builder.tinymce :content %>
-        </div>
-      </div>
+<%= form_for(@news, url: admin_news_path(@news), method: 'put', html: { multipart: true, class: :row, data: {remote: true} }) do |f| %>
+  <fieldset class="columns small-9 scroll-panel">
+    <h2><%= t(".title") %></h2>
+    <% if  I18n.available_locales.length > 1 %>
+      <dl class="tabs" data-tab>
+        <% I18n.available_locales.each_with_index do |el, idx| %>
+          <dd class="<%= 'active' if idx == 0 %>"><a href="#tab-<%= el %>"><%=  el.to_s  %></a></dd>
+          <% content_for(:tabs_content) do %>
+            <%= f.fields_for :translations, f.object.translation_for(el) do |builder| %>
+              <div id="tab-<%= el %>" class="content <%= 'active' if idx == 0 %>">
+                <%= builder.hidden_field :locale %>
+                <div class="field">
+                  <%= builder.label :title %>
+                  <%= builder.text_field :title %>
+                </div>
+                <div class="field">
+                  <%= builder.label :content %>
+                  <%= builder.tinymce :content, type: :advance %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </dl>
     <% end %>
 
-  </div>
-  <div class="group">
+    <div class="tabs-content">
+      <%= content_for(:tabs_content) %>
+    </div>
+
     <div class="field">
-      <%= f.label :published_at_formatted %>
-      <div class="row collapse input-calendar">
-        <div class="columns small-11"><%= f.text_field :published_at_formatted, data: {date: 'datetimepicker'} %></div>
-        <%= link_to fa_icon('calendar'), '#', class: 'button tiny columns small-1' %>
+
+      <%= f.label :photo %>
+      <div class="row collapse custom-file-field">
+        <div class="columns small-9"><%= text_field_tag nil, nil, disabled: true %></div>
+        <div class="columns small-3">
+        <%= link_to '#', class: 'postfix button tiny white round' do %>
+          <%= f.file_field :photo, class: 'custom-file-input', data: {label: t('.select_photo') } %>
+          <%= fa_icon('upload', text: t('.select_photo')) %>
+        <% end %>
+        </div>
       </div>
     </div>
-    <div class="field">
-      <%= f.label :photo %>
-      <%= f.file_field :photo, class: 'custom-file-input', data: {label: t('.select_photo') } %>
-    </div>
+
     <%= content_tag :div, class: 'field' do %>
       <%= f.label :photo_delete %>
       <%= f.check_box :photo_delete %>
     <% end if @news.photo? %>
+
     <%= content_tag :div, class: 'field' do %>
       <%= f.label :photo_image %>
       <%= image_tag @news.photo.url(:small)  %>
     <% end if @news.photo? %>
-  </div>
 
 
-  <div class="actions">
-    <%= f.button %>
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <div class="notification hidden"></div>
+    <%= f.button t('.save_and_publish'), class: [:button, :secondary, :round, :expand], name: :save_and_publish %>
+    <%= f.button t('.save_draft'), class: [:button, :white, :round, :expand], name: :save_draft %>
+    <div class="small-field">
+      <%= f.label :published_at, t(".#{@news.published? ? 'change' : 'set'}_publication_date") %>
+      <%= f.datetimepicker :published_at, showOtherMonths: true %>
+    </div>
+  </fieldset>
+
   </div>
+
 <% end %>

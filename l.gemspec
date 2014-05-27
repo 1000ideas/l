@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'paperclip'
   spec.add_runtime_dependency 'jquery-ui-rails'
   spec.add_runtime_dependency 'jquery-fileupload-rails'
+  spec.add_runtime_dependency 'remotipart'
   spec.add_runtime_dependency 'better_errors'
   spec.add_runtime_dependency 'binding_of_caller'
   spec.add_runtime_dependency 'quiet_assets'

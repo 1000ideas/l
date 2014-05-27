@@ -20,9 +20,7 @@
     </div>
   </fieldset>
   <fieldset class="columns small-3 panel">
-    <div class="notification hidden">
-
-    </div>
+    <div class="notification hidden"></div>
     <%= f.button nil, class: [:button, :secondary, :round, :expand], name: :save %>
     <% if f.object.new_record? %>
       <%= f.button t('.add_next'), class: [:button, :white, :round, :expand], name: :add_next %>

@@ -14,6 +14,9 @@ module L
     end
 
     module FormBuilder
+      @@dateoptions = [ :altField, :altFormat, :appendText, :autoSize, :beforeShow, :beforeShowDay, :buttonImage, :buttonImageOnly, :buttonText, :calculateWeek, :changeMonth, :changeYear, :closeText, :constrainInput, :currentText, :dateFormat, :dayNames, :dayNamesMin, :dayNamesShort, :defaultDate, :duration, :firstDay, :gotoCurrent, :hideIfNoPrevNext, :isRTL, :maxDate, :minDate, :monthNames, :monthNamesShort, :navigationAsDateFormat, :nextText, :numberOfMonths, :onChangeMonthYear, :onClose, :onSelect, :prevText, :selectOtherMonths, :shortYearCutoff, :showAnim, :showButtonPanel, :showCurrentAtPos, :showMonthAfterYear, :showOn, :showOptions, :showOtherMonths, :showWeek, :stepMonths, :weekHeader, :yearRange, :yearSuffix]
+      @@datetimeoptions = [ :currentText, :closeText, :amNames, :pmNames, :timeFormat, :timeSuffix, :timeOnlyTitle, :timeText, :hourText, :minuteText, :secondText, :millisecText, :microsecText, :timezoneText, :isRTL, :altFieldTimeOnly, :altSeparator, :altTimeSuffix, :altTimeFormat, :timezoneList, :controlType, :showHour, :showMinute, :showSecond, :showMillisec, :showMicrosec, :showTimezone, :showTime, :stepHour, :stepMinute, :stepSecond, :stepMillisec, :stepMicrosec, :hour, :minute, :second, :millisec, :microsec, :timezone, :hourMin, :minuteMin, :secondMin, :millisecMin, :microsecMin, :hourMax, :minuteMax, :secondMax, :millisecMax, :microsecMax, :hourGrid, :minuteGrid, :secondGrid, :millisecGrid, :microsecGrid, :showButtonPanel, :timeOnly, :timeOnlyShowDate, :onSelect, :alwaysSetTime, :separator, :pickerTimeFormat, :pickerTimeSuffix, :showTimepicker, :addSliderAccess, :sliderAccessArgs, :defaultValue, :minDateTime, :maxDateTime, :minTime, :maxTime, :parse ]
+
       def select_box(method, object, options = {})
         plural_name = method.to_s.pluralize
         options.merge!(multiple: true)
@@ -26,6 +29,37 @@ module L
             @template.content_tag(:i)
           ].join.html_safe
         end
+      end
+
+      def datetimepicker(method, options = {})
+        option_names = @@dateoptions | @@datetimeoptions
+        datetime_opts = options.slice!(option_names)
+
+
+        sanitized_object_name = @object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, "_").sub(/_$/, "")
+        sanitized_method_name = method.to_s.sub(/\?$/,"")
+
+        _id = options.fetch("id") do
+          if options.has_key?("index")
+            "#{sanitized_object_name}_#{options['index']}_#{sanitized_method_name}"
+          elsif defined?(@auto_index)
+            "#{sanitized_object_name}_#{@auto_index}_#{sanitized_method_name}"
+          else
+            "#{sanitized_object_name}_#{sanitized_method_name}"
+          end
+        end
+
+        _id = [options.fetch('namespace', nil), _id].compact.join("_").presence
+        calendar_id = [options.fetch('namespace', nil), _id, 'calendar'].compact.join("_").presence
+
+        datetime_opts[:altField] = "##{_id}"
+        datetime_opts[:altFieldTimeOnly] = false
+
+        [
+          hidden_field(method),
+          @template.content_tag(:div, '', id: calendar_id),
+          @template.javascript_tag("$('##{calendar_id}').datetimepicker(#{datetime_opts.to_json}).datetimepicker('setDate', '#{@object.send(method)}');")
+          ].join.html_safe
       end
 
       def error?(name)
