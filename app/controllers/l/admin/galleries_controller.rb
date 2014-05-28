@@ -87,9 +87,12 @@ module L::Admin
 
       respond_to do |format|
         if @gallery.update_attributes(params[:l_gallery])
-          format.html { redirect_to(admin_galleries_path, :notice => I18n.t('update.success')) }
+          flash.notice = info('success')
+          format.html { redirect_to(admin_galleries_path) }
+          format.js
         else
           format.html { render :action => "edit" }
+          format.js
         end
       end
     end

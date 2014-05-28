@@ -71,6 +71,51 @@ form.row {
       }
     }
 
+    .queue {
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      .queue-item {
+        margin-bottom: 1em;
+
+
+        &.done {
+          .progress,
+          .cancel { display: none; }
+        }
+      }
+    }
+
+    .photos-list {
+      margin: 0;
+      li {
+        display: inline-block;
+        width: 100px;
+
+        a.photo-link {
+          display: block;
+          height: 100px;
+          width: 100%;
+          text-align: center;
+
+          img {
+            display: inline-block;
+            vertical-align: middle;
+          }
+
+          &:before {
+            content: '';
+            height: 100%;
+            width: 0;
+            display: inline-block;
+            vertical-align: middle;
+          }
+        }
+
+      }
+    }
+
     .custom-file-button {
       position: relative;
       overflow: hidden;

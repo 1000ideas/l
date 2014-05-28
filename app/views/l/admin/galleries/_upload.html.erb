@@ -1,7 +1,7 @@
 <div class='queue-item'>
-  <%= link_to raw('&times;'), '#', class: :close %>
-  <p>{{name}}</p>
+  <label>{{name}}</label>
   <div class="progress">
     <span class="meter" style="width: 0;"></span>
   </div>
+  <%= link_to t('.cancel'), '#', class: [:button, :secondary, :tiny, :expand, :cancel] %>
 </div>

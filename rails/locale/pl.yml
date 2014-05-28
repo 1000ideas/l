@@ -170,12 +170,13 @@ pl:
           data: "Szczegóły galerii"
           upload_queue: "Kolejka plików"
           files_sent: "wysłanych plików"
-          upload: "Wybierz zdjęcia"
+          upload: "Dodaj kolejne zdjęcia"
           cancel: "Anuluj wysyłanie"
         edit_form:
           <<: *GALLERIES_FORM
-          upload: "Wybierz zdjęcia"
-          upload_queue: "Kolejka plików"
+          title: "Edytuj galerię"
+        upload:
+          cancel: "Anuluj"
       gallery_photos:
         show_photos:
           photos_added: Dodane zdjęcia

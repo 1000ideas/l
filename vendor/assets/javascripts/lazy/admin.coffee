@@ -85,7 +85,7 @@ class LazyAdmin
       $(document).foundation('dropdown', 'closeall')
 
     @_modal_dialog()
-    $(document).on 'click', '.admin-modal .close', (event) =>
+    $(document).on 'click', '.admin-modal .modal-content > a.close', (event) =>
       event.preventDefault();
       @close_modal();
 
@@ -114,7 +114,7 @@ class LazyAdmin
           template = template.replace("{{name}}", file.name)
           data.context = $(template).appendTo(queue.show())
           data.context
-            .find('a.close')
+            .find('a.cancel')
             .click (event) ->
               event.preventDefault();
               data.jqXHR.abort();
@@ -129,6 +129,7 @@ class LazyAdmin
         return unless data.context?
         data
           .context
+          .addClass('done')
           .delay(3000)
           .fadeOut 'slow', ->
             $(this).remove()

@@ -40,7 +40,7 @@
     -moz-transition: all 0.3s;
     transition: all 0.3s;
 
-    a.close {
+    > a.close {
       position: absolute;
       top: 0;
       right: 0;
