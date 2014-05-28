@@ -1,5 +1,17 @@
 @import 'lazy_overrides';
 
+.old-type-form {
+  position: relative;
+  overflow: hidden;
+
+  .actions {
+    text-align: right;
+    border-top: 1px solid #d9d9d9;
+    margin-top:  2rem;
+    padding-top: 2rem;
+  }
+}
+
 form.row {
   height: 100%;
 

@@ -52,8 +52,8 @@ class LazyAdmin
     @submenu_hidden_buttons()
     @set_main_content_height()
 
-    $('.items-list, .left-menu ul.root')
-      .perfectScrollbar()
+    $('.items-list, .left-menu ul.root, .old-type-form')
+      .perfectScrollbar(includePadding: true)
     $('.items-list').on 'scroll', (event) ->
       $element = $(event.target)
       scrollBottom = $element.prop('scrollHeight') - $element.height() - $element.scrollTop()
@@ -148,6 +148,9 @@ class LazyAdmin
     if (list = $('.main-content .items-list')).length > 0
       _list_height = _height - list.position().top
       list.height(_list_height)
+    if (form = $('.old-type-form')).length > 0
+      _list_height = _height - form.position().top
+      form.height(_list_height)
 
   submenu_hidden_buttons: ->
     $('.submenu + ul[data-dropdown-content] li')
