@@ -156,7 +156,7 @@ pl:
           content: "Treść"
           no_items_html: |
             Aktualnie nie ma żadnych galerii.
-            Może chcesz <a href="%{link}">utworzyć nową</a>?
+            Może chcesz <a href="%{link}" data-remote>utworzyć nową</a>?
           no_filtered_items_html: |
             Nie znaleziono żadnych pasujących galerii.
             Spróbuj zmienić kryteria filtracji.
@@ -164,7 +164,8 @@ pl:
           title: Dodawanie galerii
         edit:
           title: Edycja galerii
-        form:
+        form: &GALLERIES_FORM
+          title: "Dodaj nową galerię"
           hierarchy: "Hierarchia"
           data: "Szczegóły galerii"
           upload_queue: "Kolejka plików"
@@ -172,6 +173,7 @@ pl:
           upload: "Wybierz zdjęcia"
           cancel: "Anuluj wysyłanie"
         edit_form:
+          <<: *GALLERIES_FORM
           upload: "Wybierz zdjęcia"
           upload_queue: "Kolejka plików"
       gallery_photos:

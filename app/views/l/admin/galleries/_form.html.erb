@@ -1,28 +1,45 @@
-<%= form_for(@gallery, url: admin_galleries_path, method: :post) do |f| %>
-  <%= render partial: 'l/partials/errors', object: @gallery.errors %>
+<%= form_for(@gallery, url: admin_galleries_path(format: :js), method: :post, html: {multipart: true, class: :row, data: {remote: true}}) do |f| %>
+  <fieldset class="columns small-9 scroll-panel">
+    <h2><%= t(".title") %></h2>
+    <% if  I18n.available_locales.length > 1 %>
+      <dl class="tabs" data-tab>
+        <% I18n.available_locales.each_with_index do |el, idx| %>
+          <dd class="<%= 'active' if idx == 0 %>"><a href="#tab-<%= el %>"><%=  el.to_s  %></a></dd>
+          <% content_for(:tabs_content) do %>
+            <%= f.fields_for :translations, f.object.translation_for(el) do |builder| %>
+              <div id="tab-<%= el %>" class="content <%= 'active' if idx == 0 %>">
+                <%= builder.hidden_field :locale %>
+                <div class="field">
+                  <%= builder.label :name %>
+                  <%= builder.text_field :name %>
+                </div>
+                <div class="field">
+                  <%= builder.label :content %>
+                  <%= builder.tinymce :content, type: :advance %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </dl>
 
-  <div class="locales-tabs">
-    <ul>
-      <% I18n.available_locales.each do |el| %>
-        <li><a href="#tab-<%= el %>"><%=  el.to_s  %></a></li>
-      <% end %>
-    </ul>
-    <%= f.fields_for :translations do |builder| %>
-      <div id="tab-<%= builder.object.locale %>" class="group">
-        <%= builder.hidden_field :locale %>
-        <div class="field">
-          <%= builder.label :name %>
-          <%= builder.text_field :name %>
-        </div>
-        <div class="field field_with_tinymce">
-          <%= builder.label :content %>
-          <%= builder.tinymce :content %>
-        </div>
+      <div class="tabs-content">
+        <%= content_for(:tabs_content) %>
+      </div>
+    <% else %>
+      <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+      <div class="field">
+        <%= f.label :content %>
+        <%= f.tinymce :content, type: :advance %>
       </div>
     <% end %>
-  </div>
 
-  <div class="actions">
-    <%= f.button %>
-  </div>
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <div class="notification hidden"></div>
+    <%= f.button nil, class: [:button, :secondary, :round, :expand], name: :commit %>
+  </fieldset>
 <% end %>

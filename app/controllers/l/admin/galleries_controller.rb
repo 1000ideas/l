@@ -33,12 +33,9 @@ module L::Admin
       @gallery = L::Gallery.new
       authorize! :create, @gallery
 
-      I18n.available_locales.each {|locale|
-        @gallery.translations.build :locale => locale
-      }
-
       respond_to do |format|
         format.html
+        format.js
       end
     end
 
@@ -52,6 +49,11 @@ module L::Admin
       authorize! :update, @gallery
 
       @gallery_photos = @gallery.gallery_photos
+
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     # Akcja tworząca nową galerię. Dostęp tylko dla administratora.
@@ -64,9 +66,12 @@ module L::Admin
 
       respond_to do |format|
         if @gallery.save
-          format.html { redirect_to(edit_admin_gallery_path(@gallery), :notice => I18n.t('create.success')) }
+          flash.notice = info('success')
+          format.html { redirect_to(edit_admin_gallery_path(@gallery)) }
+          format.js
         else
           format.html { render :action => "new" }
+          format.js
         end
       end
     end

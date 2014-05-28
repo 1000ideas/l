@@ -26,7 +26,11 @@ module L::Admin
     #
     def create
       @gallery = L::Gallery.find(params[:gallery_id])
-      @photo = @gallery.gallery_photos.new(photo: params[:photo])
+      if params.has_key?(:upload_gallery_photo)
+        @photo = @gallery.gallery_photos.new(photo: params[:upload_gallery_photo])
+      else
+        @photo = @gallery.gallery_photos.new(params[:gallery_photo])
+      end
       authorize! :create, @photo
 
       @photo.save

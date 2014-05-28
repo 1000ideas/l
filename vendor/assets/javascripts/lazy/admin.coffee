@@ -94,6 +94,53 @@ class LazyAdmin
     @selection_changed()
 
 
+  async_file_upload: (id, options = {}) ->
+    url = (element = $("##{id}")).data('url')
+    default_options = {
+      sequentialUploads: true
+      singleFileUploads: true
+      formData: (form) ->
+        $('input[type=hidden]', form)
+          .filter (idx, el) ->
+            $(el).attr('name').match(/^(utf8|authenticity_token)$/)
+          .serializeArray()
+      add: (e, data) ->
+        queue_id = data.fileInput.data('queue');
+        queue = $("##{queue_id}")
+        template = queue.data('template')
+
+        if template?
+          file = data.files[0];
+          template = template.replace("{{name}}", file.name)
+          data.context = $(template).appendTo(queue.show())
+          data.context
+            .find('a.close')
+            .click (event) ->
+              event.preventDefault();
+              data.jqXHR.abort();
+        data.submit()
+
+      progress: (e, data) ->
+        return unless data.context?
+        progress = parseInt(data.loaded / data.total * 100, 10)
+        data.context.find('.progress .meter').width("#{progress}%")
+
+      always: (e, data) ->
+        return unless data.context?
+        data
+          .context
+          .delay(3000)
+          .fadeOut 'slow', ->
+            $(this).remove()
+            queue_id = data.fileInput.data('queue');
+            queue = $("##{queue_id}")
+            if queue.children('.queue-item').length == 0
+              queue.hide()
+    }
+
+    element.fileupload $.extend(default_options, options)
+
+
   set_main_content_height: ->
     _height = $(window).innerHeight() - $('header.panel-header').outerHeight() - 2
     $('.main-content').height(_height)

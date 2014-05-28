@@ -10,7 +10,7 @@
   </div>
   <ul data-context-target>
     <li><%= link_to fa_icon('search fw', text: t('helpers.actions.show')), gallery_path(gallery), target: '_blank' %></li>
-    <li><%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_gallery_path(gallery) %></li>
+    <li><%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_gallery_path(gallery, format: :js), data: {remote: true} %></li>
     <li><%= link_to fa_icon('trash-o fw', text: t('helpers.actions.destroy')), admin_gallery_path(gallery), data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
   </ul>
 </li>
