@@ -1,42 +1,14 @@
 /*
- *= require jquery.ui.selectable
- *= require_self
+ *= require lazy_foundation_and_overrides
+ *= require vendor/perfect-scrollbar
+ *= require font-awesome
  */
-
-
- @mixin _button {
-  display: inline-block;
-  cursor: pointer;
-  box-sizing: content-box;
-  border: 0;
-  // border-radius: .25em;
-  padding: .5em 1em;
-  background: #fff;
-  // box-shadow: inset 1px 1px 0 rgba(#fff, .5);
-  background-color: #89244a;
-  color: #fff;
-  // text-shadow: 1px 1px 0 #1E5799; 
-
-  &:hover, &:focus, &:active {
-    background-color: #e6085c;
-  }
-}
-
-body {
-  font-size: 12px;
-
-}
-
-button {
-  @include _button;
-}
+@import 'lazy_overrides';
 
 .fileupload-wrapper {
   position: relative;
   overflow: hidden;
-  @include _button;
-  
-  
+
   input[type=file] {
     position: absolute;
     opacity: 0;
@@ -65,14 +37,36 @@ ul.ui-selectable {
 
 header {
   .buttons {
-    background-color: #89244a;
-    text-align: right;
+    background-color: #fff;
+    text-align: left;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+    white-space: nowrap;
 
     button {
       margin: 0;
       padding: 1em 2em;
       display: block;
-      float: right;
+      border: 0;
+      color: $secondary-color;
+      background: #fff;
+      display: inline-block;
+      font-size: 1rem;
+
+      &:hover, &:focus {
+        color: darken($secondary-color, 10%);
+
+      }
+
+      &:before {
+        font-family: FontAwesome;
+        content: '\f114';
+        margin-right: .5em;
+      }
+
+      &.fileupload-wrapper:before {
+        content: '\f093';
+      }
     }
 
     &:after {
@@ -84,16 +78,27 @@ header {
 }
 
 ul.breadcrumbs {
-  padding: 1em 0 1em 3em;
-  margin: 0;
-  background-color: #e6085c;
-  color: #fff;
+  margin: 0 0 0 25%;
+  width: 75%;
+  background: #f2f2f2;
+  border: 0;
+  padding: 1em 0 1em 1rem;
+  color: $primary-color;
+  border-radius: 0;
 
   li {
+    font-size: 1rem;
 
     &:after {
-      content: '›';      
-      // content: '/';      
+      content: '›';
+      margin: 0 0 0 0.5em;
+    }
+
+    &:first-child:before,
+    &:before {
+      font-family: FontAwesome;
+      content: '\f115';
+      margin-right: .5em;
     }
 
     &:last-child:after {
@@ -103,15 +108,16 @@ ul.breadcrumbs {
     display: inline;
 
     a {
-      color: #fff;
+      color: $primary-color;
       text-decoration: none;
+      text-transform: none;
     }
 
   }
 }
 
 section.content {
-  background: #F8F8F8;
+  height: 509px;
 
   &:after {
     content: '';
@@ -127,6 +133,9 @@ section.content {
   #folder-list-box {
     float: left;
     width: 25%;
+    position: relative;
+    top: -3rem;
+    padding: 0;
 
     @mixin _folder {
       &.drop-hover {
@@ -136,12 +145,19 @@ section.content {
       line-height: 2em;
       padding: 0 .5em;
       text-decoration: none;
-      color: #333;      
+      color: #333;
     }
 
     h2 {
+      font-size: 1rem;
+      padding: .5rem 1rem;
+      font-family: $body-font-family;
+
       a {
-        @include _folder;
+        &.drop-hover {
+          outline: 1px dashed #888;
+        }
+        line-height: 2em;
       }
     }
 
@@ -176,16 +192,26 @@ section.content {
         }
 
         &.current > a {
-          background: darken(#F8F8F8, 10%);
+          color: $secondary-color;
         }
 
         ul{
           list-style: none;
           padding: 0;
+          margin-left: 1rem;
         }
 
         > a {
-         @include _folder;
+          &:before {
+            font-family: FontAwesome;
+            content: '\f115';
+            margin-right: .5em;
+          }
+          display: inline-block;
+          line-height: 2em;
+          padding: 0 .5em;
+          text-decoration: none;
+          color: #333;
         }
 
         div.actions {
@@ -197,26 +223,91 @@ section.content {
   }
 
   #upload-list-box {
-    background: #fff;
+    background: #f2f2f2;
     float: left;
     width: 75%;
     min-height: 500px;
+    padding: 0 1em;
+    height: 509px;
+    overflow: hidden;
+    position: relative;
+
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
 
       > li {
+        display: inline-block;
+        width: 100px;
+        padding: 0;
+        border: 0;
+        margin: 0 1em 1em 0;
+        vertical-align: top;
+        background: #fff;
+        cursor: pointer;
+        position: relative;
+
+        &.empty {
+          display: block;
+          margin: 0 auto;
+          padding: 3rem;
+          text-align: center;
+          width: 100%;
+          cursor: auto;
+        }
+
         &.ui-draggable-dragging {
           opacity: .4;
           z-index: 2;
+        }
+
+        &:not(.empty):before {
+          background: #fff;
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100px;
+          z-index: 1;
+        }
+
+        img { position: relative; z-index: 2;}
+
+
+        &.selected {
+          background: $secondary-color;
+          color: #fff;
+
+          &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: rgba($secondary-color, 0.5);
+            z-index: 3;
+          }
+
+          p.name { color: #fff; }
+        }
+
+        &[data-image=false] {
+          &:before {
+            position: static;
+            font-family: FontAwesome;
+            content: '\f016';
+            text-align: center;
+            color: #555;
+            line-height: 100px;
+            font-size: 50px;
+          }
 
         }
-        display: inline-block;
-        width: 100px;
-        padding: .5em;
-        border: 1px solid #ddd;
-        margin: .5em;
-        vertical-align: top;
 
         div.actions {
           display: none;
@@ -226,6 +317,15 @@ section.content {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          color: $secondary-color;
+          margin: .8em 0 0 0;
+          text-align: center;
+          padding: 0 1em;
+        }
+
+        p.size {
+          text-align: center;
+          margin: 0 0 .8em 0;
         }
       }
     }
