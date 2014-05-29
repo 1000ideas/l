@@ -24,8 +24,10 @@ pl:
         settings: "Ustawienia"
       admin:
         index:
-          title: Strona startowa
+          title: Dashboard
           welcome: "Witaj w panelu administracyjnym! Co chcesz zrobić?"
+          shortcuts: "Na skróty"
+          shortcut_sample: "Przykładowy link"
         submenu:
           profile: "Edytuj profil"
       users:

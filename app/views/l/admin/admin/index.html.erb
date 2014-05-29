@@ -1,8 +1,21 @@
 <% title t('.title'), scope: :admin %>
 
-<div class="row">
+<div class="row dashboard">
   <div class="columns">
+    <h2><%= t('.title') %></h2>
     <p><%= t('.welcome') %></p>
+
+    <h3><%= t('.shortcuts') %></h3>
+    <ul class="shortcuts">
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+      <li><%= link_to fa_icon('file-text-o', text: t('.shortcut_sample')), '#' %></li>
+    </ul>
   </div>
 </div>
 
