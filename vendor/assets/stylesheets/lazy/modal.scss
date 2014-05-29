@@ -64,6 +64,10 @@
         font-size: 2rem;
       }
     }
+
+    > form {
+      display: none;
+    }
   }
 
   &.open {
@@ -80,6 +84,10 @@
       -ms-transform: scale(1);
       transform: scale(1);
       opacity: 1;
+
+      > form {
+        display: block;
+      }
     }
   }
 

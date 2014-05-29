@@ -10,7 +10,7 @@ class CreateGalleries < ActiveRecord::Migration
     add_index :galleries, :deleted_at, null: true
 
     L::Gallery.create_translation_table!(name: :string, content: :text)
-    add_column L::Gallery.translation_table_name, :deleted_at, :datetime, null: true
+    add_column L::Gallery.translations_table_name, :deleted_at, :datetime, null: true
   end
 
   def self.down

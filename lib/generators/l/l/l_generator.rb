@@ -45,28 +45,28 @@ module L
     class LGenerator < ::Rails::Generators::Base
       include ::Rails::Generators::Migration
       include L::Generators::Actions
-      namespace 'l'   
- 
-      
+      namespace 'l'
+
+
       class_option :orm, :default => "active_record"
 
-      class_option :lang, 
-        aliases: '-l', 
-        type: :array, 
-        default: ['pl'], 
+      class_option :lang,
+        aliases: '-l',
+        type: :array,
+        default: ['pl'],
         desc: "Lista języków obsługiwanych przez aplikację." <<
           "Jeśli podany zostanie jeden (domyslnie pl) to zostaną" <<
           "wyłaczone funkcje przełącznia języków."
 
-      class_option :bundle, type: :boolean, default: true, 
+      class_option :bundle, type: :boolean, default: true,
         desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle " <<
                "jesli wiesz że wszystkie użyte gemy są zainstalowane)"
 
-      class_option :gems, type: :boolean, default: true, 
+      class_option :gems, type: :boolean, default: true,
         desc:  "Dodaj wymagane gemy do pliku Gemfile (użyj --skip-gems " <<
                "jesli nie chcesz aby plik Gemfile był modyfikowany)"
 
-      class_option :views, type: :boolean, default: true, 
+      class_option :views, type: :boolean, default: true,
         desc:  "Kopiuj widoki lazy_programmera (użyj --skip-views " <<
                "jesli wiesz co robisz)"
 
@@ -85,7 +85,7 @@ module L
       def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
-      
+
       class << self
         delegate :next_migration_number, to: ActiveRecord::Generators::Base
       end
@@ -97,7 +97,7 @@ require 'mime/types'
 require 'base64'
 require 'will_paginate/array'
         CONTENT
-        
+
         lang_symbols = options.lang.map{|l| l.to_sym }
 
         setting = <<-CONTENT
@@ -107,35 +107,78 @@ require 'will_paginate/array'
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
     config.i18n.available_locales = #{lang_symbols.inspect}
         CONTENT
-        
-        inject_into_file "config/application.rb", requiry, 
+
+        inject_into_file "config/application.rb", requiry,
           after:  "require 'rails/all'\n", verbose: false
         inject_into_class "config/application.rb", 'Application', setting, verbose: false
         log :application, "Insert application configuration"
       end
-      
+
       def add_gems # :nodoc:
         if options.gems
-          prepend_to_file 'Gemfile', "source 'http://1000i.co/gems'\n"
-
-          # gem 'devise', "~> 2.0.0"
-          
+          gem 'devise', '~> 2.0'
           gem 'cancan'
+          gem 'paperclip'
+          gem 'jquery-ui-rails'
+          gem 'jquery-fileupload-rails'
+          gem 'remotipart'
+          gem 'foundation-rails', '~> 5.2.0'
+          gem 'font-awesome-rails', '~> 4.1.0'
+          gem 'paranoia'
 
           gem 'globalize3', '~> 0.3.0'
           gem 'rails-i18n'
-          
 
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
 
           gem 'tinymce-rails', github: '1000ideas/tinymce-rails', branch: 'rails_3_2'
+
+          gem_group :development do
+            gem 'better_errors'
+            gem 'binding_of_caller'
+            gem 'quiet_assets'
+          end
+        else
+          log :skip, <<-CONTENT
+Adding gems
+
+############### GEMS LIST ###############
+gem 'devise', '~> 2.0'
+gem 'cancan'
+gem 'paperclip'
+gem 'jquery-ui-rails'
+gem 'jquery-fileupload-rails'
+gem 'remotipart'
+gem 'foundation-rails', '~> 5.2.0'
+gem 'font-awesome-rails', '~> 4.1.0'
+gem 'paranoia'
+
+gem 'globalize3', '~> 0.3.0'
+gem 'rails-i18n'
+
+gem 'will_paginate', '~> 3.0.0'
+gem 'acts_as_tree', '~> 0.1.1'
+gem 'mysql2'
+
+gem 'tinymce-rails', github: '1000ideas/tinymce-rails', branch: 'rails_3_2'
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'quiet_assets'
+end
+          CONTENT
         end
 
         Bundler.with_clean_env do
           run 'bundle install'
-        end if options.bundle
+        end if options.bundle and options.gems
+      end
+
+      def copy_initializer
+        copy_file 'initializer_template.rb', 'config/initializers/lazy.rb'
       end
 
       def install_devise # :nodoc:
@@ -155,7 +198,7 @@ require 'will_paginate/array'
         rake "tinymce:lang:all"
         copy_file "assets/tinymce-rails-upload.css.scss", 'app/assets/javascripts/tinymce-rails-upload.css.scss'
       end
-      
+
       def invoke_user_model # :nodoc:
         generate :model, "user --no-migration"
       end
@@ -196,7 +239,7 @@ require 'will_paginate/array'
         insert_into_file 'app/models/ability.rb', abilities, after: "initialize(user)\n"
 
       end
-      
+
       ##### dodanie danych do seeds.rb
       def add_seeds_data # :nodoc:
         dane = <<-CONTENT
@@ -228,8 +271,8 @@ puts "done!"
       ##### tworzenie routow do modulow: admin oraz users, one musza byc w kazdym cmsie
       def add_admin_and_users_routes # :nodoc:
         routes_content = load_template "routes.rb"
-        inject_into_file "config/routes.rb", 
-          routes_content, 
+        inject_into_file "config/routes.rb",
+          routes_content,
           after: %r{Application\.routes\.draw do$}
       end
 
@@ -238,7 +281,7 @@ puts "done!"
       def add_devise_route # :nodoc:
         devise_route = <<-ROUTE
 
-  devise_for :users, 
+  devise_for :users,
     path: '',
     path_names: {
       :sign_in => 'login',
@@ -249,19 +292,19 @@ puts "done!"
       :registration => 'account'
     }
         ROUTE
-        inject_into_file "config/routes.rb", 
-          devise_route, 
+        inject_into_file "config/routes.rb",
+          devise_route,
           after: %r{Application\.routes\.draw do\n}
       end
-      
+
 
       ##### dodanie treści do application controller
       def add_app_controller_content # :nodoc:
         remove_file "app/controllers/application_controller.rb"
         template 'application_controller.rb', "app/controllers/application_controller.rb"
       end
-      
-      
+
+
       ##### kopiowanie plikow tlumaczen
       def copy_locales # :nodoc:
         template "locales/pl.yml", "config/locales/pl.yml"
@@ -278,23 +321,6 @@ puts "done!"
         application prod_content, :env => 'production'
       end
 
-      def add_assets_to_pipeline # :nodoc:
-        inject_into_file 'app/assets/javascripts/application.js', 
-          "//= require lightbox\n//= require jquery-fileupload/basic\n",
-          after: "jquery_ujs\n"
-
-        inject_into_file 'app/assets/stylesheets/application.css', 
-          "\n *= require lightbox\n *= require lazy", 
-          before: "\n*/"
-
-        gsub_file 'app/assets/stylesheets/application.css', 
-          /^.*require_tree.*\n/, ''
-
-        copy_file "assets/admins.js", 'app/assets/javascripts/admins.js'
-        copy_file "assets/admins.css", 'app/assets/stylesheets/admins.css'
-      end
-
-
       def copy_application_views # :nodoc:
         directory "views/application", "app/views/application"
       end
@@ -305,10 +331,6 @@ puts "done!"
 
       def copy_view # :nodoc:
         generate 'l:views' if options.views
-      end
-
-      def add_jquery_fileupload_middleware # :nodoc:
-        initializer('jquery_fileupload.rb', "Rails.application.config.middleware.use JQuery::FileUpload::Rails::Middleware")
       end
 
       def generate_mobile # :nodoc:

@@ -19,13 +19,16 @@ module L::Admin
 
       @pages = if filtering?
         @pages = @pages.order(sort_order(:pages)) if sort_results?
-        @pages.filter(params[:filter])
+        @pages
+          .filter(params[:filter])
+          .paginate(page: params[:page])
       else
         @pages.ordered.roots
       end
 
       respond_to do |format|
         format.html
+        format.js
       end
     end
 

@@ -19,6 +19,6 @@
   </div>
 <% else %>
   <div class="no-items">
-    <%= t('.no_items_html', link: new_admin_news_path) %>
+    <%= t('.no_items_html', link: new_admin_news_path(format: :js)) %>
   </div>
 <% end %>

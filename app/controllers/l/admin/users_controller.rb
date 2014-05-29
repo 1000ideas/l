@@ -75,11 +75,13 @@ module L::Admin
         if @user.save
           flash.notice = info(:success)
           format.html { redirect_to admin_users_path  }
-          format.js
         else
           format.html { render :action => :new }
-          format.js
         end
+        if @reset_form = params.has_key?(:add_next) and @user.errors.empty?
+          @user = User.new
+        end
+        format.js
       end
 
     end
@@ -94,12 +96,18 @@ module L::Admin
 
       @user.updated_by = current_user
 
+
       respond_to do |format|
         if @user.update_attributes(params[:user])
-          format.html { redirect_to admin_users_path, notice: info(:success) }
+          flash.notice = info(:success)
+          format.html { redirect_to(admin_users_path)  }
         else
           format.html { render :action => :edit }
         end
+        if @reset_form = params.has_key?(:add_next) and @user.errors.empty?
+          @user = User.new
+        end
+        format.js
       end
     end
 

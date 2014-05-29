@@ -1,14 +1,11 @@
 <% title t('.title') %>
-<% breadcrumbs_admin link_to(t('.title'), admin_path) %>
 
-<%= content_tag(:p, flash[:notice], class: :notice) if flash.key? :notice %>
-<%= content_tag(:p, flash[:alert], class: :alert) if flash.key? :alert %>
-
-<div class="cols-container">
-  <div class="main-column">
+<div class="row">
+  <div class="columns small-12 old-type-form">
+    <h2><%= t('.title') %></h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render partial: 'devise/shared/errors', object: resource.errors %>
+    <%= render partial: 'l/partials/errors', object: resource.errors %>
     <div class="group">
       <div class="field">
         <%= f.label :email %>
@@ -31,22 +28,13 @@
       </div>
     </div>
     <div class="actions">
-      <%= f.button t('.submit') %>
+      <%= f.button t('.submit'), class: [:button, :white, :round] %>
     </div>
 
-    <h2><%= t('.cancel.title') %></h2>
+    <h3><%= t('.cancel.title') %></h3>
     <div class="group">
     <p><%= link_to t('.cancel.cancel'), registration_path(resource_name), confirm: t('.cancel.sure'), method: :delete %>.</p>
   </div>
   <% end %>
-
-
-
-</div>
-  <div class="tooltip-column">
-    <div class="tooltip-box">
-      <span class="bulb"><%= t('.tooltip.head') %></span>
-      <p><%= t('.tooltip.content') %></p>
-    </div>
   </div>
 </div>

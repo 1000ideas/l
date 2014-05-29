@@ -3,4 +3,5 @@ _content = $("<%=j render('list') %>")
 $('.items-list').trigger('append-next-page', _content.find('ul.items-list').html())
 <% else %>
 $('.items-list, .no-items').trigger('reload-content', _content.find('ul.items-list'))
+lazy._sortable_list()
 <% end %>

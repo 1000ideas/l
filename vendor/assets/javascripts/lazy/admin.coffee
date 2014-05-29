@@ -22,7 +22,6 @@ class Loader
 class LazyAdmin
   constructor: ->
     @_init_selection()
-    @_custom_file_input()
     @_fileupload()
     @_init_data_picker()
 
@@ -73,6 +72,19 @@ class LazyAdmin
       element = $(event.target)
       element.find('.show-more').replaceWith $(content)
       element.foundation()
+      @set_main_content_height()
+      if all_selected
+        $('.items-list input[type=checkbox]').each (idx, el) ->
+          $(el)
+            .prop('checked', true)
+            .trigger('change', [true])
+        @selection_changed()
+
+    $(document).on 'reload-content', (event, content) =>
+      all_selected = @all_selected()
+      element = $(event.target)
+      element.replaceWith $(content)
+      $(document).foundation()
       @set_main_content_height()
       if all_selected
         $('.items-list input[type=checkbox]').each (idx, el) ->
@@ -181,6 +193,10 @@ class LazyAdmin
 
   close_modal: ->
     modal = @_modal_dialog()
+    if $('.items-list').length > 0
+      $.ajax
+        url: location.href
+        dataType: 'script'
     modal.removeClass('open')
 
   _modal_dialog: ->
@@ -302,10 +318,6 @@ class LazyAdmin
       element
         .addClass('sortable')
         .perfectScrollbar('update')
-
-  _custom_file_input: ->
-    $("input[type=file].custom-file-input.fileupload").customFileInput({path: false});
-    $("input[type=file].custom-file-input").customFileInput();
 
   _fileupload: ->
     if Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0

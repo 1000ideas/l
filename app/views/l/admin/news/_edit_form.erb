@@ -22,11 +22,20 @@
           <% end %>
         <% end %>
       </dl>
+      <div class="tabs-content">
+        <%= content_for(:tabs_content) %>
+      </div>
+    <% else %>
+      <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
+      <div class="field">
+        <%= f.label :content %>
+        <%= f.tinymce :content, type: :advance %>
+      </div>
     <% end %>
 
-    <div class="tabs-content">
-      <%= content_for(:tabs_content) %>
-    </div>
 
     <div class="field">
 

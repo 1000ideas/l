@@ -13,17 +13,13 @@
 </ul>
 
 <% if @pages.any? %>
-  <%= form_for :selection, url: '#', html: {method: :post} do |f| %>
-    <ul class="items-list <%= 'filtered' if filtering? %>" data-sortable-update="<%= sort_admin_pages_path %>">
-      <%= render partial: 'page', collection: @pages, locals: {f: f} %>
-    </ul>
-  <% end %>
+  <%= render 'list' %>
 <% elsif filtering? %>
   <div class="no-items">
     <%= t('.no_filtered_items_html') %>
   </div>
 <% else %>
   <div class="no-items">
-    <%= t('.no_items_html', link: new_admin_page_path) %>
+    <%= t('.no_items_html', link: new_admin_page_path(format: :js)) %>
   </div>
 <% end %>

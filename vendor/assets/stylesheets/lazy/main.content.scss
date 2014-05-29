@@ -61,11 +61,16 @@
               font-family: FontAwesome;
               content: '\f0da';
               right: 100%;
-              margin-right: .5em;
+              margin-right: -1em;
               line-height: 1em;
               margin-top: -0.5em;
               top: 50%;
               color: lighten($body-font-color, 30%);
+              transition: transform 300ms linear;
+              -webkit-transition: -webkit-transform 200ms linear;
+              -moz-transition: -moz-transform 200ms linear;
+              -ms-transition: -ms-transform 200ms linear;
+              -o-transition: -o-transform 200ms linear;
             }
           }
 
@@ -75,9 +80,9 @@
             }
             > a:before {
               color: $body-font-color;
-              -webkit-transform: rotate(45deg);  /* Chrome, Opera 15+, Safari 3.1+ */
-                  -ms-transform: rotate(45deg);  /* IE 9 */
-                      transform: rotate(45deg);  /* Firefox 16+, IE 10+, Opera */
+              -webkit-transform: rotate(45deg);
+                  -ms-transform: rotate(45deg);
+                      transform: rotate(45deg);
 
             }
           }
@@ -90,7 +95,6 @@
 
       }
 
-      .jspPane > li,
       > li {
         padding-top: 1px;
         &.spacer {
@@ -103,10 +107,17 @@
           border-bottom: 1px solid #fff;
         }
         > a {
-          margin: 1.6rem;
+          padding: 0.9rem 1.6rem;
           font-family: $header-font-family;
           text-transform: uppercase;
           display: block;
+          color: $body-font-color;
+          transition: color 300ms ease-out;
+          -webkit-transition: color 300ms ease-out;
+          -moz-transition: color 300ms ease-out;
+          -ms-transition: color 300ms ease-out;
+          -o-transition: color 300ms ease-out;
+
         }
       }
     }
@@ -268,6 +279,8 @@
 
       &.sortable {
         background-color: #f2f2f2;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #f2f2f2;
         li.row {
           margin-top: 1em;
           margin-bottom: 1em;

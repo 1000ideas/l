@@ -28,6 +28,9 @@ form.row {
 
     &.panel {
       background: #f2f2f2;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      margin-left: -10px;
     }
 
     h2 {
@@ -174,6 +177,10 @@ form.row {
           padding: 0;
         }
       }
+    }
+
+    .mce-tinymce {
+      margin-bottom: 1.3333rem;
     }
 
     dl.tabs {

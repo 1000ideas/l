@@ -57,7 +57,7 @@ pl:
           role: Role
           no_items_html: |
             Nie ma żadnych użytkowników.
-            Może chcesz <a href="%{link}">stworzyć nowego</a>?
+            Może chcesz <a href="%{link}" data-remote>stworzyć nowego</a>?
           no_filtered_items_html: |
             Nie znaleziono żadnych pasujących użytkowników.
             Spróbuj zmienić kryteria filtracji.
@@ -85,7 +85,7 @@ pl:
           title: Strony
           no_items_html: |
             Nie ma żadnych stron stałych.
-            Może chcesz <a href="%{link}">utworzyć nową</a>?
+            Może chcesz <a href="%{link}" data-remote>utworzyć nową</a>?
           no_filtered_items_html: |
             Nie znaleziono żadnych pasujących stron.
             Spróbuj zmienić kryteria filtracji.
@@ -139,7 +139,7 @@ pl:
           title: Aktualności
           no_items_html: |
             Nie ma żadnych aktualności.
-            Może chcesz <a href="%{link}">utworzyć nową</a>?
+            Może chcesz <a href="%{link}" data-remote>utworzyć nową</a>?
           no_filtered_items_html: |
             Nie znaleziono żadnych pasujących aktualności.
             Spróbuj zmienić kryteria filtracji.

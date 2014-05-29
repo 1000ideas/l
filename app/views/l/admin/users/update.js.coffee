@@ -6,8 +6,6 @@ if errors.length > 0
 else
   $('.notification').slideUp ->
     if reset_form
-      $('.modal-content form').param('reset')()
-    else
       lazy.modal "<%= j render('form') %>"
     $('.notification').text("<%= j flash.discard(:notice) %>").slideDown()
 
