@@ -22,6 +22,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
     end
   end
 
@@ -31,6 +32,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
     end
   end
 
@@ -40,10 +42,12 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= orm_instance.save %>
-        format.html { redirect_to(admin_<%= plural_table_name %>_path, notice: info(:success) ) }
+        flash.notice =  info(:success)
+        format.html { redirect_to(admin_<%= plural_table_name %>_path ) }
       else
         format.html { render action: "new" }
       end
+      format.js
     end
   end
 
@@ -53,10 +57,12 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= orm_instance.update_attributes("params[:#{singular_table_name}]") %>
-        format.html { redirect_to(admin_<%= plural_table_name %>_path, notice: info(:success) ) }
+        flash.notice =  info(:success)
+        format.html { redirect_to(admin_<%= plural_table_name %>_path ) }
       else
         format.html { render action: "edit" }
       end
+      format.js
     end
   end
 

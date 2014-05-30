@@ -78,9 +78,7 @@ module L::Admin
         else
           format.html { render :action => :new }
         end
-        if @reset_form = params.has_key?(:add_next) and @user.errors.empty?
-          @user = User.new
-        end
+        @reset_form = params.has_key?(:add_next) and @user.errors.empty?
         format.js
       end
 
@@ -104,9 +102,7 @@ module L::Admin
         else
           format.html { render :action => :edit }
         end
-        if @reset_form = params.has_key?(:add_next) and @user.errors.empty?
-          @user = User.new
-        end
+        @reset_form = params.has_key?(:add_next) and @user.errors.empty?
         format.js
       end
     end

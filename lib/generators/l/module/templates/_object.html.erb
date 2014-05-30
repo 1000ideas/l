@@ -12,7 +12,7 @@
   </div>
   <ul data-context-target>
     <li><%%= link_to fa_icon('search fw', text: t('helpers.actions.show')), <%= singular_table_name %>_path(<%= singular_table_name %>), target: '_blank' %></li>
-    <li><%%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_<%= singular_table_name %>_path(<%= singular_table_name %>) %></li>
+    <li><%%= link_to fa_icon('edit fw', text: t('helpers.actions.edit')), edit_admin_<%= singular_table_name %>_path(<%= singular_table_name %>, format: :js), data: {remote: true} %></li>
     <li><%%= link_to fa_icon('trash-o fw', text: t('helpers.actions.destroy')), admin_<%= singular_table_name %>_path(<%= singular_table_name %>), data: {confirm: t('helpers.actions.confirm'), method: :delete } %></li>
   </ul>
 </li>

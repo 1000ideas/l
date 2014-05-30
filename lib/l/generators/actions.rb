@@ -8,7 +8,7 @@ module L
       # Wczytaj i sparsuj szablon z pliku
       #
       # * *Argumenty*:
-      #   
+      #
       #   - +source+ -> scieżka do pliku źródłowego szablonu
       #
       # * *Zwraca*:
@@ -17,13 +17,13 @@ module L
       def load_template(source)
         source  = File.expand_path(find_in_source_paths(source.to_s))
         context = instance_eval('binding')
-        ERB.new(::File.binread(source), nil, '-', '@output_buffer').result(context)        
+        ERB.new(::File.binread(source), nil, '-', '@output_buffer').result(context)
       end
 
       # Wczytaj, sparsuj i wstaw szablon do pliku
       #
       # * *Argumenty*:
-      #   
+      #
       #   - +dest+ -> scieżka do docelowego pliku
       #   - +source+ -> ścieżka do pliku z szablonem
       #   - +options+ -> opcje, takie jak w funckcji +inject_into_file+
@@ -35,7 +35,7 @@ module L
       # Wstaw tłumaczenia do pliku
       #
       # * *Argumenty* :
-      #   
+      #
       #   - +file+ -> nazwa pliku z tłumaczeniami
       #   - +trans+ -> hash z drzewem tłumaczeń
       #   - +path+ -> ścieżka w drzewie tłumaczeń do której podpiąc tłumaczenie,
@@ -60,7 +60,7 @@ module L
       # Utwórz plik z tłumaczeniami
       #
       # * *Argumenty* :
-      #   
+      #
       #   - +name+ -> nazwa tłumaczonego modułu
       #   - +trans+ -> drzewo tłumaczeń
       #   - +lang+ -> język tłumaczeń
@@ -91,7 +91,7 @@ module L
       # Klasa generatora ORM
       #
       # * *Zwraca*:
-      #   
+      #
       #   obiekt będący klasą generatora wybranego ORM
       def orm_class
         @orm_class ||= begin
@@ -111,7 +111,7 @@ module L
       # Instancja klasy generatora ORM
       #
       # * *Zwraca* :
-      #   
+      #
       #   obiekt będący instancją klasy generatora wybranego ORM
       def orm_instance(name=singular_table_name)
         @orm_instance ||= @orm_class.new(name)
@@ -120,20 +120,20 @@ module L
       # Metoda pozwalająca uzyskać atrybuty elementów HTML ybranych pól
       #
       # * *Argumenty* :
-      #   
+      #
       #   - +attr+ -> Atrybut klasy modelu
       #
       # * *Zwraca* :
-      #   
+      #
       #   (+String+) rozpoczynającą się przecinkiem lista atrybutów elementu
       #   HTML pola
-      def field_options(attr)
-        if attr.type.to_s.match %r{^tinymce_([a-z_]*)$}
+      def field_options(attribute)
+        if attribute.type.to_s.match %r{^tinymce_([a-z_]*)$}
           opt = {
             :type => :"#{$1}"
           }
           ", " + opt.to_s[1..-2]
-        elsif attr.field_type == :text_area
+        elsif attribute.field_type == :text_area
           opt = {
             :cols => 70,
             :rows => 5
@@ -147,7 +147,7 @@ module L
       # Metoda pozwalająca uzyskać typ pola z typu atrybutu klasy modelu
       #
       # * *Argumenty* :
-      #   
+      #
       #   - +attr+ -> Atrybut klasy modelu
       #
       # * *Zwraca* :
@@ -171,7 +171,7 @@ module L
       #   - +attr+ -> Atrybut klasy modelu
       #
       # * *Zwraca*:
-      #   
+      #
       #   (+String+) połaczoną listę klas CSS elementu HTML
       def field_class(attr)
         cls = ['field']

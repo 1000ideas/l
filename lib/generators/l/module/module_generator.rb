@@ -171,7 +171,9 @@ CONTENT
           filename = "#{view}.html.erb"
           template filename, File.join("app/views/admin", controller_file_path, filename)
         end
-        template "index.js.coffee", File.join("app/views/admin", controller_file_path, "index.js.coffee")
+        %w(index new edit create update).each do |name|
+          template "#{name}.js.coffee", File.join("app/views/admin", controller_file_path, "#{name}.js.coffee")
+        end
         template "_object.html.erb", File.join("app/views/admin", controller_file_path, "_#{singular_table_name}.html.erb")
         template "front_index.html.erb", File.join("app/views", controller_file_path, "index.html.erb")
         template "front_show.html.erb", File.join("app/views", controller_file_path, "show.html.erb")

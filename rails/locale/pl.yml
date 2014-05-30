@@ -253,7 +253,7 @@ pl:
     index:
       no_items_html: |
         Aktualnie nie ma żadnych obiektów.
-        Może chcesz <a href="%{link}">utworzyć nowy</a>?
+        Może chcesz <a href="%{link}" data-remote>utworzyć nowy</a>?
       no_filtered_items_html: |
         Nie znaleziono żadnych pasujących obiektów.
         Spróbuj zmienić kryteria filtracji.

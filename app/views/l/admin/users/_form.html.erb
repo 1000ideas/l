@@ -1,7 +1,8 @@
-<%= form_for([:admin, @user], html: {class: :row, data: {remote: true}}) do |f| %>
-  <%#= render partial: 'l/partials/errors', object: @user.errors %>
+<% user ||= @user %>
+<%= form_for([:admin, user], html: {class: :row, data: {remote: true}}) do |f| %>
+  <%#= render partial: 'l/partials/errors', object: user.errors %>
   <fieldset class="columns small-9 scroll-panel">
-    <h2><%= t(".title.#{@user.new_record? ? 'create' : 'update'}") %></h2>
+    <h2><%= t(".title.#{user.new_record? ? 'create' : 'update'}") %></h2>
     <div class="field <%= 'error' if f.error?(:email) %>">
       <%= f.label :email %>
       <%= f.text_field :email %>

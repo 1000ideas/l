@@ -23,6 +23,6 @@
   </div>
 <%% else %>
   <div class="no-items">
-    <%%= t('defaults.index.no_items_html', link: new_admin_<%= singular_table_name %>_path) %>
+    <%%= t('defaults.index.no_items_html', link: new_admin_<%= singular_table_name %>_path(format: :js)) %>
   </div>
 <%% end %>

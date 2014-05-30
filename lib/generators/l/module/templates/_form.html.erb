@@ -1,14 +1,27 @@
-<%%= form_for([:admin, @<%= singular_table_name %>]) do |f| %>
-<%%= render partial: 'l/partials/errors', object: @<%= singular_table_name %>.errors %>
-<div class="group">
-  <% for attribute in attributes -%>
+<%%= form_for([:admin, @<%= singular_table_name %>], html: {class: :row, data: {remote: true}}) do |f| %>
+  <fieldset class="columns small-9 scroll-panel">
+    <h2><%%= t(".title.#{f.object.persisted? ? 'update' : 'create'}") %></h2>
+  <% attributes.reject{|a| a.name[/^deleted_at$/]}.each do |attribute| -%>
     <div class="<%= field_class(attribute) %>">
       <%%= f.label :<%= attribute.name %> %>
+      <%- if attribute.type == :file %>
+      <div class="row collapse custom-file-field">
+        <div class="columns small-9"><%%= text_field_tag nil, nil, disabled: true %></div>
+        <div class="columns small-3">
+        <%%= link_to '#', class: 'postfix button tiny white round' do %>
+          <%%= f.<%= field_type(attribute) %> :<%= attribute.name %> <%= field_options(attribute) %> %>
+          <%%= fa_icon('upload', text: 'Select file') %>
+        <%% end %>
+        </div>
+      </div>
+      <%- else %>
       <%%= f.<%= field_type(attribute) %> :<%= attribute.name %> <%= field_options(attribute) %> %>
+      <%- end %>
     </div>
   <% end -%>
-</div>
-<div class="actions">
-  <%%= f.button %>
-</div>
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <div class="notification hidden"></div>
+    <%%= f.button nil, class: [:button, :secondary, :round, :expand], name: :commit %>
+  </fieldset>
 <%% end %>
