@@ -105,18 +105,6 @@ CONTENT
         log :route, "resources :newsletter_mails"
       end
 
-      def add_link_in_menu # :nodoc:
-        link = <<-LINK
-  <%= admin_menu_link(:newsletter, newsletter_mails_path, controller: :newsletter_mails) if current_user.has_role? :admin %>"
-        LINK
-        inject_into_file 'app/views/l/admins/partials/_header.erb',
-          link,
-          :before => "</div>\n<div id=\"submenu\">"
-      rescue
-        log :skip, "Adding link to admin menu"
-
-      end
-
       protected
 
       def newsletter_mailer_exists? # :nodoc:

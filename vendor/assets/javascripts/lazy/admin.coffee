@@ -25,6 +25,10 @@ class LazyAdmin
     @_fileupload()
     @_init_data_picker()
 
+
+    $(document).on 'focus blur', '.custom-file-field input:file', (event) ->
+      $(event.target).parent().toggleClass('focus', event.type == 'focusin')
+
     $(document).on 'ajax:complete', 'form', (event) ->
       $('input:file', event.target).val('').change()
 
@@ -83,8 +87,9 @@ class LazyAdmin
     $(document).on 'reload-content', (event, content) =>
       all_selected = @all_selected()
       element = $(event.target)
-      element.replaceWith $(content)
-      $(document).foundation()
+      if $(content).children().length > 0
+        element.replaceWith $(content)
+        $(document).foundation()
       @set_main_content_height()
       if all_selected
         $('.items-list input[type=checkbox]').each (idx, el) ->

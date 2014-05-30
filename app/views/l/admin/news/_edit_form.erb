@@ -43,7 +43,7 @@
       <div class="row collapse custom-file-field">
         <div class="columns small-9"><%= text_field_tag nil, nil, disabled: true %></div>
         <div class="columns small-3">
-        <%= link_to '#', class: 'postfix button tiny white round' do %>
+        <%= link_to '#', class: 'postfix button tiny white round', tabindex: -1 do %>
           <%= f.file_field :photo, class: 'custom-file-input', data: {label: t('.select_photo') } %>
           <%= fa_icon('upload', text: t('.select_photo')) %>
         <% end %>

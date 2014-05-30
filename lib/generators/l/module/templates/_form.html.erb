@@ -8,7 +8,7 @@
       <div class="row collapse custom-file-field">
         <div class="columns small-9"><%%= text_field_tag nil, nil, disabled: true %></div>
         <div class="columns small-3">
-        <%%= link_to '#', class: 'postfix button tiny white round' do %>
+        <%%= link_to '#', class: 'postfix button tiny white round', tabindex: -1 do %>
           <%%= f.<%= field_type(attribute) %> :<%= attribute.name %> <%= field_options(attribute) %> %>
           <%%= fa_icon('upload', text: 'Select file') %>
         <%% end %>

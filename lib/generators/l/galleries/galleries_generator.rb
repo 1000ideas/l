@@ -71,16 +71,6 @@ module L
           "    @galleries = L::Gallery.search(params[:q])\n",
           :after => "def search\n"
       end
-
-      def add_link_in_menu # :nodoc:
-        link = <<-LINK
-  <%= admin_menu_link(:galleries) if current_user.has_role? :admin %>
-        LINK
-        inject_into_file File.join(destination_root, 'app/views/l/admins/partials/_header.erb'), link, :before => "</div>\n<div id=\"submenu\">"
-      rescue
-        log :skip, "Adding galleries to menu"
-      end
-
     end
   end
 end

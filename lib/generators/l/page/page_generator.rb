@@ -77,17 +77,6 @@ module L
           after: "def search\n"
       end
 
-      def add_link_in_menu # :nodoc:
-        link = <<-LINK
-  <%= admin_menu_link(:pages) if current_user.has_role? :admin %>
-        LINK
-        inject_into_file 'app/views/l/admins/partials/_header.erb',
-          link,
-          before: "</div>\n<div id=\"submenu\">"
-      rescue Exception => ex
-        log :skip, "Adding link to admin menu"
-      end
-
     end
   end
 end
