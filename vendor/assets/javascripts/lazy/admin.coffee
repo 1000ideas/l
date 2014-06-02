@@ -57,10 +57,7 @@ class LazyAdmin
 
     $('.items-list, .left-menu ul.root, .old-type-form')
       .perfectScrollbar(includePadding: true)
-    $('.items-list').on 'scroll', (event) ->
-      $element = $(event.target)
-      scrollBottom = $element.prop('scrollHeight') - $element.height() - $element.scrollTop()
-      $element.find('.show-more a').click() if scrollBottom < 200
+    @load_on_scroll()
 
     $(window).on 'resize', (event) =>
       @set_main_content_height()
@@ -89,7 +86,9 @@ class LazyAdmin
       element = $(event.target)
       if $(content).children().length > 0
         element.replaceWith $(content)
+        $('.items-list').perfectScrollbar(includePadding: true)
         $(document).foundation()
+      @load_on_scroll()
       @set_main_content_height()
       if all_selected
         $('.items-list input[type=checkbox]').each (idx, el) ->
@@ -110,6 +109,11 @@ class LazyAdmin
     @_sortable_list()
     @selection_changed()
 
+  load_on_scroll: ->
+    $('.items-list').on 'scroll', (event) ->
+      $element = $(event.target)
+      scrollBottom = $element.prop('scrollHeight') - $element.height() - $element.scrollTop()
+      $element.find('.show-more a').click() if scrollBottom < 200
 
   async_file_upload: (id, options = {}) ->
     url = (element = $("##{id}")).data('url')

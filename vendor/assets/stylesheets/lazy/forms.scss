@@ -15,7 +15,7 @@
 form.row {
   height: 100%;
 
-  fieldset.columns {
+  > fieldset.columns {
     height: 100%;
     margin: 0;
     border: 0;
@@ -31,6 +31,7 @@ form.row {
       padding-left: 1.25rem;
       padding-right: 1.25rem;
       margin-left: -10px;
+      float: right;
     }
 
     h2 {
