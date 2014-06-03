@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-$fb_scope = "email,user_likes"
+$fb_scope = "email"
 
 if Rails.env == "production"
   $fb_app_id = ""
@@ -15,7 +15,3 @@ else
   $fb_app_url = "https://apps.facebook.com/test_local_rails_ti/"
   $app_host = "http://localhost:3000/"
 end
-
-
-OmniAuth.config.full_host = $app_host
-
