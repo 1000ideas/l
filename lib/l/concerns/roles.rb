@@ -5,9 +5,9 @@ module L::Concerns
 
     module ClassMethods
 
-      # Dodaj klasie (zwykle użytkownikowi) rolę, jedną z pośród 
+      # Dodaj klasie (zwykle użytkownikowi) rolę, jedną z pośród
       # podanych jako argumenty. Dodatkowe opcje wywołania:
-      # 
+      #
       #  - +:shorthands+ - generuje metody ze znakiem zapytania, dla
       #    każdej podanej roli, np.: admin?, user?, która sprawadza
       #    czy podany użytkownik ma wybraną rolę. DOmyślnie te metody
@@ -17,14 +17,14 @@ module L::Concerns
         common_adding_roles_actions(*roles)
         include OneRoleInstanceMethods
 
-        class_eval do 
+        class_eval do
           attr_accessible :role
         end
       end
 
       # Dodaj klasie (zwykle użytkownikowi) role, może posiadać wiecej
       # niż jedną z pośród podanych jako argumenty. Dodatkowe opcje wywołania:
-      # 
+      #
       #  - +:shorthands+ - generuje metody ze znakiem zapytania, dla
       #    każdej podanej roli, np.: admin?, user?, która sprawadza
       #    czy podany użytkownik ma wybraną rolę. DOmyślnie te metody
@@ -35,7 +35,7 @@ module L::Concerns
         include ManyRolesInstanceMethods
 
         class_eval do
-          
+
           # Dodaj wybraną rolę dla podzbioru użytkowników
           def self.add_role_for_all(role_name)
             update_all(["`#{table_name}`.`roles_mask` = `#{table_name}`.`roles_mask` | ?", role_mask(role_name)])
@@ -183,7 +183,7 @@ module L::Concerns
 
     # Metody dla modelu posiadającego wiele ról.
     module ManyRolesInstanceMethods
-      
+
       # Pobierz listę ról użytkownika
       def roles
         available_roles.find_all do |r|
@@ -200,7 +200,7 @@ module L::Concerns
 
       # Ustaw (nadpisz) role użytkownika
       def roles=(new_roles)
-        mask = (new_roles.map(&:to_sym) & available_roles).each {|r| role_mask(r) }.sum
+        mask = (new_roles.map(&:to_sym) & available_roles).map{|r| role_mask(r) }.sum
         write_attribute(:roles_mask, mask)
       end
 
@@ -220,11 +220,10 @@ module L::Concerns
           mem && self.has_role?(r)
         end
       end
-
     end
 
     # Metody wspólne dla modeli posiadaących jedną/wiele roli.
-    module CommonInstanceMethods      
+    module CommonInstanceMethods
 
       # Lista dostepnych ról dla użytkownika
       def available_roles
@@ -235,7 +234,7 @@ module L::Concerns
       def has_role?(role_name)
         ! ((roles_mask || 0) & role_mask(role_name)).zero?
       end
-      
+
       # Sprawdza czy użytkownik posiada choć jedną z podanych roli
       def has_any_role?(*roles)
         roles.inject(false) do |mem, r|
@@ -245,7 +244,7 @@ module L::Concerns
 
       private
 
-      # Oblicz maskę bitową dla podanej roli. Wyrzuca +ArgumentError+ dla 
+      # Oblicz maskę bitową dla podanej roli. Wyrzuca +ArgumentError+ dla
       # niezdefiniowanych roli
       def role_mask(role_name)
         self.class.send :role_mask, role_name

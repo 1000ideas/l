@@ -3,7 +3,7 @@ module L::Admin
     layout 'l/admin'
 
     def index
-      authorize! :manage, User
+      authorize! :display, :dashboard
 
       respond_to do |format|
         format.html

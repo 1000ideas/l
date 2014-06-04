@@ -219,6 +219,7 @@ end
     user ||= User.new
 
     if user.has_role? :admin
+      can :display, :dashboard
       can :manage, User
       can :manage, L::Page
       can :manage, L::News

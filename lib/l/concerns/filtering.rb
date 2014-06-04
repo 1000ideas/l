@@ -7,7 +7,7 @@ module L::Concerns
       # Filtruj obiekty klasy względem podanych ograniczeń.
       def filter(filters = {})
         filters ||= {}
-        filters.inject(self) do |memo, (key, value)|
+        filters.inject(scoped) do |memo, (key, value)|
           filter_name = :"filter_by_#{key}"
           if value.blank?
             memo
