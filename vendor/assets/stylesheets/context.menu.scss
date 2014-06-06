@@ -1,3 +1,7 @@
+ul.items-list li > div.group[data-context] a[data-context-button]:focus + div[data-context-target] {
+  display: none !important;
+}
+
 [data-context] {
   [data-context-target] { display: none; }
 }
