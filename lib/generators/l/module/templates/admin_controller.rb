@@ -42,8 +42,10 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= orm_instance.save %>
+        @<%= singular_table_name %>.create_activity :create, owner: current_user
         flash.notice =  info(:success)
         format.html { redirect_to(admin_<%= plural_table_name %>_path ) }
+
       else
         format.html { render action: "new" }
       end
@@ -57,6 +59,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if @<%= orm_instance.update_attributes("params[:#{singular_table_name}]") %>
+        @<%= singular_table_name %>.create_activity :update, owner: current_user
         flash.notice =  info(:success)
         format.html { redirect_to(admin_<%= plural_table_name %>_path ) }
       else
@@ -70,6 +73,7 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = <%= orm_class.find(class_name, "params[:id]") %>
     authorize! :destroy, @<%= singular_table_name %>
     @<%= orm_instance.destroy %>
+    @<%= singular_table_name %>.create_activity :destroy, owner: current_user
 
     respond_to do |format|
       format.html { redirect_to :back, notice: info(:success) }
@@ -87,9 +91,12 @@ class Admin::<%= controller_class_name %>Controller < ApplicationController
 
     respond_to do |format|
       if selection.perform!
+        selection.each do |obj|
+          obj.create_activity selection.action, owner: current_user
+        end
         format.html { redirect_to :back, notice: info(selection.action, :success) }
       else
-        format.html { redirect_to :back, alert: info(selection.action, :success) }
+        format.html { redirect_to :back, alert: info(selection.action, :failure) }
       end
     end
   end

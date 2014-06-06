@@ -11,6 +11,7 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class News < ActiveRecord::Base
+    include ::PublicActivity::Common
     acts_as_paranoid
 
     scope :ordered, order("`#{table_name}`.`created_at` DESC")

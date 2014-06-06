@@ -66,6 +66,7 @@ module L::Admin
 
       respond_to do |format|
         if @gallery.save
+          @gallery.create_activity :create, owner: current_user
           flash.notice = info('success')
           format.html { redirect_to(edit_admin_gallery_path(@gallery)) }
           format.js
@@ -87,6 +88,7 @@ module L::Admin
 
       respond_to do |format|
         if @gallery.update_attributes(params[:l_gallery])
+          @gallery.create_activity :update, owner: current_user
           flash.notice = info('success')
           format.html { redirect_to(admin_galleries_path) }
           format.js
@@ -107,6 +109,7 @@ module L::Admin
       authorize! :destroy, @gallery
 
       @gallery.destroy
+      @gallery.create_activity :destroy, owner: current_user
 
       respond_to do |format|
         format.html { redirect_to(admin_galleries_path) }
@@ -128,6 +131,9 @@ module L::Admin
 
       respond_to do |format|
         if selection.perform!
+          selection.each do |obj|
+            obj.create_activity selection.action, owner: current_user
+          end
           format.html { redirect_to :back, notice: info(selection.action, :success) }
         else
           format.html { redirect_to :back, alert: info(selection.action, :failure) }

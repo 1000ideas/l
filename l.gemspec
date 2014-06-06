@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'devise', '~> 2.0.0'
   spec.add_runtime_dependency 'cancan'
   spec.add_runtime_dependency 'paperclip'
+  spec.add_runtime_dependency 'public_activity'
   spec.add_runtime_dependency 'jquery-ui-rails'
   spec.add_runtime_dependency 'jquery-fileupload-rails'
   spec.add_runtime_dependency 'remotipart'

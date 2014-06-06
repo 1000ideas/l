@@ -220,6 +220,9 @@ pl:
       index:
         title: "Galerie"
     partials:
+      activities:
+        title: "Lista aktywności"
+        no_activities: "Brak aktywności"
       switcher:
         label_html: "Wyświetl %{start}-%{finish} z %{total}"
     layout:

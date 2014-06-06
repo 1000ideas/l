@@ -20,6 +20,7 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class Page < ActiveRecord::Base
+    include ::PublicActivity::Common
     acts_as_paranoid
 
     validates :title, presence: true

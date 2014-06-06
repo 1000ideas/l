@@ -68,6 +68,7 @@ module L::Admin
 
       respond_to do |format|
         if @news.save
+          @news.create_activity :create, owner: current_user
           flash.notice = info(:success)
           format.html { redirect_to(admin_news_index_path) }
           format.js
@@ -92,6 +93,7 @@ module L::Admin
 
       respond_to do |format|
         if @news.update_attributes(params[:l_news])
+          @news.create_activity :update, owner: current_user
           flash.notice = info(:success)
           format.html { redirect_to(admin_news_index_path) }
           format.js
@@ -111,6 +113,7 @@ module L::Admin
       authorize! :destroy, @news
 
       @news.destroy
+      @news.create_activity :destroy, owner: current_user
 
       respond_to do |format|
         format.html { redirect_to admin_news_index_url, notice: info(:success) }
@@ -134,6 +137,9 @@ module L::Admin
 
       respond_to do |format|
         if selection.perform!
+          selection.each do |obj|
+            obj.create_activity selection.action, owner: current_user
+          end
           format.html { redirect_to :back, notice: info(selection.action, :success) }
         else
           format.html { redirect_to :back, alert: info(selection.action, :failure) }

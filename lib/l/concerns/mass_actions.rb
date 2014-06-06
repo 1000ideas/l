@@ -10,11 +10,22 @@ module L
           @klass = klass
           @action = opts[:action].try :to_sym
           @ids = [*opts[:ids]].compact
+          objects
         end
 
         def valid?
           @action.in?(klass.mass_actions) and @ids.any?
         end
+
+        def objects
+          @objects ||= if klass.respond_to? :with_deleted
+            klass.with_deleted.where(id: @ids)
+          else
+            klass.where(id: @ids)
+          end
+        end
+
+        delegate :each, :each_with_index, to: :objects
 
         def perform!
           if valid?

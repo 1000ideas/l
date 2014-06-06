@@ -17,6 +17,7 @@ module L
   #   - <tt>belongs_to :gallery</tt> - galeria do której należy zdjęcie
   #
   class GalleryPhoto < ActiveRecord::Base
+    include ::PublicActivity::Common
     acts_as_paranoid
 
     attr_accessible :gallery_id, :photo

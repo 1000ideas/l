@@ -14,6 +14,7 @@ module L
   # Tłumaczone atrybuty: +name+, +content+.
   #
   class Gallery < ActiveRecord::Base
+    include ::PublicActivity::Common
     acts_as_paranoid
 
     scope :ordered, order("`#{table_name}`.`created_at` DESC")

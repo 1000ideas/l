@@ -1,0 +1,11 @@
+<h3><%= t('.title') %></h3>
+
+<% if activities.any? %>
+<ul>
+<% activities.each do |activity| %>
+  <li><%= render_activity activity %></li>
+<% end %>
+</ul>
+<% else %>
+<p><%= t('.no_activities') %></p>
+<% end %>

@@ -33,7 +33,12 @@ class LazyAdmin
       $('input:file', event.target).val('').change()
 
     $(document).on 'click', '.small-field > label', (event) ->
-      $(event.currentTarget).parent().toggleClass('open')
+      parent = $(event.currentTarget).parent()
+      height = parent.prop('scrollHeight')
+      if parent.hasClass('open')
+        parent.css('max-height', '').removeClass('open')
+      else
+        parent.css('max-height', "#{height}px").addClass('open')
 
     $(document).on 'change', '.custom-file-field input[type=file]', (event) ->
       el = $(event.currentTarget)

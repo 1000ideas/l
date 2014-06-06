@@ -81,6 +81,7 @@ module L::Admin
       @newsletter_mail = L::NewsletterMail.find(params[:id])
       authorize! :destroy, @newsletter_mail
       @newsletter_mail.destroy
+      @newsletter_mail.create_activity :destroy, owner: current_user
 
       respond_to do |format|
         format.html { redirect_to(:back, notice: info(:success) ) }
@@ -96,6 +97,7 @@ module L::Admin
       @newsletter_mail = L::NewsletterMail.find(params[:id])
       authorize! :destroy, @newsletter_mail
       @newsletter_mail.confirm
+      @newsletter_mail.create_activity :confirm, owner: current_user
 
       respond_to do |format|
         format.html { redirect_to(:back, notice: info(:success) ) }
@@ -118,6 +120,9 @@ module L::Admin
 
       respond_to do |format|
         if selection.perform!
+          selection.each do |obj|
+            obj.create_activity selection.action, owner: current_user
+          end
           format.html { redirect_to :back, notice: info(selection.action, :success) }
         else
           format.html { redirect_to :back, alert: info(selection.action, :failure) }

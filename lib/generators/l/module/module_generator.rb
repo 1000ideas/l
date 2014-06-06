@@ -117,6 +117,15 @@ module L
         end
       end
 
+      def add_public_activity_include
+        if model_exists?
+          inject_into_class model_path,
+            name.capitalize,
+            "  include PublicActivity::Common\n"
+
+        end
+      end
+
 
       check_class_collision suffix: "Controller"
 

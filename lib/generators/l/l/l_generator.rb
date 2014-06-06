@@ -125,6 +125,7 @@ require 'will_paginate/array'
           gem 'foundation-rails', '~> 5.2.0'
           gem 'font-awesome-rails', '~> 4.1.0'
           gem 'paranoia'
+          gem 'public_activity'
 
           gem 'globalize3', '~> 0.3.0'
           gem 'rails-i18n'
@@ -154,6 +155,7 @@ gem 'remotipart'
 gem 'foundation-rails', '~> 5.2.0'
 gem 'font-awesome-rails', '~> 4.1.0'
 gem 'paranoia'
+gem 'public_activity'
 
 gem 'globalize3', '~> 0.3.0'
 gem 'rails-i18n'
@@ -191,6 +193,10 @@ end
         inject_into_file 'config/initializers/devise.rb',
           "\n  config.email_regexp = /\\A([^@\\s]+)@((?:[-a-z0-9]+\\.)+[a-z]{2,})\\Z/i",
           after: /config\.email_regexp.*$/
+      end
+
+      def install_public_activity
+        generate 'public_activity:migration'
       end
 
       def tinymce_install # :nodoc:

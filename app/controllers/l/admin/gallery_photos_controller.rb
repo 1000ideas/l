@@ -13,6 +13,7 @@ module L::Admin
       authorize! :destroy, @photo
 
       @photo.destroy
+      @photo.create_activity :destroy, owner: current_user, recipient: @gallery
 
       respond_to do |format|
         format.js
@@ -33,7 +34,9 @@ module L::Admin
       end
       authorize! :create, @photo
 
-      @photo.save
+      if @photo.save
+        @photo.create_activity :create, owner: current_user, recipient: @gallery
+      end
 
       respond_to do |format|
         format.js

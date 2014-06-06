@@ -7,6 +7,7 @@ module L
   #   - +confirm_token+ - token używany do potwierdzenia prawdziwości adresu
   #     email. Potwierdzony adres email ma token równy +nil+.
   class NewsletterMail < ActiveRecord::Base
+    include ::PublicActivity::Common
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
     self.per_page = 15
 

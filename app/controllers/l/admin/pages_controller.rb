@@ -74,6 +74,7 @@ module L::Admin
 
       respond_to do |format|
         if @page.save
+          @page.create_activity :create, owner: current_user
           flash.notice = info(:success)
           format.html { redirect_to( admin_pages_path ) }
           format.js
@@ -97,6 +98,7 @@ module L::Admin
 
       respond_to do |format|
         if @page.update_attributes(params[:l_page])
+          @page.create_activity :update, owner: current_user
           flash.notice = info(:success)
           format.html { redirect_to(admin_pages_path) }
           format.js
@@ -116,6 +118,7 @@ module L::Admin
       authorize! :destroy, @page
 
       @page.destroy
+      @page.create_activity :destroy, owner: current_user
 
       respond_to do |format|
         format.html { redirect_to :back, notice: info(:success) }
@@ -135,7 +138,10 @@ module L::Admin
       status = params[:status].to_i || 1
       name = ['unhide', 'hide'][status]
 
+
+
       if @page.update_attribute(:hidden_flag, status)
+        @page.create_activity name, owner: current_user
         redirect_to :back, notice: info(name, :success)
       else
         redirect_to :back, notice: info(name, :failure)
@@ -171,6 +177,9 @@ module L::Admin
 
       respond_to do |format|
         if selection.perform!
+          selection.each do |obj|
+            obj.create_activity selection.action, owner: current_user
+          end
           format.html { redirect_to :back, notice: info(selection.action, :success) }
         else
           format.html { redirect_to :back, alert: info(selection.action, :failure) }
