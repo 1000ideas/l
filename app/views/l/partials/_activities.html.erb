@@ -1,9 +1,16 @@
 <h3><%= t('.title') %></h3>
 
 <% if activities.any? %>
-<ul>
+<ul class="activities-list">
 <% activities.each do |activity| %>
-  <li><%= render_activity activity %></li>
+  <li class="row">
+    <div class="columns small-8 description">
+      <%= render_activity activity %>
+    </div>
+    <div class="columns small-4" title="<%= l activity.created_at, format: :long %>">
+      <%= time_ago_in_words activity.created_at %> temu
+    </div>
+  </li>
 <% end %>
 </ul>
 <% else %>

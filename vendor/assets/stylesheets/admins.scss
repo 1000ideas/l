@@ -4,6 +4,14 @@
  *= require vendor/perfect-scrollbar
  *= require lazy_foundation_and_overrides
  *= require font-awesome
- *= require_tree ./lazy
+ *= require lazy/custom_check_box
+ *= require lazy/dashboard
+ *= require lazy/forms
+ *= require lazy/header
+ *= require lazy/main.content
+ *= require lazy/modal
+ *= require lazy/newsletter.module
+ *= require lazy/sortable
+ *= require lazy/unlogined.views
  */
 
