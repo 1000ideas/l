@@ -32,7 +32,7 @@ header.panel-header {
         display: inline-block;
         margin: 1em;
 
-        &:last-child {
+        &.separate {
           border-left: 1px solid #eee;
         }
 

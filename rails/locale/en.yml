@@ -129,6 +129,11 @@ en:
         index:
           title: "Email list"
     partials:
+      activities:
+        title: "Activities"
+        no_activities: "No activities"
+        more: "Load older activities..."
+        wait: "Loading..."
       switcher:
         label_html: "Display %{start}-%{finish} of %{total}"
     layout:
@@ -160,7 +165,7 @@ en:
       hide:
         success: "Successfully hidden"
         failure: "An error occurred while hiding"
-      unhide: 
+      unhide:
         success: "Successfully shown"
         failure: "An error occurred while showing"
       create:
@@ -295,7 +300,7 @@ en:
             url:
               blank: "is required"
               taken: "is already taken within pages with the same parent page"
-            parent_id: 
+            parent_id:
               loop: "cannot become a parent page"
         l/news:
           attributes:
@@ -311,9 +316,9 @@ en:
               blank: "is required"
         l/gallery_photo:
           attributes:
-            gallery_id: 
+            gallery_id:
               blank: "must be given"
-            photo: 
+            photo:
               blank: "must be chosen"
         l/newsletter_mail:
           attributes:

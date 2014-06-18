@@ -223,6 +223,8 @@ pl:
       activities:
         title: "Lista aktywności"
         no_activities: "Brak aktywności"
+        more: "Załaduj starsze aktywności..."
+        wait: "Ładuję..."
       switcher:
         label_html: "Wyświetl %{start}-%{finish} z %{total}"
     layout:

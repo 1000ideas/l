@@ -6,7 +6,7 @@
     <ul>
       <li><%= link_to fa_icon('home fw', text: t('.homepage')), root_path %></li>
       <li><%= link_to fa_icon('edit fw', text: t('.edit_homepage')), root_path %></li>
-      <li>
+      <li class="separate">
         <%= link_to '#', data: {dropdown: 'user-menu'} do %>
           <%= fa_icon('user fw') %>
           <%= fa_icon('caret-down') %>
