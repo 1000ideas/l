@@ -1,8 +1,15 @@
 @import 'mixins';
 
+label.custom-radio-box,
 label.custom-check-box {
   @include custom-checkbox();
   display: inline-block;
   vertical-align: middle;
   margin-right: .5em;
+}
+
+label.for-radio-box,
+label.for-check-box {
+  vertical-align: middle;
+  display: inline-block;
 }
