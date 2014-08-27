@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'better_errors'
   spec.add_runtime_dependency 'binding_of_caller'
   spec.add_runtime_dependency 'quiet_assets'
-  spec.add_runtime_dependency 'foundation-rails', '~> 5.2.0'
+  spec.add_runtime_dependency 'foundation-rails', '~> 5.4.0'
   spec.add_runtime_dependency 'font-awesome-rails', '~> 4.1.0'
   spec.add_runtime_dependency 'paranoia', '~> 1.0'
 end

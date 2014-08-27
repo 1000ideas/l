@@ -27,6 +27,7 @@
       <%= yield %>
     <% end %>
     <%= javascript_tag do %>
+      Foundation.global.namespace = '';
       $(document).foundation();
     <% end %>
   </body>
