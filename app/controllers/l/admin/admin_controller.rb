@@ -15,5 +15,15 @@ module L::Admin
       end
     end
 
+    def settings
+      if request.put?
+        _settings.update_attributes(params[:settings])
+      end
+
+      respond_to do |format|
+        format.html
+      end
+    end
+
   end
 end

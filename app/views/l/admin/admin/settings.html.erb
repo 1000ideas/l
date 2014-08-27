@@ -1,0 +1,16 @@
+<% title t('settings.title') %>
+
+<div class="row">
+  <div class="columns small-12 old-type-form">
+    <h2><%= t('settings.title') %></h2>
+
+  <%= form_for(_settings, as: 'settings', url: admin_settings_path, html: {method: :put}) do |f| %>
+    <%= render partial: 'l/partials/errors', object: _settings.errors %>
+    &lt;Place your settings here&gt;
+    <div class="actions">
+      <%= f.button t('settings.save'), class: [:button, :white, :round] %>
+    </div>
+
+  <% end %>
+  </div>
+</div>
