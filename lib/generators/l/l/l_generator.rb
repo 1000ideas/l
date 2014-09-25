@@ -116,6 +116,7 @@ require 'will_paginate/array'
 
       def add_gems # :nodoc:
         if options.gems
+          gem 'sass', '~> 3.2.19'
           gem 'devise', '~> 2.0'
           gem 'cancan'
           gem 'paperclip'
