@@ -233,7 +233,6 @@ class LazyAdmin
         input[method]
           showButtonPanel: true
           showOtherMonths: true
-        # })
         button.click ->
           input[method]('show')
 

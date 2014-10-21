@@ -9,6 +9,10 @@ module L
 
       initializer "precompile", :group => :all do |app|
         app.config.assets.precompile += ["jquery.js", "jquery_ujs.js", "admin.js", "admins.js", "admins.css", 'admin/admin_login.css', 'ie8polyfill.js']
+        app.config.assets.precompile << "tinymce/skins/lazy/content.min.css"
+        app.config.assets.precompile << "tinymce/skins/lazy/content.inline.min.css"
+        app.config.assets.precompile << "tinymce/skins/lazy/skin.min.css"
+        app.config.assets.precompile << "tinymce/skins/lazy/skin.ie7.min.css"
       end
 
       initializer "helper" do |app|
