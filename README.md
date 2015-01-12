@@ -1,6 +1,6 @@
 # L
 
-L is a CMS-like gem for very lazy programmers. It gives you a bunch of generators and helpers for quick and easy creation of fully working CMS with users, news, static pages, galleries and newsletter modules.
+L is a CMS-like gem for very lazy programmers. It gives you a bunch of generators and helpers for quick and easy creation of a fully working CMS with users, news, static pages, galleries and newsletter modules.
 
 ## Getting started
 
@@ -53,9 +53,7 @@ If you want to add your own module to operate on some model run:
 rails g l:module MODULE_NAME field:type field:type ...
 ```
 
-It works just like a `model` generator with some extensions. You can use `file` type if you want the field to be a paperclip attachment. Also type `tinymce_[theme]` is allowed for text field with TinyMCE editor, where `[theme]` is one of the defined TinyMCE themes: `simple` and `advance`.
-
-
+It works just like a `model` generator with some extensions. You can use `file` type if you want the field to be a paperclip attachment. Also typing `tinymce_[theme]` is allowed for text field with TinyMCE editor, where `[theme]` is one of the defined TinyMCE themes: `simple` and `advance`.
 
 ## Contributing to L
 

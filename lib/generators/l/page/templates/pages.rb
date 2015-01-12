@@ -16,7 +16,7 @@ class CreatePages < ActiveRecord::Migration
     add_index :pages, :url
     add_index :pages, :deleted_at
 
-    L::Page.create_translation_table!(title: :string, content: :text)
+    L::Page.create_translation_table!(title: :string, meta_description: :text, meta_keywords: :text, content: :text)
     add_column L::Page.translations_table_name, :deleted_at, :datetime, null: true
   end
 

@@ -30,7 +30,7 @@ module L
     attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
       :position, :parent_id, :hidden_flag, :translations_attributes
 
-    translates :title, :content
+    translates :title, :meta_description, :meta_keywords, :content
     translation_class.acts_as_paranoid
     accepts_nested_attributes_for :translations
 
@@ -48,8 +48,6 @@ module L
     scope :filter_by_content, lambda{|content| where("`#{translations_table_name}`.`content` LIKE ?", "%#{content}%")}
     scope :filter_by_created_before, lambda{|date| where("`#{table_name}`.`created_at` < ?", Date.parse(date))}
     scope :filter_by_created_after, lambda{|date| where("`#{table_name}`.`created_at` > ?", Date.parse(date))}
-
-
 
     # Strony podrzędne które nie są ukryte.
     def unhidden_children
@@ -133,7 +131,6 @@ module L
         page = page.parent
       end
     end
-
 
     def set_default_position
       if position.nil?
