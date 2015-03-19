@@ -35,6 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'jquery-fileupload-rails'
   spec.add_runtime_dependency 'remotipart'
   spec.add_runtime_dependency 'foundation-rails', '~> 5.4.0'
-  spec.add_runtime_dependency 'font-awesome-rails', '~> 4.1.0'
+  spec.add_runtime_dependency 'font-awesome-rails', '~> 4.3.0'
   spec.add_runtime_dependency 'paranoia', '~> 1.0'
 end
