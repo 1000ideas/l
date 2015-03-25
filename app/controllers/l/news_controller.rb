@@ -15,6 +15,7 @@ module L
       authorize! :read, L::News
       @news = L::News
         .ordered
+        .visible
         .paginate page: params[:page]
 
 
@@ -28,7 +29,7 @@ module L
     # *GET* /news/1
     #
     def show
-      @news = L::News.find(params[:id])
+      @news = L::News.visible.find(params[:id])
       authorize! :read, @news
 
       respond_to do |format|

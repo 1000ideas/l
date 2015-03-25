@@ -15,6 +15,7 @@ module L
     acts_as_paranoid
 
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
+    scope :visible, where("`#{table_name}`.`published_at` < ?", Time.now)
     self.per_page = 10
 
     attr_accessible :title, :content, :photo, :published_at,
