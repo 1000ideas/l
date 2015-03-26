@@ -124,7 +124,7 @@ require 'will_paginate/array'
           gem 'jquery-fileupload-rails'
           gem 'remotipart'
           gem 'foundation-rails', '~> 5.4.0'
-          gem 'font-awesome-rails', '~> 4.1.0'
+          gem 'font-awesome-rails'
           gem 'paranoia'
           gem 'public_activity'
 
