@@ -4,10 +4,10 @@ L is a CMS-like gem for very lazy programmers. It gives you a bunch of generator
 
 ## Getting started
 
-L in version 0.7.x works with Rails 3.2. You can add it to your Gemfile with:
+L in version 0.7.x works with Rails 3.2. Newer versions of Rails will not work. You can add it to your Gemfile with:
 
 ```ruby
-gem 'l', github: '1000ideas/l'
+gem 'l', github: '1000ideas/l', tag: 'v1.0.9'
 ```
 
 Run the bundle command to install it.
@@ -23,7 +23,7 @@ Or if you are very lazy even more simply:
 ```console
 rails g l
 ```
-
+Make sure that the gems in your Gemfile do not duplicate.
 Next you have to run database migrations:
 
 ```console
@@ -43,7 +43,7 @@ If you want to add a module, run one of these commands:
 ```console
 rails g l:news # News module
 rails g l:page # Static pages module
-rails g l:gallery # Galeries module
+rails g l:galleries # Galeries module
 rails g l:newsletter # Newsletter module
 ```
 
