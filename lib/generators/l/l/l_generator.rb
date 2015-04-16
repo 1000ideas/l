@@ -135,7 +135,7 @@ require 'will_paginate/array'
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
 
-          gem 'tinymce-rails', github: '1000ideas/tinymce-rails', branch: 'rails_3_2'
+          gem 'tinymce-rails', github: '1000ideas/tinymce-rails', tag: 'v0.0.9'
 
           gem_group :development do
             gem 'better_errors'
@@ -165,7 +165,7 @@ gem 'will_paginate', '~> 3.0.0'
 gem 'acts_as_tree', '~> 0.1.1'
 gem 'mysql2'
 
-gem 'tinymce-rails', github: '1000ideas/tinymce-rails', branch: 'rails_3_2'
+gem 'tinymce-rails', github: '1000ideas/tinymce-rails', tag: 'v0.0.9'
 
 group :development do
   gem 'better_errors'
