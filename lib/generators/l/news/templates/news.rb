@@ -1,6 +1,9 @@
 class CreateNews < ActiveRecord::Migration
   def self.up
-    create_table :news do |t|
+    [:news, :news_drafts].each do |table_name|
+    create_table table_name do |t|
+      t.references :news if table_name == :news_drafts
+      t.integer :draft_id if table_name == :news
       t.text :content
       t.string :title
       t.attachment :photo
@@ -8,6 +11,7 @@ class CreateNews < ActiveRecord::Migration
       t.datetime :published_at, null: true
       t.datetime :deleted_at, null: true
       t.timestamps
+    end
     end
     add_index :news, :deleted_at
 
@@ -18,5 +22,6 @@ class CreateNews < ActiveRecord::Migration
   def self.down
     L::News.drop_translation_table!
     drop_table :news
+    drop_table :news_drafts
   end
 end

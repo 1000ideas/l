@@ -1,4 +1,4 @@
-<%= form_for(@news, url: admin_news_path(@news), method: 'put', html: { multipart: true, class: :row, data: {remote: true} }) do |f| %>
+<%= form_for(@news, url: update_draft_admin_news_path(@news), method: 'put', html: { multipart: true, class: :row, data: {remote: true} }) do |f| %>
   <fieldset class="columns small-9 scroll-panel">
     <h2><%= t(".title") %></h2>
     <% if  I18n.available_locales.length > 1 %>
@@ -65,21 +65,19 @@
   </fieldset>
   <fieldset class="columns small-3 panel">
     <div class="notification hidden"></div>
-    <%= f.button t('.save_and_publish'), class: [:button, :secondary, :round, :expand], name: :save_and_publish %>
+    <%#= f.button nil, class: [:button, :secondary, :round, :expand], name: :commit %>
+    <%= f.button t('.save_draft'), class: [:button, :secondary, :round, :expand], name: :save_draft %>
+    <%= f.button t('.delete_draft'), class: [:button, :secondary, :round, :expand], name: :delete_draft %>
+    <%= f.button t('.publish_draft'), class: [:button, :secondary, :round, :expand], name: :publish_draft %>
+    <%= link_to t('helpers.actions.show'), show_news_draft_path(@news), target: '_blank', class: [:button, :white, :round, :expand] %>
     <div class="small-field">
       <%= f.label :published_at, t(".#{@news.published? ? 'change' : 'set'}_publication_date") %>
       <%= f.datetimepicker :published_at, showOtherMonths: true %>
     </div>
-    <% if @news.has_draft? %>
-  
-      <div class="sketch">
-        <p>Szkic</p>
-          Modyfikowano: <%= @news.draft.updated_at %>
-      </div>
-      <%= link_to t('.edit_draft'), edit_draft_admin_news_path(@news, format: :js), data: {remote: true}, class: [:button, :white, :round, :expand] %>
-    <% else %>
-      <%= f.button t('.create_draft'), class: [:button, :white, :round, :expand], name: :create_draft %>
-    <% end %>
+  <div class="sketch">
+  <p>Szkic</p>
+    Modyfikowano: <%= @news.updated_at %>
+  </div>    
   </fieldset>
 
   </div>

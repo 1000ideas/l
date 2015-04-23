@@ -1,0 +1,31 @@
+<%%= form_for(@<%= singular_table_name %>, url: update_draft_admin_<%=singular_table_name%>_path(@<%= singular_table_name %>), method: 'put', html: {class: :row, data: {remote: true}}) do |f| %>
+  <fieldset class="columns small-9 scroll-panel">
+    <h2><%%= t(".title_draft") %></h2>
+  <% attributes.reject{|a| a.name[/^deleted_at$/]}.each do |attribute| -%>
+    <div class="<%= field_class(attribute) %>">
+      <%%= f.label :<%= attribute.name %> %>
+      <%- if attribute.type == :file %>
+      <div class="row collapse custom-file-field">
+        <div class="columns small-9"><%%= text_field_tag nil, nil, disabled: true %></div>
+        <div class="columns small-3">
+        <%%= link_to '#', class: 'postfix button tiny white round', tabindex: -1 do %>
+          <%%= f.<%= field_type(attribute) %> :<%= attribute.name %> <%= field_options(attribute) %> %>
+          <%%= fa_icon('upload', text: 'Select file') %>
+        <%% end %>
+        </div>
+      </div>
+      <%- else %>
+      <%%= f.<%= field_type(attribute) %> :<%= attribute.name %> <%= field_options(attribute) %> %>
+      <%- end %>
+    </div>
+  <% end -%>
+  </fieldset>
+  <fieldset class="columns small-3 panel">
+    <div class="notification hidden"></div>
+    <%%= f.button t('.save_draft'), class: [:button, :secondary, :round, :expand], name: :save_draft %>
+    <%%= f.button t('.delete_draft'), class: [:button, :secondary, :round, :expand], name: :delete_draft %>
+    <%%= f.button t('.publish_draft'), class: [:button, :secondary, :round, :expand], name: :publish_draft %>
+    <%%= link_to t('helpers.actions.show'), <%=singular_table_name%>_show_draft_path(@<%=singular_table_name%>), target: '_blank', class: [:button, :white, :round, :expand] %>
+  </fieldset>  
+<%% end %>
+     

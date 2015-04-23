@@ -123,6 +123,9 @@ pl:
           change_publication_date: Zmień datę publikacji
           save_and_publish: Zapisz i opublikuj
           save_draft: Zapisz szkic
+        edit_draft_form:
+          <<: *NEWS_FORM
+          title: "Edycja szkicu"
         edit_form:
           <<: *NEWS_FORM
           title: "Edycja wiadomości"

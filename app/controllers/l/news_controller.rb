@@ -36,6 +36,14 @@ module L
         format.html
       end
     end
+    def show_draft
+      @news = L::News::Draft.find(params[:news_id])
 
+      #authorize! :read, @page
+
+      respond_to do |format|
+        format.html {render :show}
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
-<%= form_for(@page, url: admin_page_path(@page), method: 'put', html: {class: :row, data: {remote: true}}) do |f| %>
+<%= form_for(@page, url: update_draft_admin_page_path(@page), method: 'put', html: {class: :row, data: {remote: true}}) do |f| %>
   <fieldset class="columns small-9 scroll-panel">
-    <h2><%= t(".title") %></h2>
+    <h2><%= t(".title_draft") %></h2>
 
     <% if  I18n.available_locales.length > 1 %>
 
@@ -74,17 +74,17 @@
 
   <fieldset class="columns small-3 panel">
     <div class="notification hidden"></div>
-    <%= f.button nil, class: [:button, :secondary, :round, :expand], name: :commit %>
-     <% if @page.has_draft? %>
-  
-      <div class="sketch">
-        <p>Szkic</p>
-          Modyfikowano: <%= @page.draft.updated_at %>
-      </div>
-      <%= link_to t('.edit_draft'), edit_draft_admin_page_path(@page, format: :js), data: {remote: true}, class: [:button, :white, :round, :expand] %>
-    <% else %>
-      <%= f.button t('.create_draft'), class: [:button, :white, :round, :expand], name: :create_draft %>
-    <% end %>
+    <%#= f.button nil, class: [:button, :secondary, :round, :expand], name: :commit %>
+    <%= f.button t('.save_draft'), class: [:button, :secondary, :round, :expand], name: :save_draft %>
+    <%= f.button t('.delete_draft'), class: [:button, :secondary, :round, :expand], name: :delete_draft %>
+    <%= f.button t('.publish_draft'), class: [:button, :secondary, :round, :expand], name: :publish_draft %>
+    <%= link_to t('helpers.actions.show'), page_draft_path(@page), target: '_blank', class: [:button, :white, :round, :expand] %>
+    
+  <div class="sketch">
+  <p>Szkic</p>
+    Modyfikowano: <%= @page.updated_at %>
+  </div>
+
   </fieldset>
 
 <% end %>

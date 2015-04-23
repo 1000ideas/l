@@ -14,12 +14,35 @@ module L
     include ::PublicActivity::Common
     acts_as_paranoid
 
+    has_draft do
+      attr_accessible :title, :content, :photo, :published_at,
+      :published_at_formatted, :photo_delete, :news_id
+
+      has_attached_file :photo,
+      styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
+      path: ":rails_root/public/system/news_draft_photos/:id/:style/:filename",
+      url: "/system/news_draft_photos/:id/:style/:filename",
+      preserve_files: true
+      validates :photo, attachment_content_type: { content_type: %r{^image/} }
+      
+      def published?
+        published_at.present? and published_at < Time.now
+      end
+      
+      def photo_delete # :nodoc:
+        false
+      end
+
+      def photo_delete=(value) # :nodoc:
+        self.photo.clear if value.to_i == 1
+      end
+    end
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
     scope :visible, where("`#{table_name}`.`published_at` < ?", Time.now)
     self.per_page = 10
 
     attr_accessible :title, :content, :photo, :published_at,
-      :published_at_formatted, :photo_delete, :translations_attributes
+      :published_at_formatted, :photo_delete, :translations_attributes, :draft
 
     has_attached_file :photo,
       styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },

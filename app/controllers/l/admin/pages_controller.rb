@@ -14,6 +14,7 @@ module L::Admin
     def index
       authorize! :manage, L::Page
 
+
       @pages = L::Page
         .with_translations
 
@@ -57,8 +58,22 @@ module L::Admin
     def edit
       @page = L::Page.find(params[:id])
       authorize! :update, @page
-
+      logger.debug @page.inspect
+      
       @parents = L::Page.where('`id` <> ?', @page.id).all
+    end
+    
+    # Akcja wyświetlająca formularz edycji szkicu. Dostępne tylko
+    # dla administratora.
+    #
+    # *GET* /pages/1/edit_draft
+    #
+    def edit_draft
+      @page = L::Page.find(params[:id]).draft
+      authorize! :update, @page
+
+      @parents = L::Page.where('`id` <> ?', @page.page.id).all
+
     end
 
     # Akcja tworząca nową stronę. Dostęp tylko dla administratora.
@@ -94,21 +109,93 @@ module L::Admin
       authorize! :update, @page
 
       @parents = L::Page.all
-
-
+      
       respond_to do |format|
-        if @page.update_attributes(params[:l_page])
-          @page.create_activity :update, owner: current_user
-          flash.notice = info(:success)
-          format.html { redirect_to(admin_pages_path) }
-          format.js
-        else
-          format.html { render action: "edit" }
-          format.js
+        if params.has_key?(:save_and_publish)
+          @page.publish! 
+        
+          if @page.update_attributes(params[:l_page])
+            @page.create_activity :update, owner: current_user
+            flash.notice = info(:success)
+            format.html { redirect_to(admin_pages_path) }
+            format.js
+          else
+            format.html { render action: "edit" }
+            format.js
+          end
+        elsif params.has_key?(:commit)
+          if @page.update_attributes(params[:l_page])
+            @page.create_activity :update, owner: current_user
+            flash.notice = info(:success)
+            format.html { redirect_to(admin_pages_path) }
+            format.js
+          else
+            format.html { render action: "edit" }
+            format.js
+          end
+        elsif params.has_key?(:status)
+          status = params[:status].to_i || 1
+          name = ['unhide', 'hide'][status]
+
+          if @page.update_attribute(:hidden_flag, status)
+            @page.create_activity name, owner: current_user
+            flash.notice = info(:success_hide)
+            format.html { render action: "edit" }
+            format.js
+          else
+            
+            format.html { render action: "edit" }
+            format.js
+          end
+        elsif params.has_key?(:create_draft)
+          if @page.instantiate_draft!
+            flash.notice = info(:success_drafte)
+            format.html { render action: "edit" }
+            format.js
+          else
+            format.html { render action: "edit" }
+            format.js
+          end
         end
       end
     end
-
+    # Akcja aktualizująca istniejący szkic. Dostępne tylko dla administratora.
+    #
+    # *put* /pages/1
+    #
+    def update_draft
+      @page = L::Page::Draft.find(params[:id])
+      
+      respond_to do |format|
+      if params.has_key?(:save_draft)
+        if @page.update_attributes(params[:l_page_draft])
+          flash.notice = info(:success)
+          format.html 
+          format.js
+        else
+          format.html { render action: "edit_draft" }
+          format.js
+         end
+      elsif params.has_key?(:delete_draft)
+            @page = @page.page
+            @page.destroy_draft! 
+            format.html {redirect_to edit_admin_page_path(@page), notice: info(:success) }
+            
+      elsif params.has_key?(:publish_draft)
+          @page = @page.page
+          
+          if @page.replace_with_draft!
+            @page.destroy_draft!
+            format.html {redirect_to edit_admin_page_path(@page), notice: info(:success) }
+          else
+              logger.debug @page.errors.inspect
+              format.html { render action: "edit_draft" }
+              format.js
+          end
+      end
+      end 
+          
+    end
     # Akcja usuwająca stronę. Dostępna tylko dla administratora.
     #
     # *DELETE* /pages/1

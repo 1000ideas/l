@@ -22,13 +22,16 @@ module L
   class Page < ActiveRecord::Base
     include ::PublicActivity::Common
     acts_as_paranoid
-
+    has_draft do
+      attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
+      :position, :parent_id, :hidden_flag, :page_id
+    end
     validates :title, presence: true
     validates :url, presence: true, uniqueness: {scope: :parent_id}
     validate :detect_tree_loops
 
     attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
-      :position, :parent_id, :hidden_flag, :translations_attributes
+      :position, :parent_id, :hidden_flag, :translations_attributes, :draft
 
     translates :title, :meta_description, :meta_keywords, :content
     translation_class.acts_as_paranoid
@@ -93,7 +96,7 @@ module L
     def get_token
       (ancestors.reverse.map { |p| p.url } + [url]).join('/')
     end
-
+    
     # Wyszukuje strony przy pomocy tokena. Sprawdzana jest cała scieżka do
     # strony. Gdy strona nie zostanie znaleziona zostaje wyrzucony wyjątek
     # <tt>ActiveRecord::RecordNotFound</tt>.

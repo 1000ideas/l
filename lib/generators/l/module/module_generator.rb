@@ -3,7 +3,7 @@
 module L
   module Generators # :nodoc:
     require 'l/generators/actions'
-
+    require 'rails/generators/active_record'
     # Generator tworzący customowy moduł dopasowany do CMS-a
     #
     # Tworzone są kontrolery, modele, migracje i widoki. Dodawany jest routing.
@@ -28,22 +28,37 @@ module L
     #     modułu.
     class ModuleGenerator < ::Rails::Generators::NamedBase
       include L::Generators::Actions
+      include ::Rails::Generators::Migration
 
       argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tinymce_(theme)'
       class_option :orm, :default => "active_record"
       class_option :searchable, :type => :array, :default => [], :desc => 'Argumenty które mają być wyszukiwane', :banner => 'field field ...'
       class_option :interactive, aliases: '-i', type: :boolean, default: false, desc: "Tryb interaktywny"
+      class_option :with_draft,aliases: '-with_draft', type: :boolean, default: false, desc: "tworzenie szkiców dla modułu"
 
       desc "Generator tworzy customowy modul dostosowany do cmsa " <<
         "(tworzy model, kontroler, migracje, widoki, dodaje routing). " <<
         "Wymaga podania argumentu NAME (w liczbie pojedynczej).\n"
 
+      class << self
+        delegate :next_migration_number, :to => ActiveRecord::Generators::Base
+      end
+      
       def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
 
       def generate_model # :nodoc:
-        invoke :model, model_args, migration: true
+        
+        if options.with_draft
+          migration_template('module_draft_migration.rb',
+                 File.join('db', 'migrate', "create_#{singular_table_name}_drafts.rb"))
+          invoke :model, model_args, migration: true
+          
+          
+        else
+          invoke :model, model_args, migration: true
+        end
       end
 
       def insert_file_fields_to_migration # :nodoc:
@@ -130,28 +145,55 @@ module L
       check_class_collision suffix: "Controller"
 
       def create_controller_files # :nodoc:
-        template 'controller.rb', controller_path
-        template 'admin_controller.rb', admin_controller_path
+        if options.with_draft
+          template 'draft_controller.rb', controller_path
+          template 'admin_draft_controller.rb', admin_controller_path
+        else
+          template 'controller.rb', controller_path
+          template 'admin_controller.rb', admin_controller_path
+        end
       end
 
       def add_abilities
+        if options.with_draft
+          cancanoption = "      can :manage, #{class_name}\n can :manage, #{class_name}::Draft\n"
+        else
+          cancanoption = "      can :manage, #{class_name}\n"
+        end
+        
         inject_into_file 'app/models/ability.rb',
-         "      can :manage, #{class_name}\n",
+         cancanoption,
          after: %r{^\s*if user\.(?:has_role\?\s+:)?admin\??\n}
       end
 
       def add_routes # :nodoc:
         routing_code = "resources :#{plural_name}, except: [:show]"
-        _routing_code = <<-CONTENT
-      resources :#{plural_name}, except: [:show] do
-        collection do
-          constraints(lambda {|req| req.params.has_key?(:ids)}) do
-            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
-          end
-        end
-      end
-CONTENT
+        if options.with_draft
 
+          _routing_code = <<-CONTENT
+          resources :#{plural_name}, except: [:show] do
+            member do
+              get :edit_draft
+              put :update_draft
+            end
+            collection do
+              constraints(lambda {|req| req.params.has_key?(:ids)}) do
+                delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+              end
+            end
+          end
+          CONTENT
+        else
+          _routing_code = <<-CONTENT
+          resources :#{plural_name}, except: [:show] do
+            collection do
+              constraints(lambda {|req| req.params.has_key?(:ids)}) do
+                delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
+              end
+            end
+          end
+          CONTENT
+        end
         inject_into_file 'config/routes.rb',
           _routing_code,
           after: %r{^\s*scope module: :admin.*\n},
@@ -162,6 +204,13 @@ CONTENT
 
       def add_front_routes # :nodoc:
         routing_code = "resources :#{plural_name}, only: [:index, :show]"
+        if options.with_draft
+          routing_code = <<-CONTENT 
+          resources :#{plural_name}, only: [:index, :show] do
+            get :show_draft
+          end
+          CONTENT
+        end
         inject_into_file 'config/routes.rb',
           "  #{routing_code}\n",
           before: %r{^\s*scope path: 'admin'.*\n},
@@ -182,6 +231,11 @@ CONTENT
         end
         %w(index new edit create update).each do |name|
           template "#{name}.js.coffee", File.join("app/views/admin", controller_file_path, "#{name}.js.coffee")
+        end
+        if options.with_draft
+          %w(edit_draft update_draft).each do |name|
+          template "#{name}.js.coffee", File.join("app/views/admin", controller_file_path, "#{name}.js.coffee")
+        end
         end
         template "_object.html.erb", File.join("app/views/admin", controller_file_path, "_#{singular_table_name}.html.erb")
         template "front_index.html.erb", File.join("app/views", controller_file_path, "index.html.erb")
@@ -249,10 +303,11 @@ CONTENT
       private
 
       def available_admin_views
-        %w(index edit new _filter _form _submenu _list)
+        options.with_draft ? %w(index edit new _filter _form _edit_draft_form _submenu _list) : %w(index edit new _filter _form _submenu _list)
       end
 
       def model_args
+        
         args = ARGV.map do |arg|
           arg.gsub(%r{:file(:|$)}, ":string\\1").gsub(%r{:tinymce[a-z_]*(:|$)}, ":text\\1")
         end

@@ -65,6 +65,25 @@ It works just like a `model` generator with some extensions. You can use `file` 
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or it is otherwise necessary, that is fine, but please isolate it to its own commit so I can cherry-pick around it.
 
+## Creating custom module with draft
+Pages, news, galleries and newsletter have drafts by default but you can add drafts also in new custom modules.
+You just need to run 
+```console
+rails g l:module MODULE_NAME field:type field:type ... --has_draft
+```
+then add this line to your create_#{model}.rb migration file and run migrations
+```console
+t.integer :author_id
+```
+insert at the top of model
+```console
+has_draft 
+	attr_accessible :module_name_id, :field, :field ...
+end
+
+attr_accessible :draft, :field, :field ... 
+```
+
 ## Copyright
 
 Copyright (c) 2012 1000ideas.

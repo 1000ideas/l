@@ -21,6 +21,7 @@ module L
       else
         @page = L::Page.find(params[:id])
       end
+
       authorize! :read, @page
 
       respond_to do |format|
@@ -28,5 +29,18 @@ module L
       end
     end
 
+    def show_draft
+
+      if params[:id]
+        @page = L::Page::Draft.find(params[:id])
+      end
+
+      
+      #authorize! :read, @page
+
+      respond_to do |format|
+        format.html {render :show}
+      end
+    end
   end
 end

@@ -40,6 +40,10 @@ module L
       def add_news_routes # :nodoc:
         routing_code = <<-CONTENT
       resources :news, except: [:show] do
+        member do
+          get :edit_draft
+          put :update_draft
+        end
         collection do
           constraints(lambda {|req| req.params.has_key?(:ids)}) do
             delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
@@ -53,7 +57,9 @@ CONTENT
           verbose: false
 
         inject_into_file 'config/routes.rb',
-          "\n  resources :news, module: :l, only: [:index, :show]\n\n",
+          "\n  resources :news, module: :l, only: [:index, :show] do\n
+            get :show_draft\n
+          end\n\n",
           before: %r{^\s*scope path: 'admin'},
           verbose: false
         log :route, "resources :news"

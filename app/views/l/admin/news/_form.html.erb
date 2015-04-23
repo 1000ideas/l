@@ -55,10 +55,10 @@
   <fieldset class="columns small-3 panel">
     <div class="notification hidden"></div>
     <%= f.button t('.save_and_publish'), class: [:button, :secondary, :round, :expand], name: :save_and_publish %>
-    <%= f.button t('.save_draft'), class: [:button, :white, :round, :expand], name: :save_draft %>
     <div class="small-field">
       <%= f.label :published_at_formatted, t(".#{@news.published? ? 'change' : 'set'}_publication_date") %>
       <%= f.datetimepicker :published_at_formatted, showOtherMonths: true %>
     </div>
+    
   </fieldset>
 <% end %>

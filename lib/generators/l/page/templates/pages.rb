@@ -1,6 +1,9 @@
 class CreatePages < ActiveRecord::Migration
   def self.up
-    create_table :pages do |t|
+    [:pages, :page_drafts].each do |table_name|
+    create_table table_name do |t|
+      t.references :page if table_name == :page_drafts
+      t.integer :draft_id if table_name == :pages
       t.string :url
       t.string :title
       t.text :meta_description
@@ -13,6 +16,7 @@ class CreatePages < ActiveRecord::Migration
       t.datetime :deleted_at, null: true
       t.timestamps
     end
+    end
     add_index :pages, :url
     add_index :pages, :deleted_at
 
@@ -23,5 +27,6 @@ class CreatePages < ActiveRecord::Migration
   def self.down
     L::Page.drop_translation_table!
     drop_table :pages
+    drop_table :page_drafts
   end
 end

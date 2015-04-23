@@ -43,6 +43,8 @@ module L
 
       resources :pages, except: [:show] do
         member do
+          get :edit_draft
+          put :update_draft
           get :hide, defaults: { status: 1 }
           get :unhide, action: 'hide', defaults: { status: 0 }
         end
@@ -63,7 +65,10 @@ module L
           verbose: false
         log :route, "resources :pages"
 
-        routing_code = "match '*token' => 'l/pages#show', as: :page_token"
+        routing_code = <<-CONTENT 
+        match 'draft/:id' => 'l/pages#show_draft', as: :page_draft
+        match '*token' => 'l/pages#show', as: :page_token
+        CONTENT
         inject_into_file 'config/routes.rb',
           "  #{routing_code}\n" ,
           before: %r{^\s*root to:},

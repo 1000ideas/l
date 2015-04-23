@@ -134,6 +134,7 @@ require 'will_paginate/array'
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
+          gem 'has_draft'
 
           gem 'tinymce-rails', github: '1000ideas/tinymce-rails', tag: 'v0.0.9'
 
@@ -164,6 +165,7 @@ gem 'rails-i18n'
 gem 'will_paginate', '~> 3.0.0'
 gem 'acts_as_tree', '~> 0.1.1'
 gem 'mysql2'
+gem 'has_droft'
 
 gem 'tinymce-rails', github: '1000ideas/tinymce-rails', tag: 'v0.0.9'
 
@@ -229,7 +231,9 @@ end
       can :display, :dashboard
       can :manage, User
       can :manage, L::Page
+      can :manage, L::Page::Draft
       can :manage, L::News
+      can :manage, L::News::Draft
       can :manage, L::Gallery
       can :manage, L::GalleryPhoto
       can :manage, L::NewsletterMail
@@ -238,7 +242,9 @@ end
     end
 
     can :read, L::Page
+    can :read, L::Page::Draft
     can :read, L::News
+    can :read, L::News::Draft
     can :read, L::Gallery
     can :read, L::GalleryPhoto
     can :create, L::NewsletterMail
