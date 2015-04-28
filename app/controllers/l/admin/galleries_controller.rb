@@ -55,6 +55,15 @@ module L::Admin
         format.js
       end
     end
+    # Akcja wyświetlająca formularz edycji szkicu. Dostępne tylko
+    # dla administratora.
+    #
+    # *GET* /galleries/1/edit_draft
+    #
+    def edit_draft
+      @gallery = L::Gallery.find(params[:id]).draft
+      authorize! :update, @gallery
+    end
 
     # Akcja tworząca nową galerię. Dostęp tylko dla administratora.
     #
@@ -87,18 +96,65 @@ module L::Admin
       authorize! :update, @gallery
 
       respond_to do |format|
-        if @gallery.update_attributes(params[:l_gallery])
-          @gallery.create_activity :update, owner: current_user
-          flash.notice = info('success')
-          format.html { redirect_to(admin_galleries_path) }
-          format.js
-        else
-          format.html { render :action => "edit" }
-          format.js
-        end
+        if params.has_key?(:save_and_publish)
+          if @gallery.update_attributes(params[:l_gallery])
+            @gallery.create_activity :update, owner: current_user
+            flash.notice = info('success')
+            format.html { redirect_to(admin_galleries_path) }
+            format.js
+          else
+            format.html { render :action => "edit" }
+            format.js
+          end
+        elsif params.has_key?(:create_draft)
+          if @gallery.instantiate_draft!
+            flash.notice = info(:success_drafte)
+            format.html { render action: "edit" }
+            format.js
+          else
+            format.html { render action: "edit" }
+            format.js
+          end
+        end    
       end
     end
 
+    # Akcja aktualizująca istniejący szkic. Dostępne tylko dla administratora.
+    #
+    # *put* /pages/1
+    #
+    def update_draft
+      @gallery = L::Gallery::Draft.find(params[:id])
+      
+      respond_to do |format|
+      if params.has_key?(:save_draft)
+        if @gallery.update_attributes(params[:l_gallery_draft])
+          flash.notice = info(:success)
+          format.html 
+          format.js
+        else
+          format.html { render action: "edit_draft" }
+          format.js
+         end
+      elsif params.has_key?(:delete_draft)
+            @gallery = @gallery.gallery
+            @gallery.destroy_draft! 
+            format.html {redirect_to edit_admin_gallery_path(@gallery), notice: info(:success) }
+            
+      elsif params.has_key?(:publish_draft)
+          @gallery = @gallery.gallery
+          
+          if @gallery.replace_with_draft!
+            @gallery.destroy_draft!
+            format.html {redirect_to edit_admin_gallery_path(@gallery), notice: info(:success) }
+          else
+              format.html { render action: "edit_draft" }
+              format.js
+          end
+      end
+      end 
+          
+    end
     # Akcja usuwająca galerię wraz ze wszytkimi zdjęciami. Dostępna tylko dla
     # administratora.
     #

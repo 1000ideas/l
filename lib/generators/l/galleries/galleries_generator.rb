@@ -43,6 +43,10 @@ module L
         routing_code = <<-CONTENT
 
       resources :galleries, except: [:show] do
+        member do
+          get :edit_draft
+          put :update_draft
+        end
         collection do
           constraints(lambda {|req| req.params.has_key?(:ids)}) do
             delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
@@ -59,7 +63,9 @@ module L
           verbose: false
 
         inject_into_file 'config/routes.rb',
-          "\n  resources :galleries,  module: :l, only: [:index, :show]\n\n",
+          "\n  resources :galleries,  module: :l, only: [:index, :show] do\n
+            get :show_draft\n
+          end\n\n",
           before: %r{^\s*scope path: 'admin'},
           verbose: false
 

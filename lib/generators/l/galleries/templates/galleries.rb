@@ -1,11 +1,15 @@
 class CreateGalleries < ActiveRecord::Migration
   def self.up
-    create_table :galleries do |t|
+    [:galleries, :gallery_drafts].each do |table_name|
+    create_table table_name do |t|
+      t.references :gallery if table_name == :gallery_drafts
+      t.integer :draft_id if table_name == :galleries
       t.text :name
       t.text :content
 
       t.datetime :deleted_at
       t.timestamps
+    end
     end
     add_index :galleries, :deleted_at, null: true
 
@@ -16,5 +20,6 @@ class CreateGalleries < ActiveRecord::Migration
   def self.down
     L::Gallery.drop_translation_table!
     drop_table :galleries
+    drop_table :gallery_drafts
   end
 end

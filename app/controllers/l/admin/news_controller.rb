@@ -114,6 +114,8 @@ module L::Admin
           end
         elsif params.has_key?(:create_draft)
           if @news.instantiate_draft!
+            @news.draft.photo = @news.photo
+            @news.draft.save
             flash.notice = info(:success_drafte)
             format.html { render action: "edit" }
             format.js
@@ -152,6 +154,8 @@ module L::Admin
           @news = @news.news
           
           if @news.replace_with_draft!
+            @news.photo = @news.draft.photo
+            @news.save
             @news.destroy_draft!
             format.html {redirect_to edit_admin_news_path(@news), notice: info(:success) }
           else

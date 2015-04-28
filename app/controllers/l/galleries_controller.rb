@@ -29,10 +29,21 @@ module L
     #
     def show
       @gallery = L::Gallery.find(params[:id])
+      @gallery_photos = @gallery.gallery_photos
       authorize! :read, @gallery
 
       respond_to do |format|
         format.html
+      end
+    end
+
+    def show_draft
+      @gallery = L::Gallery::Draft.find(params[:gallery_id])
+      @gallery_photos = @gallery.gallery.gallery_photos
+      authorize! :read, @gallery
+
+      respond_to do |format|
+        format.html {render action: :show}
       end
     end
 

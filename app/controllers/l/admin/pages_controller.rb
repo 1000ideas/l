@@ -188,7 +188,6 @@ module L::Admin
             @page.destroy_draft!
             format.html {redirect_to edit_admin_page_path(@page), notice: info(:success) }
           else
-              logger.debug @page.errors.inspect
               format.html { render action: "edit_draft" }
               format.js
           end

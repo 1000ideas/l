@@ -26,7 +26,8 @@ module L::Admin
     # *POST* /galleries/1/photos
     #
     def create
-      @gallery = L::Gallery.find(params[:gallery_id])
+        @gallery = L::Gallery.find(params[:gallery_id])    
+      
       if params.has_key?(:upload_gallery_photo)
         @photo = @gallery.gallery_photos.new(photo: params[:upload_gallery_photo])
       else

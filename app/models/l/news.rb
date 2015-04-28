@@ -20,11 +20,11 @@ module L
 
       has_attached_file :photo,
       styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
-      path: ":rails_root/public/system/news_draft_photos/:id/:style/:filename",
-      url: "/system/news_draft_photos/:id/:style/:filename",
-      preserve_files: true
+      path: ":rails_root/public/system/news_photos_draft/:news_id/:style/:filename",
+      url: "/system/news_photos_draft/:news_id/:style/:filename"
+      #preserve_files: true
       validates :photo, attachment_content_type: { content_type: %r{^image/} }
-      
+
       def published?
         published_at.present? and published_at < Time.now
       end

@@ -22,6 +22,10 @@ module L
 
     has_many :gallery_photos, :dependent => :destroy
     attr_accessible :name, :content, :translations_attributes
+    
+    has_draft do
+      attr_accessible :name, :content, :gallery_id
+    end
 
     validates :name, presence: true
 

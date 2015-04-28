@@ -4,6 +4,6 @@ $('.modal-content .notification').text( errors.join(' ') ).slideDown()
 <% else %>
 $('.notification').slideUp ->
   $('.notification').text("<%= j flash.discard(:notice) %>").slideDown()
-  content = $('<div/>').html("<%= @page.content %>").text()
+  content = $('<div/>').html("<%= @news.content %>").text()
   tinymce.activeEditor.setContent(content, {format : 'raw'})
 <% end %>
