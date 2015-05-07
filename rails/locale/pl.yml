@@ -100,6 +100,13 @@ pl:
           title: Dodaj nową stronę
         edit_form:
           title: Aktualizuj stronę
+          create_draft: Utwórz szkic
+          edit_draft: Edytuj szkic
+        edit_draft_form:
+          title_draft: Edytuj szkic
+          save_draft: Zapisz szkic
+          delete_draft: Usuń szkic
+          publish_draft: Publikuj szkic
         new:
           title: Nowa strona
         edit:
@@ -123,12 +130,16 @@ pl:
           change_publication_date: Zmień datę publikacji
           save_and_publish: Zapisz i opublikuj
           save_draft: Zapisz szkic
+          delete_draft: Usuń szkic
+          publish_draft: Publikuj szkic
         edit_draft_form:
           <<: *NEWS_FORM
           title: "Edycja szkicu"
         edit_form:
           <<: *NEWS_FORM
           title: "Edycja wiadomości"
+          create_draft: "Utwórz szkic"
+          edit_draft: "Edytuj szkic"
         edit:
           title: Edycja aktualności
         new:
@@ -385,6 +396,17 @@ pl:
         meta_keywords: "Słowa kluczowe strony (meta)"
         content: "Treść"
         parent_id: "Strona nadrzędna"
+      l/page/draft:
+        parent: "Strona rodzic"
+        url: "Url strony"
+        title: "Tytuł"
+        meta_description: "Opis strony (meta)"
+        meta_keywords: "Słowa kluczowe strony (meta)"
+        content: "Treść"
+        parent_id: "Strona nadrzędna"
+      l/page/draft/translation:
+        title: Tytuł
+        content: Treść
       l/page/translation:
         title: Tytuł
         content: Treść

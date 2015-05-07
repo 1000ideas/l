@@ -149,7 +149,12 @@ module L::Admin
           end
         elsif params.has_key?(:create_draft)
           if @page.instantiate_draft!
-            flash.notice = info(:success_drafte)
+            @page.translations.each do |t|
+              attr = t.attributes
+              ["id", "page_id","deleted_at", "created_at", "updated_at"].each { |k| attr.delete(k) }
+              @page.draft.translations.create(attr) if @page.draft.translations.where(locale: attr["locale"]).count == 0
+            end
+            flash.notice = info(:success)
             format.html { render action: "edit" }
             format.js
           else
@@ -171,20 +176,27 @@ module L::Admin
         if @page.update_attributes(params[:l_page_draft])
           flash.notice = info(:success)
           format.html 
-          format.js
         else
           format.html { render action: "edit_draft" }
-          format.js
          end
+         format.js
       elsif params.has_key?(:delete_draft)
             @page = @page.page
             @page.destroy_draft! 
             format.html {redirect_to edit_admin_page_path(@page), notice: info(:success) }
             
       elsif params.has_key?(:publish_draft)
+          page_draft = @page
           @page = @page.page
-          
+
           if @page.replace_with_draft!
+            page_draft.translations.each do |t|
+              attr = t.attributes
+              ["id", "page_draft_id", "created_at", "updated_at"].each { |k| attr.delete(k) }
+              locale_trans = @page.translations.detect{|a| a["locale"] == attr["locale"]}
+              locale_trans.update_attributes(attr) if locale_trans
+            end
+
             @page.destroy_draft!
             format.html {redirect_to edit_admin_page_path(@page), notice: info(:success) }
           else

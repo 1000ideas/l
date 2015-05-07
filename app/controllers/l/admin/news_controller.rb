@@ -73,8 +73,7 @@ module L::Admin
       authorize! :create, @news
 
       @news.publish! if params.has_key?(:save_and_publish)
-      @news.draft! if params.has_key?(:save_draft)
-
+      
       respond_to do |format|
         if @news.save
           @news.create_activity :create, owner: current_user
@@ -107,16 +106,21 @@ module L::Admin
             @news.create_activity :update, owner: current_user
             flash.notice = info(:success)
             format.html { redirect_to(admin_news_index_path) }
-            format.js
           else
             format.html { render :action => "edit" }
-            format.js
           end
+          format.js
         elsif params.has_key?(:create_draft)
           if @news.instantiate_draft!
             @news.draft.photo = @news.photo
             @news.draft.save
-            flash.notice = info(:success_drafte)
+            @news.translations.each do |t|
+              attr = t.attributes
+              ["id", "news_id","deleted_at", "created_at", "updated_at"].each { |k| attr.delete(k) }
+              @news.draft.translations.create(attr) if @news.draft.translations.where(locale: attr["locale"]).count == 0
+            end
+
+            flash.notice = info(:success)
             format.html { render action: "edit" }
             format.js
           else
@@ -140,20 +144,26 @@ module L::Admin
         if @news.update_attributes(params[:l_news_draft])
           flash.notice = info(:success)
           format.html 
-          format.js
         else
           format.html { render action: "edit_draft" }
-          format.js
          end
+         format.js
       elsif params.has_key?(:delete_draft)
             @news = @news.news
             @news.destroy_draft! 
-            format.html {redirect_to edit_admin_page_path(@news), notice: info(:success) }
-            
+            format.html {redirect_to edit_admin_news_path(@news), notice: info(:success) }            
       elsif params.has_key?(:publish_draft)
+          news_draft = @news
           @news = @news.news
           
           if @news.replace_with_draft!
+            news_draft.translations.each do |t|
+              attr = t.attributes
+              ["id", "news_draft_id", "created_at", "updated_at"].each { |k| attr.delete(k) }
+              locale_trans = @news.translations.detect{|a| a["locale"] == attr["locale"]}
+              locale_trans.update_attributes(attr) if locale_trans
+            end
+            @news.photo.destroy
             @news.photo = @news.draft.photo
             @news.save
             @news.destroy_draft!

@@ -14,17 +14,19 @@ module L
     include ::PublicActivity::Common
     acts_as_paranoid
 
+    if (ActiveRecord::Base.connection.table_exists? 'news_drafts')
     has_draft do
       attr_accessible :title, :content, :photo, :published_at,
-      :published_at_formatted, :photo_delete, :news_id
+      :published_at_formatted, :photo_delete, :news_id, :translations_attributes
 
       has_attached_file :photo,
       styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
-      path: ":rails_root/public/system/news_photos_draft/:news_id/:style/:filename",
-      url: "/system/news_photos_draft/:news_id/:style/:filename"
+      path: ":rails_root/public/system/news_photos_draft/:id/:style/:filename",
+      url: "/system/news_photos_draft/:id/:style/:filename"
       #preserve_files: true
       validates :photo, attachment_content_type: { content_type: %r{^image/} }
-
+      translates :title, :content
+      accepts_nested_attributes_for :translations
       def published?
         published_at.present? and published_at < Time.now
       end
@@ -37,6 +39,8 @@ module L
         self.photo.clear if value.to_i == 1
       end
     end
+    end
+    
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
     scope :visible, where("`#{table_name}`.`published_at` < ?", Time.now)
     self.per_page = 10

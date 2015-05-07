@@ -21,7 +21,7 @@ module L
       else
         @page = L::Page.find(params[:id])
       end
-
+      @page_original = @page
       authorize! :read, @page
 
       respond_to do |format|
@@ -34,7 +34,7 @@ module L
       if params[:id]
         @page = L::Page::Draft.find(params[:id])
       end
-
+      @page_original = @page.page
       
       #authorize! :read, @page
 

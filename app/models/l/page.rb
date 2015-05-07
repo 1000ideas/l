@@ -22,10 +22,30 @@ module L
   class Page < ActiveRecord::Base
     include ::PublicActivity::Common
     acts_as_paranoid
+
+    if (ActiveRecord::Base.connection.table_exists? 'page_drafts')
     has_draft do
       attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
-      :position, :parent_id, :hidden_flag, :page_id
+      :position, :parent_id, :hidden_flag, :page_id, :translations_attributes
+
+      translates :title, :meta_description, :meta_keywords, :content
+      
+      accepts_nested_attributes_for :translations
+      def self.search(search, hidden = 1)
+      find :all,
+        joins: :translations,
+        conditions:
+        ['(page_draft_translations.title LIKE :pattern OR page_draft_translations.content LIKE :pattern) AND locale = :locale AND hidden_flag <> :flag',
+        {
+          pattern: "%#{search}%",
+          locale: I18n.locale,
+          flag: hidden
+        }
+      ]
+      end
     end
+    end
+
     validates :title, presence: true
     validates :url, presence: true, uniqueness: {scope: :parent_id}
     validate :detect_tree_loops

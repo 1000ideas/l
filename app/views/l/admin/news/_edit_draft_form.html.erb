@@ -69,7 +69,7 @@
     <%= f.button t('.save_draft'), class: [:button, :secondary, :round, :expand], name: :save_draft %>
     <%= f.button t('.delete_draft'), class: [:button, :secondary, :round, :expand], name: :delete_draft %>
     <%= f.button t('.publish_draft'), class: [:button, :secondary, :round, :expand], name: :publish_draft %>
-    <%= link_to t('helpers.actions.show'), show_news_draft_path(@news), target: '_blank', class: [:button, :white, :round, :expand] %>
+    <%= link_to t('helpers.actions.show'), news_show_draft_path(@news), target: '_blank', class: [:button, :white, :round, :expand] %>
     <div class="small-field">
       <%= f.label :published_at, t(".#{@news.published? ? 'change' : 'set'}_publication_date") %>
       <%= f.datetimepicker :published_at, showOtherMonths: true %>

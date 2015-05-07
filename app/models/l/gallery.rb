@@ -24,7 +24,21 @@ module L
     attr_accessible :name, :content, :translations_attributes
     
     has_draft do
-      attr_accessible :name, :content, :gallery_id
+      attr_accessible :name, :content, :gallery_id, :translations_attributes
+      translates :name, :content
+      accepts_nested_attributes_for :translations
+
+      def self.search(search)
+      find :all,
+        :joins => :translations,
+        :conditions =>
+        ['(gallery_draft_translations.name LIKE :pattern OR gallery_draft_translations.content LIKE :pattern) AND locale = :locale',
+        {
+          :pattern => "%#{search}%",
+          :locale => I18n.locale
+        }
+      ]
+    end
     end
 
     validates :name, presence: true

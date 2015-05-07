@@ -3,7 +3,6 @@ class CreatePages < ActiveRecord::Migration
     [:pages, :page_drafts].each do |table_name|
     create_table table_name do |t|
       t.references :page if table_name == :page_drafts
-      t.integer :draft_id if table_name == :pages
       t.string :url
       t.string :title
       t.text :meta_description
@@ -22,11 +21,23 @@ class CreatePages < ActiveRecord::Migration
 
     L::Page.create_translation_table!(title: :string, meta_description: :text, meta_keywords: :text, content: :text)
     add_column L::Page.translations_table_name, :deleted_at, :datetime, null: true
+
+    create_table :page_draft_translations do |t|
+      t.references :page_draft
+      t.string :title
+      t.string :locale
+      t.text :meta_description
+      t.text :meta_keywords
+      t.text :content
+      
+      t.timestamps
+    end
   end
 
   def self.down
     L::Page.drop_translation_table!
     drop_table :pages
     drop_table :page_drafts
+    drop_table :page_draft_translations
   end
 end

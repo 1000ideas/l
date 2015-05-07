@@ -3,7 +3,6 @@ class CreateNews < ActiveRecord::Migration
     [:news, :news_drafts].each do |table_name|
     create_table table_name do |t|
       t.references :news if table_name == :news_drafts
-      t.integer :draft_id if table_name == :news
       t.text :content
       t.string :title
       t.attachment :photo
@@ -17,11 +16,21 @@ class CreateNews < ActiveRecord::Migration
 
     L::News.create_translation_table!(title: :string, content: :text)
     add_column L::News.translations_table_name, :deleted_at, :datetime, null: true
+
+    create_table :news_draft_translations do |t|
+      t.references :news_draft
+      t.string :title
+      t.string :locale
+      t.text :content
+      
+      t.timestamps
+    end
   end
 
   def self.down
     L::News.drop_translation_table!
     drop_table :news
     drop_table :news_drafts
+    drop_table :news_draft_translations
   end
 end
