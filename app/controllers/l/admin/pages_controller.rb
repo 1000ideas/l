@@ -128,11 +128,10 @@ module L::Admin
             @page.create_activity :update, owner: current_user
             flash.notice = info(:success)
             format.html { redirect_to(admin_pages_path) }
-            format.js
           else
             format.html { render action: "edit" }
-            format.js
           end
+          format.js { render action: "edit" }
         elsif params.has_key?(:status)
           status = params[:status].to_i || 1
           name = ['unhide', 'hide'][status]
@@ -156,11 +155,10 @@ module L::Admin
             end
             flash.notice = info(:success)
             format.html { render action: "edit" }
-            format.js
           else
             format.html { render action: "edit" }
-            format.js
           end
+          format.js { render action: "edit" }
         end
       end
     end
@@ -179,7 +177,7 @@ module L::Admin
         else
           format.html { render action: "edit_draft" }
          end
-         format.js
+         format.js {render action: "edit_draft"}
       elsif params.has_key?(:delete_draft)
             @page = @page.page
             @page.destroy_draft! 

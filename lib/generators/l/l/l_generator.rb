@@ -231,11 +231,8 @@ end
       can :display, :dashboard
       can :manage, User
       can :manage, L::Page
-      can :manage, L::Page::Draft
       can :manage, L::News
-      can :manage, L::News::Draft
       can :manage, L::Gallery
-      can :manage, L::Gallery::Draft
       can :manage, L::GalleryPhoto
       can :manage, L::NewsletterMail
     elsif user.has_role? :user
@@ -243,11 +240,8 @@ end
     end
 
     can :read, L::Page
-    can :read, L::Page::Draft
     can :read, L::News
-    can :read, L::News::Draft
     can :read, L::Gallery
-    can :read, L::Gallery::Draft
     can :read, L::GalleryPhoto
     can :create, L::NewsletterMail
 

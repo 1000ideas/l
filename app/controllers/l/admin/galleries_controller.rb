@@ -130,17 +130,15 @@ module L::Admin
       if params.has_key?(:save_draft)
         if @gallery.update_attributes(params[:l_gallery_draft])
           flash.notice = info(:success)
-          format.html 
-          format.js
+          format.html
         else
           format.html { render action: "edit_draft" }
-          format.js
          end
+         format.js
       elsif params.has_key?(:delete_draft)
             @gallery = @gallery.gallery
             @gallery.destroy_draft! 
             format.html {redirect_to edit_admin_gallery_path(@gallery), notice: info(:success) }
-            
       elsif params.has_key?(:publish_draft)
           @gallery = @gallery.gallery
           

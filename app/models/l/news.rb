@@ -19,14 +19,17 @@ module L
       attr_accessible :title, :content, :photo, :published_at,
       :published_at_formatted, :photo_delete, :news_id, :translations_attributes
 
+      if (ActiveRecord::Base.connection.table_exists? 'news_draft_translations')
+        translates :title, :content
+        accepts_nested_attributes_for :translations
+      end
+      
       has_attached_file :photo,
       styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
       path: ":rails_root/public/system/news_photos_draft/:id/:style/:filename",
       url: "/system/news_photos_draft/:id/:style/:filename"
       #preserve_files: true
       validates :photo, attachment_content_type: { content_type: %r{^image/} }
-      translates :title, :content
-      accepts_nested_attributes_for :translations
       def published?
         published_at.present? and published_at < Time.now
       end

@@ -28,20 +28,23 @@ module L
       attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
       :position, :parent_id, :hidden_flag, :page_id, :translations_attributes
 
-      translates :title, :meta_description, :meta_keywords, :content
+
+      if (ActiveRecord::Base.connection.table_exists? 'page_draft_translations')
+      translates :title, :meta_description, :meta_keywords, :content  
       
-      accepts_nested_attributes_for :translations
-      def self.search(search, hidden = 1)
-      find :all,
-        joins: :translations,
-        conditions:
-        ['(page_draft_translations.title LIKE :pattern OR page_draft_translations.content LIKE :pattern) AND locale = :locale AND hidden_flag <> :flag',
-        {
-          pattern: "%#{search}%",
-          locale: I18n.locale,
-          flag: hidden
-        }
-      ]
+        accepts_nested_attributes_for :translations
+        def self.search(search, hidden = 1)
+        find :all,
+          joins: :translations,
+          conditions:
+          ['(page_draft_translations.title LIKE :pattern OR page_draft_translations.content LIKE :pattern) AND locale = :locale AND hidden_flag <> :flag',
+          {
+            pattern: "%#{search}%",
+            locale: I18n.locale,
+            flag: hidden
+          }
+        ]
+        end
       end
     end
     end

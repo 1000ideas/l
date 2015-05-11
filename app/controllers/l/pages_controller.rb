@@ -34,8 +34,9 @@ module L
       if params[:id]
         @page = L::Page::Draft.find(params[:id])
       end
+      logger.debug @page.inspect
       @page_original = @page.page
-      
+      logger.debug @page_original.inspect
       #authorize! :read, @page
 
       respond_to do |format|

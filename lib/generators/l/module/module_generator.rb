@@ -156,7 +156,7 @@ module L
 
       def add_abilities
         if options.with_draft
-          cancanoption = "      can :manage, #{class_name}\n can :manage, #{class_name}::Draft\n"
+          cancanoption = "      can :manage, #{class_name}\ncan :manage, #{class_name}::Draft\n"
         else
           cancanoption = "      can :manage, #{class_name}\n"
         end

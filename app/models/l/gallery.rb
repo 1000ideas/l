@@ -23,8 +23,11 @@ module L
     has_many :gallery_photos, :dependent => :destroy
     attr_accessible :name, :content, :translations_attributes
     
+    if (ActiveRecord::Base.connection.table_exists? 'gallery_drafts')
     has_draft do
       attr_accessible :name, :content, :gallery_id, :translations_attributes
+
+      if (ActiveRecord::Base.connection.table_exists? 'gallery_draft_translations')
       translates :name, :content
       accepts_nested_attributes_for :translations
 
@@ -38,6 +41,8 @@ module L
           :locale => I18n.locale
         }
       ]
+      end
+      end
     end
     end
 
