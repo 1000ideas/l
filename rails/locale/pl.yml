@@ -107,6 +107,8 @@ pl:
           save_draft: Zapisz szkic
           delete_draft: Usuń szkic
           publish_draft: Publikuj szkic
+        update_draft:
+          success: "Pomyślnie zaktualizowano"
         new:
           title: Nowa strona
         edit:
@@ -140,6 +142,8 @@ pl:
           title: "Edycja wiadomości"
           create_draft: "Utwórz szkic"
           edit_draft: "Edytuj szkic"
+        update_draft:
+          success: Pomyślnie zaktualizowano
         edit:
           title: Edycja aktualności
         new:
@@ -158,6 +162,8 @@ pl:
             Nie znaleziono żadnych pasujących aktualności.
             Spróbuj zmienić kryteria filtracji.
       galleries:
+        update_draft:
+          success: Pomyślnie zaktualizowano
         filter:
           updated_before: "Modyfikowane przed"
           updated_after: "Modyfikowane po"
@@ -249,6 +255,10 @@ pl:
     create:
       success: "Pomyślnie utworzono"
     update:
+      success: "Pomyślnie zaktualizowano"
+    update_draft:
+      success: "Pomyślnie zaktualizowano"  
+    edit_draft:
       success: "Pomyślnie zaktualizowano"
     destroy:
       success: "Pomyślnie usunięto"
