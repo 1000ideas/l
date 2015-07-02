@@ -16,6 +16,8 @@ module L::Admin
     end
 
     def settings
+      authorize! :display, :dashboard
+
       if request.put?
         _settings.update_attributes(params[:settings])
       end
