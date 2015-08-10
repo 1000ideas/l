@@ -7,7 +7,7 @@ L is a CMS-like gem for very lazy programmers. It gives you a bunch of generator
 L in version 0.7.x works with Rails 3.2. Newer versions of Rails will not work. You can add it to your Gemfile with:
 
 ```ruby
-gem 'l', github: '1000ideas/l', tag: 'v1.0.14'
+gem 'l', github: '1000ideas/l', tag: 'v1.1.0'
 ```
 
 Run the bundle command to install it.
