@@ -30,7 +30,7 @@ module L
 
 
       if (ActiveRecord::Base.connection.table_exists? 'page_draft_translations')
-      translates :title, :meta_description, :meta_keywords, :content  
+      translates :title, :meta_description, :meta_keywords, :content
       
         accepts_nested_attributes_for :translations
         def self.search(search, hidden = 1)
@@ -56,7 +56,7 @@ module L
     attr_accessible :title, :url, :content, :meta_description, :meta_keywords,
       :position, :parent_id, :hidden_flag, :translations_attributes, :draft
 
-    translates :title, :meta_description, :meta_keywords, :content
+    translates :title, :meta_description, :meta_keywords, :content, :url  
     translation_class.acts_as_paranoid
     accepts_nested_attributes_for :translations
 
@@ -103,7 +103,12 @@ module L
         }
       ]
     end
+    
+    
 
+    def url_for_locale(locale)
+      self.translations.where(locale: locale).first.url
+    end
     # Sprawdz czy podana strona jest przodkiem.
     #
     # * *Argumenty*:
@@ -120,6 +125,10 @@ module L
       (ancestors.reverse.map { |p| p.url } + [url]).join('/')
     end
     
+    def get_token_for_locale(locale)
+
+      (ancestors.reverse.map { |p| p.url_for_locale(locale) } + [url_for_locale(locale)]).join('/')
+    end
     # Wyszukuje strony przy pomocy tokena. Sprawdzana jest cała scieżka do
     # strony. Gdy strona nie zostanie znaleziona zostaje wyrzucony wyjątek
     # <tt>ActiveRecord::RecordNotFound</tt>.
@@ -132,9 +141,17 @@ module L
     def self.find_by_token(token)
       parent_id = nil
       _page = nil
-      token.split('/').each do |url|
-        _page = self.where(url: url, parent_id: parent_id).first!
-        parent_id = _page.id
+      if I18n.locale
+        token.split('/').each do |url|
+          _page_trans = L::Page::Translation.where(url: url).first!
+          _page = self.find(_page_trans.page_id)
+          parent_id = _page.id
+        end
+      else
+        token.split('/').each do |url|
+          _page = self.where(url: url, parent_id: parent_id).first!
+          parent_id = _page.id
+        end
       end
       _page
     end

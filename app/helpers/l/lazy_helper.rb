@@ -153,6 +153,15 @@ module L
       @value_for_meta_title || t('meta.title')
     end
 
+    # Pobierz link dla przetłumaczonej strony
+    def yield_translated_url(locale)
+      eval("@value_for_#{locale}_translated_url") || request.path
+    end
+
+    def translated_url(value, locale=nil)
+      instantiate_yield_versions :translated_url, value, locale
+    end
+
     private
     def instantiate_yield key, value
       value = t("meta.#{key}") if value.blank?
@@ -161,6 +170,15 @@ module L
         instance_variable_set("@value_for_meta_#{key}", v + value)
       else
         instance_variable_set("@value_for_meta_#{key}", value)
+      end
+    end
+
+    def instantiate_yield_versions key, value, version
+      if instance_variable_defined?("@value_for_#{version}_#{key}")
+        v = instance_variable_get("@value_for_#{version}_#{key}")
+        instance_variable_set("@value_for_#{version}_#{key}", v + value)
+      else
+        instance_variable_set("@value_for_#{version}_#{key}", value)
       end
     end
   end
