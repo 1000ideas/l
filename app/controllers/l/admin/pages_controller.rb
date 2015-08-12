@@ -150,7 +150,7 @@ module L::Admin
           if @page.instantiate_draft!
             @page.translations.each do |t|
               attr = t.attributes
-              ["id", "page_id","deleted_at", "created_at", "updated_at"].each { |k| attr.delete(k) }
+              ["id", "page_id","deleted_at", "created_at", "updated_at", "url"].each { |k| attr.delete(k) }
               @page.draft.translations.create(attr) if @page.draft.translations.where(locale: attr["locale"]).count == 0
             end
             flash.notice = info(:success)
