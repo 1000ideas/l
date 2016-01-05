@@ -15,7 +15,7 @@ module L
     acts_as_paranoid
 
     scope :ordered, order("`#{table_name}`.`created_at` DESC")
-    scope :visible, where("`#{table_name}`.`published_at` <= ?", Time.now)
+    scope :visible, lambda { where("`#{table_name}`.`published_at` <= ?", Time.now) }
     self.per_page = 10
 
     attr_accessible :title, :content, :photo, :published_at,
@@ -38,9 +38,9 @@ module L
 
     accepts_nested_attributes_for :translations
 
-    scope :filter_by_title, lambda{|title| where("`#{translations_table_name}`.`title` LIKE ?", "%#{title}%")}
-    scope :filter_by_published_before, lambda{|date| where("`#{table_name}`.`published_at` < ?", Date.parse(date))}
-    scope :filter_by_published_after, lambda{|date| where("`#{table_name}`.`published_at` > ?", Date.parse(date))}
+    scope :filter_by_title, lambda { |title| where("`#{translations_table_name}`.`title` LIKE ?", "%#{title}%") }
+    scope :filter_by_published_before, lambda { |date| where("`#{table_name}`.`published_at` < ?", Date.parse(date)) }
+    scope :filter_by_published_after, lambda{ |date| where("`#{table_name}`.`published_at` > ?", Date.parse(date)) }
 
     def photo_delete # :nodoc:
       false
