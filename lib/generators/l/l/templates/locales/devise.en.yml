@@ -51,11 +51,6 @@ en:
           title: "Cancel your account"
           cancel: "Cancel account"
           sure: "Are you sure?"
-        tooltip:
-          head: "Notice!"
-          content: "Here you may change you personal and security information."
-      submenu:
-        profile: "Edit your profile"
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account was successfully unlocked. You are now signed in.'

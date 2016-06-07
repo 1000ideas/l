@@ -11,15 +11,15 @@ module L
     # Facebookiem.
     #
     # Rozszerzany jest model User, tworzony jest Model Authentication,
-    # dodawane są kontrolery Facebook i OmniauthCallbacks pozwalający na zalogowanie
-    # uzytkownika po akceptacji połaczenia z Facebookiem. Dodawany jest routing do
+    # dodawane są kontrolery Facebook i OmniauthCallbacks pozwalający na zalogowanie 
+    # uzytkownika po akceptacji połaczenia z Facebookiem. Dodawany jest routing do 
     # strony głównej apki facebookowej (facebook#index), kopiowane są potrzebne widoki,
-    # layouty. Dodawane są inicjalizatory z danymi aplikacji jak również pozwalające
+    # layouty. Dodawane są inicjalizatory z danymi aplikacji jak również pozwalające 
     # na śledzenie apki przez Google Analitycs. Tworzone są assetsy facebook.css i facebook.js,
     # które są dodane do listy prekompilacji.
     #
     # * <b>Lista dołaczanych gemów</b>:
-    #
+    #   
     #   - +koala+ - połaczenie z GraphAPI Facebooka
     #   - +omniauth-facebook+ - Autoryzacja facebookowego użytkownika
     #
@@ -35,14 +35,14 @@ module L
       desc "Generator odpowiedzialny za stworzenie struktury pozwalającej na logowanie się " <<
         "do aplikacji za pomocą konta facebook, oraz integracje z facebookowym canvasem"
 
-      class_option :bundle, type: :boolean, default: true,
+      class_option :bundle, type: :boolean, default: true, 
         desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle " <<
                "jesli wiesz że wszystkie użyte gemy są zainstalowane)"
 
       def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
-
+      
       class << self
         delegate :next_migration_number, :to => ActiveRecord::Generators::Base
       end
@@ -62,7 +62,16 @@ module L
 
       def modify_user_class # :nodoc:
         inject_into_class "app/models/user.rb", User do
-          " include L::Concerns::LazyFacebookUser\n"
+          "  has_many :authentications\n"
+        end
+        inject_into_class "app/models/user.rb", User do
+          load_template("user_methods.rb")
+        end
+        inject_into_file "app/models/user.rb", after: %r{\n\s+devise } do
+          ":omniauthable, "
+        end
+        inject_into_file "app/models/user.rb", after: %r{\n\s+attr_accessible } do
+          ":fbid, :first_name, :last_name, "
         end
       end
 
@@ -75,7 +84,7 @@ module L
 
       def omniauth_user_controller # :nodoc:
         empty_directory 'app/controllers/users'
-        template 'omniauth_callbacks_controller.rb',
+        template 'omniauth_callbacks_controller.rb', 
           'app/controllers/users/omniauth_callbacks_controller.rb'
       end
 
@@ -94,7 +103,7 @@ module L
           "$google_analytics_id = ''"
         end
 
-        copy_file 'ca-bundle.crt', 'config/ca-bundle.crt'
+        copy_file 'ca-bundle.crt', 'config/ca-bundle.crt' 
         inject_into_file "config/initializers/devise.rb", after: %r{Devise\.setup.+\n} do
           load_template "devise.rb"
         end
@@ -102,21 +111,21 @@ module L
 
       def add_routes # :nodoc:
         routes_content = load_template "routes.rb"
-        inject_into_file "config/routes.rb",
-          routes_content,
-          after: "Application.routes.draw do\n",
+        inject_into_file "config/routes.rb", 
+          routes_content, 
+          after: "Application.routes.draw do\n", 
           verbose: false
         log :route, 'resource :facebook'
         inject_into_file 'config/routes.rb', after: 'devise_for :users' do
-          ', controllers: { omniauth_callbacks: "users/omniauth_callbacks" } '
+          ', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } '
         end
       end
 
       def add_assets # :nodoc:
         create_file "app/assets/javascripts/facebook.js"
         create_file "app/assets/stylesheets/facebook.css"
-        environment(nil, env: 'production') do
-          "# Precompile facebook assets\n" +
+        environment(nil, env: 'production') do 
+          "# Precompule facebook assets\n" +
           "  config.assets.precompile += ['facebook.css', 'facebook.js']\n"
         end
       end

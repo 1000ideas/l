@@ -1,11 +1,8 @@
-<%= form_for L::NewsletterMail.new, url: newsletter_mails_path, id: :newsletter, remote: true do |f| %>
-  <% if flash.key? :newsletter_alert %>
-    <%= content_tag :div, flash[:newsletter_alert] id: 'newsletter_notice', class: :alert %>  
-  <% else %>
-    <%= content_tag :div, flash[:newsletter_notice] id: 'newsletter_notice', class: :notice %>  
-  <% end %>
-
-  <%= f.label :mail %>
-  <%= f.text_field :mail %>
-  <%= f.button %>
+<%= content_tag :div, id: 'newsletter_notice', class: flash[:newsletter_notice_class] do %>
+  <%= flash[:newsletter_notice] %>
+<% end %>
+<%= form_for L::NewsletterMail.new, url: newsletter_mails_path, id: 'newsletter', remote: true do |f| %>
+  <%= f.label :mail, t('newsletter.name'), class: 'cufon' %>
+  <%= f.text_field :mail, placeholder: t('newsletter.placeholder') %>
+  <%= button_tag t('newsletter.sign'), :name=> nil, class: 'cufon' %>
 <% end %>

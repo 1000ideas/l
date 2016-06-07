@@ -1,40 +1,36 @@
-<% title t('.title') %>
-
-<div class="row">
-  <div class="columns small-12 old-type-form">
-    <h2><%= t('.title') %></h2>
-
+<% title [t('admin.title'), '::', t('.title') ] * ' ' %>
+<div class="center-box" id="register-box">
+  <h2><%= t('.title') %></h2>
+  
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render partial: 'l/partials/errors', object: resource.errors %>
-    <div class="group">
-      <div class="field">
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-      </div>
+    <%= render partial: 'devise/shared/errors', object: resource.errors %>
 
-      <div class="field">
-        <%= f.label :password, data: {tip: t('.blank')} %>
-        <%= f.password_field :password %>
-      </div>
-
-      <div class="field">
-        <%= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation %>
-      </div>
-
-      <div class="field">
-        <%= f.label :current_password, data: {tip: t('.current')} %>
-        <%= f.password_field :current_password %>
-      </div>
-    </div>
-    <div class="actions">
-      <%= f.button t('.submit'), class: [:button, :white, :round] %>
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.text_field :email %>
     </div>
 
-    <h3><%= t('.cancel.title') %></h3>
-    <div class="group">
-    <p><%= link_to t('.cancel.cancel'), registration_path(resource_name), confirm: t('.cancel.sure'), method: :delete %>.</p>
-  </div>
+    <div class="field">
+      <%= f.label :password, title: t('.blank') %>
+      <%= f.password_field :password %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %></p>
+      <%= f.password_field :password_confirmation %>
+    </div>
+
+    <div class="field">
+      <%= f.label :current_password, title: t('.current') %>
+      <%= f.password_field :current_password %>
+    </div>
+
+    <%= f.submit t('.submit') %>
   <% end %>
-  </div>
+</div>
+
+<div class="center-box" id="cancel-account-box">
+  <h2><%= t('.cancel.title') %></h2>
+  
+  <p><%= link_to t('.cancel.cancel'), registration_path(resource_name), confirm: t('.cancel.sure'), method: :delete %>.</p>
 </div>

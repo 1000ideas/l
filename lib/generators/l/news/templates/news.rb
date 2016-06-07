@@ -4,19 +4,13 @@ class CreateNews < ActiveRecord::Migration
       t.text :content
       t.string :title
       t.attachment :photo
-
-      t.datetime :published_at, null: true
-      t.datetime :deleted_at, null: true
       t.timestamps
     end
-    add_index :news, :deleted_at
-
-    L::News.create_translation_table!(title: :string, content: :text)
-    add_column L::News.translations_table_name, :deleted_at, :datetime, null: true
+    L::News.create_translation_table! :title => :string, :content => :text
   end
 
   def self.down
-    L::News.drop_translation_table!
     drop_table :news
+    L::News.drop_translation_table!
   end
 end

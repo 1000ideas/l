@@ -1,8 +1,8 @@
-<% title t('.title'), scope: :admin %>
+<% title [t('admin.title'), '::', t('.title') ] * ' ' %>
+<div class="center-box" id="unlock-box">
+  <h2><%= t('.title') %></h2>
 
-<div class="row login-box">
-  <div class="small-12 columns">
-    <%= form_for(resource, as: resource_name, url: unlock_path(resource_name)) do |f| %>
+  <%= form_for(resource, as: resource_name, url: unlock_path(resource_name)) do |f| %>
     <%= render partial: 'devise/shared/errors', object: resource.errors %>
 
     <div class="field">
@@ -10,7 +10,7 @@
       <%= f.text_field :email %>
     </div>
 
-    <%= f.button t('.submit') %>
+    <%= f.submit t('.submit') %>
   <% end %>
 
   <div class="shared-links">

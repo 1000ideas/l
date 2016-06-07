@@ -31,42 +31,31 @@ module L
       end
 
       def copy_pages_views # :nodoc:
-        directory "../../../../../app/views/l/pages",
+        directory "../../../../../app/views/l/pages", 
           "app/views/l/pages"
-
-        directory "../../../../../app/views/l/admin/pages",
-          "app/views/l/admin/pages"
       end
 
       def add_pages_route # :nodoc:
         routing_code = <<-CONTENT
-
-      resources :pages, except: [:show] do
-        member do
-          get :hide, defaults: { status: 1 }
-          get :unhide, action: 'hide', defaults: { status: 0 }
-        end
-        collection do
-          put :sort
-          constraints(lambda {|req| req.params.has_key?(:ids)}) do
-            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
-            put :bulk_hide, action: :selection, defaults: {bulk_action: :hide}
-            put :bulk_unhide, action: :selection, defaults: {bulk_action: :unhide}
-          end
-        end
-      end
+  resources :pages, controller: 'l/pages'  do
+    member do
+      get :hide, defaults: { status: 1 }
+      get :unhide, action: 'hide', defaults: { status: 0 }
+      get :switch
+    end
+  end
 
         CONTENT
-        inject_into_file 'config/routes.rb',
-          routing_code,
-          after: %r{^\s*scope module: 'l/admin'.*\n},
+        inject_into_file 'config/routes.rb', 
+          routing_code, 
+          before: %r{^\s*resources :users}, 
           verbose: false
         log :route, "resources :pages"
 
         routing_code = "match '*token' => 'l/pages#show', as: :page_token"
         inject_into_file 'config/routes.rb',
           "  #{routing_code}\n" ,
-          before: %r{^\s*root to:},
+          before: %r{^\s*root to:}, 
           verbose: false
         log :route, routing_code
       end
@@ -75,6 +64,17 @@ module L
         inject_into_file 'app/controllers/application_controller.rb',
           "    @pages = L::Page.search(params[:q])\n",
           after: "def search\n"
+      end
+
+      def add_link_in_menu # :nodoc:
+        link = <<-LINK
+  <%= admin_menu_link(:pages) if current_user.has_role? :admin %>
+        LINK
+        inject_into_file 'app/views/l/admins/partials/_header.erb',
+          link,
+          before: "</div>\n<div id=\"submenu\">"
+      rescue Exception => ex
+        log :skip, "Adding link to admin menu"
       end
 
     end

@@ -1,6 +1,13 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to new_user_session_url, alert:  exception.message
+  end
+  rescue_from ActiveRecord::RecordNotFound do
+    render action: "/shared/404"
+  end
 
+
+  protect_from_forgery
   <% if options.lang.length > 1 %>
   before_filter :default_url_options, :set_locale
   <% end %>
@@ -8,9 +15,9 @@ class ApplicationController < ActionController::Base
 
   def layout_by_resource
     if devise_controller?
-      "l/admin"
+      "l/layouts/admin_login"
     else
-      "l/standard"
+      "l/layouts/standard"
     end
   end
 
@@ -26,6 +33,9 @@ class ApplicationController < ActionController::Base
     render nothing:  true
   end
   <% end %>
+
+  protected
+  include L::FilterHelper
 
   private
   <% if options.lang.length > 1 %>

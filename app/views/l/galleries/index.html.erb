@@ -1,18 +1,38 @@
-<h2><%= t('.title') %></h2>
-<% unless @galleries.blank? %>
-  <ul id="galleries-list">
-	<% @galleries.each do |gallery| %>
-    <li>
-      <h3><%= gallery.name %></h3>
-      <div class="date"><%= l gallery.created_at, format: '%d-%m-%Y %H:%M' %></div>
-      <%= content_tag :div, class: 'thumb' do %>
-        <%= image_tag gallery.thumbnail(:thumb) %>
-      <% end unless gallery.thumbnail.nil? %>
-      <div class="content"><%=short gallery.content, 160 %></div>
-      <div class="more"><%= link_to t('helpers.actions.more'), gallery_path(gallery) %></div>
-	 </li>
-	<% end %>
-  </ul>
+<% content_for :submenu do %>
+  <%= render "submenu" %>
 <% end %>
+
+<% title t('galleries.index.title') %>
+<% breadcrumbs_admin link_to(t('galleries.index.title'), galleries_path) %>
+
+<p id="notice"><%= notice %></p>
+
+<%= render partial: 'l/partials/switcher', object: @galleries %>
+
+<table class="rows">
+  <thead>
+    <tr>
+      <th><%= L::Gallery.human_attribute_name :name %></th>
+      <th><%= L::Gallery.human_attribute_name :content %></th>
+      <th><%= L::Gallery.human_attribute_name :thumb %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @galleries.each do |gallery| %>
+    <tr class="<%= cycle('odd', 'even') %>">
+
+      <td class="gallery_name"><%= gallery.name %></td>
+      <td><%=raw gallery.content %></td>
+      <td class="options">
+        <%= link_to t('destroy'), gallery_path(gallery), class: "destroy", title: t('destroy'),
+          data: { confirm: t('confirm'), method: :delete } %>
+        <%= link_to t('show'), gallery_path(gallery), class: "show", title: t('show'), target: "blank" %>
+        <%= link_to t('edit'), edit_gallery_path(gallery), class: "edit", title: t('edit') %>
+      </td>
+    </tr>
+    <tr class="spacer"><td></td></tr>
+  <% end %>
+  </tbody>
+</table>
 
 <%= will_paginate @galleries %>

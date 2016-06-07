@@ -43,7 +43,7 @@ pl:
         title: 'Zarejestruj się'
         submit: 'Zarejestuj'
       edit:
-        title: Edytuj swój profil
+        title: Edytuj użytkownika
         submit: Zapisz zmiany
         blank: "Zostaw puste żeby nie zmieniać"
         current: "Wpisz aktualne hasło, żeby potwierdzić zmiany"
@@ -51,11 +51,6 @@ pl:
           title: "Usuń swoje konto"
           cancel: "Usuń"
           sure: "Jesteś pewny?"
-        tooltip:
-          head: "Informacja"
-          content: "Tutaj możesz zmienić swoje dane dostępowe do konta oraz informacje osobiste o Tobie."
-      submenu:
-        profile: "Edytuj swój profil"
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account was successfully unlocked. You are now signed in.'

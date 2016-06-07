@@ -12,31 +12,11 @@ module L
     #   - +class_name+ - lista dodatkowych klas CSS
     #
     def admin_menu_link(name, url = nil, options = {})
-      if url.nil?
-        url = url_for([:admin, name]) rescue url_for([:admin, name, :index])
-      end
+      url = method("#{name}_path").call if url.nil?
       ctrl_name = (options.delete(:controller) || name).to_s
       class_name = [*options.delete(:class_name)]
       class_name.push('active') if controller_name == ctrl_name
       link_to t("menu.#{name}"), url, class: class_name
-    rescue ActionController::RoutingError
-      ''
-    end
-
-    # Generuj link wykonujący akcje na zaznaczonych elementach
-    #
-    # * *Argumenty*:
-    #    - +title+ - Treść linka
-    #    - +url+ - Url linka, musi zawierać placeholer +:id+
-    #    - +options+ - opcje, takie jak w link_to
-    def action_on_selection(title, url, options = {})
-      jsopt = {
-        selector: options.delete(:selector) || '.selection',
-        method: options[:data].try(:delete, :method) || 'get',
-        type: options[:data].try(:delete, :type)
-      }
-
-      link_to title, "javascript: lazy.action_on_selected('#{j url}', #{jsopt.to_json})", options
     end
 
     # Metoda skracająca tekst (robiąca zajawkę). Na końcu dodawany jest wielokropek, jeżeli
@@ -47,10 +27,10 @@ module L
     #  - +value+ - tekst do skrócenia
     #  - +length+ - maksymalna długość teksty na wyjściu, domyślnie 50
     #
-    def short(value, length = 50)
+    def short(value, length=50)
       v = strip_tags(value)
       if v.mb_chars.length > length
-        (v.mb_chars.slice(0,length-1).to_s + "&hellip;").html_safe
+        raw(v.mb_chars.slice(0,length-1).to_s + "&ellips;")
       else
         v
       end
@@ -61,11 +41,11 @@ module L
     #
     # * *Argumenty*:
     #
-    #   - +*value+ - link lub tablica linków stron w kolejności od najdalszej
+    #   - +*value+ - link, lub tablica linków stron w kolejności od najdalszej
     #   do najbliższej użytkownikowi. Ostatnim elementem zwykle jest tytuł
     #   storny na której znajduje się użytkownik.
     def breadcrumbs(*value)
-      bread = [ link_to(I18n.t('menu.main_page'), root_path) ]
+      bread = ['<a href="/">'+I18n.t('breadcrumbs.home')+'</a>']
       bread += value
       instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
     end
@@ -80,18 +60,9 @@ module L
     #   do najbliższej użytkownikowi. Ostatnim elementem zwykle jest tytuł
     #   storny na której znajduje się użytkownik.
     def breadcrumbs_admin(*value)
-      bread = [ link_to(I18n.t('title', scope: 'l.admin'), admin_path) ]
+      bread = ['<a href="/admin">'+I18n.t('admins.show.title')+'</a>']
       bread += value
       instantiate_yield :breadcrumbs, bread.join(' <span class="separator">&rsaquo;</span> ')
-    end
-
-    def default_title(scope = nil)
-      defaults = []
-      defaults.unshift([::Rails.application.class.parent_name, *scope].join(' '))
-      defaults.unshift(:title)
-      defaults.unshift(:"#{scope}.title") if scope
-      key = defaults.shift
-      I18n.t(key, default: defaults)
     end
 
 
@@ -100,19 +71,9 @@ module L
     # * *Argumenty*:
     #
     #   - +value+ - tytuł strony
-    def title(*values)
-      options = values.extract_options!
-      scope = options[:scope]
-      values.reverse!
-      glue = options[:glue] || '-'
-      key = [*scope, :title].join('_').to_sym
-      _title = if content_for?(key)
-        [*values, content_for(key)]
-      else
-        [*values, default_title(scope)]
-      end.join(" #{glue} " )
-      instance_variable_get("@view_flow").set(key, _title)
-      nil
+    def title(value)
+      instantiate_yield :title, value
+      content_for(:title) { value }
     end
 
     # Metoda ustawiająca słowa kluczowe strony.
@@ -140,17 +101,17 @@ module L
 
     # Pobierz aktualną wartość meta opisu strony.
     def yield_description
-      @value_for_meta_description || t('meta.description')
+      @value_for_meta_description||t('meta.description')
     end
 
     # Pobierz aktualną wartość słów kluczowych strony.
     def yield_keywords
-      @value_for_meta_keywords || t('meta.keywords')
+      @value_for_meta_keywords||t('meta.keywords')
     end
 
     # Pobierz aktualny tytuł strony.
     def yield_title
-      @value_for_meta_title || t('meta.title')
+      @value_for_meta_title||t('meta.title')
     end
 
     private

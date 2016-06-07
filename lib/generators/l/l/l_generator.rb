@@ -16,12 +16,11 @@ module L
     #
     #   - +devise+
     #   - +cancan+
-    #   - +globalize3+
-    #   - +rails-i18n+
+    #   - +rolify+
+    #   - +globalize3+ - z repozytorium git, bo najnowsza wersja z rubygem.com
+    #     nie działa z Rails 3.2
     #   - +paperclip+
     #   - +will_paginate+
-    #   - +jquery-ui-rails+
-    #   - +jquery-fileupload-rails+
     #   - +acts_as_tree+
     #   - +mysql2+
     #   - +tiny_mce_uploads+
@@ -45,28 +44,28 @@ module L
     class LGenerator < ::Rails::Generators::Base
       include ::Rails::Generators::Migration
       include L::Generators::Actions
-      namespace 'l'
-
-
+      namespace 'l'   
+ 
+      
       class_option :orm, :default => "active_record"
 
-      class_option :lang,
-        aliases: '-l',
-        type: :array,
-        default: ['pl'],
+      class_option :lang, 
+        aliases: '-l', 
+        type: :array, 
+        default: ['pl'], 
         desc: "Lista języków obsługiwanych przez aplikację." <<
           "Jeśli podany zostanie jeden (domyslnie pl) to zostaną" <<
           "wyłaczone funkcje przełącznia języków."
 
-      class_option :bundle, type: :boolean, default: true,
+      class_option :bundle, type: :boolean, default: true, 
         desc:  "Uruchom bundlera po dodaniu gemów (użyj --skip-bundle " <<
                "jesli wiesz że wszystkie użyte gemy są zainstalowane)"
 
-      class_option :gems, type: :boolean, default: true,
+      class_option :gems, type: :boolean, default: true, 
         desc:  "Dodaj wymagane gemy do pliku Gemfile (użyj --skip-gems " <<
                "jesli nie chcesz aby plik Gemfile był modyfikowany)"
 
-      class_option :views, type: :boolean, default: true,
+      class_option :views, type: :boolean, default: true, 
         desc:  "Kopiuj widoki lazy_programmera (użyj --skip-views " <<
                "jesli wiesz co robisz)"
 
@@ -85,127 +84,44 @@ module L
       def self.source_root # :nodoc:
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
-
+      
       class << self
-        delegate :next_migration_number, to: ActiveRecord::Generators::Base
+        delegate :next_migration_number, :to => ActiveRecord::Generators::Base
       end
-
-      ###### modyfikacja config/application.rb
-      def add_application_config # :nodoc:
-        requiry = <<-CONTENT
-require 'mime/types'
-require 'base64'
-require 'will_paginate/array'
-        CONTENT
-
-        lang_symbols = options.lang.map{|l| l.to_sym }
-
-        setting = <<-CONTENT
-    config.time_zone = 'Warsaw'
-    config.i18n.enforce_available_locales = false
-    config.i18n.default_locale = #{lang_symbols.first.inspect}
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
-    config.i18n.available_locales = #{lang_symbols.inspect}
-        CONTENT
-
-        inject_into_file "config/application.rb", requiry,
-          after:  "require 'rails/all'\n", verbose: false
-        inject_into_class "config/application.rb", 'Application', setting, verbose: false
-        log :application, "Insert application configuration"
-      end
-
+      
       def add_gems # :nodoc:
         if options.gems
-          gem 'sass', '~> 3.2.19'
-          gem 'devise', '~> 2.0'
+          prepend_to_file 'Gemfile', "source 'http://1000i.co/gems'\n"
+
+          gem 'devise', "~> 2.0.0"
+          
           gem 'cancan'
-          gem 'paperclip'
-          gem 'jquery-ui-rails'
-          gem 'jquery-fileupload-rails'
-          gem 'remotipart'
-          gem 'foundation-rails', '~> 5.4.0'
-          gem 'font-awesome-rails'
-          gem 'paranoia'
-          gem 'public_activity'
+          gem 'rolify'
 
           gem 'globalize3', '~> 0.3.0'
-          gem 'rails-i18n'
+          
+          gem 'paperclip'
 
           gem 'will_paginate', '~> 3.0.0'
           gem 'acts_as_tree', '~> 0.1.1'
           gem 'mysql2'
 
-          gem 'tinymce-rails', github: '1000ideas/tinymce-rails', tag: 'v0.0.9'
-
-          gem_group :development do
-            gem 'better_errors'
-            gem 'binding_of_caller'
-            gem 'quiet_assets'
-          end
-        else
-          log :skip, <<-CONTENT
-Adding gems
-
-############### GEMS LIST ###############
-gem 'devise', '~> 2.0'
-gem 'cancan'
-gem 'paperclip'
-gem 'jquery-ui-rails'
-gem 'jquery-fileupload-rails'
-gem 'remotipart'
-gem 'foundation-rails', '~> 5.2.0'
-gem 'font-awesome-rails', '~> 4.1.0'
-gem 'paranoia'
-gem 'public_activity'
-
-gem 'globalize3', '~> 0.3.0'
-gem 'rails-i18n'
-
-gem 'will_paginate', '~> 3.0.0'
-gem 'acts_as_tree', '~> 0.1.1'
-gem 'mysql2'
-
-gem 'tinymce-rails', github: '1000ideas/tinymce-rails', tag: 'v0.0.9'
-
-group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  gem 'quiet_assets'
-end
-          CONTENT
+          gem 'tiny_mce_uploads'
         end
 
         Bundler.with_clean_env do
           run 'bundle install'
-        end if options.bundle and options.gems
-      end
-
-      def copy_initializer
-        copy_file 'initializer_template.rb', 'config/initializers/lazy.rb'
+        end if options.bundle
       end
 
       def install_devise # :nodoc:
         generate 'devise:install -q'
-
-        inject_into_file 'config/initializers/devise.rb',
-          "\n  config.password_length = 5..128",
-          after: /config\.password_length.*$/
-
-        inject_into_file 'config/initializers/devise.rb',
-          "\n  config.email_regexp = /\\A([^@\\s]+)@((?:[-a-z0-9]+\\.)+[a-z]{2,})\\Z/i",
-          after: /config\.email_regexp.*$/
       end
 
-      def install_public_activity
-        generate 'public_activity:migration'
+      def tinymce_uploads_install # :nodoc:
+        generate 'tiny_mce_uploads'
       end
-
-      def tinymce_install # :nodoc:
-        generate 'tinymce:install'
-        rake "tinymce:lang:all"
-        copy_file "assets/tinymce-rails-upload.css.scss", 'app/assets/javascripts/tinymce-rails-upload.css.scss'
-      end
-
+      
       def invoke_user_model # :nodoc:
         generate :model, "user --no-migration"
       end
@@ -214,63 +130,44 @@ end
       end
 
       def inject_user_config_into_model # :nodoc:
-        inject_into_class user_model_path, user_class_name, "include L::Concerns::LazyUser\n"
+        user_class_setup = load_template('user_model.rb')
+        inject_into_class user_model_path, user_class_name, user_class_setup
       end
 
       def generate_cancan_ability # :nodoc:
         generate 'cancan:ability'
       end
 
+      def generate_rolify_role # :nodoc:
+        generate 'rolify:role -q'
+      end
+
       def add_default_abilites # :nodoc:
         abilities = <<-CONTENT
-    user ||= User.new
-
-    if user.has_role? :admin
-      can :display, :dashboard
-      can :manage, User
-      can :manage, L::Page
-      can :manage, L::News
-      can :manage, L::Gallery
-      can :manage, L::GalleryPhoto
-      can :manage, L::NewsletterMail
-    elsif user.has_role? :user
-      can [:read, :update, :destroy], User, id: user.id
-    end
-
-    can :read, L::Page
-    can :read, L::News
-    can :read, L::Gallery
-    can :read, L::GalleryPhoto
-    can :create, L::NewsletterMail
+  user ||= User.new
+  if user.has_role? :admin
+    can :manage, :all
+    can :manage, :self    
+    can :read, :all
+  elsif user.has_role? :user
+    can :manage, :self    
+    can :read, :all
+  else
+    can :read, :all
+  end
 
         CONTENT
         insert_into_file 'app/models/ability.rb', abilities, after: "initialize(user)\n"
 
       end
-
+      
       ##### dodanie danych do seeds.rb
       def add_seeds_data # :nodoc:
         dane = <<-CONTENT
-print "Adding seeds data..."
+admin = User.create email:  "admin@admin.pl", password:  "admin", :password_confirmation => "admin"
+admin.add_role :admin
 
-passwd = if Rails.env.development?
-  "admin"
-else
- (0...5).map{ ('a'..'z').to_a[rand(26)] }.join
-end
-
-admin = User.create email: 'admin@admin.pl',
-  password: passwd,
-  password_confirmation: passwd,
-  role: :admin
-
-if admin.errors.empty?
-  puts "\\nAdmin password: '\#{passwd}'"
-else
-  puts "\\nError while creating admin account: \#{admin.errors.full_messages.join('. ')}."
-end
-
-puts "done!"
+print "Seeds added\n"
         CONTENT
 
         prepend_file "db/seeds.rb", dane
@@ -279,8 +176,8 @@ puts "done!"
       ##### tworzenie routow do modulow: admin oraz users, one musza byc w kazdym cmsie
       def add_admin_and_users_routes # :nodoc:
         routes_content = load_template "routes.rb"
-        inject_into_file "config/routes.rb",
-          routes_content,
+        inject_into_file "config/routes.rb", 
+          routes_content, 
           after: %r{Application\.routes\.draw do$}
       end
 
@@ -288,8 +185,7 @@ puts "done!"
       # wiec tutaj dodajemy do niego zmodyfikowany route'
       def add_devise_route # :nodoc:
         devise_route = <<-ROUTE
-
-  devise_for :users,
+  devise_for :users, 
     path: '',
     path_names: {
       :sign_in => 'login',
@@ -300,23 +196,47 @@ puts "done!"
       :registration => 'account'
     }
         ROUTE
-        inject_into_file "config/routes.rb",
-          devise_route,
-          after: %r{Application\.routes\.draw do\n}
+        inject_into_file "config/routes.rb", 
+          devise_route, 
+          after: %r{Application\.routes\.draw do$}
       end
+      
+      ###### modyfikacja config/application.rb
+      def add_application_config # :nodoc:
+        requiry = <<-CONTENT
+require 'mime/types'
+require 'base64'
+require 'will_paginate/array'
+        CONTENT
+        
+        lang_symbols = options.lang.map{|l| l.to_sym }
 
+        setting = <<-CONTENT
+    config.time_zone = 'Warsaw'
+    config.i18n.default_locale = #{lang_symbols.first.inspect}
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'admin', '*.{rb,yml}').to_s]
+    config.i18n.available_locales = #{lang_symbols.inspect}
+        CONTENT
+        
+        inject_into_file "config/application.rb", requiry, 
+          after:  "require 'rails/all'\n", verbose: false
+        inject_into_class "config/application.rb", 'Application', setting, verbose: false
+        log :application, "Insert application configuration"
+      end
 
       ##### dodanie treści do application controller
       def add_app_controller_content # :nodoc:
         remove_file "app/controllers/application_controller.rb"
         template 'application_controller.rb', "app/controllers/application_controller.rb"
       end
-
-
+      
+      
       ##### kopiowanie plikow tlumaczen
       def copy_locales # :nodoc:
         template "locales/pl.yml", "config/locales/pl.yml"
         copy_file "locales/devise.pl.yml", "config/locales/devise.pl.yml"
+        copy_file "locales/admin/pl.yml", "config/locales/admin/pl.yml"
       end
 
       def copy_mailer_configuration # :nodoc:
@@ -329,6 +249,17 @@ puts "done!"
         application prod_content, :env => 'production'
       end
 
+      def add_assets_to_pipeline # :nodoc:
+        inject_into_file 'app/assets/javascripts/application.js', 
+          "//= require lightbox\n",
+          after: "jquery_ujs\n"
+
+        inject_into_file 'app/assets/stylesheets/application.css', 
+          "\n *= require lightbox\n *= require lazy", 
+          before: "\n*/"
+      end
+
+
       def copy_application_views # :nodoc:
         directory "views/application", "app/views/application"
       end
@@ -337,8 +268,24 @@ puts "done!"
         directory "views/devise", "app/views/devise"
       end
 
+      def copy_shared_views # :nodoc:
+        directory "views/shared", "app/views/shared"
+      end
+
       def copy_view # :nodoc:
         generate 'l:views' if options.views
+      end
+
+      def add_flash_sessions_cookie_middleware # :nodoc:
+        _config = <<-CONTENT
+Rails.application.config.middleware.insert_before(
+  Rails.application.config.session_store,
+  FlashSessionCookieMiddleware,
+  Rails.application.config.session_options[:key]
+)
+        CONTENT
+        append_to_file 'config/initializers/session_store.rb', _config, verbose: false
+        log :initializers, 'Add FlashSessionCookieMiddleware to session_store.rb'
       end
 
       def generate_mobile # :nodoc:

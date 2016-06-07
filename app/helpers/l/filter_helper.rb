@@ -17,16 +17,10 @@ module L
       params[:filter][name] unless params[:filter].blank?
     end
 
-    def filtering?
-      params[:filter].try(:any?) do |key, value|
-        !value.blank?
-      end
-    end
-
     # Metoda pobierająca porządek sortowania
     #
     # * *Argumenty*:
-    #
+    #   
     #   - +table_name+ - Nazwa tabeli, jeśli chcemy sortować po polu z tabeli
     #     złączonej
     #
@@ -38,8 +32,10 @@ module L
     #
     def sort_order(table_name = nil)
       return '' if params[:sort].blank?
-      name = params[:sort][:column]
-      type = params[:sort][:dir]
+      regex = %r{^([a-z_]*)_(asc|desc)$}
+      return '' unless params[:sort].match regex
+      name = $1
+      type = $2.upcase
       table_name.blank? ? "`#{name}` #{type}" : "`#{table_name}`.`#{name}` #{type}"
     end
 

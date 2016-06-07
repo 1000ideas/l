@@ -1,28 +1,60 @@
-<%% title t('.title') %>
-
-<%- [:alert, :notice].each do |name| -%>
-<%%= content_tag(:p, flash[:<%= name %>], class: :<%= name %>) if flash.key? :<%= name %> %>
-<%- end -%>
-
-<%%= render('filter')  %>
-
-<ul class="row items-list-header">
-  <li class="columns small-6">
-    <%%= custom_check_box(:selection, :all_ids, {}, 1, nil) if @<%= plural_table_name %>.any? %>
-    <%%= sort_column :id, <%= class_name %>.human_attribute_name(:id) %>
-  </li>
-  <li class="columns small-3"><%%= sort_column :updated_at, <%= class_name %>.human_attribute_name(:updated_at) %></li>
-  <li class="columns small-3"><%%= sort_column :created_at, <%= class_name %>.human_attribute_name(:created_at) %></li>
-</ul>
-
-<%% if @<%= plural_table_name %>.any? %>
-  <%%=  render 'list' %>
-<%% elsif filtering? %>
-  <div class="no-items">
-    <%%= t('defaults.index.no_filtered_items_html') %>
-  </div>
-<%% else %>
-  <div class="no-items">
-    <%%= t('defaults.index.no_items_html', link: new_admin_<%= singular_table_name %>_path(format: :js)) %>
-  </div>
+<%% content_for :submenu do %>
+<%%= render "submenu" %>
 <%% end %>
+
+<%% title t('<%= plural_table_name %>.index.title') %>
+<%% breadcrumbs_admin link_to(t('<%= plural_table_name %>.index.title'), <%= index_helper %>_path) %>
+
+<p id="notice"><%%= notice %></p>
+
+<%%= form_tag <%= index_helper %>_path, method: :get do %>
+
+<%%= render "filter" %>
+<%%= render partial: 'l/partials/switcher', object: @<%= plural_table_name %> %>
+
+<table class="rows">
+  <thead>
+    <tr>
+<% for attribute in attributes -%>
+      <th>
+        <%%= <%= class_name %>.human_attribute_name :<%= attribute.name %> %>
+<% if attribute.type == :file -%>
+        <%%= sort_tag :<%= attribute.name %>_file_name, :asc %>
+        <%%= sort_tag :<%= attribute.name %>_file_name, :desc %>
+<% else -%>
+        <%%= sort_tag :<%= attribute.name %>, :asc %>
+        <%%= sort_tag :<%= attribute.name %>, :desc %>
+<% end -%>
+      </th>
+<% end -%>
+    </tr>
+  </thead>
+  <tbody>
+    <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+    <tr  class="<%%= cycle('odd', 'even') %>">
+<% for attribute in attributes -%>
+<% if attribute.type == :file -%>
+        <td><%%= <%= singular_table_name %>.<%= attribute.name %>_file_name %></td>
+<% elsif attribute.type =~ /tiny_mce_.*/ -%>
+        <td><%%= raw <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% else -%>
+        <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% end -%>
+<% end -%>
+      <td class="options">
+        <%%= link_to t('edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "edit", title: t('edit') %>
+        <%%= link_to t('show'), <%= singular_table_name %>, class: "show", title: t('show'), target: "_blank" %>
+        <%%= link_to t('destroy'), <%= singular_table_name %>, class: "destroy", title: t('destroy'), data: { confirm: t('confirm'), method: :delete } %>
+      </td>
+    </tr>
+    <tr class="spacer"><td></td></tr>
+    <%% end %>
+  </tbody>
+</table>
+
+<%% end %>
+
+<%%= will_paginate @<%= plural_table_name %> %>
+
+
+

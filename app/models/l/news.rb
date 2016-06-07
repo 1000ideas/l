@@ -2,7 +2,7 @@ module L
   # Model reprezentujący wiadomość należącą do aktualności.
   #
   # * *Atrybuty*:
-  #
+  #   
   #   - +title+ - tytuł wiadomości,
   #   - +content+ - treść wiadomości,
   #   - +photo+ - zdjęcie dla wiadomości, załącznik Paperclip,
@@ -11,37 +11,25 @@ module L
   # Tłumaczone atrybuty: +title+ i +content+.
   #
   class News < ActiveRecord::Base
-    include ::PublicActivity::Common
-    acts_as_paranoid
+    attr_accessible :title, :content, :photo, :photo_delete, :translations_attributes
 
-    scope :ordered, order("`#{table_name}`.`created_at` DESC")
-    scope :visible, lambda { where("`#{table_name}`.`published_at` <= ?", Time.now) }
-    self.per_page = 10
+    has_attached_file :photo, 
+      :styles => { :thumb=> "120x90", :small => "200x200>", :medium  => "600x400>" },
+      :path => ":rails_root/public/system/news_photos/:id/:style/:filename",
+      :url => "/system/news_photos/:id/:style/:filename"
 
-    attr_accessible :title, :content, :photo, :published_at,
-      :published_at_formatted, :photo_delete, :translations_attributes
 
-    has_attached_file :photo,
-      styles: { thumb: "120x90", small: "200x200>", medium: "600x400>" },
-      path: ":rails_root/public/system/news_photos/:id/:style/:filename",
-      url: "/system/news_photos/:id/:style/:filename",
-      preserve_files: true
-
-    validates :title, presence: true
-    validates :content, presence: true
-    validates :photo, attachment_content_type: { content_type: %r{^image/} }
-
+    validates :title, :presence => true
+    validates :content, :presence => true
+    validates_attachment_content_type :photo,
+      :content_type => ['image/jpeg', 'image/png', 'image/gif', 'image/bmp']
+  
     @@per_page = 5
 
     translates :title, :content
-    translation_class.acts_as_paranoid
-
     accepts_nested_attributes_for :translations
 
-    scope :filter_by_title, lambda { |title| where("`#{translations_table_name}`.`title` LIKE ?", "%#{title}%") }
-    scope :filter_by_published_before, lambda { |date| where("`#{table_name}`.`published_at` < ?", Date.parse(date)) }
-    scope :filter_by_published_after, lambda{ |date| where("`#{table_name}`.`published_at` > ?", Date.parse(date)) }
-
+    
     def photo_delete # :nodoc:
       false
     end
@@ -49,33 +37,6 @@ module L
     def photo_delete=(value) # :nodoc:
       self.photo.clear if value.to_i == 1
     end
-
-    def published_at
-      super || created_at
-    end
-
-    def published_at_formatted
-      unless published_at.nil?
-        I18n.l(self.published_at, format: :edit)
-      end
-    end
-
-    def published_at_formatted= value
-      self.published_at = value
-    end
-
-    def published?
-      published_at.present? and published_at < Time.now
-    end
-
-    def publish!
-      self.published_at ||= Time.now
-    end
-
-    def draft!
-      self.published_at = nil if published?
-    end
-
 
     # Metoda pobierająca n pierwszych newsów innych od tej wiadomości.
     #
@@ -90,7 +51,7 @@ module L
     # Metoda klasy pozwalająca wyszukiwać wiadomości pasujących do zadanej
     # frazy. Wyszukiwanie odbywa się po polach +title+ i +content+ i jest
     # zależne od aktualnie wybranego języka.
-    #
+    # 
     # * *Argumenty*:
     #
     #   - +search+ - szukana fraza.

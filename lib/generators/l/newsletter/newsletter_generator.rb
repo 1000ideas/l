@@ -57,7 +57,6 @@ CONTENT
 
       def copy_newsletter_mails_views # :nodoc:
         directory "../../../../../app/views/l/newsletter_mails", "app/views/l/newsletter_mails"
-        directory "../../../../../app/views/l/admin/newsletter_mails", "app/views/l/admin/newsletter_mails"
         copy_file "_newsletter.erb", "app/views/l/partials/_newsletter.erb"
       end
 
@@ -67,42 +66,32 @@ CONTENT
 
       def add_newsletter_route # :nodoc:
         routing_code = <<-CONTENT
+  resources :newsletter_mails, controller: 'l/newsletter_mails', only: [:index, :create, :destroy] do
+    collection do
+      get :send_mail, action: :send_mail_edit
+      post :send_mail
+      get :confirm
+    end
+  end
+        CONTENT
 
-      resources :newsletter_mails, only: [:index, :destroy] do
-        collection do
-          get :unconfirmed, action: :index, defaults: {unconfirmed: true}
-          get :send_mail, action: :send_mail_edit
-          post :send_mail
-          constraints(lambda {|req| req.params.has_key?(:ids)}) do
-            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
-            put :bulk_confirm, action: :selection, defaults: {bulk_action: :confirm}
-          end
-        end
-        put :confirm, on: :member
+        inject_into_file 'config/routes.rb', 
+          routing_code, 
+          :before => "resources :users", 
+          :verbose => false
+        log :route, "resources :newsletter_mails"
       end
 
-        CONTENT
+      def add_link_in_menu # :nodoc:
+        link = <<-LINK
+  <%= admin_menu_link(:newsletter, newsletter_mails_path, controller: :newsletter_mails) if current_user.has_role? :admin %>"
+        LINK
+        inject_into_file 'app/views/l/admins/partials/_header.erb',
+          link, 
+          :before => "</div>\n<div id=\"submenu\">"
+      rescue
+        log :skip, "Adding link to admin menu"
 
-        inject_into_file 'config/routes.rb',
-          routing_code,
-          after: %r{^\s*scope module: 'l/admin'.*\n},
-          verbose: false
-
-        routing_code = <<-CONTENT
-
-  resources :newsletter_mails,  module: :l, only: [:create] do
-    get :confirm, on: :collection
-  end
-
-        CONTENT
-
-        inject_into_file 'config/routes.rb',
-          routing_code,
-          before: %r{^\s*scope path: 'admin'},
-          verbose: false
-
-
-        log :route, "resources :newsletter_mails"
       end
 
       protected

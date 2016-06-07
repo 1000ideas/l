@@ -1,11 +1,2 @@
-<ul class="submenu">
-  <li class="show-more"><%%= link_to fa_icon('caret-down'), '#', data: {dropdown: 'submenu-dropdown'} %></li>
-  <%% if action_name == 'index' %>
-  <li><%%= link_to fa_icon('plus-circle fw', text: t('.new')), new_admin_<%= singular_table_name %>_path(format: :js), data: {remote: true} %></li>
-  <%% else %>
-  <li><%%= link_to fa_icon('bars fw', text: t('.index')), admin_<%= index_helper %>_path %></li>
-  <%% end %>
-  <li class="selection"><%%= link_to fa_icon('trash-o fw', text: t('.destroy')), bulk_destroy_admin_<%= index_helper %>_path, data: {method: :delete, confirm: t('.destroy_confirm', default: "Sure?")} %></li>
-</ul>
-<ul id="submenu-dropdown" class="f-dropdown axis-right" data-dropdown-content>
-</ul>
+<%%= link_to t('<%= plural_table_name %>.submenu.index'),<%= index_helper %>_path, class: "list" %>
+<%%= link_to t('<%= plural_table_name %>.submenu.new'), new_<%= singular_table_name %>_path, class: "new" %>

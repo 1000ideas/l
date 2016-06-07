@@ -14,24 +14,13 @@ module L
   # Tłumaczone atrybuty: +name+, +content+.
   #
   class Gallery < ActiveRecord::Base
-    include ::PublicActivity::Common
-    acts_as_paranoid
-
-    scope :ordered, order("`#{table_name}`.`created_at` DESC")
-    self.per_page = 10
-
     has_many :gallery_photos, :dependent => :destroy
     attr_accessible :name, :content, :translations_attributes
 
     validates :name, presence: true
 
     translates :name, :content
-    translation_class.acts_as_paranoid
     accepts_nested_attributes_for :translations
-
-    scope :filter_by_name, lambda{|name| where("`#{translations_table_name}`.`name` LIKE ?", "%#{name}%")}
-    scope :filter_by_updated_before, lambda{|date| where("`#{table_name}`.`updated_at` < ?", Date.parse(date))}
-    scope :filter_by_updated_after, lambda{|date| where("`#{table_name}`.`updated_at` > ?", Date.parse(date))}
 
     # Metoda pobierajaca link to miniatury galerii (do pierwszego dodanego
     # obrazka).
@@ -41,7 +30,7 @@ module L
     #   - +style+ - styl miniatury, domyślnie +:thumb+
     #
     def thumbnail(style = :thumb)
-      self.gallery_photos.first.try(:photo, style)
+      self.gallery_photos.first.photo.url(style)
     rescue
       ''
     end

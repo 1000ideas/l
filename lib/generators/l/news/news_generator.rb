@@ -30,38 +30,40 @@ module L
       end
 
       def copy_news_views # :nodoc:
-        directory "../../../../../app/views/l/news",
+        directory "../../../../../app/views/l/news", 
           "app/views/l/news"
-
-        directory "../../../../../app/views/l/admin/news",
-          "app/views/l/admin/news"
       end
 
-      def add_news_routes # :nodoc:
+      def add_news_route # :nodoc:
         routing_code = <<-CONTENT
-      resources :news, except: [:show] do
-        collection do
-          constraints(lambda {|req| req.params.has_key?(:ids)}) do
-            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
-          end
-        end
-      end
-CONTENT
-        inject_into_file 'config/routes.rb',
-          routing_code,
-          after: %r{^\s*scope module: 'l/admin'.*\n},
-          verbose: false
+  resources :news, :controller => 'l/news' do
+    collection do
+      get :list
+    end
+  end
+        CONTENT
 
-        inject_into_file 'config/routes.rb',
-          "\n  resources :news, module: :l, only: [:index, :show]\n\n",
-          before: %r{^\s*scope path: 'admin'},
-          verbose: false
+        inject_into_file 'config/routes.rb', 
+          routing_code, 
+          :before => %r{^\s*resources :users}, 
+          :verbose => false
         log :route, "resources :news"
       end
 
       def add_search_results_in_search_action # :nodoc:
         inject_into_file 'app/controllers/application_controller.rb',
           "    @news = L::News.search(params[:q])\n", :after => "def search\n"
+      end
+
+      def add_link_in_menu # :nodoc:
+        link = <<-LINK
+  <%= admin_menu_link(:news, news_index_path) if current_user.has_role? :admin %>
+        LINK
+        inject_into_file 'app/views/l/admins/partials/_header.erb', 
+          link, 
+          :before => "</div>\n<div id=\"submenu\">"
+      rescue
+        log :skip, "Adding link to admin menu"
       end
 
     end

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class L::Generators::MobileGenerator - l </title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/generators/l/mobile/mobile_generator.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Rails::Generators::Base
+  
+</nav>
+
+    
+    
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../L.html">L</a>
+  
+    <li><a href="../../L/AdminsController.html">L::AdminsController</a>
+  
+    <li><a href="../../L/FacebookController.html">L::FacebookController</a>
+  
+    <li><a href="../../L/FilterHelper.html">L::FilterHelper</a>
+  
+    <li><a href="../../L/FormHelper.html">L::FormHelper</a>
+  
+    <li><a href="../../L/GalleriesController.html">L::GalleriesController</a>
+  
+    <li><a href="../../L/Gallery.html">L::Gallery</a>
+  
+    <li><a href="../../L/GalleryPhoto.html">L::GalleryPhoto</a>
+  
+    <li><a href="../../L/GalleryPhotosController.html">L::GalleryPhotosController</a>
+  
+    <li><a href="../../L/Generators.html">L::Generators</a>
+  
+    <li><a href="../../L/Generators/Actions.html">L::Generators::Actions</a>
+  
+    <li><a href="../../L/Generators/FacebookGenerator.html">L::Generators::FacebookGenerator</a>
+  
+    <li><a href="../../L/Generators/GalleriesGenerator.html">L::Generators::GalleriesGenerator</a>
+  
+    <li><a href="../../L/Generators/LGenerator.html">L::Generators::LGenerator</a>
+  
+    <li><a href="../../L/Generators/MobileGenerator.html">L::Generators::MobileGenerator</a>
+  
+    <li><a href="../../L/Generators/ModuleGenerator.html">L::Generators::ModuleGenerator</a>
+  
+    <li><a href="../../L/Generators/NewsGenerator.html">L::Generators::NewsGenerator</a>
+  
+    <li><a href="../../L/Generators/NewsletterGenerator.html">L::Generators::NewsletterGenerator</a>
+  
+    <li><a href="../../L/Generators/PageGenerator.html">L::Generators::PageGenerator</a>
+  
+    <li><a href="../../L/Generators/ViewsGenerator.html">L::Generators::ViewsGenerator</a>
+  
+    <li><a href="../../L/LazyHelper.html">L::LazyHelper</a>
+  
+    <li><a href="../../L/LightboxHelper.html">L::LightboxHelper</a>
+  
+    <li><a href="../../L/MobileController.html">L::MobileController</a>
+  
+    <li><a href="../../L/News.html">L::News</a>
+  
+    <li><a href="../../L/NewsController.html">L::NewsController</a>
+  
+    <li><a href="../../L/NewsletterMail.html">L::NewsletterMail</a>
+  
+    <li><a href="../../L/NewsletterMailsController.html">L::NewsletterMailsController</a>
+  
+    <li><a href="../../L/Page.html">L::Page</a>
+  
+    <li><a href="../../L/PagesController.html">L::PagesController</a>
+  
+    <li><a href="../../L/StringExtension.html">L::StringExtension</a>
+  
+    <li><a href="../../L/UsersController.html">L::UsersController</a>
+  
+    <li><a href="../../FlashSessionCookieMiddleware.html">FlashSessionCookieMiddleware</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class L::Generators::MobileGenerator</h1>
+
+  <div id="description" class="description">
+    
+<p>Generator tworzący mobily moduł aplikacji</p>
+
+<p>Dodawany jest wpis w <code>routes.rb</code> przekierowujący zapytania w
+subdomenie <code>m</code> na kontroler Mobile. Dodwany jest before filter w
+kontrolerze Application przekierowujący na mobilny kontroller. Kopiowanie
+widoków mobilnych.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -14,7 +14,7 @@ module L
     #   - +attributes+ - lista par +nazwa+:+typ+, gdzie +nazwa+ jest dowolną nazwą
     #     pola, a +typ+ jest typem pola i jest taki jak w generatorze scaffold oraz
     #     dodatkowo może być równy +file+ gdy pole ma być załącznikiem +Paperclip+
-    #     lub +tinymce_theme+ (gdzie +theme+ jest nazwą szablonu TinyMCE:
+    #     lub +tiny_mce_theme+ (gdzie +theme+ jest nazwą szablonu TinyMCE:
     #     fileupload, advance, simple) jeśli pole ma być polem tekstowym edytowanym
     #     w edytorze TinyMCE
     #
@@ -29,7 +29,7 @@ module L
     class ModuleGenerator < ::Rails::Generators::NamedBase
       include L::Generators::Actions
 
-      argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tinymce_(theme)'
+      argument :attributes, :required => false, :type => :array, :default => [], :banner => "field:type field:type", desc: 'Tak jak w scaffold + dodatkowe typy pól: file, tiny_mce_(theme)'
       class_option :orm, :default => "active_record"
       class_option :searchable, :type => :array, :default => [], :desc => 'Argumenty które mają być wyszukiwane', :banner => 'field field ...'
       class_option :interactive, aliases: '-i', type: :boolean, default: false, desc: "Tryb interaktywny"
@@ -43,7 +43,7 @@ module L
       end
 
       def generate_model # :nodoc:
-        invoke :model, model_args, migration: true
+        invoke :model, model_args, :migration => true
       end
 
       def insert_file_fields_to_migration # :nodoc:
@@ -56,177 +56,107 @@ module L
         end
       end
 
-      def nullable_deleted_at_column
-        return if migration_file.nil?
-
-        inject_into_file migration_file,
-          ", null: true",
-          after: 't.datetime :deleted_at'
-      end
-
       def insert_has_attached_file # :nodoc:
         return unless model_exists?
 
         file_attributes.each do |a|
-          inject_into_file model_path,
-            "  has_attached_file :#{a.name}\n  validates_attachment :#{a.name}, content_type: {content_type: /.*/}\n",
-              after: "ActiveRecord::Base\n"
-        end
-      end
-
-      def add_filters_to_model
-        return unless model_exists?
-
-        inject_into_file model_path,
-          %(  scope :filter_by_created_before, lambda {|date| where("`created_at` < ?", Date.parse(date)) }\n),
-            after: "ActiveRecord::Base\n"
-        inject_into_file model_path,
-          %(  scope :filter_by_created_after, lambda {|date| where("`created_at` > ?", Date.parse(date)) }\n),
-            after: "ActiveRecord::Base\n"
-
-        attributes.each do |attribute|
-          field_name = if attribute.type == :file
-            "#{attribute.name}_file_name"
-          else
-            attribute.name
-          end
-          inject_into_file model_path,
-            "  scope :filter_by_#{field_name}, lambda {|value| where(#{field_name}: value) }\n",
-              after: "ActiveRecord::Base\n"
-
+          inject_into_file model_path, 
+            "  has_attached_file :#{a.name}, styles: { medium: '300x300>', thumb: '100x100#' }\n",
+            :after => "ActiveRecord::Base\n"
         end
       end
 
       def add_search_method_to_model # :nodoc:
-        if model_exists?
-          inject_into_class model_path,
-            name.capitalize,
-            "  acts_as_paranoid\n"
-
-          if options.searchable.any?
-            where_clause = options.searchable.map {|f| "#{f} LIKE :pattern" }.join(' OR ')
-            inject_into_class model_path,
-              name.capitalize,
-              %Q[scope :search, lambda {|phrase| where("#{where_clause}", {:pattern => "%\#{phrase}%"})}\n]
-
-
-            inject_into_file 'app/controllers/application_controller.rb',
-              "    @#{plural_name.downcase} = #{name.capitalize}.search(params[:q])\n",
-              after: "def search\n"
-          end
+        unless options.searchable.blank? or not model_exists?
+          where_clause = options.searchable.map {|f| "#{f} LIKE :pattern" } .join(' OR ')
+          search_method = <<-CONTENT
+  def self.search(phrase)
+    find(:all, :conditions => ['#{where_clause}', {:pattern => "%\#{phrase}%"}])
+  end
+          CONTENT
+          inject_into_class model_path, name.capitalize, search_method
+        
+          inject_into_file 'app/controllers/application_controller.rb', 
+            "    @#{plural_name.downcase} = #{name.capitalize}.search(params[:q])\n", 
+            after: "def search\n"
         end
       end
 
-      def add_public_activity_include
-        if model_exists?
-          inject_into_class model_path,
-            name.capitalize,
-            "  include PublicActivity::Common\n"
-
-        end
-      end
-
-
-      check_class_collision suffix: "Controller"
-
+      check_class_collision :suffix => "Controller"
+      
       def create_controller_files # :nodoc:
         template 'controller.rb', controller_path
-        template 'admin_controller.rb', admin_controller_path
-      end
-
-      def add_abilities
-        inject_into_file 'app/models/ability.rb',
-         "      can :manage, #{class_name}\n",
-         after: %r{^\s*if user\.(?:has_role\?\s+:)?admin\??\n}
       end
 
       def add_routes # :nodoc:
-        routing_code = "resources :#{plural_name}, except: [:show]"
-        _routing_code = <<-CONTENT
-      resources :#{plural_name}, except: [:show] do
-        collection do
-          constraints(lambda {|req| req.params.has_key?(:ids)}) do
-            delete :bulk_destroy, action: :selection, defaults: {bulk_action: :destroy}
-          end
-        end
-      end
-CONTENT
-
-        inject_into_file 'config/routes.rb',
-          _routing_code,
-          after: %r{^\s*scope module: :admin.*\n},
-          verbose: false
-
+        routing_code = "resources :#{plural_name}" 
         log :route, routing_code
-      end
-
-      def add_front_routes # :nodoc:
-        routing_code = "resources :#{plural_name}, only: [:index, :show]"
-        inject_into_file 'config/routes.rb',
-          "  #{routing_code}\n",
-          before: %r{^\s*scope path: 'admin'.*\n},
-          verbose: false
-
-        log :route, routing_code
+        inject_into_file 'config/routes.rb', "  #{routing_code}\n", :before => "resources :users", :verbose => false
       end
 
       def create_view_folder # :nodoc:
         empty_directory File.join("app/views", controller_file_path)
-        empty_directory File.join("app/views/admin", controller_file_path)
       end
 
       def copy_view_files # :nodoc:
-        available_admin_views.each do |view|
+        available_views.each do |view|
           filename = "#{view}.html.erb"
-          template filename, File.join("app/views/admin", controller_file_path, filename)
+          template filename, File.join("app/views", controller_file_path, filename)
         end
-        %w(index new edit create update).each do |name|
-          template "#{name}.js.coffee", File.join("app/views/admin", controller_file_path, "#{name}.js.coffee")
-        end
-        template "_object.html.erb", File.join("app/views/admin", controller_file_path, "_#{singular_table_name}.html.erb")
-        template "front_index.html.erb", File.join("app/views", controller_file_path, "index.html.erb")
-        template "front_show.html.erb", File.join("app/views", controller_file_path, "show.html.erb")
       end
 
       def add_translations # :nodoc:
-        defaults = I18n.t('defaults', locale: :pl).stringify_keys
-        defaults.keys.each do |k|
-          defaults[k].stringify_keys!
+        menu_names = {}
+        if options.interactive
+          require 'highline/import'
+
+          say "Wprowadź polskie tłumaczenia:"
+          menu_names = {
+            :menu => ask("Etykieta przycisku w menu głównym: ") {|q| q.default = "#{plural_name}" }
+          }
+          
+          say "Etykiety przycisków w podmenu:"
+          menu_names.merge!(
+            :sub_new => ask("# Dodaj nowy element:") { |q| q.default = "Dodaj #{name}" },
+            :sub_idx => ask("# Lista elementów:") {|q| q.default = "Lista #{plural_name}" }
+          )
+
+          say "Tytuły stron modułu:"
+          menu_names.merge!(
+            :new => ask("# Tytuł strony dodawania elementu:") { |q| q.default = "Dodawanie #{name}" },
+            :idx => ask("# Tytuł strony listy  elementów:") {|q| q.default = "#{plural_name}" },
+            :edt => ask("# Tytuł strony edycji elementu:") {|q| q.default = "Edycja #{name}" }
+          )
         end
 
-        trans = {
-          'admin' => {
-            "#{plural_table_name}" => {
+        trans = { "#{plural_name.downcase}" => {
               'submenu' => {
-                'new' => "Add #{singular_table_name}",
-                'index' => "List #{plural_table_name}",
-                'destroy' => "Destroy selected #{plural_table_name}",
-                'destroy_confirm' => "Destroying selected #{plural_table_name}, sure?"
+                'new' => menu_names[:sub_new] || "Add #{name.downcase}",
+                'index' => menu_names[:sub_idx] || "List #{plural_name}"
               },
               'new' => {
-                'title' => "Add #{singular_table_name}"
+                'title' => menu_names[:new] || "Add #{name.downcase}"
               },
               'index' => {
-                'title' => "#{plural_name.capitalize}"
+                'title' => menu_names[:idx] || "#{plural_name.capitalize}"
               },
               'edit' => {
-                'title' =>  "Edit #{singular_table_name}"
+                'title' =>  menu_names[:edt] || "Edit #{name.downcase}"
               }
-            }.merge(defaults)
-          },
-          "#{plural_table_name}" => {
-            'index' => {
-              'title' => plural_name.capitalize
-            },
-            'show' => {
-              'title' => name.capitalize
-            }
-          }
-        }
+            }}
 
-        attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
+        if options.interactive
+          say "Tłumaczenia atrybutów modelu:"
+          attr_names = attributes.map do |at| 
+            hname = ask("# #{at.name}:") {|q| q.default = at.human_name }
+            [at.name, hname]
+          end
+          attr_hash =  Hash[attr_names]
+        else
+          attr_hash =  Hash[attributes.map { |at| [at.name, at.human_name] } ]
+        end
 
-        trans['menu'] = {"#{plural_name.downcase}" => plural_name.capitalize}
+        trans['menu'] = {"#{plural_name.downcase}" => menu_names[:menu] || plural_name.capitalize}
         trans['activerecord'] = { 'attributes' => {"#{name.downcase}" => attr_hash} }
 
         I18n.available_locales.each do |locale|
@@ -234,43 +164,39 @@ CONTENT
         end
       end
 
-      def add_admin_menu_link
-        link = <<-CONTENT
-    <li><%= link_to( t('.#{plural_table_name}'), admin_#{index_helper}_path) %></li>
-    <li class="spacer"></li>
-CONTENT
-        inject_into_file "app/views/l/admin/_menu.html.erb",
-          "\n#{link}",
-          after: %r{^\s*<ul class="root">},
-          verbose: false
-        log :insert, link
+      def add_link_in_menu # :nodoc:
+        pld = plural_name.downcase
+        link = <<-LINK
+  <%= admin_menu_link(:#{pld}) if current_user.has_role? :admin %>
+        LINK
+        inject_into_file File.join(destination_root, 'app/views/l/admins/partials/_header.erb'), link, :before => "</div>\n<div id=\"submenu\">"
+      rescue
+        log :skip, "Adding link in admin"
       end
 
       private
 
-      def available_admin_views
-        %w(index edit new _filter _form _submenu _list)
+      def available_views
+        %w(index edit show new _filter _form _submenu _tooltip)
       end
 
       def model_args
-        args = ARGV.map do |arg|
-          arg.gsub(%r{:file(:|$)}, ":string\\1").gsub(%r{:tinymce[a-z_]*(:|$)}, ":text\\1")
+        ARGV.map do |arg|
+          arg.gsub(%r{:file(:|$)}, ":string\\1").gsub(%r{:tiny_mce[a-z_]*(:|$)}, ":text\\1")
         end
-        args.push('deleted_at:datetime:index') unless args.any? { |arg| /^deleted_at:/ === arg }
-        args
       end
 
       def file_attributes
         @file_attr ||= attributes.select{ |a| a.type == :file }
       end
 
-      def tinymce_attributes
-        @tiny_attr ||= attributes.select{ |a| a.type.to_s.match /^tinymce_.*$/ }
+      def tiny_mce_attributes
+        @tiny_attr ||= attributes.select{ |a| a.type.to_s.match /^tiny_mce_.*$/ }
       end
 
-      def used_tinymce_classes
-        tinymce_attributes.map do |attr|
-          attr.type.match /^tinymce_(.*)$/
+      def used_tiny_mce_classes
+        tiny_mce_attributes.map do |attr|
+          attr.type.match /^tiny_mce_(.*)$/
           $1.to_sym
         end
       end
@@ -287,10 +213,6 @@ CONTENT
 
       def controller_path
         @controller_path ||= File.join("app", "controllers", "#{controller_file_path}_controller.rb")
-      end
-
-      def admin_controller_path
-        @admin_controller_path ||= File.join("app", "controllers", "admin", "#{controller_file_path}_controller.rb")
       end
 
       def mobile_controller_path

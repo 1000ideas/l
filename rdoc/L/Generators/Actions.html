@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module L::Generators::Actions - l </title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/l/generators/actions.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-destroy">#destroy</a>
+    
+    <li><a href="#method-i-field_class">#field_class</a>
+    
+    <li><a href="#method-i-field_options">#field_options</a>
+    
+    <li><a href="#method-i-field_type">#field_type</a>
+    
+    <li><a href="#method-i-inject_template_into_file">#inject_template_into_file</a>
+    
+    <li><a href="#method-i-load_template">#load_template</a>
+    
+    <li><a href="#method-i-orm_class">#orm_class</a>
+    
+    <li><a href="#method-i-orm_instance">#orm_instance</a>
+    
+    <li><a href="#method-i-translations">#translations</a>
+    
+    <li><a href="#method-i-translations_file">#translations_file</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../L.html">L</a>
+  
+    <li><a href="../../L/AdminsController.html">L::AdminsController</a>
+  
+    <li><a href="../../L/FacebookController.html">L::FacebookController</a>
+  
+    <li><a href="../../L/FilterHelper.html">L::FilterHelper</a>
+  
+    <li><a href="../../L/FormHelper.html">L::FormHelper</a>
+  
+    <li><a href="../../L/GalleriesController.html">L::GalleriesController</a>
+  
+    <li><a href="../../L/Gallery.html">L::Gallery</a>
+  
+    <li><a href="../../L/GalleryPhoto.html">L::GalleryPhoto</a>
+  
+    <li><a href="../../L/GalleryPhotosController.html">L::GalleryPhotosController</a>
+  
+    <li><a href="../../L/Generators.html">L::Generators</a>
+  
+    <li><a href="../../L/Generators/Actions.html">L::Generators::Actions</a>
+  
+    <li><a href="../../L/Generators/FacebookGenerator.html">L::Generators::FacebookGenerator</a>
+  
+    <li><a href="../../L/Generators/GalleriesGenerator.html">L::Generators::GalleriesGenerator</a>
+  
+    <li><a href="../../L/Generators/LGenerator.html">L::Generators::LGenerator</a>
+  
+    <li><a href="../../L/Generators/MobileGenerator.html">L::Generators::MobileGenerator</a>
+  
+    <li><a href="../../L/Generators/ModuleGenerator.html">L::Generators::ModuleGenerator</a>
+  
+    <li><a href="../../L/Generators/NewsGenerator.html">L::Generators::NewsGenerator</a>
+  
+    <li><a href="../../L/Generators/NewsletterGenerator.html">L::Generators::NewsletterGenerator</a>
+  
+    <li><a href="../../L/Generators/PageGenerator.html">L::Generators::PageGenerator</a>
+  
+    <li><a href="../../L/Generators/ViewsGenerator.html">L::Generators::ViewsGenerator</a>
+  
+    <li><a href="../../L/LazyHelper.html">L::LazyHelper</a>
+  
+    <li><a href="../../L/LightboxHelper.html">L::LightboxHelper</a>
+  
+    <li><a href="../../L/MobileController.html">L::MobileController</a>
+  
+    <li><a href="../../L/News.html">L::News</a>
+  
+    <li><a href="../../L/NewsController.html">L::NewsController</a>
+  
+    <li><a href="../../L/NewsletterMail.html">L::NewsletterMail</a>
+  
+    <li><a href="../../L/NewsletterMailsController.html">L::NewsletterMailsController</a>
+  
+    <li><a href="../../L/Page.html">L::Page</a>
+  
+    <li><a href="../../L/PagesController.html">L::PagesController</a>
+  
+    <li><a href="../../L/StringExtension.html">L::StringExtension</a>
+  
+    <li><a href="../../L/UsersController.html">L::UsersController</a>
+  
+    <li><a href="../../FlashSessionCookieMiddleware.html">FlashSessionCookieMiddleware</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module L::Generators::Actions</h1>
+
+  <div id="description" class="description">
+    
+<p>Moduł rozszerzający możliwości generatorów</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-destroy" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">destroy</span><span
+            class="method-args">(what, *args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wywołaj +rails destroy+</p>
+<ul><li>
+<p><strong>Argumenty</strong> :</p>
+<ul><li>
+<p><code>what</code> -&gt; nazwa generatora do zniszczenia</p>
+</li><li>
+<p><code>args</code> -&gt; parametry generatora</p>
+</li></ul>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="destroy-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 83</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">what</span>, *<span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">log</span> <span class="ruby-value">:generate</span>, <span class="ruby-identifier">what</span>
+  <span class="ruby-identifier">argument</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">arg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">to_s</span> }.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot; &quot;</span>)
+
+  <span class="ruby-identifier">in_root</span> { <span class="ruby-identifier">run_ruby_script</span>(<span class="ruby-node">&quot;script/rails destroy #{what} #{argument}&quot;</span>, <span class="ruby-value">:verbose</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- destroy-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- destroy-method -->
+
+    
+      <div id="method-i-field_class" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">field_class</span><span
+            class="method-args">(attr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Metoda pozwalająca uzyskać klasę lub listę klas CSS danego pola z typu
+atrybutów modelu</p>
+<ul><li>
+<p><strong>Argumenty</strong> :</p>
+<ul><li>
+<p><code>attr</code> -&gt; Atrybut klasy modelu</p>
+</li></ul>
+</li><li>
+<p><strong>Zwraca</strong>:</p>
+
+<p>(<code>String</code>) połaczoną listę klas CSS elementu HTML</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="field_class-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 177</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">field_class</span>(<span class="ruby-identifier">attr</span>)
+  <span class="ruby-identifier">cls</span> = [<span class="ruby-string">'field'</span>]
+  <span class="ruby-identifier">cls</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'field_with_date'</span> <span class="ruby-keyword">if</span> [<span class="ruby-value">:date</span>, <span class="ruby-value">:datetime</span>, <span class="ruby-value">:timestamp</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">type</span>
+  <span class="ruby-identifier">cls</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'field_with_time'</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:time</span>
+  <span class="ruby-identifier">cls</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'field_with_textarea'</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^tiny_mce_/</span>
+  <span class="ruby-identifier">cls</span>.<span class="ruby-identifier">join</span> <span class="ruby-string">' '</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- field_class-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- field_class-method -->
+
+    
+      <div id="method-i-field_options" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">field_options</span><span
+            class="method-args">(attr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Metoda pozwalająca uzyskać atrybuty elementów HTML ybranych pól</p>
+<ul><li>
+<p><strong>Argumenty</strong> :</p>
+<ul><li>
+<p><code>attr</code> -&gt; Atrybut klasy modelu</p>
+</li></ul>
+</li><li>
+<p><strong>Zwraca</strong> :</p>
+
+<p>(<code>String</code>) rozpoczynającą się przecinkiem lista atrybutów
+elementu HTML pola</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="field_options-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 129</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">field_options</span>(<span class="ruby-identifier">attr</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">match</span> <span class="ruby-regexp">%r{^tiny_mce_([a-z_]*)$}</span>
+    <span class="ruby-identifier">opt</span> = {
+      <span class="ruby-value">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;mce#{$1.capitalize}&quot;</span>,
+      <span class="ruby-value">:cols</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">70</span>,
+      <span class="ruby-value">:rows</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>
+    }
+    <span class="ruby-string">&quot;, &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">to_s</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">field_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:text_area</span>
+    <span class="ruby-identifier">opt</span> = {
+      <span class="ruby-value">:cols</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">70</span>,
+      <span class="ruby-value">:rows</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>
+    }
+    <span class="ruby-string">&quot;, &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">to_s</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- field_options-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- field_options-method -->
+
+    
+      <div id="method-i-field_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">field_type</span><span
+            class="method-args">(attr)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Metoda pozwalająca uzyskać typ pola z typu atrybutu klasy modelu</p>
+<ul><li>
+<p><strong>Argumenty</strong> :</p>
+<ul><li>
+<p><code>attr</code> -&gt; Atrybut klasy modelu</p>
+</li></ul>
+</li><li>
+<p><strong>Zwraca</strong> :</p>
+
+<p>(<code>Symbol</code>) typ pola</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="field_type-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 157</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">field_type</span>(<span class="ruby-identifier">attr</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:file</span>
+    <span class="ruby-value">:file_field</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^tiny_mce_/</span>
+    <span class="ruby-value">:text_area</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">field_type</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- field_type-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- field_type-method -->
+
+    
+      <div id="method-i-inject_template_into_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inject_template_into_file</span><span
+            class="method-args">(dest, source, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wczytaj, sparsuj i wstaw szablon do pliku</p>
+<ul><li>
+<p><strong>Argumenty</strong>:</p>
+<ul><li>
+<p><code>dest</code> -&gt; scieżka do docelowego pliku</p>
+</li><li>
+<p><code>source</code> -&gt; ścieżka do pliku z szablonem</p>
+</li><li>
+<p><code>options</code> -&gt; opcje, takie jak w funckcji
+<code>inject_into_file</code></p>
+</li></ul>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="inject_template_into_file-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">inject_template_into_file</span>(<span class="ruby-identifier">dest</span>, <span class="ruby-identifier">source</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">tmpl</span> = <span class="ruby-identifier">load_template</span>(<span class="ruby-identifier">source</span>)
+  <span class="ruby-identifier">inject_into_file</span> <span class="ruby-identifier">dest</span>, <span class="ruby-identifier">tmpl</span>, <span class="ruby-identifier">options</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- inject_template_into_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- inject_template_into_file-method -->
+
+    
+      <div id="method-i-load_template" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_template</span><span
+            class="method-args">(source)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wczytaj i sparsuj szablon z pliku</p>
+<ul><li>
+<p><strong>Argumenty</strong>:</p>
+<ul><li>
+<p><code>source</code> -&gt; scieżka do pliku źródłowego szablonu</p>
+</li></ul>
+</li><li>
+<p><strong>Zwraca</strong>:</p>
+
+<p>Sparsowany szablon</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="load_template-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 16</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_template</span>(<span class="ruby-identifier">source</span>)
+  <span class="ruby-identifier">source</span>  = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">find_in_source_paths</span>(<span class="ruby-identifier">source</span>.<span class="ruby-identifier">to_s</span>))
+  <span class="ruby-identifier">context</span> = <span class="ruby-identifier">instance_eval</span>(<span class="ruby-string">'binding'</span>)
+  <span class="ruby-constant">ERB</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">binread</span>(<span class="ruby-identifier">source</span>), <span class="ruby-keyword">nil</span>, <span class="ruby-string">'-'</span>, <span class="ruby-string">'@output_buffer'</span>).<span class="ruby-identifier">result</span>(<span class="ruby-identifier">context</span>)        
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- load_template-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- load_template-method -->
+
+    
+      <div id="method-i-orm_class" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">orm_class</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Klasa generatora ORM</p>
+<ul><li>
+<p><strong>Zwraca</strong>:</p>
+
+<p>obiekt będący klasą generatora wybranego ORM</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="orm_class-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">orm_class</span>
+  <span class="ruby-ivar">@orm_class</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">begin</span>
+    <span class="ruby-comment"># Raise an error if the class_option :orm was not defined.</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">class_options</span>[<span class="ruby-value">:orm</span>]
+      <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;You need to have :orm as class option to invoke orm_class and orm_instance&quot;</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-node">&quot;#{options[:orm].to_s.classify}::Generators::ActiveModel&quot;</span>.<span class="ruby-identifier">constantize</span>
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">NameError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-operator">::</span><span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Generators</span><span class="ruby-operator">::</span><span class="ruby-constant">ActiveModel</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- orm_class-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- orm_class-method -->
+
+    
+      <div id="method-i-orm_instance" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">orm_instance</span><span
+            class="method-args">(name=singular_table_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Instancja klasy generatora ORM</p>
+<ul><li>
+<p><strong>Zwraca</strong> :</p>
+
+<p>obiekt będący instancją klasy generatora wybranego ORM</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="orm_instance-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">orm_instance</span>(<span class="ruby-identifier">name</span>=<span class="ruby-identifier">singular_table_name</span>)
+  <span class="ruby-ivar">@orm_instance</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@orm_class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- orm_instance-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- orm_instance-method -->
+
+    
+      <div id="method-i-translations" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">translations</span><span
+            class="method-args">(file, trans, path = 'pl')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wstaw tłumaczenia do pliku</p>
+<ul><li>
+<p><strong>Argumenty</strong> :</p>
+<ul><li>
+<p><code>file</code> -&gt; nazwa pliku z tłumaczeniami</p>
+</li><li>
+<p><code>trans</code> -&gt; hash z drzewem tłumaczeń</p>
+</li><li>
+<p><code>path</code> -&gt; ścieżka w drzewie tłumaczeń do której podpiąc
+tłumaczenie, domyślnie ‘pl’</p>
+</li></ul>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="translations-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">translations</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">trans</span>, <span class="ruby-identifier">path</span> = <span class="ruby-string">'pl'</span>)
+  <span class="ruby-identifier">idt</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'.'</span>).<span class="ruby-identifier">size</span>
+  <span class="ruby-identifier">indent</span> = <span class="ruby-string">&quot;  &quot;</span> * <span class="ruby-identifier">idt</span>
+  <span class="ruby-identifier">after</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'.'</span>).<span class="ruby-identifier">zip</span>(<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-identifier">idt</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span>, <span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">n</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">idt</span>
+      <span class="ruby-identifier">p</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;:.*\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;  &quot;</span> * <span class="ruby-identifier">n</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">p</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;:\n&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">''</span>)
+  <span class="ruby-identifier">after_regex</span> = <span class="ruby-node">%r#{after}/</span>
+  <span class="ruby-identifier">translation</span> = <span class="ruby-identifier">trans</span>.<span class="ruby-identifier">to_yaml</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;\n&quot;</span>, <span class="ruby-node">&quot;\n#{indent}&quot;</span>)[<span class="ruby-value">4</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>].<span class="ruby-identifier">rstrip</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n&quot;</span>
+  <span class="ruby-identifier">translation</span> = <span class="ruby-identifier">translation</span>.<span class="ruby-identifier">encode</span> <span class="ruby-string">'ascii-8bit'</span>, <span class="ruby-keyword">undef</span><span class="ruby-operator">:</span> <span class="ruby-value">:replace</span>
+  <span class="ruby-identifier">inject_into_file</span> <span class="ruby-identifier">file</span>, <span class="ruby-identifier">translation</span>, <span class="ruby-identifier">after</span><span class="ruby-operator">:</span> <span class="ruby-identifier">after_regex</span>, <span class="ruby-identifier">verbose</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">log</span> <span class="ruby-value">:translations</span>, <span class="ruby-identifier">file</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- translations-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- translations-method -->
+
+    
+      <div id="method-i-translations_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">translations_file</span><span
+            class="method-args">(name, trans, lang = :pl)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Utwórz plik z tłumaczeniami</p>
+<ul><li>
+<p><strong>Argumenty</strong> :</p>
+<ul><li>
+<p><code>name</code> -&gt; nazwa tłumaczonego modułu</p>
+</li><li>
+<p><code>trans</code> -&gt; drzewo tłumaczeń</p>
+</li><li>
+<p><code>lang</code> -&gt; język tłumaczeń</p>
+</li></ul>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="translations_file-source">
+            <pre><span class="ruby-comment"># File lib/l/generators/actions.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">translations_file</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">trans</span>, <span class="ruby-identifier">lang</span> = <span class="ruby-value">:pl</span>)
+  <span class="ruby-identifier">file</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'config'</span>, <span class="ruby-string">'locales'</span>, <span class="ruby-node">&quot;module_#{name}.#{lang}.yml&quot;</span>)
+  <span class="ruby-identifier">create_file</span> <span class="ruby-identifier">file</span>, <span class="ruby-identifier">verbose</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">log</span> <span class="ruby-value">:translations</span>, <span class="ruby-identifier">file</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>).<span class="ruby-identifier">to_s</span>
+
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">'w+'</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>({<span class="ruby-identifier">lang</span>.<span class="ruby-identifier">to_s</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">trans</span>}.<span class="ruby-identifier">to_yaml</span>)
+  <span class="ruby-keyword">end</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">behavior</span> <span class="ruby-operator">==</span> <span class="ruby-value">:invoke</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- translations_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- translations_file-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

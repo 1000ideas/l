@@ -1,0 +1,22 @@
+<%% content_for :submenu do %>
+<%%= render "submenu" %>
+<%% end %>
+
+<%% title t('<%= plural_table_name %>.show.title') %>
+<%% breadcrumbs_admin link_to(t('<%= plural_table_name %>.index.title'), <%= index_helper %>_path),
+                      link_to(t('<%= plural_table_name %>.show.title'), <%= singular_table_name %>_path) %>
+
+<p id="notice"><%%= notice %></p>
+
+<dl>
+<% for attribute in attributes -%>
+<dt><%%= <%= class_name %>.human_attribute_name :<%= attribute.name %> %>:</dt>
+<% if attribute.type == :file -%>
+<dd><%%= @<%= singular_table_name %>.<%= attribute.name %>_file_name %></dd>
+<% elsif attribute.type =~ /tiny_mce_.*/ -%>
+<dd><%%= raw @<%= singular_table_name %>.<%= attribute.name %> %></dd>
+<% else -%>
+<dd><%%= @<%= singular_table_name %>.<%= attribute.name %> %></dd>
+<% end -%>
+<% end -%>
+</dl>

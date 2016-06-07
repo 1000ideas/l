@@ -1,0 +1,32 @@
+<div>
+  <%= form_for(@gallery, :url => galleries_path, :method => :post) do |f| %>
+    <%= render partial: 'l/partials/errors', object: @gallery.errors %>
+
+    <div id="form_tabs" class="tabs_container">
+      <ul>
+        <% k = 0 %>
+        <% I18n.available_locales.each do |el| %>
+          <li><a href="#tab<%= k = k+1 %>"><%=  el.to_s  %></a></li>
+        <% end %>
+      </ul>
+      <% i = 0 %>
+      <%= f.fields_for :translations do |builder| %>
+        <div id="tab<%= i = i+1 %>">
+          <%= builder.hidden_field :locale, :value => builder.object.locale.to_s %>
+          <div class="field">
+            <%= builder.label :name %>
+            <%= builder.text_field :name %>
+          </div>
+          <div class="field field_with_tinymce">
+            <%= builder.label :content %>
+            <%= builder.text_area :content, :class => "mceSimple" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>

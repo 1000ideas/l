@@ -1,0 +1,46 @@
+<tr class="<%= cycle('odd', 'even') %>">
+
+  <% 1.upto(depth) do %>
+    <td class="child-tab"></td>
+  <% end %>
+
+  <td colspan="<%= 20 - depth %>" class="page_title"><%= page_item.title %></td>
+  <td><%= page_item.url %></td>
+  <td class="options">
+    <% if page_item.parent_id != nil %>
+      <%= link_to t('destroy'), page_path(page_item), class: "destroy", title: t('destroy'), 
+        data: { confirm: t('confirm'), method: :delete } %>
+    <% if page_item.hidden_flag == 0 %>
+      <%= link_to t('hide_page'), hide_page_path(page_item), 
+        class: "hide", title: t('hide_page') %>
+    <% else %>
+      <%= link_to t('unhide_page'), unhide_page_path(page_item), 
+        class: "unhide", title: t('unhide_page') %>
+    <% end %>
+    <% end %>
+    <%= hidden_field_tag  "page_id_#{page_item.id}", page_item.id %>
+    <%= link_to t('show'), page_path(page_item), class: "show", 
+      title: t('show'), target: "_blank" %>
+    <%= link_to t('edit'), edit_page_path(page_item), class: "edit", 
+      title: t('edit') %>
+  </td>
+</tr>
+<tr class="spacer">
+  <% 1.upto(depth) do %>
+    <td class="child-tab"></td>
+  <% end %>
+  <td colspan="22"></td>
+</tr>
+
+<tr class="spacer as_child">
+  <% 1.upto(depth) do %>
+    <td class="child-tab"></td>
+  <% end %>
+  <td colspan="22">
+    <div></div>
+  </td>
+</tr>
+
+<% unless page_item.children.empty? %>
+  <%= render partial: "l/pages/page_item", collection: page_item.children.order('position'), locals: {depth: depth + 1 } %>
+<% end %>
