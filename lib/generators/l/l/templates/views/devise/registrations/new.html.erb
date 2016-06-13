@@ -1,29 +1,31 @@
 <% title [t('admin.title'), '::', t('.title') ] * ' ' %>
-<div class="center-box" id="register-box">
+<div id="register_box">
   <h2><%= t('.title') %></h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render partial: "devise/shared/links" %>
 
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-    </div>
+    <% if resource.errors.any? %>
+      <div class="alert">
+        <%= t('errors.template.header', count: resource.errors.count, model: resource_name) %>
+      </div>
+      <ul class="error-list">
+        <% resource.errors.full_messages.each do |msg| %>
+          <li><%= msg   %></li>
+        <% end %>
+      </ul>
+    <% end %>
 
-    <div class="field">
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-    </div>
+    <p><%= f.label :email %></p>
+    <p><%= f.text_field :email %></p>
 
-    <div class="field">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-    </div>
+    <p><%= f.label :password %></p>
+    <p><%= f.password_field :password %></p>
 
-    <%= f.submit t('.submit') %>
+    <p><%= f.label :password_confirmation %></p>
+    <p><%= f.password_field :password_confirmation %></p>
+
+    <p><%= f.submit t('.register') %></p>
   <% end %>
 
-  <div class="shared-links">
-    <%= render partial: "devise/shared/links" %>
-  </div>
+  <%= render partial: "devise/shared/links" %>
 </div>

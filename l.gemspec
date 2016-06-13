@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{l}
-  s.version = "0.3.27"
+  s.version = "0.3.23"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bartek Bulat", "Krzystof Kosman"]
@@ -221,6 +221,7 @@ Gem::Specification.new do |s|
     "vendor/assets/javascripts/html5shiv.js",
     "vendor/assets/javascripts/jquery.mobile.js",
     "vendor/assets/javascripts/jquery.uploadify.js",
+    "vendor/assets/javascripts/jquery.livequery.js",
     "vendor/assets/javascripts/lightbox.js.erb",
     "vendor/assets/javascripts/swfobject.js",
     "vendor/assets/stylesheets/admin/activities.css.scss",

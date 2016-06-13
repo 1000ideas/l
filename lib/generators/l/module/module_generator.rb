@@ -131,17 +131,17 @@ module L
 
         trans = { "#{plural_name.downcase}" => {
               'submenu' => {
-                'new' => menu_names[:sub_new] || "Add #{name.downcase}",
-                'index' => menu_names[:sub_idx] || "List #{plural_name}"
+                'new' => menu_names[:sub_new] || "Dodaj #{name}",
+                'index' => menu_names[:sub_idx] || "Lista #{plural_name}"
               },
               'new' => {
-                'title' => menu_names[:new] || "Add #{name.downcase}"
+                'title' => menu_names[:new] || "Dodawanie #{name}"
               },
               'index' => {
-                'title' => menu_names[:idx] || "#{plural_name.capitalize}"
+                'title' => menu_names[:idx] || "#{plural_name}"
               },
               'edit' => {
-                'title' =>  menu_names[:edt] || "Edit #{name.downcase}"
+                'title' =>  menu_names[:edt] || "Edycja #{name}"
               }
             }}
 
@@ -159,9 +159,7 @@ module L
         trans['menu'] = {"#{plural_name.downcase}" => menu_names[:menu] || plural_name.capitalize}
         trans['activerecord'] = { 'attributes' => {"#{name.downcase}" => attr_hash} }
 
-        I18n.available_locales.each do |locale|
-          translations_file name, trans, locale
-        end
+        translations_file name, trans, :pl
       end
 
       def add_link_in_menu # :nodoc:

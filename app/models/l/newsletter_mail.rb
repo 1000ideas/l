@@ -40,7 +40,7 @@ module L
     # +token+.
     def set_token
       require 'digest/sha1'
-      self.confirm_token = Digest::SHA1.hexdigest(Time.now.to_s)
+      self.token = Digest::SHA1.hexdigest(Time.now.to_s)
     end
   end
 end

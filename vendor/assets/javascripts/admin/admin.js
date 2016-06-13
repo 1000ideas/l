@@ -86,12 +86,12 @@ var LazyAdmin = {
         $(this).addClass('custom');
     });
 
-    setInterval(function(){
-      $('form select.custom:not(.customized)').map(function() {
+    $('form select.custom').livequery(function() {
+        if (! $(this).hasClass('customized') ) {
           LazyAdmin.customize_select(this);
           $(this).addClass('customized');
-      });
-    }, 100);
+        }
+    });
 
     $(document).on('change', 'div.custom_select select', function() {
         LazyAdmin.reload_custom_select_span(this);
@@ -103,7 +103,7 @@ var LazyAdmin = {
     LazyAdmin.reload_custom_select_span(obj);
   },
   reload_custom_select_span: function(obj) {
-    var txt = $(obj).find("option:selected").text();
+    var txt = $(obj).children(":selected").text();
     $(obj).prev('span.custom_select_title').text(txt);
   },
   form_upload_init: function() {

@@ -91,8 +91,6 @@ module L
       
       def add_gems # :nodoc:
         if options.gems
-          prepend_to_file 'Gemfile', "source 'http://1000i.co/gems'\n"
-
           gem 'devise', "~> 2.0.0"
           
           gem 'cancan'
@@ -182,23 +180,9 @@ print "Seeds added\n"
       end
 
       ##### przed instalacja naszego gema nie robimy rails g devise User,
-      # wiec tutaj dodajemy do niego zmodyfikowany route'
+      # wiec tutaj dodajemy do niego zmodyfikowany rout
       def add_devise_route # :nodoc:
-        devise_route = <<-ROUTE
-  devise_for :users, 
-    path: '',
-    path_names: {
-      :sign_in => 'login',
-      :sign_out => 'logout',
-      :sign_up => 'create',
-      :password => 'reset_password',
-      :confirmation => 'confirm_user',
-      :registration => 'account'
-    }
-        ROUTE
-        inject_into_file "config/routes.rb", 
-          devise_route, 
-          after: %r{Application\.routes\.draw do$}
+        route 'devise_for :users, :path_prefix => "devise"'
       end
       
       ###### modyfikacja config/application.rb
@@ -209,9 +193,9 @@ require 'base64'
 require 'will_paginate/array'
         CONTENT
         
-        lang_symbols = options.lang.map{|l| l.to_sym }
+       lang_symbols = options.lang.map{|l| l.to_sym }
 
-        setting = <<-CONTENT
+       setting = <<-CONTENT
     config.time_zone = 'Warsaw'
     config.i18n.default_locale = #{lang_symbols.first.inspect}
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
