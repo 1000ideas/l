@@ -6,7 +6,7 @@ module L
   # usuwanie osób z listy.
   #
   class NewsletterMailsController < ApplicationController
-    uses_tinymce :advance, :only => [:send_mail_edit]
+    # uses_tinymce :advance, :only => [:send_mail_edit]
     layout "l/layouts/admin"
     
     # Akcja pozwalająca zapisać się do newslettera.

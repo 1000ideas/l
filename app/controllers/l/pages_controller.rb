@@ -6,7 +6,7 @@ module L
   # wyświetlać tylko pojedyncze strony.
   #
   class PagesController < ApplicationController
-    uses_tinymce [:advance], only: [:new, :edit, :create, :update]
+    # uses_tinymce [:advance], only: [:new, :edit, :create, :update]
     layout "l/layouts/admin"
 
     # Akcja wyświetlająca listę istniejących stron w strukturze drzewiastej.

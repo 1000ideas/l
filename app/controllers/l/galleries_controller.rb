@@ -8,7 +8,7 @@ module L
 
     layout "l/layouts/admin"
   
-    uses_tinymce :simple, :only => [:new, :edit, :create, :update]
+    # uses_tinymce :simple, :only => [:new, :edit, :create, :update]
 
     # Akcja wyświetlająca listę galerii w panelu administracyjnym.
     #

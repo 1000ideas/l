@@ -5,7 +5,7 @@ module L
   # Pozwala na dodawanie, edycję i usuwanie aktualnosci.
   #
   class NewsController < ApplicationController
-    uses_tinymce :simple, :only => [:new, :edit, :create, :update]
+    # uses_tinymce :simple, :only => [:new, :edit, :create, :update]
     layout "l/layouts/admin"
     
     # Akcja wyświetlająca listę aktualności w panelu administracyjnym.
