@@ -205,10 +205,10 @@ class LazyAdmin
 
   close_modal: ->
     modal = @_modal_dialog()
-    if $('.items-list, .no-items').length > 0
-      $.ajax
-        url: location.href
-        dataType: 'script'
+    # if $('.items-list, .no-items').length > 0
+    #   $.ajax
+    #     url: location.href
+    #     dataType: 'script'
     modal.find('[data-tinymce]').each (idx, el) ->
       tinyMCELoader.remove(el.id) if el.id?
     modal.removeClass('open')
