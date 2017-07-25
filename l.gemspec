@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'binding_of_caller'
   spec.add_development_dependency 'quiet_assets'
   spec.add_runtime_dependency 'sass', '~> 3.2.19'
-  spec.add_runtime_dependency 'devise', '~> 2'
+  spec.add_runtime_dependency 'devise', '~> 3.0'
   spec.add_runtime_dependency 'cancan'
   spec.add_runtime_dependency 'paperclip'
   spec.add_runtime_dependency 'public_activity'

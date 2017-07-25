@@ -117,7 +117,7 @@ require 'will_paginate/array'
       def add_gems # :nodoc:
         if options.gems
           gem 'sass', '~> 3.2.19'
-          gem 'devise', '~> 2.0'
+          gem 'devise', '~> 3.0'
           gem 'cancan'
           gem 'paperclip'
           gem 'jquery-ui-rails'
@@ -147,7 +147,7 @@ require 'will_paginate/array'
 Adding gems
 
 ############### GEMS LIST ###############
-gem 'devise', '~> 2.0'
+gem 'devise', '~> 3.0'
 gem 'cancan'
 gem 'paperclip'
 gem 'jquery-ui-rails'
